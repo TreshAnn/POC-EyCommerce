@@ -14,6 +14,7 @@ Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
 ## Installation requirements
 
+- [pnpm](https://pnpm.io/)
 - [Node.js v16+](https://nodejs.org/)
 - [VSCode](https://code.visualstudio.com/)
 
@@ -39,7 +40,7 @@ pnpm build
 To develop all apps and packages, run the following command:
 
 ```bash
-cd my-turborepo
+cd ey-commerce
 pnpm dev
 ```
 
