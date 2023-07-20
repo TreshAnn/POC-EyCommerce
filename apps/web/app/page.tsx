@@ -5,7 +5,7 @@ export default function Page() {
     <>
       <Header text="Hello world!" />
       <Button />
-      <Checkbox label="checkbox 1" /> 
+      <Checkbox label="checkbox 1" />
     </>
   );
 }
