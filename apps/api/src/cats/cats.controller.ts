@@ -26,4 +26,9 @@ export class CatsController {
   async delete(@Param('id') id: string) {
     return this.catsService.delete(id);
   }
+
+  @Delete(':abcd')
+  async abcd(@Param('abcd') id: string) {
+    return this.catsService.delete(id);
+  }
 }
