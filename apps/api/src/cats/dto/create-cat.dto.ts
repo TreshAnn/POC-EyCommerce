@@ -1,6 +1,7 @@
-import { IsNumber, IsString, Max, Min } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, Max, Min } from 'class-validator';
 
 export class CreateCatDto {
+  @IsNotEmpty()
   @IsString()
   readonly name: string;
 
@@ -11,8 +12,10 @@ export class CreateCatDto {
   @Max(100, {
     message: 'Age should be 1-100',
   })
+  @IsNotEmpty()
   readonly age: number;
 
   @IsString()
+  @IsNotEmpty()
   readonly breed: string;
 }
