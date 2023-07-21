@@ -1,6 +1,6 @@
 {
-  "apps/api/**/*.{js,ts,tsx}": ["npm run format", "pnpm lint-stage-be"],
-  "apps/web/**/*.{js,ts,tsx}": ["npm run format"],
-  "packages/ui/**/*.{js,ts,tsx}": ["npm run format", "pnpm lint-stage-ui"],
-  "*.json": ["npm run format"]
+  "apps/api/**/*.{js,ts,tsx}": ["pnpm run format", "pnpm lint-stage-be"],
+  "apps/web/**/*.{js,ts,tsx}": ["pnpm run format"],
+  "packages/ui/**/*.{js,ts,tsx}": ["pnpm run format", "pnpm lint-stage-ui"],
+  "*.json": ["pnpm run format"]
 }
