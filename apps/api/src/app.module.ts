@@ -10,9 +10,7 @@ import { jwtConstants } from './auth/constants';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(
-      'mongodb+srv://user:aZkh7DhYjrP2i52U@personalproject.fzwyrwp.mongodb.net', // TODO Move this to .env
-    ),
+    MongooseModule.forRoot('mongodb://localhost:27017/test'),
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
