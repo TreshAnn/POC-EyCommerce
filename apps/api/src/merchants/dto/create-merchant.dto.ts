@@ -3,9 +3,10 @@ import {
   IsString,
   IsEmail,
   IsAlpha,
-  IsNumberString,
   IsStrongPassword,
   MinLength,
+  Matches,
+  IsPhoneNumber,
 } from 'class-validator';
 
 class Address {
@@ -56,19 +57,23 @@ export class CreateMerchantDto {
 
   @IsNotEmpty()
   @IsString()
-  @IsAlpha()
+  @Matches(/^[A-Za-z\s]+$/, {
+    message: 'First name must contain only alphabetic characters',
+  })
   readonly firstName: string;
 
   @IsNotEmpty()
   @IsString()
-  @IsAlpha()
+  @Matches(/^[A-Za-z\s]+$/, {
+    message: 'Last name must contain only alphabetic characters',
+  })
   readonly lastName: string;
 
   @IsNotEmpty()
   readonly address: Address;
 
   @IsNotEmpty()
-  @IsNumberString()
+  @IsPhoneNumber()
   readonly phoneNumber: string;
 
   readonly userType: string;
