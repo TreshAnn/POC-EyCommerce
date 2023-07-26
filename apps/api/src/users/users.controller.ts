@@ -3,6 +3,7 @@ import {
   Controller,
   Post,
   Get,
+  Delete,
   Param,
   HttpCode,
   HttpStatus,
@@ -29,5 +30,13 @@ export class UsersController {
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<User> {
     return this.userService.findOne(id);
+  }
+
+  @Public()
+  @HttpCode(HttpStatus.OK)
+  @Delete(':id')
+  async remove(@Param('id') userId: string) {
+    await this.userService.delete(userId);
+    return 'User deleted';
   }
 }
