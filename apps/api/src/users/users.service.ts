@@ -1,3 +1,4 @@
+import * as bcrypt from 'bcrypt';
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -29,8 +30,13 @@ export class UsersService {
       throw new BadRequestException('Email already exists');
     }
 
+    // Hash the password before saving it to the database
+    const salt = 10;
+    const hashedPassword = await bcrypt.hash(createUserDto.password, salt);
+
     const createdUser = await this.userModel.create({
       ...createUserDto,
+      password: hashedPassword,
       userType: 'consumer',
     });
     return createdUser;
