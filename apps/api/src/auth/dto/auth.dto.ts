@@ -9,6 +9,10 @@ import {
 export class CreateAuthDto {
   @IsNotEmpty()
   @IsString()
+  readonly userType: string;
+
+  @IsNotEmpty()
+  @IsString()
   readonly username: string;
 
   @IsNotEmpty()
