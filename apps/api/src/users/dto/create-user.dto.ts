@@ -4,6 +4,9 @@ import {
   IsEmail,
   IsAlpha,
   IsStrongPassword,
+  MinLength,
+  Matches,
+  IsPhoneNumber,
 } from 'class-validator';
 
 class Address {
@@ -44,23 +47,32 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
   @IsStrongPassword()
+  @MinLength(8, {
+    message: 'Password should be atleast 8 characters',
+  })
   readonly password: string;
 
   @IsNotEmpty()
   @IsString()
-  @IsAlpha()
+  @Matches(/^[A-Za-z]+(?: [A-Za-z]+)*$/, {
+    message:
+      'First name must contain only alphabetic characters and cannot have leading or trailing spaces',
+  })
   readonly firstName: string;
 
   @IsNotEmpty()
   @IsString()
-  @IsAlpha()
+  @Matches(/^[A-Za-z]+(?: [A-Za-z]+)*$/, {
+    message:
+      'Last name must contain only alphabetic characters and cannot have leading or trailing spaces',
+  })
   readonly lastName: string;
 
   @IsNotEmpty()
   readonly address: Address;
 
   @IsNotEmpty()
-  @IsString()
+  @IsPhoneNumber()
   readonly phoneNumber: string;
 
   readonly userType: string;
