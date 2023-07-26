@@ -3,6 +3,7 @@ import {
   Controller,
   Post,
   Get,
+  Put,
   Param,
   HttpCode,
   HttpStatus,
@@ -27,5 +28,14 @@ export class UsersController {
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<User> {
     return this.userService.findOne(id);
+  }
+  @Public()
+  @HttpCode(HttpStatus.OK)
+  @Put('update/:id')
+  async updateUser(
+    @Param('id') userId: string,
+    @Body() CreateUserDto: CreateUserDto,
+  ) {
+    return this.userService.updateUser(userId, CreateUserDto);
   }
 }
