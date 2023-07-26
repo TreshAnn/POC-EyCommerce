@@ -23,6 +23,9 @@ export class Address {
 
 @Schema()
 export class User {
+  @Prop()
+  userType: string;
+
   @Prop({ unique: true })
   username: string;
 
@@ -38,7 +41,7 @@ export class User {
         }
         return true;
       },
-      message: (props) => 'The specified email address is already in use.',
+      message: 'The specified email address is already in use.',
     },
     required: [true, 'User email required'],
   })
