@@ -7,6 +7,7 @@ import {
   MinLength,
   Matches,
   IsPhoneNumber,
+  IsIn,
 } from 'class-validator';
 
 class Address {
@@ -35,6 +36,13 @@ class Address {
 }
 
 export class CreateMerchantDto {
+  @IsNotEmpty()
+  @IsString()
+  @IsIn(['merchant', 'consumer'], {
+    message: 'Invalid User Type. Allowed values: "consumer" or "merchant".',
+  })
+  readonly userType: string;
+
   @IsNotEmpty()
   @IsString()
   readonly username: string;
@@ -77,6 +85,4 @@ export class CreateMerchantDto {
   @IsNotEmpty()
   @IsPhoneNumber()
   readonly phoneNumber: string;
-
-  readonly userType: string;
 }
