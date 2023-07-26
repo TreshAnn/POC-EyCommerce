@@ -75,4 +75,11 @@ export class UsersService {
       .exec();
     return deletedUser;
   }
+
+  async delete(id: string) {
+    const deletedUser = await this.userModel
+      .findByIdAndRemove({ _id: id })
+      .exec();
+    return deletedUser;
+  }
 }
