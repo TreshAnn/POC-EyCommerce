@@ -27,6 +27,9 @@ export class Merchant {
   userType: string;
 
   @Prop()
+  username: string;
+
+  @Prop()
   merchantName: string;
 
   @Prop({
@@ -41,7 +44,7 @@ export class Merchant {
         }
         return true;
       },
-      message: (props) => 'The specified email address is already in use.',
+      message: 'The specified email address is already in use.',
     },
     required: [true, 'User email required'],
   })
