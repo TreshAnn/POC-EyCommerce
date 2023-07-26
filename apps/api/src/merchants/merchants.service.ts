@@ -23,6 +23,7 @@ export class MerchantsService {
     }
 
     const createAuthDto = {
+      usertype: createMerchantDto.userType,
       username: createMerchantDto.username,
       email: createMerchantDto.email,
       password: createMerchantDto.password,
@@ -30,14 +31,14 @@ export class MerchantsService {
 
     const hashedPassword = await bcrypt.hash(createMerchantDto.password, 10);
 
-    const createdAuth = await this.authService.create({
+    await this.authService.create({
       ...createAuthDto,
       password: hashedPassword,
+      userType: createAuthDto.usertype,
     });
 
     const createdMerchant = await this.merchantModel.create({
       ...createMerchantDto,
-      userType: 'merchant',
     });
 
     return createdMerchant;
