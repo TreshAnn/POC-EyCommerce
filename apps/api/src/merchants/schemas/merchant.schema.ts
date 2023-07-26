@@ -25,9 +25,6 @@ export class Address {
 
 @Schema()
 export class Merchant {
-  @Prop()
-  userType: string;
-
   @Prop({ unique: true })
   merchantName: string;
 
