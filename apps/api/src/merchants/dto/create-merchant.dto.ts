@@ -57,14 +57,14 @@ export class CreateMerchantDto {
 
   @IsNotEmpty()
   @IsString()
-  @Matches(/^[A-Za-z\s]+$/, {
+  @Matches(/^[A-Za-z]+(?: [A-Za-z]+)*$/, {
     message: 'First name must contain only alphabetic characters',
   })
   readonly firstName: string;
 
   @IsNotEmpty()
   @IsString()
-  @Matches(/^[A-Za-z\s]+$/, {
+  @Matches(/^[A-Za-z]+(?: [A-Za-z]+)*$/, {
     message: 'Last name must contain only alphabetic characters',
   })
   readonly lastName: string;
