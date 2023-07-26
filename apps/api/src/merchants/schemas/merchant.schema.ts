@@ -1,8 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Document } from 'mongoose';
 import { Auth, AuthSchema } from '../../auth/schemas/auth.schema';
 
 export type MerchantDocument = HydratedDocument<Merchant>;
+// export type MerchantDocument = Merchant & Document;
 
 @Schema()
 export class Address {
@@ -30,7 +31,7 @@ export class Merchant {
   @Prop({ unique: true })
   merchantName: string;
 
-  @Prop({ type: AuthSchema })
+  @Prop({ type: AuthSchema, ref: Auth.name })
   auth: Auth;
 
   @Prop()
