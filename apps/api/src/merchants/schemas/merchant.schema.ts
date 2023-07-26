@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
+import { Auth, AuthSchema } from '../../auth/schemas/auth.schema';
 
 export type MerchantDocument = HydratedDocument<Merchant>;
 
@@ -26,32 +27,11 @@ export class Merchant {
   @Prop()
   userType: string;
 
-  @Prop()
-  username: string;
-
-  @Prop()
+  @Prop({ unique: true })
   merchantName: string;
 
-  @Prop({
-    validate: {
-      validator: async function (email) {
-        const user = await this.constructor.findOne({ email });
-        if (user) {
-          if (this.id === user.id) {
-            return true;
-          }
-          return false;
-        }
-        return true;
-      },
-      message: 'The specified email address is already in use.',
-    },
-    required: [true, 'User email required'],
-  })
-  email: string;
-
-  @Prop()
-  password: string;
+  @Prop({ type: AuthSchema })
+  auth: Auth;
 
   @Prop()
   firstName: string;
