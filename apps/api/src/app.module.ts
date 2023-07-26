@@ -7,6 +7,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/auth.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './auth/constants';
+import { MerchantsModule } from './merchants/merchants.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { jwtConstants } from './auth/constants';
     CatsModule,
     AuthModule,
     UsersModule,
+    MerchantsModule,
   ],
   controllers: [],
   providers: [
