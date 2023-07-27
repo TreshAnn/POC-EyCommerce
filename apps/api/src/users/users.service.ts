@@ -70,16 +70,12 @@ export class UsersService {
   }
 
   async delete(id: string) {
-    const deletedUser = await this.userModel
-      .findByIdAndRemove({ _id: id })
-      .exec();
-    return deletedUser;
-  }
+    const user = await this.userModel.findOne({ _id: id });
+    const deletedAuthUser = this.authService.delete(user.auth.email);
 
-  async delete(id: string) {
     const deletedUser = await this.userModel
       .findByIdAndRemove({ _id: id })
       .exec();
-    return deletedUser;
+    return [deletedAuthUser, deletedUser];
   }
 }

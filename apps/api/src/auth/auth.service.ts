@@ -52,4 +52,15 @@ export class AuthService {
     const createdAuth = await this.authModel.create(createAuthDto);
     return createdAuth;
   }
+
+  async delete(emailAuth: string) {
+    const deletedAuthUser = await this.authModel
+      .findOneAndRemove({ email: emailAuth })
+      .exec();
+
+    if (!deletedAuthUser) {
+      throw new BadRequestException('Delete failed.');
+    }
+    return deletedAuthUser;
+  }
 }
