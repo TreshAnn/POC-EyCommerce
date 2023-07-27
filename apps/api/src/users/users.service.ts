@@ -6,12 +6,32 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './schemas/user.schema';
 import { AuthService } from '../auth/auth.service';
 
+export type userTestData = any;
+
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<User>,
     private authService: AuthService,
   ) {}
+
+  // Test Data
+  private readonly users = [
+    {
+      userId: 1,
+      username: 'dancute',
+      password: 'password',
+    },
+    {
+      userId: 2,
+      username: 'abubadan',
+      password: 'guess',
+    },
+  ];
+
+  async findOne(username: string): Promise<userTestData | undefined> {
+    return this.users.find((user) => user.username === username);
+  }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const createAuthDto = {
@@ -34,9 +54,5 @@ export class UsersService {
     });
 
     return createdUser;
-  }
-
-  async findOne(id: string): Promise<User> {
-    return this.userModel.findOne({ _id: id }).exec();
   }
 }

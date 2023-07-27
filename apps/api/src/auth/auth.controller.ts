@@ -15,6 +15,13 @@ import { CreateAuthDto } from './dto/auth.dto';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @Public()
+  @HttpCode(HttpStatus.OK)
+  @Post('login')
+  signIn(@Body() signInDto: CreateAuthDto) {
+    return this.authService.signIn(signInDto);
+  }
+
   @Get('profile')
   getProfile(@Request() req) {
     return req.user;
