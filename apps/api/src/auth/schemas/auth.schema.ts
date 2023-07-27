@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Model } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 
 export type AuthDocument = HydratedDocument<Auth>;
 
@@ -11,23 +11,7 @@ export class Auth {
   @Prop()
   username: string;
 
-  @Prop({
-    validate: {
-      validator: async function (email) {
-        const authModel: Model<AuthDocument> = this.constructor;
-        const user = await authModel.findOne({ email });
-        if (user) {
-          if (this.id === user.id) {
-            return true;
-          }
-          return false;
-        }
-        return true;
-      },
-      message: 'The specified email address is already in use.',
-    },
-    required: [true, 'User email required'],
-  })
+  @Prop()
   email: string;
 
   @Prop()
