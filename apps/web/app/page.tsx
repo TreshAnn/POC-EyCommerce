@@ -1,12 +1,12 @@
 "use client";
 
-import { Button, Checkbox, Header } from "ui";
+import { Button, Checkbox, HeaderNavBar } from "ui";
 import "./style.css";
 
 export default function Page() {
   return (
     <>
-      <Header />
+      <HeaderNavBar />
       <Button style={{ marginBottom: "10px" }}>Sample</Button>
       <Checkbox label="checkbox 1" />
     </>
