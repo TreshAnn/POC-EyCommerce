@@ -31,4 +31,7 @@ export class Product {
 
   @Prop()
   productInventory: string;
+
+  @Prop()
+  productCategory: string[];
 }
