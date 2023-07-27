@@ -8,7 +8,7 @@ export class Auth {
   @Prop()
   userType: string;
 
-  @Prop({ unique: true })
+  @Prop()
   username: string;
 
   @Prop({
