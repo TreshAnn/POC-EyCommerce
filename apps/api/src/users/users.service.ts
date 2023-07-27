@@ -1,44 +1,38 @@
 import * as bcrypt from 'bcrypt';
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './schemas/user.schema';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<User>,
+    private authService: AuthService,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    // Check if Username already exists in the database
-    const usernameAlreadyExists = await this.userModel
-      .findOne({ username: createUserDto.username })
-      .exec();
+    const createAuthDto = {
+      userType: createUserDto.userType,
+      username: createUserDto.username,
+      email: createUserDto.email,
+      password: createUserDto.password,
+    };
 
-    if (usernameAlreadyExists) {
-      throw new BadRequestException('Username already exists');
-    }
+    const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
 
-    // Check if Email already exists in the database
-    const emailAlreadyExists = await this.userModel
-      .findOne({ email: createUserDto.email })
-      .exec();
-
-    if (emailAlreadyExists) {
-      throw new BadRequestException('Email already exists');
-    }
-
-    // Hash the password before saving it to the database
-    const salt = 10;
-    const hashedPassword = await bcrypt.hash(createUserDto.password, salt);
+    await this.authService.create({
+      ...createUserDto,
+      password: hashedPassword,
+      userType: createAuthDto.userType,
+    });
 
     const createdUser = await this.userModel.create({
       ...createUserDto,
-      password: hashedPassword,
-      userType: 'consumer',
     });
+
     return createdUser;
   }
 
