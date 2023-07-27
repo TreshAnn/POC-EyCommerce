@@ -1,5 +1,9 @@
 import * as bcrypt from 'bcrypt';
-import { Injectable, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateMerchantDto } from './dto/create-merchant.dto';
@@ -47,6 +51,10 @@ export class MerchantsService {
 
   async findOne(id: string): Promise<Merchant> {
     const merchant = await this.merchantModel.findOne({ _id: id });
+
+    if (!merchant) {
+      throw new NotFoundException('Merchant not found');
+    }
 
     //console.log(merchant);
 
