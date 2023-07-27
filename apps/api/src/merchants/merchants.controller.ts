@@ -1,8 +1,8 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param } from '@nestjs/common';
 import { MerchantsService } from './merchants.service';
 import { CreateMerchantDto } from './dto/create-merchant.dto';
-import { CreateAuthDto } from '../auth/dto/auth.dto';
 import { Public } from '../auth/decorators/public.decorator';
+import { Merchant } from './schemas/merchant.schema';
 
 @Controller('merchant')
 export class MerchantsController {
@@ -15,5 +15,11 @@ export class MerchantsController {
       createMerchantDto,
     );
     return createdMerchant;
+  }
+
+  @Public()
+  @Get(':id')
+  async findOne(@Param('id') id: string): Promise<Merchant> {
+    return this.merchantsService.findOne(id);
   }
 }

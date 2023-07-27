@@ -31,7 +31,7 @@ export class MerchantsService {
 
     const hashedPassword = await bcrypt.hash(createMerchantDto.password, 10);
 
-    await this.authService.create({
+    const createdAuth = await this.authService.create({
       ...createAuthDto,
       password: hashedPassword,
       userType: createAuthDto.usertype,
@@ -39,8 +39,17 @@ export class MerchantsService {
 
     const createdMerchant = await this.merchantModel.create({
       ...createMerchantDto,
+      auth: createdAuth,
     });
 
     return createdMerchant;
+  }
+
+  async findOne(id: string): Promise<Merchant> {
+    const merchant = await this.merchantModel.findOne({ _id: id });
+
+    //console.log(merchant);
+
+    return merchant;
   }
 }
