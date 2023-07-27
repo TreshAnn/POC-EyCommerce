@@ -14,16 +14,19 @@ import { Auth, AuthDocument } from './schemas/auth.schema';
 export class AuthService {
   constructor(
     @InjectModel(Auth.name) private readonly authModel: Model<AuthDocument>,
-    private usersService: UsersService,
+    // private usersService: UsersService,
     private jwtService: JwtService,
   ) {}
 
-  async signIn(username, pass) {
-    const user = await this.usersService.findOne(username);
-    if (user?.password !== pass) {
+  async signIn(createAuthDto: CreateAuthDto) {
+    const user = await this.authModel.findOne({
+      username: createAuthDto.username,
+      password: createAuthDto.password,
+    });
+    if (user?.password !== createAuthDto.password) {
       throw new UnauthorizedException();
     }
-    const payload = { username: user.username, sub: user.userId };
+    const payload = { username: user.username, sub: user._id };
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
