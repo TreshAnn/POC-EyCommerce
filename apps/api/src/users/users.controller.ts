@@ -24,6 +24,8 @@ export class UsersController {
     return createdUser;
   }
 
+  @Public()
+  @HttpCode(HttpStatus.OK)
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<User> {
     return this.userService.findOne(id);
