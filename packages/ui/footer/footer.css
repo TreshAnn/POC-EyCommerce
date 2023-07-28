@@ -1,0 +1,74 @@
+.footer-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background: #ffd500;
+  position: fixed; /* Make the footer fixed */
+  bottom: 0; /* Align the footer at the bottom of the viewport */
+}
+.footer-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background: #ffd500;
+  position: fixed;
+  bottom: 0;
+}
+.footer-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: fit-content;
+  gap: 20px;
+  width: 80vw;
+}
+.footer-item a {
+  font-weight: 300;
+  font-size: 16px;
+}
+.footer-title {
+  font-size: 37.5px;
+  font-weight: 700;
+  margin: 0;
+}
+.footer-links {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  font-size: 34.5px;
+}
+.footer-item-03 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  border-top: 1px solid #000;
+}
+.footer-item-bottom {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+.footer-item-03 {
+  flex: 0 0 80%;
+}
+.footer-terms-links {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.footer-terms {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+.footer-terms:first-child {
+  flex: 0 0 70%;
+}
