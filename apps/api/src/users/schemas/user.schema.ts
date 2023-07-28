@@ -38,6 +38,10 @@ export class User {
 
   @Prop()
   phoneNumber: string;
+
+  @Prop()
+  isActive: boolean;
+  default: true;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -8,6 +8,7 @@ import {
   Matches,
   IsPhoneNumber,
   IsIn,
+  IsBoolean,
 } from 'class-validator';
 
 class Address {
@@ -82,4 +83,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsPhoneNumber()
   readonly phoneNumber: string;
+
+  @IsBoolean()
+  readonly isActive: boolean;
 }
