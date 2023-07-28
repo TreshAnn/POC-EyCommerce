@@ -18,11 +18,19 @@ export class MerchantsController {
 
   @Public()
   @Post('create')
+  @HttpCode(HttpStatus.CREATED)
   async create(@Body() createMerchantDto: CreateMerchantDto) {
     const createdMerchant = await this.merchantsService.create(
       createMerchantDto,
     );
     return createdMerchant;
+  }
+
+  @Public()
+  @Get(':id')
+  @HttpCode(HttpStatus.OK)
+  async findOne(@Param('id') id: string): Promise<Merchant> {
+    return this.merchantsService.findOne(id);
   }
   @Public()
   @HttpCode(HttpStatus.OK)
