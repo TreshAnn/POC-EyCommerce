@@ -7,6 +7,8 @@ import {
   Param,
   HttpCode,
   HttpStatus,
+  Put,
+  Patch,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -34,9 +36,15 @@ export class UsersController {
 
   @Public()
   @HttpCode(HttpStatus.OK)
-  @Delete(':id')
-  async remove(@Param('id') userId: string) {
-    await this.userService.delete(userId);
-    return 'User deleted';
+  @Put('disableAccount/:id')
+  async disableUser(@Param('id') userId: string) {
+    return this.userService.disableUserById(userId);
+  }
+
+  @Public()
+  @HttpCode(HttpStatus.OK)
+  @Put('enableAccount/:id')
+  async enableUser(@Param('id') userId: string) {
+    return this.userService.enableUserById(userId);
   }
 }

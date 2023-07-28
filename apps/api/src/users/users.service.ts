@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './schemas/user.schema';
 import { AuthService } from '../auth/auth.service';
+import { error } from 'console';
 
 export type userTestData = any;
 
@@ -69,18 +70,45 @@ export class UsersService {
     return user;
   }
 
-  async delete(id: string) {
+  async disableUserById(id: string) {
     const user = await this.userModel.findOne({ _id: id });
 
     if (!user) {
       throw new NotFoundException('User not found');
     }
 
-    const deletedAuthUser = this.authService.delete(user.auth.email);
+    if (!user.isActive) {
+      return 'Account is already deactivated.';
+    }
+    const updatedUser = await this.userModel.findByIdAndUpdate(
+      {
+        _id: id,
+      },
+      { isActive: false },
+      { new: true },
+    );
 
-    const deletedUser = await this.userModel
-      .findByIdAndRemove({ _id: id })
-      .exec();
-    return [deletedAuthUser, deletedUser];
+    return 'User deactivated';
+  }
+
+  async enableUserById(id: string) {
+    const user = await this.userModel.findOne({ _id: id });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    if (user.isActive) {
+      return 'Account is already activated.';
+    }
+    const updatedUser = await this.userModel.findByIdAndUpdate(
+      {
+        _id: id,
+      },
+      { isActive: true },
+      { new: true },
+    );
+
+    return 'User activated';
   }
 }
