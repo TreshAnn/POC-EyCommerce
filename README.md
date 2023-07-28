@@ -17,6 +17,9 @@ Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 - [pnpm](https://pnpm.io/)
 - [Node.js v16+](https://nodejs.org/)
 - [VSCode](https://code.visualstudio.com/)
+- [Python 3](https://www.python.org/downloads/)
+- [For Windows only - Visual C++ Build Environment: Visual Studio Build Tools](https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=BuildTools)
+- [node-gyp](https://www.npmjs.com/package/node-gyp)
 
 ## Utilities
 
