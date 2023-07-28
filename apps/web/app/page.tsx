@@ -7,6 +7,7 @@ export default function Page() {
     <>
       <Button style={{ marginBottom: "10px" }}>Sample</Button>
       <Checkbox label="checkbox 1" />
+      <Footer />
     </>
   );
 }
