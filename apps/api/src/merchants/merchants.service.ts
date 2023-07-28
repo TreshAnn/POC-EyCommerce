@@ -60,4 +60,22 @@ export class MerchantsService {
 
     return merchant;
   }
+  async findByIdAndUpdate(
+    id: string,
+    createMerchantDto: CreateMerchantDto,
+  ): Promise<Merchant> {
+    const updatedMerchant = await this.merchantModel.findByIdAndUpdate(
+      { _id: id },
+      createMerchantDto,
+      { new: true },
+    );
+
+    if (!updatedMerchant) {
+      throw new NotFoundException('User not found');
+    }
+
+    console.log(updatedMerchant);
+
+    return updatedMerchant;
+  }
 }

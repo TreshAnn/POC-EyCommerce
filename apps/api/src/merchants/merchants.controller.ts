@@ -2,7 +2,7 @@ import {
   Body,
   Controller,
   Post,
-  Get,
+  Put,
   Param,
   HttpCode,
   HttpStatus,
@@ -31,5 +31,14 @@ export class MerchantsController {
   @HttpCode(HttpStatus.OK)
   async findOne(@Param('id') id: string): Promise<Merchant> {
     return this.merchantsService.findOne(id);
+  }
+  @Public()
+  @HttpCode(HttpStatus.OK)
+  @Put('update/:id')
+  async findByIdAndUpdate(
+    @Body() createMerchantDto: CreateMerchantDto,
+    @Param('id') id: string,
+  ): Promise<Merchant> {
+    return this.merchantsService.findByIdAndUpdate(id, createMerchantDto);
   }
 }
