@@ -71,6 +71,11 @@ export class UsersService {
 
   async delete(id: string) {
     const user = await this.userModel.findOne({ _id: id });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
     const deletedAuthUser = this.authService.delete(user.auth.email);
 
     const deletedUser = await this.userModel
