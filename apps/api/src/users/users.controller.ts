@@ -33,4 +33,9 @@ export class UsersController {
   ): Promise<User> {
     return this.userService.findByIdAndUpdate(id, createUserDto);
   }
+
+  @Get(':id')
+  async findOne(@Param('id') id: string): Promise<User> {
+    return this.userService.findOne(id);
+  }
 }
