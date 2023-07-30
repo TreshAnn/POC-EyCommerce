@@ -6,6 +6,7 @@ import {
   Param,
   HttpCode,
   HttpStatus,
+  Get,
 } from '@nestjs/common';
 import { MerchantsService } from './merchants.service';
 import { CreateMerchantDto } from './dto/create-merchant.dto';
@@ -26,13 +27,12 @@ export class MerchantsController {
     return createdMerchant;
   }
 
-  @Public()
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async findOne(@Param('id') id: string): Promise<Merchant> {
     return this.merchantsService.findOne(id);
   }
-  @Public()
+
   @HttpCode(HttpStatus.OK)
   @Put('update/:id')
   async findByIdAndUpdate(

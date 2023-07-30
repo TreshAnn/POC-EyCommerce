@@ -27,3 +27,11 @@ export class CreateAuthDto {
   })
   readonly password: string;
 }
+
+export class LoginDto {
+  @IsNotEmpty()
+  username: string;
+
+  @IsNotEmpty()
+  password: string;
+}

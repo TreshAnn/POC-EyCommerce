@@ -10,8 +10,8 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { User } from './schemas/user.schema';
 import { Public } from '../auth/decorators/public.decorator';
+import { User } from './schemas/user.schema';
 
 @Controller('user')
 export class UsersController {
@@ -25,14 +25,6 @@ export class UsersController {
     return createdUser;
   }
 
-  @Public()
-  @HttpCode(HttpStatus.OK)
-  @Get(':id')
-  async findOne(@Param('id') id: string): Promise<User> {
-    return this.userService.findOne(id);
-  }
-
-  @Public()
   @HttpCode(HttpStatus.OK)
   @Put('update/:id')
   async findByIdAndUpdate(
@@ -40,5 +32,10 @@ export class UsersController {
     @Param('id') id: string,
   ): Promise<User> {
     return this.userService.findByIdAndUpdate(id, createUserDto);
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: string): Promise<User> {
+    return this.userService.findOne(id);
   }
 }

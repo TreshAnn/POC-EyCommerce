@@ -1,5 +1,5 @@
-import * as bcrypt from 'bcrypt';
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { hash } from 'bcrypt';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -15,24 +15,6 @@ export class UsersService {
     private authService: AuthService,
   ) {}
 
-  // Test Data
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'dancute',
-      password: 'password',
-    },
-    {
-      userId: 2,
-      username: 'abubadan',
-      password: 'guess',
-    },
-  ];
-
-  // async findOne(username: string): Promise<userTestData | undefined> {
-  //   return this.users.find((user) => user.username === username);
-  // }
-
   async create(createUserDto: CreateUserDto): Promise<User> {
     const createAuthDto = {
       userType: createUserDto.userType,
@@ -41,20 +23,15 @@ export class UsersService {
       password: createUserDto.password,
     };
 
-    const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
-
-    const createdAuth = await this.authService.create({
-      ...createUserDto,
-      password: hashedPassword,
-      userType: createAuthDto.userType,
+    await this.authService.create({
+      ...createAuthDto,
+      password: await hash(createUserDto.password, 10),
     });
 
-    const createdUser = await this.userModel.create({
+    return await this.userModel.create({
       ...createUserDto,
-      auth: createdAuth,
+      auth: createAuthDto,
     });
-
-    return createdUser;
   }
 
   async findOne(id: string): Promise<User> {
@@ -68,6 +45,7 @@ export class UsersService {
 
     return user;
   }
+
   async findByIdAndUpdate(
     id: string,
     createUserDto: CreateUserDto,
