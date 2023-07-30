@@ -9,7 +9,7 @@ export class Image {
   ImgURL: string;
 
   @Prop()
-  ImgAttch: HTMLImageElement;
+  ImgAttch: string;
 }
 
 @Schema()
@@ -35,3 +35,5 @@ export class Product {
   @Prop()
   productCategory: string[];
 }
+
+export const ProductSchema = SchemaFactory.createForClass(Product);
