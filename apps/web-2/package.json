@@ -1,0 +1,40 @@
+{
+  "name": "ey-react-boiler-plate",
+  "private": true,
+  "version": "0.0.1",
+  "author": "Danielle Relox Bote <danielle.bote@ph.ey.com>",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint:fix": "eslint ./src --ext .jsx,.js,.ts,.tsx --quiet --fix --ignore-path ./.gitignore",
+    "lint:format": "prettier  --loglevel warn --write \"./**/*.{js,jsx,ts,tsx,css,md,json}\" ",
+    "lint": "pnpm lint:format && pnpm lint:fix "
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^4.29.7",
+    "react": "~18.2.0",
+    "react-dom": "~18.2.0",
+    "react-router-dom": "^6.11.2",
+    "zustand": "^4.3.8"
+  },
+  "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^4.29.8",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@typescript-eslint/eslint-plugin": "^5.56.0",
+    "@typescript-eslint/parser": "^5.56.0",
+    "@vitejs/plugin-react-swc": "^3.0.0",
+    "autoprefixer": "^10.4.14",
+    "eslint-config-custom": "workspace:*",
+    "prettier": "^3.0.0",
+    "tsconfig": "workspace:*",
+    "typescript": "^5.1.6",
+    "vite": "^4.2.0",
+    "vite-plugin-eslint": "^1.8.1"
+  },
+  "engines": {
+    "node": "^16.0.0"
+  }
+}
