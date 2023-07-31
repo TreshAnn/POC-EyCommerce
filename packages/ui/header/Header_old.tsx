@@ -1,6 +1,6 @@
-import { Button } from "@mantine/core";
-import { useState } from "react";
-import "./header.css";
+import { Button } from '@mantine/core';
+import { useState } from 'react';
+import './header.css';
 
 export const Header = () => {
   //Temp Conditional Statement for Logged In Navigation

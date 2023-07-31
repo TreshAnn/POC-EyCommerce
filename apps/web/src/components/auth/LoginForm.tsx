@@ -1,13 +1,13 @@
-import { Anchor, Button, Flex, Paper, PasswordInput, Stack, Text, TextInput } from "@mantine/core";
-import React from "react";
-import { Form } from "ui";
-import * as z from "zod";
+import { Anchor, Button, Flex, Paper, PasswordInput, Stack, Text, TextInput } from '@mantine/core';
+import React from 'react';
+import { Form } from 'ui';
+import * as z from 'zod';
 
-import { StyledContainer } from "./styles";
+import { StyledContainer } from './styles';
 
 const schema = z.object({
-  email: z.string().min(1, "Required"),
-  password: z.string().min(8, "Minimum Password is 8"),
+  email: z.string().min(1, 'Required'),
+  password: z.string().min(8, 'Minimum Password is 8'),
 });
 
 type LoginValues = {
