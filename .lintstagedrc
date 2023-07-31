@@ -1,5 +1,5 @@
 {
   "apps/api/**/*.{js,ts,tsx}": ["pnpm run format", "pnpm lint-stage-be"],
-  "apps/web-2/**/*.{js,ts,tsx}": ["pnpm run format"],
+  "apps/web/**/*.{js,ts,tsx}": ["pnpm lint-stage-fe"],
   "packages/ui/**/*.{js,ts,tsx}": ["pnpm run format", "pnpm lint-stage-ui"]
 }
