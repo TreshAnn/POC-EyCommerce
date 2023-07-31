@@ -16,13 +16,12 @@ export class MerchantsController {
     return createdMerchant;
   }
 
-  @Public()
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async findOne(@Param('id') id: string): Promise<Merchant> {
     return this.merchantsService.findOne(id);
   }
-  @Public()
+
   @HttpCode(HttpStatus.OK)
   @Put('update/:id')
   async findByIdAndUpdate(@Body() createMerchantDto: CreateMerchantDto, @Param('id') id: string): Promise<Merchant> {
