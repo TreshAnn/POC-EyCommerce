@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Put, Param, HttpCode, HttpStatus } from '@nestjs/common';
+import { Body, Controller, Post, Put, Param, HttpCode, HttpStatus, Get } from '@nestjs/common';
 import { MerchantsService } from './merchants.service';
 import { CreateMerchantDto } from './dto/create-merchant.dto';
 import { Public } from '../auth/decorators/public.decorator';
