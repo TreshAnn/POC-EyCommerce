@@ -22,11 +22,6 @@ module.exports = {
   rules: {
     "prettier/prettier": ["error", { usePrettierrc: true, useTabs: false }],
     "@typescript-eslint/no-duplicate-imports": "error",
-    "@typescript-eslint/quotes": [
-      "warn",
-      "single",
-      { allowTemplateLiterals: true },
-    ],
     "@typescript-eslint/semi": "warn",
     "comma-dangle": "off",
     indent: "off",

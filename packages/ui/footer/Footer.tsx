@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-import { Button } from "@mantine/core";
 import "./footer.css";
 
 export const Footer = () => {

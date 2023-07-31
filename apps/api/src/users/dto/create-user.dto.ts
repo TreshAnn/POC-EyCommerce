@@ -8,7 +8,7 @@ import {
   Matches,
   IsPhoneNumber,
   IsIn,
-} from 'class-validator';
+} from "class-validator";
 
 class Address {
   @IsNotEmpty()
@@ -38,7 +38,7 @@ class Address {
 export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
-  @IsIn(['merchant', 'consumer'], {
+  @IsIn(["merchant", "consumer"], {
     message: 'Invalid User Type. Allowed values: "consumer" or "merchant".',
   })
   readonly userType: string;
@@ -56,23 +56,21 @@ export class CreateUserDto {
   @IsString()
   @IsStrongPassword()
   @MinLength(8, {
-    message: 'Password should be atleast 8 characters',
+    message: "Password should be atleast 8 characters",
   })
   readonly password: string;
 
   @IsNotEmpty()
   @IsString()
   @Matches(/^[A-Za-z]+(?: [A-Za-z]+)*$/, {
-    message:
-      'First name must contain only alphabetic characters and cannot have leading or trailing spaces',
+    message: "First name must contain only alphabetic characters and cannot have leading or trailing spaces",
   })
   readonly firstName: string;
 
   @IsNotEmpty()
   @IsString()
   @Matches(/^[A-Za-z]+(?: [A-Za-z]+)*$/, {
-    message:
-      'Last name must contain only alphabetic characters and cannot have leading or trailing spaces',
+    message: "Last name must contain only alphabetic characters and cannot have leading or trailing spaces",
   })
   readonly lastName: string;
 

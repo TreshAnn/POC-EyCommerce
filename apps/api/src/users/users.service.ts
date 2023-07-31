@@ -1,10 +1,10 @@
-import * as bcrypt from 'bcrypt';
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { CreateUserDto } from './dto/create-user.dto';
-import { User } from './schemas/user.schema';
-import { AuthService } from '../auth/auth.service';
+import * as bcrypt from "bcrypt";
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { User } from "./schemas/user.schema";
+import { AuthService } from "../auth/auth.service";
 
 export type userTestData = any;
 
@@ -19,13 +19,13 @@ export class UsersService {
   private readonly users = [
     {
       userId: 1,
-      username: 'dancute',
-      password: 'password',
+      username: "dancute",
+      password: "password",
     },
     {
       userId: 2,
-      username: 'abubadan',
-      password: 'guess',
+      username: "abubadan",
+      password: "guess",
     },
   ];
 
@@ -61,25 +61,18 @@ export class UsersService {
     const user = await this.userModel.findOne({ _id: id });
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException("User not found");
     }
 
     console.log(user);
 
     return user;
   }
-  async findByIdAndUpdate(
-    id: string,
-    createUserDto: CreateUserDto,
-  ): Promise<User> {
-    const updatedUser = await this.userModel.findByIdAndUpdate(
-      { _id: id },
-      createUserDto,
-      { new: true },
-    );
+  async findByIdAndUpdate(id: string, createUserDto: CreateUserDto): Promise<User> {
+    const updatedUser = await this.userModel.findByIdAndUpdate({ _id: id }, createUserDto, { new: true });
 
     if (!updatedUser) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException("User not found");
     }
 
     console.log(updatedUser);

@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import { LoginForm } from '../../components/auth/LoginForm';
+import { LoginForm } from "../../components/auth/LoginForm";
 
 export const LoginView = () => {
   return (
@@ -8,7 +8,7 @@ export const LoginView = () => {
       <LoginForm
         onSuccess={() => {
           // eslint-disable-next-line no-console
-          console.log('Success!');
+          console.log("Success!");
           return;
         }}
       />

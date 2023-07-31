@@ -1,25 +1,16 @@
-import {
-  Body,
-  Controller,
-  Post,
-  Get,
-  Put,
-  Param,
-  HttpCode,
-  HttpStatus,
-} from '@nestjs/common';
-import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { User } from './schemas/user.schema';
-import { Public } from '../auth/decorators/public.decorator';
+import { Body, Controller, Post, Get, Put, Param, HttpCode, HttpStatus } from "@nestjs/common";
+import { UsersService } from "./users.service";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { User } from "./schemas/user.schema";
+import { Public } from "../auth/decorators/public.decorator";
 
-@Controller('user')
+@Controller("user")
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   @Public()
   @HttpCode(HttpStatus.CREATED)
-  @Post('create')
+  @Post("create")
   async create(@Body() createUserDto: CreateUserDto) {
     const createdUser = await this.userService.create(createUserDto);
     return createdUser;
@@ -27,18 +18,15 @@ export class UsersController {
 
   @Public()
   @HttpCode(HttpStatus.OK)
-  @Get(':id')
-  async findOne(@Param('id') id: string): Promise<User> {
+  @Get(":id")
+  async findOne(@Param("id") id: string): Promise<User> {
     return this.userService.findOne(id);
   }
 
   @Public()
   @HttpCode(HttpStatus.OK)
-  @Put('update/:id')
-  async findByIdAndUpdate(
-    @Body() createUserDto: CreateUserDto,
-    @Param('id') id: string,
-  ): Promise<User> {
+  @Put("update/:id")
+  async findByIdAndUpdate(@Body() createUserDto: CreateUserDto, @Param("id") id: string): Promise<User> {
     return this.userService.findByIdAndUpdate(id, createUserDto);
   }
 }

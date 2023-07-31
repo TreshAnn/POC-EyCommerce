@@ -1,14 +1,10 @@
-import {
-  Injectable,
-  UnauthorizedException,
-  BadRequestException,
-} from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { JwtService } from '@nestjs/jwt';
-import { UsersService } from '../users/users.service';
-import { CreateAuthDto } from './dto/auth.dto';
-import { Auth, AuthDocument } from './schemas/auth.schema';
+import { Injectable, UnauthorizedException, BadRequestException } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import { JwtService } from "@nestjs/jwt";
+import { UsersService } from "../users/users.service";
+import { CreateAuthDto } from "./dto/auth.dto";
+import { Auth, AuthDocument } from "./schemas/auth.schema";
 
 @Injectable()
 export class AuthService {
@@ -33,20 +29,16 @@ export class AuthService {
   }
 
   async create(createAuthDto: CreateAuthDto): Promise<Auth> {
-    const usernameAlreadyExists = await this.authModel
-      .findOne({ username: createAuthDto.username })
-      .exec();
+    const usernameAlreadyExists = await this.authModel.findOne({ username: createAuthDto.username }).exec();
 
     if (usernameAlreadyExists) {
-      throw new BadRequestException('Username already exists');
+      throw new BadRequestException("Username already exists");
     }
 
-    const emailAlreadyExists = await this.authModel
-      .findOne({ email: createAuthDto.email })
-      .exec();
+    const emailAlreadyExists = await this.authModel.findOne({ email: createAuthDto.email }).exec();
 
     if (emailAlreadyExists) {
-      throw new BadRequestException('Email already exists');
+      throw new BadRequestException("Email already exists");
     }
 
     const createdAuth = await this.authModel.create(createAuthDto);

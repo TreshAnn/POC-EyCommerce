@@ -1,10 +1,4 @@
-import {
-  IsNotEmpty,
-  IsString,
-  IsEmail,
-  IsStrongPassword,
-  MinLength,
-} from 'class-validator';
+import { IsNotEmpty, IsString, IsEmail, IsStrongPassword, MinLength } from "class-validator";
 
 export class CreateAuthDto {
   @IsNotEmpty()
@@ -23,7 +17,7 @@ export class CreateAuthDto {
   @IsNotEmpty()
   @IsStrongPassword()
   @MinLength(8, {
-    message: 'Password should be atleast 8 characters',
+    message: "Password should be atleast 8 characters",
   })
   readonly password: string;
 }
