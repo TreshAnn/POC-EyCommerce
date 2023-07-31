@@ -13,16 +13,22 @@
     "lint": "pnpm lint:format && pnpm lint:fix "
   },
   "dependencies": {
+    "@mantine/core": "^6.0.17",
+    "@mantine/hooks": "^6.0.17",
     "@tanstack/react-query": "^4.29.7",
+    "@types/styled-components": "^5.1.26",
     "react": "~18.2.0",
     "react-dom": "~18.2.0",
     "react-router-dom": "^6.11.2",
+    "styled-components": "^6.0.5",
+    "ui": "workspace:*",
+    "zod": "^3.21.4",
     "zustand": "^4.3.8"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^4.29.8",
-    "@types/react": "^18.0.28",
-    "@types/react-dom": "^18.0.11",
+    "@types/react": "^18.2.18",
+    "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
     "@vitejs/plugin-react-swc": "^3.0.0",
