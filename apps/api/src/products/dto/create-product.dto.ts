@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsArray } from 'class-validator';
+import { IsNotEmpty, IsString, IsArray, IsNumber } from 'class-validator';
 export class ImageDto {
   @IsNotEmpty()
   @IsString()
@@ -24,13 +24,13 @@ export class CreateProductDto {
   @IsNotEmpty()
   readonly productInfo: string;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  readonly productPrice: string;
+  readonly productPrice: number;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  readonly productInventory: string;
+  readonly productInventory: number;
 
   @IsNotEmpty()
   @IsArray()
