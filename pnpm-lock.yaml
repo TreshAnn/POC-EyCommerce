@@ -11,12 +11,6 @@ importers:
       '@turbo/gen':
         specifier: ^1.9.7
         version: 1.10.8(@types/node@20.4.2)(typescript@5.1.6)
-      eslint:
-        specifier: ^8.36.0
-        version: 8.45.0
-      eslint-config-custom:
-        specifier: workspace:*
-        version: link:packages/eslint-config-custom
       husky:
         specifier: ^8.0.0
         version: 8.0.3
@@ -172,9 +166,6 @@ importers:
         specifier: ^4.3.8
         version: 4.3.8(react@18.2.0)
     devDependencies:
-      '@tanstack/eslint-plugin-query':
-        specifier: ^4.29.8
-        version: 4.29.8
       '@types/react':
         specifier: ^18.2.18
         version: 18.2.18
@@ -193,6 +184,9 @@ importers:
       autoprefixer:
         specifier: ^10.4.14
         version: 10.4.14(postcss@8.4.27)
+      eslint:
+        specifier: ^8.42.0
+        version: 8.45.0
       eslint-config-custom:
         specifier: workspace:*
         version: link:../../packages/eslint-config-custom
@@ -290,7 +284,7 @@ importers:
         specifier: ^18.2.0
         version: 18.2.7
       eslint:
-        specifier: ^8.36.0
+        specifier: ^8.42.0
         version: 8.45.0
       eslint-config-custom:
         specifier: workspace:*
@@ -3065,10 +3059,6 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       defer-to-connect: 2.0.1
-    dev: true
-
-  /@tanstack/eslint-plugin-query@4.29.8:
-    resolution: {integrity: sha512-w3tMVl8gZRiEdCoKweK07OkSPROFJ/hGJWdUcrfpWoTg8eaw7IWLMXWZJZKQEF2j1Aq6YkWBwuTF8QmZvVzVZA==}
     dev: true
 
   /@tanstack/query-core@4.29.7:

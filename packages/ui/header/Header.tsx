@@ -1,15 +1,15 @@
 import {
-  createStyles,
-  Header,
-  Group,
-  Button,
-  Divider,
+  Avatar,
   Box,
   Burger,
+  Button,
+  createStyles,
+  Divider,
   Drawer,
-  ScrollArea,
+  Group,
+  Header,
   rem,
-  Avatar,
+  ScrollArea,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';

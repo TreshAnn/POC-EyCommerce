@@ -9,7 +9,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint:fix": "eslint ./src --ext .jsx,.js,.ts,.tsx --quiet --fix --ignore-path ./.gitignore",
-    "lint:format": "prettier  --loglevel warn --write \"./**/*.{js,jsx,ts,tsx,css,md,json}\" ",
+    "lint:format": "prettier --loglevel warn --write \"./**/*.{js,jsx,ts,tsx}\" ",
     "lint": "pnpm lint:format && pnpm lint:fix "
   },
   "dependencies": {
@@ -26,13 +26,13 @@
     "zustand": "^4.3.8"
   },
   "devDependencies": {
-    "@tanstack/eslint-plugin-query": "^4.29.8",
     "@types/react": "^18.2.18",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
     "@vitejs/plugin-react-swc": "^3.0.0",
     "autoprefixer": "^10.4.14",
+    "eslint": "^8.42.0",
     "eslint-config-custom": "workspace:*",
     "prettier": "^3.0.0",
     "tsconfig": "workspace:*",

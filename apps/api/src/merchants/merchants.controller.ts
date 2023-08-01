@@ -1,4 +1,13 @@
-import { Body, Controller, Post, Put, Param, HttpCode, HttpStatus, Get } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Put,
+  Param,
+  HttpCode,
+  HttpStatus,
+  Get,
+} from '@nestjs/common';
 import { MerchantsService } from './merchants.service';
 import { CreateMerchantDto } from './dto/create-merchant.dto';
 import { Public } from '../auth/decorators/public.decorator';
@@ -12,7 +21,9 @@ export class MerchantsController {
   @Post('create')
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() createMerchantDto: CreateMerchantDto) {
-    const createdMerchant = await this.merchantsService.create(createMerchantDto);
+    const createdMerchant = await this.merchantsService.create(
+      createMerchantDto,
+    );
     return createdMerchant;
   }
 
@@ -24,7 +35,10 @@ export class MerchantsController {
 
   @HttpCode(HttpStatus.OK)
   @Put('update/:id')
-  async findByIdAndUpdate(@Body() createMerchantDto: CreateMerchantDto, @Param('id') id: string): Promise<Merchant> {
+  async findByIdAndUpdate(
+    @Body() createMerchantDto: CreateMerchantDto,
+    @Param('id') id: string,
+  ): Promise<Merchant> {
     return this.merchantsService.findByIdAndUpdate(id, createMerchantDto);
   }
 }

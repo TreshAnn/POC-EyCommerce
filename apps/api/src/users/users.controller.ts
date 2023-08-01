@@ -1,4 +1,13 @@
-import { Body, Controller, Post, Get, Put, Param, HttpCode, HttpStatus } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Get,
+  Put,
+  Param,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Public } from '../auth/decorators/public.decorator';
@@ -18,7 +27,10 @@ export class UsersController {
 
   @HttpCode(HttpStatus.OK)
   @Put('update/:id')
-  async findByIdAndUpdate(@Body() createUserDto: CreateUserDto, @Param('id') id: string): Promise<User> {
+  async findByIdAndUpdate(
+    @Body() createUserDto: CreateUserDto,
+    @Param('id') id: string,
+  ): Promise<User> {
     return this.userService.findByIdAndUpdate(id, createUserDto);
   }
 

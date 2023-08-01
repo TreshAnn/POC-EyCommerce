@@ -1,10 +1,14 @@
-import { Injectable, UnauthorizedException, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
 import { CreateAuthDto, LoginDto } from './dto/auth.dto';
 import { Auth, AuthDocument } from './schemas/auth.schema';
 import { compare } from 'bcrypt';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 
 @Injectable()
 export class AuthService {

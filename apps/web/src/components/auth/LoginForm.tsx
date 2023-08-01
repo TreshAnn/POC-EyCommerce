@@ -1,4 +1,13 @@
-import { Anchor, Button, Flex, Paper, PasswordInput, Stack, Text, TextInput } from '@mantine/core';
+import {
+  Anchor,
+  Button,
+  Flex,
+  Paper,
+  PasswordInput,
+  Stack,
+  Text,
+  TextInput,
+} from '@mantine/core';
 import React from 'react';
 import { Form } from 'ui';
 import * as z from 'zod';
@@ -32,14 +41,24 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
           {({ formState }) => (
             <>
               <Stack>
-                <TextInput label="Email" placeholder="Enter your email" required type="email" />
-                <PasswordInput label="Password" placeholder="Enter your password" required />
+                <TextInput
+                  label="Email"
+                  placeholder="Enter your email"
+                  required
+                  type="email"
+                />
+                <PasswordInput
+                  label="Password"
+                  placeholder="Enter your password"
+                  required
+                />
                 <Button color="yellow" variant="filled" type="submit">
                   Login
                 </Button>
                 <Flex direction="column">
                   <Text>
-                    Don't have an account yet? <Anchor href="#">Register</Anchor>
+                    Don't have an account yet?{' '}
+                    <Anchor href="#">Register</Anchor>
                   </Text>
                   <Anchor>Forgot Password?</Anchor>
                 </Flex>
