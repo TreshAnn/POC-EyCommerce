@@ -1,13 +1,12 @@
-"use client";
+import { useState } from 'react';
 
-import { useState } from "react";
 import {
   CheckboxContainer,
   HiddenCheckbox,
   Icon,
   StyledCheckbox,
-} from "./styles";
-import { TCheckBoxProps } from "./types";
+} from './styles';
+import { TCheckBoxProps } from './types';
 
 export const Checkbox = ({ label, ...props }: TCheckBoxProps) => {
   const [isChecked, setIsChecked] = useState(false);

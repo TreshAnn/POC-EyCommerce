@@ -1,9 +1,5 @@
 import * as bcrypt from 'bcrypt';
-import {
-  Injectable,
-  BadRequestException,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateMerchantDto } from './dto/create-merchant.dto';
@@ -60,15 +56,8 @@ export class MerchantsService {
 
     return merchant;
   }
-  async findByIdAndUpdate(
-    id: string,
-    createMerchantDto: CreateMerchantDto,
-  ): Promise<Merchant> {
-    const updatedMerchant = await this.merchantModel.findByIdAndUpdate(
-      { _id: id },
-      createMerchantDto,
-      { new: true },
-    );
+  async findByIdAndUpdate(id: string, createMerchantDto: CreateMerchantDto): Promise<Merchant> {
+    const updatedMerchant = await this.merchantModel.findByIdAndUpdate({ _id: id }, createMerchantDto, { new: true });
 
     if (!updatedMerchant) {
       throw new NotFoundException('User not found');

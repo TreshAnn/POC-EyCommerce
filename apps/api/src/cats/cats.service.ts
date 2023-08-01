@@ -22,9 +22,7 @@ export class CatsService {
   }
 
   async delete(id: string) {
-    const deletedCat = await this.catModel
-      .findByIdAndRemove({ _id: id })
-      .exec();
+    const deletedCat = await this.catModel.findByIdAndRemove({ _id: id }).exec();
     return deletedCat;
   }
 }

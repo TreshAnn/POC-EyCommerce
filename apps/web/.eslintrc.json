@@ -1,0 +1,12 @@
+{
+  "root": true,
+  "extends": ["custom"],
+  "plugins": ["@tanstack/query"],
+  "env": {
+    "browser": true
+  },
+  "rules": {
+    "@tanstack/query/exhaustive-deps": "error",
+    "@tanstack/query/prefer-query-object-syntax": "error"
+  }
+}

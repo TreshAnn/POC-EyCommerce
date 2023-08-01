@@ -1,5 +1,7 @@
 // component exports
-export * from "./checkbox/Checkbox";
-export * from "./button/Button";
-export * from "./header/Header";
-export * from "./footer/Footer";
+export * from './Elements/Checkbox/Checkbox';
+export * from './footer/Footer';
+export * from './header/Header';
+
+//FORM
+export * from './Form';
