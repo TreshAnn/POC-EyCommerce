@@ -14,7 +14,7 @@ export class Image {
 
 @Schema()
 export class Product {
-  @Prop()
+  @Prop({ unique: true })
   productID: string;
 
   @Prop()
@@ -27,10 +27,10 @@ export class Product {
   productInfo: string;
 
   @Prop()
-  productPrice: string;
+  productPrice: number;
 
   @Prop()
-  productInventory: string;
+  productInventory: number;
 
   @Prop()
   productCategory: string[];
