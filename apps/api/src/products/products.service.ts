@@ -26,14 +26,14 @@ export class ProductsService {
   }
 
   async findOne(id: string): Promise<Product> {
-    const merchant = await this.productModel.findOne({ _id: id });
+    const product = await this.productModel.findOne({ _id: id });
 
-    if (!merchant) {
-      throw new NotFoundException('Merchant not found');
+    if (!product) {
+      throw new NotFoundException('Product not found');
     }
 
     //console.log(merchant);
 
-    return merchant;
+    return product;
   }
 }
