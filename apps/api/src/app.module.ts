@@ -8,6 +8,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './auth/constants';
 import { MerchantsModule } from './merchants/merchants.module';
+import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { MerchantsModule } from './merchants/merchants.module';
     AuthModule,
     UsersModule,
     MerchantsModule,
+    ProductsModule,
   ],
   controllers: [],
   providers: [
