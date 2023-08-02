@@ -1,38 +1,41 @@
+import { Type } from 'class-transformer';
 import {
   IsNotEmpty,
   IsString,
   IsEmail,
-  IsAlpha,
   IsStrongPassword,
   MinLength,
   Matches,
-  IsPhoneNumber,
   IsIn,
+  ValidateNested,
+  IsNumber,
 } from 'class-validator';
+import { AddressHasLeadingTrailingSpaces, isPhoneNumberWithTrim } from 'src/utils/custom-validations.utils';
 
 class Address {
   @IsNotEmpty()
   @IsString()
-  readonly street: string;
+  @AddressHasLeadingTrailingSpaces()
+  street: string;
 
   @IsNotEmpty()
   @IsString()
-  @IsAlpha()
-  readonly city: string;
+  @AddressHasLeadingTrailingSpaces()
+  city: string;
 
   @IsNotEmpty()
   @IsString()
-  @IsAlpha()
-  readonly region: string;
+  @AddressHasLeadingTrailingSpaces()
+  region: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  zipcode: string;
 
   @IsNotEmpty()
   @IsString()
-  readonly zipcode: string;
-
-  @IsNotEmpty()
-  @IsString()
-  @IsAlpha()
-  readonly country: string;
+  @AddressHasLeadingTrailingSpaces()
+  country: string;
 }
 
 export class CreateMerchantDto {
@@ -45,10 +48,19 @@ export class CreateMerchantDto {
 
   @IsNotEmpty()
   @IsString()
+  @Matches(/^[A-Za-z0-9]+$/, {
+    message: 'Username must contain only alphanumeric characters and no spaces.',
+  })
   readonly username: string;
 
   @IsNotEmpty()
   @IsString()
+  @Matches(
+    /^(?! )[A-Za-z0-9!@#$%^&*()_+\-=[\]{}|\\;:'",.<>/`~]+(?: [A-Za-z0-9!@#$%^&*()_+\-=[\]{}|\\;:'",.<>/`~]+)*(?<! )$/,
+    {
+      message: 'Merchant name must contain only alphanumeric characters and cannot have leading or trailing spaces',
+    },
+  )
   readonly merchantName: string;
 
   @IsNotEmpty()
@@ -78,9 +90,11 @@ export class CreateMerchantDto {
   readonly lastName: string;
 
   @IsNotEmpty()
+  @ValidateNested()
+  @Type(() => Address)
   readonly address: Address;
 
   @IsNotEmpty()
-  @IsPhoneNumber()
-  readonly phoneNumber: string;
+  @isPhoneNumberWithTrim()
+  phoneNumber: string;
 }
