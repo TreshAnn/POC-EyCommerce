@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { LoginView } from './Login/LoginView';
 import { NotFoundView } from './NotFoundView';
 import { SampleView } from './SampleView';
-import { HeaderNavBar } from 'ui';
+import { HeaderNavBar, Footer } from 'ui';
 
 export const RootView = () => {
   return (
@@ -18,6 +18,7 @@ export const RootView = () => {
           <Route path="/login" element={<LoginView />} />
         </Routes>
       </BrowserRouter>
+      <Footer />
     </MantineProvider>
   );
 };
