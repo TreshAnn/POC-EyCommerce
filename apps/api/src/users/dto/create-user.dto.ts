@@ -24,7 +24,6 @@ class Address {
 
   @IsNotEmpty()
   @IsString()
-  
   @addressHasLeadingTrailingSpaces()
   readonly city: string;
 
@@ -39,7 +38,6 @@ class Address {
 
   @IsNotEmpty()
   @IsString()
-  
   @addressHasLeadingTrailingSpaces()
   readonly country: string;
 }
