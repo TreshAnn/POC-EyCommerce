@@ -59,7 +59,7 @@ export const RegisterForm = ({ onSuccess }: IRegisterFormProps) => {
               <Stack>
                 <Title order={1}>Register</Title>
                 <Select
-                  label="Creatable Select"
+                  label="User Type"
                   data={data}
                   placeholder="Select items"
                   nothingFound="Nothing found"
