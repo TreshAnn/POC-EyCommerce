@@ -19,7 +19,7 @@ export class ProductsService {
       .findOne({ productID: createProductDto.productID })
       .exec();
     if (productAlreadyExists) {
-      throw new BadRequestException('Product ID already exists');
+      throw new BadRequestException('Product already exist');
     }
     const createdProduct = await this.productModel.create(createProductDto);
     return createdProduct;
