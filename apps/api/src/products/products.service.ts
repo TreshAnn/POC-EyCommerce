@@ -32,7 +32,6 @@ export class ProductsService {
       throw new NotFoundException('Product not found');
     }
 
-    //console.log(merchant);
 
     return product;
   }
