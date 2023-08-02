@@ -6,9 +6,7 @@ import {
   Stack,
   Text,
   TextInput,
-  Input,
   Group,
-  Flex,
   Title,
   Select,
 } from '@mantine/core';
@@ -23,7 +21,7 @@ const schema = z.object({
   password: z.string().min(8, 'Minimum Password is 8'),
 });
 
-type RegisterValues = {
+type TRegisterValues = {
   usertype: string;
   username: string;
   firstname: string;
@@ -37,11 +35,11 @@ type RegisterValues = {
   confirmpassword: string;
 };
 
-type RegisterFormProps = {
+type IRegisterFormProps = {
   onSuccess: () => void;
 };
 
-export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
+export const RegisterForm = ({ onSuccess }: IRegisterFormProps) => {
   const [data, setData] = useState([
     { value: 'consumer', label: 'Consumer' },
     { value: 'merchant', label: 'Merchant' },
@@ -50,7 +48,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
   return (
     <StyledContainer>
       <Paper radius="md" p="xl" withBorder>
-        <Form<RegisterValues, typeof schema>
+        <Form<TRegisterValues, typeof schema>
           onSubmit={async () => {
             onSuccess();
           }}
@@ -60,16 +58,13 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
             <>
               <Stack>
                 <Title order={1}>Register</Title>
-                <div style={{ display: 'none' }}>
-                  <Select
-                    value={data.values[0]}
-                    label="Creatable Select"
-                    data={data}
-                    placeholder="Select items"
-                    nothingFound="Nothing found"
-                    searchable
-                  />
-                </div>
+                <Select
+                  label="Creatable Select"
+                  data={data}
+                  placeholder="Select items"
+                  nothingFound="Nothing found"
+                  searchable
+                />
                 <TextInput
                   label="User Name"
                   placeholder="Enter your User Name..."
