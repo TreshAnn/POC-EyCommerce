@@ -24,7 +24,7 @@ class Address {
 
   @IsNotEmpty()
   @IsString()
-  @IsAlpha()
+  
   @addressHasLeadingTrailingSpaces()
   readonly city: string;
 
