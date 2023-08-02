@@ -1,181 +1,107 @@
 import {
+  Anchor,
   Avatar,
   Box,
   Burger,
   Button,
-  createStyles,
   Divider,
   Drawer,
+  Flex,
   Group,
   Header,
-  rem,
-  ScrollArea,
+  Stack,
+  Text,
+  Title,
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { useState } from 'react';
-
-const useStyles = createStyles((theme) => ({
-  link: {
-    display: 'flex',
-    alignItems: 'center',
-    height: '100%',
-    paddingLeft: theme.spacing.md,
-    paddingRight: theme.spacing.md,
-    textDecoration: 'none',
-    color: theme.colorScheme === 'dark' ? theme.white : theme.black,
-    fontWeight: 500,
-    fontSize: theme.fontSizes.sm,
-
-    [theme.fn.smallerThan('sm')]: {
-      height: rem(42),
-      display: 'flex',
-      alignItems: 'center',
-      width: '100%',
-    },
-
-    ...theme.fn.hover({
-      backgroundColor:
-        theme.colorScheme === 'dark'
-          ? theme.colors.dark[6]
-          : theme.colors.gray[0],
-    }),
-  },
-
-  subLink: {
-    width: '100%',
-    padding: `${theme.spacing.xs} ${theme.spacing.md}`,
-    borderRadius: theme.radius.md,
-
-    ...theme.fn.hover({
-      backgroundColor:
-        theme.colorScheme === 'dark'
-          ? theme.colors.dark[7]
-          : theme.colors.gray[0],
-    }),
-
-    '&:active': theme.activeStyles,
-  },
-
-  dropdownFooter: {
-    backgroundColor:
-      theme.colorScheme === 'dark'
-        ? theme.colors.dark[7]
-        : theme.colors.gray[0],
-    margin: `calc(${theme.spacing.md} * -1)`,
-    marginTop: theme.spacing.sm,
-    padding: `${theme.spacing.md} calc(${theme.spacing.md} * 2)`,
-    paddingBottom: theme.spacing.xl,
-    borderTop: `${rem(1)} solid ${
-      theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1]
-    }`,
-  },
-
-  hiddenMobile: {
-    [theme.fn.smallerThan('sm')]: {
-      display: 'none',
-    },
-  },
-
-  hiddenDesktop: {
-    [theme.fn.largerThan('sm')]: {
-      display: 'none',
-    },
-  },
-}));
 
 export const HeaderNavBar = () => {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
-  const [loggedIn, setLoggedIn] = useState<boolean>();
-  const { classes, theme } = useStyles();
+  const [verifyToken, setVerifyToken] = useState<boolean>(false);
+  const isMobile = useMediaQuery('(max-width: 976px)');
 
   return (
     <Box>
       <Header height={60} px="md">
-        <Group position="apart" sx={{ height: '100%' }}>
-          <a>EYCommerce</a>
-          <Group
-            sx={{ height: '100%' }}
-            spacing={0}
-            className={classes.hiddenMobile}
-          >
-            <a href="#" className={classes.link}>
-              Home
-            </a>
-            <a href="#" className={classes.link}>
-              About Us
-            </a>
-            <a href="#" className={classes.link}>
-              Services
-            </a>
-            <a href="#" className={classes.link}>
-              FAQ
-            </a>
-          </Group>
-          <Group className={classes.hiddenMobile}>
-            {loggedIn ? (
-              <>
-                <Avatar color="cyan" radius="xl">
-                  MK
-                </Avatar>
-              </>
-            ) : (
-              <>
-                <Button color="yellow" variant="filled">
-                  Log in
-                </Button>
-                <Button color="yellow" variant="outline">
-                  Sign up
-                </Button>
-              </>
-            )}
-          </Group>
-          <Burger
-            opened={drawerOpened}
-            onClick={toggleDrawer}
-            className={classes.hiddenDesktop}
-          />
+        <Group sx={{ height: '100%' }} position="apart" grow>
+          <Title order={3}>EYCommerce</Title>
+          {!isMobile && (
+            <>
+              <Group sx={{ height: '100%' }} spacing={40} position="center">
+                <Anchor href="#">Home</Anchor>
+                <Anchor href="#">About Us</Anchor>
+                <Anchor href="#">Services</Anchor>
+                <Anchor href="#">Contact Us</Anchor>
+                <Anchor href="#">FAQ</Anchor>
+              </Group>
+              <Group position="right">
+                {verifyToken ? (
+                  <Avatar color="cyan" radius="xl">
+                    TH
+                  </Avatar>
+                ) : (
+                  <Group>
+                    <Button color="yellow" variant="filled">
+                      Log in
+                    </Button>
+                    <Button color="yellow" variant="outline">
+                      Sign up
+                    </Button>
+                  </Group>
+                )}
+              </Group>
+            </>
+          )}
+          {isMobile && (
+            <Group position="right">
+              <Burger opened={drawerOpened} onClick={toggleDrawer} size="sm" />
+            </Group>
+          )}
         </Group>
       </Header>
       <Drawer
         opened={drawerOpened}
         onClose={closeDrawer}
-        size="100%"
-        padding="md"
-        title="Navigation"
-        className={classes.hiddenDesktop}
+        size="fit-content"
+        title="EYCommerce"
         zIndex={1000000}
+        position="top"
       >
-        <ScrollArea h={`calc(100vh - ${rem(60)})`} mx="-md">
-          <Divider
-            my="sm"
-            color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'}
-          />
-          <a href="#" className={classes.link}>
+        <Divider my="sm" />
+        <Stack align="stretch" justify="center">
+          <Anchor href="#" align="center">
             Home
-          </a>
-          <a href="#" className={classes.link}>
+          </Anchor>
+          <Anchor href="#" align="center">
             About Us
-          </a>
-          <a href="#" className={classes.link}>
+          </Anchor>
+          <Anchor href="#" align="center">
             Services
-          </a>
-          <a href="#" className={classes.link}>
+          </Anchor>
+          <Anchor href="#" align="center">
             FAQ
-          </a>
-          <Divider
-            my="sm"
-            color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'}
-          />
-          <Group position="center" grow pb="xl" px="md">
-            <Button color="yellow" variant="filled">
-              Log in
-            </Button>
-            <Button color="yellow" variant="outline">
-              Sign up
-            </Button>
-          </Group>
-        </ScrollArea>
+          </Anchor>
+          <Divider my="sm" />
+          {verifyToken ? (
+            <Group>
+              <Avatar color="cyan" radius="xl">
+                TH
+              </Avatar>
+              <Text>Tom Holland</Text>
+            </Group>
+          ) : (
+            <Group>
+              <Button color="yellow" variant="filled" fullWidth>
+                Log in
+              </Button>
+              <Button color="yellow" variant="outline" fullWidth>
+                Sign up
+              </Button>
+            </Group>
+          )}
+        </Stack>
       </Drawer>
     </Box>
   );

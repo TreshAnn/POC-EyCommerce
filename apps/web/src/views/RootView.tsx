@@ -5,10 +5,12 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { LoginView } from './Login/LoginView';
 import { NotFoundView } from './NotFoundView';
 import { SampleView } from './SampleView';
+import { HeaderNavBar } from 'ui';
 
 export const RootView = () => {
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
+      <HeaderNavBar />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SampleView />} />
