@@ -15,12 +15,16 @@ export class ProductsService {
   ) {}
 
   async create(createProductDto: CreateProductDto): Promise<Product> {
+    const productID = createProductDto.productID;
+
     const productAlreadyExists = await this.productModel
-      .findOne({ productID: createProductDto.productID })
+      .findOne({ productID: { $eq: productID } })
       .exec();
+
     if (productAlreadyExists) {
-      throw new BadRequestException('Product already exist');
+      throw new BadRequestException('Product ID already exists');
     }
+
     const createdProduct = await this.productModel.create(createProductDto);
     return createdProduct;
   }
@@ -31,7 +35,6 @@ export class ProductsService {
     if (!product) {
       throw new NotFoundException('Product not found');
     }
-
 
     return product;
   }
