@@ -8,7 +8,7 @@ function hasLeadingTrailingSpacesValidator(value: any): boolean {
   return trimmedValue === value;
 }
 
-export function AddressHasLeadingTrailingSpaces(): PropertyDecorator {
+export function addressHasLeadingTrailingSpaces(): PropertyDecorator {
   return function (object: Record<string, any>, propertyName: string) {
     registerDecorator({
       name: 'addressHasLeadingTrailingSpaces',

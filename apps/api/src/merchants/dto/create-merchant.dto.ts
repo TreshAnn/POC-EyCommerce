@@ -10,22 +10,22 @@ import {
   ValidateNested,
   IsNumber,
 } from 'class-validator';
-import { AddressHasLeadingTrailingSpaces, isPhoneNumberWithTrim } from 'src/utils/custom-validations.utils';
+import { addressHasLeadingTrailingSpaces, isPhoneNumberWithTrim } from 'src/utils/custom-validations.utils';
 
 class Address {
   @IsNotEmpty()
   @IsString()
-  @AddressHasLeadingTrailingSpaces()
+  @addressHasLeadingTrailingSpaces()
   street: string;
 
   @IsNotEmpty()
   @IsString()
-  @AddressHasLeadingTrailingSpaces()
+  @addressHasLeadingTrailingSpaces()
   city: string;
 
   @IsNotEmpty()
   @IsString()
-  @AddressHasLeadingTrailingSpaces()
+  @addressHasLeadingTrailingSpaces()
   region: string;
 
   @IsNotEmpty()
@@ -34,7 +34,7 @@ class Address {
 
   @IsNotEmpty()
   @IsString()
-  @AddressHasLeadingTrailingSpaces()
+  @addressHasLeadingTrailingSpaces()
   country: string;
 }
 
