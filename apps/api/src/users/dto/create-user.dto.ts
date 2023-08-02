@@ -39,7 +39,7 @@ class Address {
 
   @IsNotEmpty()
   @IsString()
-  @IsAlpha()
+  
   @addressHasLeadingTrailingSpaces()
   readonly country: string;
 }
