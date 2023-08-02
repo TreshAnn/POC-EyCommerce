@@ -38,4 +38,22 @@ export class ProductsService {
 
     return product;
   }
+  async findByIdAndUpdate(
+    id: string,
+    createProductDto: CreateProductDto,
+  ): Promise<Product> {
+    const updatedProduct = await this.productModel.findByIdAndUpdate(
+      { _id: id },
+      createProductDto,
+      { new: true },
+    );
+
+    if (!updatedProduct) {
+      throw new NotFoundException('User not found');
+    }
+
+    console.log(updatedProduct);
+
+    return updatedProduct;
+  }
 }

@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Get,
+  Put,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -24,5 +25,13 @@ export class ProductsController {
   @HttpCode(HttpStatus.OK)
   async findOne(@Param('id') id: string): Promise<Product> {
     return this.productsService.findOne(id);
+  }
+  @HttpCode(HttpStatus.OK)
+  @Put('update/:id')
+  async findByIdAndUpdate(
+    @Body() createProductDto: CreateProductDto,
+    @Param('id') id: string,
+  ): Promise<Product> {
+    return this.productsService.findByIdAndUpdate(id, createProductDto);
   }
 }
