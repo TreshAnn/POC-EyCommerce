@@ -3,14 +3,15 @@ import {
   Controller,
   Post,
   Get,
+  Put,
   Param,
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { User } from './schemas/user.schema';
 import { Public } from '../auth/decorators/public.decorator';
+import { User } from './schemas/user.schema';
 
 @Controller('user')
 export class UsersController {
@@ -22,6 +23,15 @@ export class UsersController {
   async create(@Body() createUserDto: CreateUserDto) {
     const createdUser = await this.userService.create(createUserDto);
     return createdUser;
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Put('update/:id')
+  async findByIdAndUpdate(
+    @Body() createUserDto: CreateUserDto,
+    @Param('id') id: string,
+  ): Promise<User> {
+    return this.userService.findByIdAndUpdate(id, createUserDto);
   }
 
   @Get(':id')

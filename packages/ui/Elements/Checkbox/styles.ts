@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const CheckboxContainer = styled.div`
   display: inline-block;
@@ -11,7 +11,7 @@ export const Icon = styled.svg`
   stroke-width: 2px;
 `;
 
-export const HiddenCheckbox = styled.input.attrs({ type: "checkbox" })`
+export const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })`
   border: 0;
   clip: rect(0 0 0 0);
   clippath: inset(50%);
@@ -28,7 +28,7 @@ export const StyledCheckbox = styled.div<{ checked: boolean }>`
   display: inline-block;
   width: 16px;
   height: 16px;
-  background: ${({ checked }) => (checked ? "salmon" : "#dcd5c9")};
+  background: ${({ checked }) => (checked ? 'salmon' : '#dcd5c9')};
   border-radius: 3px;
   transition: all 150ms;
 
@@ -37,6 +37,6 @@ export const StyledCheckbox = styled.div<{ checked: boolean }>`
   }
 
   ${Icon} {
-    visibility: ${(props) => (props.checked ? "visible" : "hidden")};
+    visibility: ${(props) => (props.checked ? 'visible' : 'hidden')};
   }
 `;

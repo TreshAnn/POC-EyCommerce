@@ -1,4 +1,4 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
 export type ProductDocument = HydratedDocument<Product>;
@@ -9,12 +9,12 @@ export class Image {
   ImgURL: string;
 
   @Prop()
-  ImgAttch: HTMLImageElement;
+  ImgAttch: string;
 }
 
 @Schema()
 export class Product {
-  @Prop()
+  @Prop({ unique: true })
   productID: string;
 
   @Prop()
@@ -27,11 +27,13 @@ export class Product {
   productInfo: string;
 
   @Prop()
-  productPrice: string;
+  productPrice: number;
 
   @Prop()
-  productInventory: string;
+  productInventory: number;
 
   @Prop()
   productCategory: string[];
 }
+
+export const ProductSchema = SchemaFactory.createForClass(Product);
