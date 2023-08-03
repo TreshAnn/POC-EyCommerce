@@ -6,7 +6,6 @@ import {
   Button,
   Divider,
   Drawer,
-  Flex,
   Group,
   Header,
   Stack,
@@ -15,11 +14,15 @@ import {
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { useState } from 'react';
+import { IoNotifications } from 'react-icons/io5';
+import { TiShoppingCart } from 'react-icons/ti';
+
+import { Dropdown } from '../dropdown/dropdown';
 
 export const HeaderNavBar = () => {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
-  const [verifyToken, setVerifyToken] = useState<boolean>(false);
+  const [verifyToken, setVerifyToken] = useState<boolean>(true);
   const isMobile = useMediaQuery('(max-width: 976px)');
 
   return (
@@ -38,9 +41,63 @@ export const HeaderNavBar = () => {
               </Group>
               <Group position="right">
                 {verifyToken ? (
-                  <Avatar color="cyan" radius="xl">
-                    TH
-                  </Avatar>
+                  <>
+                    <Dropdown
+                      target={<TiShoppingCart color="#fab005" size={36} />}
+                      menuItems={['Order 1', 'Order 2']}
+                      avatarContent={null}
+                    />
+
+                    <IoNotifications color="#fab005" size={36} />
+                    <Dropdown
+                      target={
+                        <Avatar color="cyan" radius="xl" size={50}>
+                          OR
+                        </Avatar>
+                      }
+                      menuItems={[
+                        'View Profile',
+                        'Settings',
+                        'divider',
+                        'My Orders',
+                        'My Wallet',
+                        'divider',
+                        'Log Out',
+                      ]}
+                      avatarContent={
+                        <div
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 10,
+                            paddingLeft: 8,
+                            paddingTop: 2,
+                          }}
+                        >
+                          <Avatar
+                            size="md"
+                            src="/vite.svg"
+                            alt="User Photo"
+                            style={{
+                              borderRadius: '50%',
+                              border: '1px solid #000',
+                            }}
+                          />
+                          <div>
+                            <div style={{ flex: 1 }}>
+                              <Text size="sm" weight={500}>
+                                Olivia Rhye
+                              </Text>
+
+                              <Text color="dimmed" size="xs">
+                                beta@email.com
+                              </Text>
+                            </div>
+                          </div>
+                        </div>
+                      }
+                    />
+                  </>
                 ) : (
                   <Group>
                     <Button color="yellow" variant="filled">
@@ -56,6 +113,8 @@ export const HeaderNavBar = () => {
           )}
           {isMobile && (
             <Group position="right">
+              <TiShoppingCart color="#fab005" size={30} />
+              <IoNotifications color="#fab005" size={30} />
               <Burger opened={drawerOpened} onClick={toggleDrawer} size="sm" />
             </Group>
           )}
@@ -85,11 +144,27 @@ export const HeaderNavBar = () => {
           </Anchor>
           <Divider my="sm" />
           {verifyToken ? (
-            <Group>
-              <Avatar color="cyan" radius="xl">
-                TH
-              </Avatar>
-              <Text>Tom Holland</Text>
+            <Group style={{ display: 'block' }}>
+              {/* <div style={{ display: 'flex', alignItems: 'center' }}>
+                <TiShoppingCart color="#fab005" size={36} />
+                <Text style={{ marginLeft: '10px', verticalAlign: 'middle' }}>
+                  My Cart
+                </Text>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <IoNotifications color="#fab005" size={36} />
+                <Text style={{ marginLeft: '10px', verticalAlign: 'middle' }}>
+                  Notifications
+                </Text>
+              </div> */}
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Avatar color="cyan" radius="xl">
+                  TH
+                </Avatar>
+                <Text style={{ marginLeft: '10px', verticalAlign: 'middle' }}>
+                  Tom Holland
+                </Text>
+              </div>
             </Group>
           ) : (
             <Group>
