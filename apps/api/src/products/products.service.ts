@@ -44,26 +44,28 @@ export class ProductsService {
     createProductDto: CreateProductDto,
   ): Promise<Product> {
     const productID = createProductDto.productID;
+
     const productAlreadyExists = await this.productModel
-      .findOne({ productID: { $eq: productID }, _id: { $ne: id } })
+      .findOne({ productID: productID, _id: { $ne: id } })
       .exec();
 
     if (productAlreadyExists) {
       throw new BadRequestException('Product ID already exists');
     }
 
+    const updateObject = {
+      productName: createProductDto.productName,
+      productInfo: createProductDto.productInfo,
+      productPrice: createProductDto.productPrice,
+      productInventory: createProductDto.productInventory,
+      productCategory: createProductDto.productCategory,
+      'productImg.ImgURL': createProductDto.productImg.ImgURL,
+      'productImg.ImgAttch': createProductDto.productImg.ImgAttch,
+    };
+
     const updatedProduct = await this.productModel.findByIdAndUpdate(
-      { _id: id },
-      {
-        productName: createProductDto.productName,
-        productID: createProductDto.productID,
-        productInfo: createProductDto.productInfo,
-        productPrice: createProductDto.productPrice,
-        productInventory: createProductDto.productInventory,
-        productCategory: createProductDto.productCategory,
-        ImageURL: createProductDto.productImg.ImgURL,
-        ImgAttch: createProductDto.productImg.ImgAttch,
-      },
+      id,
+      updateObject,
       { new: true },
     );
 
