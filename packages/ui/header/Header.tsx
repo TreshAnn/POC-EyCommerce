@@ -43,8 +43,12 @@ export const HeaderNavBar = () => {
                 {verifyToken ? (
                   <>
                     <Dropdown
-                      target={<TiShoppingCart color="#fab005" size={36} />}
-                      menuItems={['Order 1', 'Order 2']}
+                      target={
+                        <Avatar>
+                          <TiShoppingCart color="#fab005" size={36} />
+                        </Avatar>
+                      }
+                      menuItems={['Order 1', 'Order 2', 'Order 3']}
                       avatarContent={null}
                     />
 
@@ -145,18 +149,6 @@ export const HeaderNavBar = () => {
           <Divider my="sm" />
           {verifyToken ? (
             <Group style={{ display: 'block' }}>
-              {/* <div style={{ display: 'flex', alignItems: 'center' }}>
-                <TiShoppingCart color="#fab005" size={36} />
-                <Text style={{ marginLeft: '10px', verticalAlign: 'middle' }}>
-                  My Cart
-                </Text>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <IoNotifications color="#fab005" size={36} />
-                <Text style={{ marginLeft: '10px', verticalAlign: 'middle' }}>
-                  Notifications
-                </Text>
-              </div> */}
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Avatar color="cyan" radius="xl">
                   TH
