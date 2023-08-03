@@ -46,24 +46,16 @@ export class ProductsService {
     const productID = createProductDto.productID;
 
     const productAlreadyExists = await this.productModel
-      .findOne({ productID: productID, _id: { $ne: id } })
+      .findOne({ productID: { $eq: productID }, _id: { $ne: id } })
       .exec();
 
     if (productAlreadyExists) {
       throw new BadRequestException('Product ID already exists');
     }
 
-    const updateObject = {
-      productName: createProductDto.productName,
-      productInfo: createProductDto.productInfo,
-      productPrice: createProductDto.productPrice,
-      productInventory: createProductDto.productInventory,
-      productCategory: createProductDto.productCategory,
-    };
-
     const updatedProduct = await this.productModel.findByIdAndUpdate(
-      id,
-      updateObject,
+      { _id: id },
+      createProductDto,
       { new: true },
     );
 
@@ -72,7 +64,6 @@ export class ProductsService {
     }
 
     console.log(updatedProduct);
-
     return updatedProduct;
   }
 }
