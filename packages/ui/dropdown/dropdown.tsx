@@ -1,12 +1,14 @@
-import { Avatar, Button, Menu, Text } from '@mantine/core';
+import { Avatar, Menu, Text } from '@mantine/core';
 import { Link } from 'react-router-dom';
 
-export const Dropdown = () => {
+interface DropdownProps {
+  target: React.ReactNode;
+}
+
+export const Dropdown: React.FC<DropdownProps> = ({ target }) => {
   return (
-    <Menu withArrow shadow="md" width={200} position="bottom-start">
-      <Menu.Target>
-        <Button>Menu</Button>
-      </Menu.Target>
+    <Menu shadow="md" width={200} position="bottom-start">
+      <Menu.Target>{target}</Menu.Target>
 
       <Menu.Dropdown>
         <div
@@ -19,8 +21,6 @@ export const Dropdown = () => {
           }}
         >
           <Avatar
-            component={Link}
-            to="/my-route/"
             size="md"
             src="/vite.svg"
             alt="User Photo"
