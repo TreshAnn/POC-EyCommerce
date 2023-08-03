@@ -16,7 +16,6 @@ import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { useState } from 'react';
 import { IoNotifications } from 'react-icons/io5';
 import { TiShoppingCart } from 'react-icons/ti';
-import { Link } from 'react-router-dom';
 
 import { Dropdown } from '../dropdown/dropdown';
 
@@ -43,13 +42,59 @@ export const HeaderNavBar = () => {
               <Group position="right">
                 {verifyToken ? (
                   <>
-                    <TiShoppingCart color="#fab005" size={36} />
+                    <Dropdown
+                      target={<TiShoppingCart color="#fab005" size={36} />}
+                      menuItems={['Order 1', 'Order 2']}
+                      avatarContent={null}
+                    />
+
                     <IoNotifications color="#fab005" size={36} />
                     <Dropdown
                       target={
                         <Avatar color="cyan" radius="xl" size={50}>
                           OR
                         </Avatar>
+                      }
+                      menuItems={[
+                        'View Profile',
+                        'Settings',
+                        'divider',
+                        'My Orders',
+                        'My Wallet',
+                        'divider',
+                        'Log Out',
+                      ]}
+                      avatarContent={
+                        <div
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 10,
+                            paddingLeft: 8,
+                            paddingTop: 2,
+                          }}
+                        >
+                          <Avatar
+                            size="md"
+                            src="/vite.svg"
+                            alt="User Photo"
+                            style={{
+                              borderRadius: '50%',
+                              border: '1px solid #000',
+                            }}
+                          />
+                          <div>
+                            <div style={{ flex: 1 }}>
+                              <Text size="sm" weight={500}>
+                                Olivia Rhye
+                              </Text>
+
+                              <Text color="dimmed" size="xs">
+                                beta@email.com
+                              </Text>
+                            </div>
+                          </div>
+                        </div>
                       }
                     />
                   </>

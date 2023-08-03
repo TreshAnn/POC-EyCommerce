@@ -1,11 +1,11 @@
 import { MantineProvider } from '@mantine/core';
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HeaderNavBar } from 'ui';
 
 import { LoginView } from './Login/LoginView';
 import { NotFoundView } from './NotFoundView';
 import { SampleView } from './SampleView';
-import { HeaderNavBar } from 'ui';
 
 export const RootView = () => {
   return (
