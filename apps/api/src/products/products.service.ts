@@ -54,8 +54,16 @@ export class ProductsService {
 
     const updatedProduct = await this.productModel.findByIdAndUpdate(
       { _id: id },
-      createProductDto,
-      { new: true },
+      {
+        productName: createProductDto.productName,
+        productID: createProductDto.productID,
+        productInfo: createProductDto.productInfo,
+        productPrice: createProductDto.productPrice,
+        productInventory: createProductDto.productInventory,
+        productCategory: createProductDto.productCategory,
+        ImageURL: createProductDto.productImg.ImgURL,
+        ImgAttch: createProductDto.productImg.ImgAttch,
+      },
     );
 
     if (!updatedProduct) {
