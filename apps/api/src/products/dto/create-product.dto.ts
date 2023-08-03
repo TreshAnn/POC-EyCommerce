@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsString, IsArray, IsNumber } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  IsArray,
+  IsNumber,
+  Matches,
+} from 'class-validator';
 export class ImageDto {
   @IsNotEmpty()
   @IsString()
@@ -10,11 +16,14 @@ export class ImageDto {
 }
 export class CreateProductDto {
   @IsNotEmpty()
-  @IsString()
-  readonly productID: string;
+  readonly productImg: ImageDto;
 
   @IsNotEmpty()
-  readonly productImg: ImageDto;
+  @IsString()
+  @Matches(/^product\d{5}$/, {
+    message: 'ProductID must be product + 5 digit number',
+  })
+  readonly productID: string;
 
   @IsString()
   @IsNotEmpty()
