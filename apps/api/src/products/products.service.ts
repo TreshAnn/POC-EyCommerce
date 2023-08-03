@@ -64,6 +64,7 @@ export class ProductsService {
         ImageURL: createProductDto.productImg.ImgURL,
         ImgAttch: createProductDto.productImg.ImgAttch,
       },
+      { new: true },
     );
 
     if (!updatedProduct) {
