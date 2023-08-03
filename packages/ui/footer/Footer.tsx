@@ -1,16 +1,10 @@
-import {
-  Anchor,
-  Box,
-  Container,
-  Divider,
-  Group,
-  Stack,
-  Text,
-  Title,
-} from '@mantine/core';
+import { Container, Divider, Group, Stack, Text, Title } from '@mantine/core';
 import { StyledAnchor, StyledBox } from './style';
+import { useMediaQuery } from '@mantine/hooks';
 
 export const Footer = () => {
+  const isMobile = useMediaQuery('(max-width: 588px)');
+
   return (
     <StyledBox>
       <Container size="100%">
@@ -24,14 +18,18 @@ export const Footer = () => {
             <StyledAnchor href="#">FAQ</StyledAnchor>
           </Group>
           <Divider my="sm" />
-          <Group position="apart" grow>
-            <Text>@2019 All Rights Reserved</Text>
-            <Group position="right">
-              <StyledAnchor href="#">Terms</StyledAnchor>
-              <StyledAnchor href="#">Privacy</StyledAnchor>
-              <StyledAnchor href="#">Cookies</StyledAnchor>
+          {!isMobile ? (
+            <Group position="apart" grow>
+              <Text>@2019 All Rights Reserved</Text>
+              <Group position="right">
+                <StyledAnchor href="#">Terms</StyledAnchor>
+                <StyledAnchor href="#">Privacy</StyledAnchor>
+                <StyledAnchor href="#">Cookies</StyledAnchor>
+              </Group>
             </Group>
-          </Group>
+          ) : (
+            <Text align="center">@2019 All Rights Reserved</Text>
+          )}
         </Stack>
       </Container>
     </StyledBox>
