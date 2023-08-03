@@ -31,6 +31,7 @@ export class MerchantsService {
       username: createMerchantDto.username,
       email: createMerchantDto.email,
       password: createMerchantDto.password,
+      isActive: true,
     };
 
     const hashedPassword = await bcrypt.hash(createMerchantDto.password, 10);
@@ -55,8 +56,6 @@ export class MerchantsService {
     if (!merchant) {
       throw new NotFoundException('Merchant not found');
     }
-
-    //console.log(merchant);
 
     return merchant;
   }
