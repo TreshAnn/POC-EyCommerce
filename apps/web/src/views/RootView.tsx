@@ -8,7 +8,22 @@ import { SampleView } from './SampleView';
 
 export const RootView = () => {
   return (
-    <MantineProvider withGlobalStyles withNormalizeCSS>
+    <MantineProvider
+      withGlobalStyles
+      withNormalizeCSS
+      theme={{
+        components: {
+          Button: {
+            defaultProps: {
+              size: 'md',
+              color: 'yellow',
+              radius: 'md',
+              mt: 'md',
+            },
+          },
+        },
+      }}
+    >
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SampleView />} />
