@@ -59,8 +59,6 @@ export class ProductsService {
       productPrice: createProductDto.productPrice,
       productInventory: createProductDto.productInventory,
       productCategory: createProductDto.productCategory,
-      'productImg.ImgURL': createProductDto.productImg.ImgURL,
-      'productImg.ImgAttch': createProductDto.productImg.ImgAttch,
     };
 
     const updatedProduct = await this.productModel.findByIdAndUpdate(
