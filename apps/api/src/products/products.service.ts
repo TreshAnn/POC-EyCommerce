@@ -38,10 +38,20 @@ export class ProductsService {
 
     return product;
   }
+
   async findByIdAndUpdate(
     id: string,
     createProductDto: CreateProductDto,
   ): Promise<Product> {
+    const productID = createProductDto.productID;
+    const productAlreadyExists = await this.productModel
+      .findOne({ productID: { $eq: productID }, _id: { $ne: id } })
+      .exec();
+
+    if (productAlreadyExists) {
+      throw new BadRequestException('Product ID already exists');
+    }
+
     const updatedProduct = await this.productModel.findByIdAndUpdate(
       { _id: id },
       createProductDto,
@@ -49,7 +59,7 @@ export class ProductsService {
     );
 
     if (!updatedProduct) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Product not found');
     }
 
     console.log(updatedProduct);
