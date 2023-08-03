@@ -44,7 +44,7 @@ export const HeaderNavBar = () => {
                   <>
                     <Dropdown
                       target={
-                        <Avatar>
+                        <Avatar color="none">
                           <TiShoppingCart color="#fab005" size={36} />
                         </Avatar>
                       }
