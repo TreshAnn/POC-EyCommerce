@@ -1,22 +1,16 @@
-import { Text } from '@mantine/core';
 import styled from 'styled-components';
 
-export const StyledMenuItemsCol = styled.div`
-  display: flex;
-  flex-direction: column;
+export const AvatarContainer = styled.div`
   justify-content: flex-start;
+  display: flex;
   align-items: center;
+  gap: 10px;
+  padding-left: 8px;
+  padding-top: 2px;
 `;
 
-export const StyledMenuItemsRow = styled.div`
+export const CartTextWrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 20px;
-
-  & ${Text} {
-    width: 100%;
-  }
+  align-items: center;
+  justify-content: space-between;
 `;
