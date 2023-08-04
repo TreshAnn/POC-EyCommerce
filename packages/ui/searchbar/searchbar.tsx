@@ -1,33 +1,20 @@
 import { ActionIcon, Center, Select, TextInput } from '@mantine/core';
 import { HiOutlineSearch } from 'react-icons/hi';
 
+import {
+  ComponentWrapper,
+  LabelWrapper,
+  SelectWrapper,
+  Wrapper,
+} from './style';
+
 export const Searchbar = () => {
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        height: '70px',
-      }}
-    >
-      <div
-        style={{
-          width: '60%',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
+    <Wrapper>
+      <ComponentWrapper>
         <TextInput
+          className="search-input"
           radius="xl"
-          style={{
-            borderBottom: '1px solid #00000040',
-            borderRadius: '20px',
-            width: 'calc(100% - 42px)',
-            boxShadow: '0px 2px 2px 0px rgba(0, 0, 0, 0.25)',
-          }}
           rightSection={
             <ActionIcon size={32} radius="xl">
               <HiOutlineSearch />
@@ -36,30 +23,13 @@ export const Searchbar = () => {
           placeholder="Ask me anything..."
           rightSectionWidth={42}
         />
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <label
-            style={{
-              width: '70px',
-              display: 'inline-block',
-              marginLeft: '10px',
-              fontSize: '16px',
-              lineHeight: '24px',
-              textAlign: 'center',
-            }}
-          >
-            Sort By:
-          </label>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <LabelWrapper style={{ display: 'flex', alignItems: 'center' }}>
+          <label>Sort By:</label>
+        </LabelWrapper>
+        <SelectWrapper>
           <Select
+            className="select select-sort"
             radius="xl"
-            style={{
-              marginRight: '5px',
-              width: '100px',
-              borderBottom: '1px solid #00000040',
-              borderRadius: '20px',
-              boxShadow: '0px 2px 2px 0px rgba(0, 0, 0, 0.25)',
-            }}
             data={[
               { value: 'latest', label: 'Latest' },
               { value: 'oldest', label: 'Oldest' },
@@ -69,21 +39,15 @@ export const Searchbar = () => {
             ]}
           />
           <Select
+            className="select select-order"
             radius="xl"
-            style={{
-              marginRight: '5px',
-              width: '90px',
-              borderBottom: '1px solid #00000040',
-              borderRadius: '20px',
-              boxShadow: '0px 2px 2px 0px rgba(0, 0, 0, 0.25)',
-            }}
             data={[
               { value: 'asc', label: 'Asc' },
               { value: 'desc', label: 'Desc' },
             ]}
           />
-        </div>
-      </div>
-    </div>
+        </SelectWrapper>
+      </ComponentWrapper>
+    </Wrapper>
   );
 };
