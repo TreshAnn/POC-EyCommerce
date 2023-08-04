@@ -40,7 +40,7 @@ type IRegisterFormProps = {
 };
 
 export const RegisterForm = ({ onSuccess }: IRegisterFormProps) => {
-  const [data] = useState([
+  const [data, setData] = useState([
     { value: 'consumer', label: 'Consumer' },
     { value: 'merchant', label: 'Merchant' },
   ]);
