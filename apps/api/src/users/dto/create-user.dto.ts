@@ -1,4 +1,3 @@
-import { Type } from 'class-transformer';
 import {
   IsNotEmpty,
   IsString,
@@ -7,38 +6,32 @@ import {
   IsStrongPassword,
   MinLength,
   Matches,
+  IsPhoneNumber,
   IsIn,
-  ValidateNested,
-  IsNumber,
 } from 'class-validator';
-import {
-  addressHasLeadingTrailingSpaces,
-  isPhoneNumberWithTrim,
-} from '../../utils/custom-validations.utils';
 
 class Address {
   @IsNotEmpty()
   @IsString()
-  @addressHasLeadingTrailingSpaces()
   readonly street: string;
 
   @IsNotEmpty()
   @IsString()
-  @addressHasLeadingTrailingSpaces()
+  @IsAlpha()
   readonly city: string;
 
   @IsNotEmpty()
   @IsString()
-  @addressHasLeadingTrailingSpaces()
+  @IsAlpha()
   readonly region: string;
 
   @IsNotEmpty()
-  @IsNumber()
+  @IsString()
   readonly zipcode: string;
 
   @IsNotEmpty()
   @IsString()
-  @addressHasLeadingTrailingSpaces()
+  @IsAlpha()
   readonly country: string;
 }
 
@@ -52,10 +45,6 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   @IsString()
-  @Matches(/^[A-Za-z0-9]+$/, {
-    message:
-      'Username must contain only alphanumeric characters and no spaces.',
-  })
   readonly username: string;
 
   @IsNotEmpty()
@@ -88,11 +77,9 @@ export class CreateUserDto {
   readonly lastName: string;
 
   @IsNotEmpty()
-  @ValidateNested()
-  @Type(() => Address)
   readonly address: Address;
 
   @IsNotEmpty()
-  @isPhoneNumberWithTrim()
+  @IsPhoneNumber()
   readonly phoneNumber: string;
 }

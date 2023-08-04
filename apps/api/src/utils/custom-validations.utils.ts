@@ -1,8 +1,4 @@
-import {
-  registerDecorator,
-  ValidationOptions,
-  isPhoneNumber as isPhoneNumberValidator,
-} from 'class-validator';
+import { registerDecorator, ValidationOptions, isPhoneNumber as isPhoneNumberValidator } from 'class-validator';
 
 function hasLeadingTrailingSpacesValidator(value: any): boolean {
   if (typeof value !== 'string') {
@@ -30,9 +26,7 @@ export function addressHasLeadingTrailingSpaces(): PropertyDecorator {
   };
 }
 
-export function isPhoneNumberWithTrim(
-  options?: ValidationOptions,
-): PropertyDecorator {
+export function isPhoneNumberWithTrim(options?: ValidationOptions): PropertyDecorator {
   return function (object: Record<string, any>, propertyName: string) {
     registerDecorator({
       name: 'isPhoneNumberWithTrim',
@@ -45,10 +39,7 @@ export function isPhoneNumberWithTrim(
             return false;
           }
           const trimmedValue = value.trim();
-          return (
-            isPhoneNumberValidator(trimmedValue, undefined) &&
-            trimmedValue === value
-          );
+          return isPhoneNumberValidator(trimmedValue, undefined) && trimmedValue === value;
         },
         defaultMessage(): string {
           return 'Invalid phone number format. Phone number must not have leading or trailing spaces and should be a valid phone number.';

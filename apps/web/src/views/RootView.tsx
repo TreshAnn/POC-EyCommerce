@@ -1,6 +1,7 @@
 import { MantineProvider } from '@mantine/core';
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HeaderNavBar } from 'ui';
 
 import { HeaderNavBar } from 'ui/nav/Header';
 import { Footer } from 'ui/nav/Footer';

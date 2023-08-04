@@ -10,10 +10,7 @@ import {
   ValidateNested,
   IsNumber,
 } from 'class-validator';
-import {
-  addressHasLeadingTrailingSpaces,
-  isPhoneNumberWithTrim,
-} from 'src/utils/custom-validations.utils';
+import { addressHasLeadingTrailingSpaces, isPhoneNumberWithTrim } from 'src/utils/custom-validations.utils';
 
 class Address {
   @IsNotEmpty()
@@ -52,8 +49,7 @@ export class CreateMerchantDto {
   @IsNotEmpty()
   @IsString()
   @Matches(/^[A-Za-z0-9]+$/, {
-    message:
-      'Username must contain only alphanumeric characters and no spaces.',
+    message: 'Username must contain only alphanumeric characters and no spaces.',
   })
   readonly username: string;
 
@@ -62,8 +58,7 @@ export class CreateMerchantDto {
   @Matches(
     /^(?! )[A-Za-z0-9!@#$%^&*()_+\-=[\]{}|\\;:'",.<>/`~]+(?: [A-Za-z0-9!@#$%^&*()_+\-=[\]{}|\\;:'",.<>/`~]+)*(?<! )$/,
     {
-      message:
-        'Merchant name must contain only alphanumeric characters and cannot have leading or trailing spaces',
+      message: 'Merchant name must contain only alphanumeric characters and cannot have leading or trailing spaces',
     },
   )
   readonly merchantName: string;
