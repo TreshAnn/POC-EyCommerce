@@ -4,6 +4,24 @@ import { HydratedDocument } from 'mongoose';
 export type CartDocument = HydratedDocument<Cart>;
 
 @Schema()
+export class Items {
+  @Prop()
+  product_id: string;
+
+  @Prop()
+  productImg: string;
+
+  @Prop()
+  productName: string;
+
+  @Prop()
+  productPrice: number;
+
+  @Prop()
+  quantity: number;
+}
+
+@Schema()
 export class Cart {
   @Prop()
   orderDate: string;
@@ -12,7 +30,7 @@ export class Cart {
   orderStatus: string;
 
   @Prop()
-  orderItems: string;
+  orderedItems: Items;
 
   @Prop()
   totalAmount: number;
