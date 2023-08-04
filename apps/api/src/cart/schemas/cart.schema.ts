@@ -30,7 +30,7 @@ export class Cart {
   orderStatus: string;
 
   @Prop()
-  orderedItems: Items;
+orderedItems:  Items[]
 
   @Prop()
   totalAmount: number;
