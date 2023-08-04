@@ -5,8 +5,8 @@ export type CartDocument = HydratedDocument<Cart>;
 
 @Schema()
 export class Items {
-  @Prop()
-  product_id: string;
+  @Prop({ type: ProductSchema, ref: Product.name })
+  product_id: Product;
 
   @Prop()
   productImg: string;
