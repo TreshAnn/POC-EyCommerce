@@ -1,12 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
+import { Product, ProductSchema } from '../../products/schemas/products.schema';
 
 export type CartDocument = HydratedDocument<Cart>;
 
 @Schema()
 export class Items {
   @Prop({ type: ProductSchema, ref: Product.name })
-  product_id: Product;
+  product_id: string;
 
   @Prop()
   productImg: string;
@@ -30,7 +31,7 @@ export class Cart {
   orderStatus: string;
 
   @Prop()
-orderedItems:  Items[]
+  orderedItems: Items[];
 
   @Prop()
   totalAmount: number;
