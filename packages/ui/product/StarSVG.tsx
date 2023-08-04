@@ -4,7 +4,7 @@ interface SvgProps {
   fill: string;
 }
 
-const Star: FC<SvgProps> = ({ fill }) => {
+const StarSVG: FC<SvgProps> = ({ fill }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -23,4 +23,4 @@ const Star: FC<SvgProps> = ({ fill }) => {
   );
 };
 
-export default Star;
+export default StarSVG;
