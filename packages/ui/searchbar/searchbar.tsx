@@ -1,6 +1,7 @@
 import { ActionIcon, Center, Select, TextInput } from '@mantine/core';
 import { HiOutlineSearch } from 'react-icons/hi';
 
+import { orderData, sortData } from './data.sample';
 import {
   ComponentWrapper,
   LabelWrapper,
@@ -27,24 +28,11 @@ export const Searchbar = () => {
           <label>Sort By:</label>
         </LabelWrapper>
         <SelectWrapper>
-          <Select
-            className="select select-sort"
-            radius="xl"
-            data={[
-              { value: 'latest', label: 'Latest' },
-              { value: 'oldest', label: 'Oldest' },
-              { value: 'highP', label: 'Highest' },
-              { value: 'lowP', label: 'Lowest' },
-              { value: 'cuisine', label: 'Cuisine' },
-            ]}
-          />
+          <Select className="select select-sort" radius="xl" data={sortData} />
           <Select
             className="select select-order"
             radius="xl"
-            data={[
-              { value: 'asc', label: 'Asc' },
-              { value: 'desc', label: 'Desc' },
-            ]}
+            data={orderData}
           />
         </SelectWrapper>
       </ComponentWrapper>
