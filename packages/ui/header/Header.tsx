@@ -11,6 +11,7 @@ import {
   Stack,
   Text,
   Title,
+  UnstyledButton,
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { useState } from 'react';
@@ -18,6 +19,7 @@ import { IoNotifications } from 'react-icons/io5';
 import { TiShoppingCart } from 'react-icons/ti';
 
 import { Dropdown } from '../dropdown/dropdown';
+import { AvatarContainer, CartTextWrapper } from './style';
 
 export const HeaderNavBar = () => {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
@@ -44,12 +46,21 @@ export const HeaderNavBar = () => {
                   <>
                     <Dropdown
                       target={
-                        <Avatar color="none">
+                        <UnstyledButton>
                           <TiShoppingCart color="#fab005" size={36} />
-                        </Avatar>
+                        </UnstyledButton>
                       }
                       menuItems={['Order 1', 'Order 2', 'Order 3']}
-                      avatarContent={null}
+                      avatarContent={
+                        <CartTextWrapper>
+                          <Text size="sm" weight={500}>
+                            My Cart (4)
+                          </Text>
+                          <Text size="xs" color="#fab005" weight={500}>
+                            View all
+                          </Text>
+                        </CartTextWrapper>
+                      }
                     />
 
                     <IoNotifications color="#fab005" size={36} />
@@ -69,15 +80,7 @@ export const HeaderNavBar = () => {
                         'Log Out',
                       ]}
                       avatarContent={
-                        <div
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 10,
-                            paddingLeft: 8,
-                            paddingTop: 2,
-                          }}
-                        >
+                        <AvatarContainer>
                           <Avatar
                             size="md"
                             src="/vite.svg"
@@ -98,7 +101,7 @@ export const HeaderNavBar = () => {
                               </Text>
                             </div>
                           </div>
-                        </div>
+                        </AvatarContainer>
                       }
                     />
                   </>
