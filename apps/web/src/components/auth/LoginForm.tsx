@@ -37,12 +37,11 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
       <Paper radius="md" p="xl" withBorder>
         <Form<TLoginValues, typeof schema>
           onSubmit={(values) => {
-            // eslint-disable-next-line no-console
-            console.log('sample');
-            login.mutate(values);
-            if (login.isSuccess) {
-              onSuccess();
-            }
+            login.mutate(values, {
+              onSuccess: () => {
+                onSuccess();
+              },
+            });
           }}
           schema={schema}
         >
