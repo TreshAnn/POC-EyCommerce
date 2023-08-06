@@ -12,15 +12,16 @@ import React from 'react';
 import { Form } from 'ui';
 import * as z from 'zod';
 
+import { useLogin } from '../../lib/auth';
 import { StyledContainer } from './styles';
 
 const schema = z.object({
-  email: z.string().min(1, 'Required'),
+  username: z.string().min(1, 'Required'),
   password: z.string().min(8, 'Minimum Password is 8'),
 });
 
-type LoginValues = {
-  email: string;
+type TLoginValues = {
+  username: string;
   password: string;
 };
 
@@ -29,28 +30,37 @@ type LoginFormProps = {
 };
 
 export const LoginForm = ({ onSuccess }: LoginFormProps) => {
+  const login = useLogin();
+
   return (
     <StyledContainer>
       <Paper radius="md" p="xl" withBorder>
-        <Form<LoginValues, typeof schema>
-          onSubmit={async () => {
-            onSuccess();
+        <Form<TLoginValues, typeof schema>
+          onSubmit={(values) => {
+            // eslint-disable-next-line no-console
+            console.log('sample');
+            login.mutate(values);
+            if (login.isSuccess) {
+              onSuccess();
+            }
           }}
           schema={schema}
         >
-          {({ formState }) => (
+          {({ formState, register }) => (
             <>
               <Stack>
                 <TextInput
-                  label="Email"
-                  placeholder="Enter your email"
+                  label="Username"
+                  placeholder="Enter your username"
                   required
-                  type="email"
+                  type="text"
+                  {...register('username')}
                 />
                 <PasswordInput
                   label="Password"
                   placeholder="Enter your password"
                   required
+                  {...register('password')}
                 />
                 <Button color="yellow" variant="filled" type="submit">
                   Login

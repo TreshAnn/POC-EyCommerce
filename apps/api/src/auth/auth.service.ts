@@ -28,6 +28,10 @@ export class AuthService {
   async signIn(rq: LoginDto) {
     const user = await this.findUserName(rq.username);
 
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+
     if (!(await compare(rq.password, user.password))) {
       throw new UnauthorizedException();
     }
