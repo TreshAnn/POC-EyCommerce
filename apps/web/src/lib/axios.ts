@@ -29,7 +29,7 @@ axios.interceptors.response.use(
       withCloseButton: true,
       autoClose: 3000,
       message: message,
-      color: 'yellow',
+      color: 'red',
     });
     return Promise.reject(error);
   },
