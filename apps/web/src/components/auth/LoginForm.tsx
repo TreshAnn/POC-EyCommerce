@@ -53,12 +53,14 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
                   placeholder="Enter your username"
                   required
                   type="text"
+                  error={formState.errors['username']?.message}
                   {...register('username')}
                 />
                 <PasswordInput
                   label="Password"
                   placeholder="Enter your password"
                   required
+                  error={formState.errors['password']?.message}
                   {...register('password')}
                 />
                 <Button color="yellow" variant="filled" type="submit">
