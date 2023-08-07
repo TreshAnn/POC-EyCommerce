@@ -20,7 +20,7 @@ const theme: MantineThemeOverride = {
     Button: {
       defaultProps: {
         size: 'md',
-        color: 'yellow',
+        color: 'brand',
         radius: 'md',
         mt: 'md',
       },
