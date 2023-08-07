@@ -11,11 +11,11 @@ export const CardWrapper = styled.div`
   // display: flex; TO DO - add this when used for the catalog page
 `;
 
-export const CardDetails = styled.div`
+export const ContentWrapper = styled.div`
   margin: 1.25rem 0.1rem;
 `;
 
-export const CardComponent = styled.div`
+export const DetailsWrapper = styled.div`
   margin-bottom: 0.62rem;
   &.product-rating {
     margin-left: -4px;
