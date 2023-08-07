@@ -9,10 +9,11 @@ import { LoginView } from './Login/LoginView';
 import { NotFoundView } from './NotFoundView';
 import { SampleView } from './SampleView';
 import { RegisterView } from './Register/RegisterView';
+import theme from '../styles/theme';
 
 export const RootView = () => {
   return (
-    <MantineProvider withGlobalStyles withNormalizeCSS>
+    <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
       <HeaderNavBar />
       <BrowserRouter>
         <Routes>
