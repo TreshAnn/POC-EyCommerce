@@ -1,7 +1,7 @@
 // component exports
 export * from './Elements/Checkbox/Checkbox';
-export * from './footer/Footer';
-export * from './header/Header';
+export * from './nav/Header';
+export * from './nav/Footer';
 
 //FORM
 export * from './Form';

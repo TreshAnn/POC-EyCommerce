@@ -7,7 +7,6 @@ import { compare } from 'bcrypt';
 import {
   BadRequestException,
   Injectable,
-  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 
@@ -49,23 +48,5 @@ export class AuthService {
     }
 
     return await this.authModel.create(createAuthDto);
-  }
-
-  async deactivateAccount(id: string) {
-    const user = await this.authModel.findOne({ _id: id });
-
-    if (!user) {
-      throw new NotFoundException('User not found.');
-    }
-
-    await this.authModel.findByIdAndUpdate(
-      { _id: user.id },
-      { isActive: false },
-      {
-        new: true,
-      },
-    );
-
-    return 'Account is deactivated.';
   }
 }

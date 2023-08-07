@@ -1,10 +1,15 @@
 import React from 'react';
-import { Searchbar } from '../../../../packages/ui/searchbar/searchbar';
 
 export const SampleView = () => {
   return (
-    <>
-      <Searchbar />
-    </>
+    <main>
+      <section>
+        <h1>Hello world!</h1>
+        <h1>Ey React App Boilerplate made by DanDalanDone!</h1>
+        <div>
+          <br />
+        </div>
+      </section>
+    </main>
   );
 };
