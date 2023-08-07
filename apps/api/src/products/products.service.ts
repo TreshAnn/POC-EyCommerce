@@ -62,8 +62,6 @@ export class ProductsService {
     if (!updatedProduct) {
       throw new NotFoundException('Product not found');
     }
-
-    console.log(updatedProduct);
     return updatedProduct;
   }
 }
