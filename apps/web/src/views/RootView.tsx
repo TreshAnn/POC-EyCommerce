@@ -5,25 +5,11 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { LoginView } from './Login/LoginView';
 import { NotFoundView } from './NotFoundView';
 import { SampleView } from './SampleView';
+import theme from '../styles/theme';
 
 export const RootView = () => {
   return (
-    <MantineProvider
-      withGlobalStyles
-      withNormalizeCSS
-      theme={{
-        components: {
-          Button: {
-            defaultProps: {
-              size: 'md',
-              color: 'yellow',
-              radius: 'md',
-              mt: 'md',
-            },
-          },
-        },
-      }}
-    >
+    <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SampleView />} />
