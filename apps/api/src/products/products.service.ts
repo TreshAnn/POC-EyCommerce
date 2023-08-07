@@ -6,6 +6,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateProductDto } from '../products/dto/create-product.dto';
+import { UpdateProductDataDto } from '../products/dto/update-product.dto';
 import { Product } from '../products/schemas/products.schema';
 
 @Injectable()
@@ -41,27 +42,26 @@ export class ProductsService {
 
   async findByIdAndUpdate(
     id: string,
-    createProductDto: CreateProductDto,
+    updateData: UpdateProductDataDto,
   ): Promise<Product> {
-    const productID = createProductDto.productID;
+    const existingProduct = await this.productModel.findById(id).exec();
 
-    const productAlreadyExists = await this.productModel
-      .findOne({ productID: { $eq: productID }, _id: { $ne: id } })
-      .exec();
-
-    if (productAlreadyExists) {
-      throw new BadRequestException('Product ID already exists');
+    if (!existingProduct) {
+      throw new NotFoundException('Product not found');
     }
 
-    const updatedProduct = await this.productModel.findByIdAndUpdate(
-      { _id: id },
-      createProductDto,
-      { new: true },
-    );
+    if ('productID' in updateData) {
+      throw new BadRequestException('Product ID cannot be updated');
+    }
+
+    const updatedProduct = await this.productModel
+      .findByIdAndUpdate(id, updateData, { new: true })
+      .exec();
 
     if (!updatedProduct) {
       throw new NotFoundException('Product not found');
     }
+
     return updatedProduct;
   }
 }
