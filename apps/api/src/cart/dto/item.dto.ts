@@ -6,6 +6,7 @@ import {
   IsNumber,
   IsObject,
 } from 'class-validator';
+import { ImageDto } from 'src/products/dto/create-product.dto';
 
 export class ItemDto {
   @IsNotEmpty()
@@ -17,8 +18,7 @@ export class ItemDto {
   productName: string;
 
   @IsNotEmpty()
-  @IsObject()
-  productImg: string;
+  productImg: ImageDto;
 
   @IsNotEmpty()
   @IsNumber()

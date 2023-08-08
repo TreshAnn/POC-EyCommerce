@@ -20,9 +20,12 @@ export class CartController {
   //   userId = req.userId;
   @Public()
   @Post('/:id') // TO DO utilize req.user.userID
-  async addItemToCart(@Param('id') userID: string, @Body() itemDto: ItemDto) {
-    console.log(userID, itemDto);
-    const cart = await this.cartService.addItemToCart(userID, itemDto);
+  async addItemToCart(@Param('id') userID: string, @Body() reqBody) {
+    const newItemDto = await this.cartService.createItemDto(
+      reqBody.productID,
+      reqBody.quantity,
+    );
+    const cart = await this.cartService.addItemToCart(userID, newItemDto);
     return cart;
   }
 

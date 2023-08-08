@@ -28,15 +28,15 @@ export class CartService {
     return newCart;
   }
 
-  async createItemDto(productID: string, itemDto: ItemDto, quantity: number) {
+  async createItemDto(productID: string, quantity: number) {
     const product = await this.productsService.findOne(productID);
-
-    itemDto = {
+    const itemQuantity = quantity;
+    const itemDto = {
       productID: product.productID,
       productImg: product.productImg,
       productName: product.productName,
       productPrice: product.productPrice,
-      quantity: quantity,
+      quantity: itemQuantity,
     };
     return itemDto;
   }
