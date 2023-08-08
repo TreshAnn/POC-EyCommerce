@@ -5,11 +5,13 @@ import { Cart, CartDocument } from './schemas/cart.schema';
 import { ItemDto } from './dto/item.dto';
 import { CreateProductDto } from 'src/products/dto/create-product.dto';
 import { ProductDocument } from 'src/products/schemas/products.schema';
+import { ProductsService } from 'src/products/products.service';
 
 @Injectable()
 export class CartService {
   constructor(
     @InjectModel(Cart.name) private readonly cartModel: Model<CartDocument>,
+    private productsService: ProductsService,
   ) {}
 
   async createCart(
@@ -24,6 +26,19 @@ export class CartService {
       totalAmount,
     });
     return newCart;
+  }
+
+  async createItemDto(productID: string, itemDto: ItemDto, quantity: number) {
+    const product = await this.productsService.findOne(productID);
+
+    itemDto = {
+      productID: product.productID,
+      productImg: product.productImg,
+      productName: product.productName,
+      productPrice: product.productPrice,
+      quantity: quantity,
+    };
+    return itemDto;
   }
 
   async getCart(userID: string): Promise<CartDocument> {
