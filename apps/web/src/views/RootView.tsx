@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Footer } from 'ui/nav/Footer';
 import { HeaderNavBar } from 'ui/nav/Header';
 
+import theme from '../styles/theme';
 import { LoginView } from './auth/pages/LoginView';
 import { NotFoundView } from './NotFoundView';
 import { RegisterView } from './Register/RegisterView';
@@ -16,7 +17,7 @@ export const RootView = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <MantineProvider withGlobalStyles withNormalizeCSS>
+      <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
         <Notifications />
         <HeaderNavBar />
         <BrowserRouter>
