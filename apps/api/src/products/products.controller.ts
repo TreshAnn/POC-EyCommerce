@@ -11,9 +11,6 @@ import {
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { Product } from './schemas/products.schema';
-import { MerchantGuard } from './product.guard';
-
-@UseGuards(MerchantGuard)
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
