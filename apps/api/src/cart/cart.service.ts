@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Cart, CartDocument } from './schemas/cart.schema';
@@ -7,12 +7,14 @@ import { CreateProductDto } from 'src/products/dto/create-product.dto';
 import { ProductDocument } from 'src/products/schemas/products.schema';
 import { ProductsService } from 'src/products/products.service';
 import { Request } from 'express';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class CartService {
   constructor(
     @InjectModel(Cart.name) private readonly cartModel: Model<CartDocument>,
     private productsService: ProductsService,
+    private jwtService: JwtService,
   ) {}
 
   async createCart(
@@ -84,18 +86,34 @@ export class CartService {
         return cart.save();
       }
     } else {
+      const totalAmount = quantity * productPrice;
       const newCart = await this.createCart(
         userID,
         itemDto,
         subTotalPrice,
-        productPrice,
+        totalAmount,
       );
       return newCart;
     }
   }
 
-  public extractTokenFromHeader(request: Request): string | undefined {
+  //Temporary token extractor and decoder for testing
+  async extractIdFromToken(request: Request): Promise<string | undefined> {
     const [type, token] = request.headers.authorization?.split(' ') ?? [];
-    return type === 'Bearer' ? token : undefined;
+    if (type === 'Bearer') {
+      try {
+        const decoded = this.jwtService.decode(token) as { sub: string };
+        if (decoded && decoded.hasOwnProperty('sub')) {
+          const userID = decoded.sub;
+          return userID;
+        } else {
+          throw new UnauthorizedException('Invalid token or missing user ID');
+        }
+      } catch (err) {
+        throw new UnauthorizedException('Invalid token');
+      }
+    } else {
+      return undefined;
+    }
   }
 }

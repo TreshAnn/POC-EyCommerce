@@ -21,24 +21,13 @@ export class CartController {
 
   @Post('/')
   async addItemToCart(@Request() req, @Body() reqBody) {
-    const token = await this.cartService.extractTokenFromHeader(req);
-    try {
-      // Note: Temporary decoder for userID in access token; to implement in login
-      const decoded = this.jwtService.decode(token) as { sub: string };
-      if (decoded && decoded.hasOwnProperty('sub')) {
-        const userID = decoded.sub;
-        const newItemDto = await this.cartService.createItemDto(
-          reqBody.productID,
-          reqBody.quantity,
-        );
-        const cart = await this.cartService.addItemToCart(userID, newItemDto);
-        return cart;
-      } else {
-        throw new UnauthorizedException('Invalid token or missing user ID');
-      }
-    } catch (err) {
-      throw new UnauthorizedException('Invalid token');
-    }
+    const userID = await this.cartService.extractIdFromToken(req);
+    const newItemDto = await this.cartService.createItemDto(
+      reqBody.productID,
+      reqBody.quantity,
+    );
+    const cart = await this.cartService.addItemToCart(userID, newItemDto);
+    return cart;
   }
 
   @Delete('/:id') // Test delete - Accepts cart objectId
