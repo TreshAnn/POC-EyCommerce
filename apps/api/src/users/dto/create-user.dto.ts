@@ -3,7 +3,6 @@ import {
   IsNotEmpty,
   IsString,
   IsEmail,
-  IsAlpha,
   IsStrongPassword,
   MinLength,
   Matches,

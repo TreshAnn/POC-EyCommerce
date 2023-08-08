@@ -1,9 +1,15 @@
 import React from 'react';
-import { Dropdown } from '../../../../packages/ui/dropdown/dropdown';
+
 export const SampleView = () => {
   return (
-    <>
-      <Dropdown />
-    </>
+    <main>
+      <section>
+        <h1>Hello world!</h1>
+        <h1>Ey React App Boilerplate made by DanDalanDone! TEST HERE</h1>
+        <div>
+          <br />
+        </div>
+      </section>
+    </main>
   );
 };
