@@ -6,6 +6,7 @@ import { ItemDto } from './dto/item.dto';
 import { CreateProductDto } from 'src/products/dto/create-product.dto';
 import { ProductDocument } from 'src/products/schemas/products.schema';
 import { ProductsService } from 'src/products/products.service';
+import { Request } from 'express';
 
 @Injectable()
 export class CartService {
@@ -93,16 +94,8 @@ export class CartService {
     }
   }
 
-  async removeItemFromCart(userId: string, productId: string): Promise<any> {
-    const cart = await this.getCart(userId);
-
-    const itemIndex = cart.orderedItems.findIndex(
-      (item) => item.productID == productId,
-    );
-
-    if (itemIndex > -1) {
-      cart.orderedItems.splice(itemIndex, 1);
-      return cart.save();
-    }
+  public extractTokenFromHeader(request: Request): string | undefined {
+    const [type, token] = request.headers.authorization?.split(' ') ?? [];
+    return type === 'Bearer' ? token : undefined;
   }
 }
