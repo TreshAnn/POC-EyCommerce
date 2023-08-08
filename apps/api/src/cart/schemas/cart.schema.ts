@@ -1,7 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, SchemaType, SchemaTypes } from 'mongoose';
+import { Image } from 'src/products/schemas/products.schema';
 import { User } from 'src/users/schemas/user.schema';
-// import { Product, ProductSchema } from '../../products/schemas/products.schema'; - TEST
+import { Product, ProductSchema } from '../../products/schemas/products.schema';
 
 export type CartDocument = HydratedDocument<Cart>;
 
@@ -9,11 +10,11 @@ export type ItemDocument = HydratedDocument<Item>;
 
 @Schema()
 export class Item {
-  @Prop({ type: SchemaTypes.ObjectId, ref: 'Product' })
+  @Prop({ type: ProductSchema, ref: Product.name })
   productID: string;
 
   @Prop()
-  productImg: string;
+  productImg: Image;
 
   @Prop()
   productName: string;
@@ -29,12 +30,6 @@ export class Item {
 }
 @Schema()
 export class Cart {
-  // @Prop() - TO DO remove and transfer to order/transaction schema (to be created)
-  // orderDate: string;
-
-  // @Prop() - TO DO remove and transfer to order/transaction schema (to be created)
-  // orderStatus: string;
-
   @Prop({ type: SchemaTypes.ObjectId, ref: User.name })
   userID: string;
 
@@ -43,9 +38,6 @@ export class Cart {
 
   @Prop()
   totalAmount: number;
-
-  // @Prop() - TO DO remove and transfer to order/transaction schema (to be created)
-  // paymentDetails: string;
 }
 
 export const CartSchema = SchemaFactory.createForClass(Cart);
