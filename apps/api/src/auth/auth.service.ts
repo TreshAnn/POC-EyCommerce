@@ -8,6 +8,7 @@ import {
   BadRequestException,
   Injectable,
   UnauthorizedException,
+  NotFoundException,
 } from '@nestjs/common';
 
 @Injectable()
@@ -52,5 +53,23 @@ export class AuthService {
     }
 
     return await this.authModel.create(createAuthDto);
+  }
+
+  async deactivateAccount(id: string) {
+    const user = await this.authModel.findOne({ _id: id });
+
+    if (!user) {
+      throw new NotFoundException('User not found.');
+    }
+
+    await this.authModel.findByIdAndUpdate(
+      { _id: user.id },
+      { isActive: false },
+      {
+        new: true,
+      },
+    );
+
+    return 'Account is deactivated.';
   }
 }
