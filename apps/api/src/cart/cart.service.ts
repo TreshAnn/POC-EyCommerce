@@ -1,10 +1,12 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotAcceptableException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Cart, CartDocument } from './schemas/cart.schema';
 import { ItemDto } from './dto/item.dto';
-import { CreateProductDto } from 'src/products/dto/create-product.dto';
-import { ProductDocument } from 'src/products/schemas/products.schema';
 import { ProductsService } from 'src/products/products.service';
 import { Request } from 'express';
 import { JwtService } from '@nestjs/jwt';
@@ -63,7 +65,8 @@ export class CartService {
 
   async addItemToCart(userID: string, itemDto: ItemDto): Promise<Cart> {
     const { productID, quantity, productPrice } = itemDto;
-    const subTotalPrice = quantity * productPrice;
+    const subTotalPrice =
+      (await this.validateQuantity(quantity)) * productPrice;
 
     const cart = await this.getCart(userID);
 
@@ -94,6 +97,14 @@ export class CartService {
         totalAmount,
       );
       return newCart;
+    }
+  }
+
+  async validateQuantity(quantity: number) {
+    if (quantity > 0) {
+      return quantity;
+    } else {
+      throw new NotAcceptableException('Invalid quantity.');
     }
   }
 
