@@ -61,6 +61,8 @@ export class UsersService {
       throw new NotFoundException('User not found');
     }
 
+    console.log(updatedUser);
+
     return updatedUser;
   }
 }

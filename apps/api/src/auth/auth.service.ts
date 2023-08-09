@@ -7,8 +7,8 @@ import { compare } from 'bcrypt';
 import {
   BadRequestException,
   Injectable,
-  NotFoundException,
   UnauthorizedException,
+  NotFoundException,
 } from '@nestjs/common';
 
 @Injectable()
@@ -29,11 +29,18 @@ export class AuthService {
   async signIn(rq: LoginDto) {
     const user = await this.findUserName(rq.username);
 
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+
     if (!(await compare(rq.password, user.password))) {
       throw new UnauthorizedException();
     }
 
-    const payload = { username: user.username, sub: user._id };
+    const payload = {
+      username: user.username,
+      sub: user._id,
+    };
     return {
       access_token: await this.jwtService.signAsync(payload),
     };

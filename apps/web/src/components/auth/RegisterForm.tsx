@@ -1,14 +1,14 @@
 import {
   Anchor,
   Button,
+  Group,
   Paper,
   PasswordInput,
+  Select,
   Stack,
   Text,
   TextInput,
-  Group,
   Title,
-  Select,
 } from '@mantine/core';
 import React, { useState } from 'react';
 import { Form } from 'ui';

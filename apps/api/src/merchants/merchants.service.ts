@@ -57,6 +57,8 @@ export class MerchantsService {
       throw new NotFoundException('Merchant not found');
     }
 
+    //console.log(merchant);
+
     return merchant;
   }
   async findByIdAndUpdate(

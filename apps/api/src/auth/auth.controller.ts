@@ -1,11 +1,11 @@
 import {
   Body,
-  Param,
   Controller,
   HttpCode,
   HttpStatus,
   Post,
   Put,
+  Param,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
