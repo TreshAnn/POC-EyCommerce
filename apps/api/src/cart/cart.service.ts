@@ -1,6 +1,8 @@
 import {
+  BadRequestException,
   Injectable,
   NotAcceptableException,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { Model } from 'mongoose';
@@ -98,6 +100,32 @@ export class CartService {
       );
       return newCart;
     }
+  }
+  async updateCartItem(userID: string, itemDto: ItemDto): Promise<Cart> {
+    const { productID, quantity, productPrice } = itemDto;
+
+    const cart = await this.getCart(userID);
+
+    if (quantity <= 0) {
+      throw new BadRequestException('Quantity must be greater than 0.');
+    }
+
+    const itemIndex = cart.orderedItems.findIndex(
+      (item) => item.productID === productID,
+    );
+
+    if (itemIndex === -1) {
+      throw new NotFoundException('Item not found in the cart.');
+    }
+
+    const item = cart.orderedItems[itemIndex];
+    item.quantity = quantity;
+    item.subTotalPrice = item.quantity * productPrice;
+
+    cart.orderedItems[itemIndex] = item;
+    this.recalculateCart(cart);
+
+    return cart.save();
   }
 
   async validateQuantity(quantity: number) {
