@@ -33,7 +33,7 @@ export class CartService {
     return newCart;
   }
 
-  async createItemDto(productID: string, quantity: number) {
+  async createItem(productID: string, quantity: number) {
     const product = await this.productsService.findOne(productID);
     const itemQuantity = quantity;
     const itemDto = {

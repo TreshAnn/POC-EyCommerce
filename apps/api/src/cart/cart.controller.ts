@@ -22,7 +22,7 @@ export class CartController {
   @Post('/')
   async addItemToCart(@Request() req, @Body() reqBody) {
     const userID = await this.cartService.extractIdFromToken(req);
-    const newItemDto = await this.cartService.createItemDto(
+    const newItemDto = await this.cartService.createItem(
       reqBody.productID,
       reqBody.quantity,
     );
