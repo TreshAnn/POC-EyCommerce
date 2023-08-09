@@ -29,6 +29,16 @@ export class CartController {
     const cart = await this.cartService.addItemToCart(userID, newItemDto);
     return cart;
   }
+  @Delete('/removeItem') // Note: to test, apply same token decoding in Post request above
+  async removeItemFromCart(@Request() req, @Body() reqBody) {
+    const userID = await this.cartService.extractIdFromToken(req);
+    const cart = await this.cartService.removeItemFromCart(
+      userID,
+      reqBody.productID,
+    );
+    if (!cart) throw new NotFoundException('Item does not exist');
+    return cart;
+  }
 
   @Delete('/:id') // Test delete - Accepts cart objectId
   async deleteCart(@Param('id') userID: string) {

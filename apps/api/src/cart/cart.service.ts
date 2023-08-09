@@ -55,6 +55,18 @@ export class CartService {
     const deletedCart = await this.cartModel.findOneAndRemove({ userID });
     return deletedCart;
   }
+  async removeItemFromCart(userId: string, productId: string): Promise<any> {
+    const cart = await this.getCart(userId);
+
+    const itemIndex = cart.orderedItems.findIndex(
+      (item) => item.productID == productId,
+    );
+
+    if (itemIndex > -1) {
+      cart.orderedItems.splice(itemIndex, 1);
+      return cart.save();
+    }
+  }
 
   private recalculateCart(cart: CartDocument) {
     cart.totalAmount = 0;
