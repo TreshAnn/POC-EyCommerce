@@ -37,6 +37,10 @@ export class CartService {
 
   async createItem(productID: string, quantity: number) {
     const product = await this.productsService.findOne(productID);
+
+    if (!product) {
+      throw new NotFoundException('Product not found.');
+    }
     const itemQuantity = quantity;
     const itemDto = {
       productID: product.productID,
