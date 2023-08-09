@@ -7,6 +7,7 @@ import {
   NotFoundException,
   UnauthorizedException,
   Param,
+  Get,
 } from '@nestjs/common';
 import { CartService } from './cart.service';
 import { ItemDto } from './dto/item.dto';
@@ -28,6 +29,13 @@ export class CartController {
     );
     const cart = await this.cartService.addItemToCart(userID, newItemDto);
     return cart;
+  }
+
+  @Get('/:id')
+  async getCart(@Param('id') userID: string) {
+    const userCart = await this.cartService.getCart(userID);
+    if (!userCart) throw new NotFoundException('Cart is empty');
+    return userCart;
   }
 
   @Delete('/:id') // Test delete - Accepts cart objectId
