@@ -12,6 +12,7 @@ import { ProductsModule } from './products/products.module';
 import { AuthMiddleware } from './middleware/auth.middleware';
 import { UsersController } from './users/users.controller';
 import { AbilityModule } from './auth/ability/ability.module';
+import { CartModule } from './cart/cart.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { AbilityModule } from './auth/ability/ability.module';
     MerchantsModule,
     ProductsModule,
     AbilityModule,
+    CartModule,
   ],
   controllers: [],
   // providers: [
