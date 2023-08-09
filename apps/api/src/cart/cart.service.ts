@@ -1,6 +1,7 @@
 import {
   Injectable,
   NotAcceptableException,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { Model } from 'mongoose';
@@ -55,11 +56,16 @@ export class CartService {
     const deletedCart = await this.cartModel.findOneAndRemove({ userID });
     return deletedCart;
   }
-  async removeItemFromCart(userId: string, productId: string): Promise<any> {
+  async removeItemFromCart(userId: string, productID: string): Promise<any> {
     const cart = await this.getCart(userId);
 
+    const product = await this.productsService.findOne(productID);
+    if (!product) {
+      throw new NotFoundException('Item not found.');
+    }
+    console.log(product);
     const itemIndex = cart.orderedItems.findIndex(
-      (item) => item.productID == productId,
+      (item) => item.productID == product.productID,
     );
 
     if (itemIndex > -1) {
