@@ -37,7 +37,7 @@ export class CartController {
       reqBody.productID,
     );
     if (!cart) throw new NotFoundException('Item does not exist');
-    return cart;
+    return { message: 'Item successfully deleted' };
   }
 
   @Delete('/:id') // Test delete - Accepts cart objectId

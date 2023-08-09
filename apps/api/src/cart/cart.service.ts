@@ -64,6 +64,7 @@ export class CartService {
 
     if (itemIndex > -1) {
       cart.orderedItems.splice(itemIndex, 1);
+      this.recalculateCart(cart);
       return cart.save();
     }
   }
