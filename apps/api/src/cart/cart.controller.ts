@@ -36,24 +36,16 @@ export class CartController {
     return cart;
   }
 
-  @Put('/:id')
-  async updateCartItem(
-    @Param('id') userID: string,
-    @Body() reqBody,
-    @Request() req,
-  ) {
+  @Put('/')
+  async updateCartItem(@Body() reqBody, @Request() req) {
     const userIDFromToken = await this.cartService.extractIdFromToken(req);
-
-    if (userIDFromToken !== userID) {
-      throw new UnauthorizedException('Unauthorized to update this cart item.');
-    }
     const newUpdateItemDto = await this.cartService.createItem(
       reqBody.productID,
       reqBody.quantity,
     );
 
     const cart = await this.cartService.updateCartItem(
-      userID,
+      userIDFromToken,
       newUpdateItemDto,
     );
 
