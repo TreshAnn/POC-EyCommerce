@@ -29,7 +29,7 @@ export class CartController {
     const cart = await this.cartService.addItemToCart(userID, newItemDto);
     return cart;
   }
-  @Delete('/removeItem') // Note: to test, apply same token decoding in Post request above
+  @Delete('/') // Note: to test, apply same token decoding in Post request above
   async removeItemFromCart(@Request() req, @Body() reqBody) {
     const userID = await this.cartService.extractIdFromToken(req);
     const cart = await this.cartService.removeItemFromCart(
@@ -40,10 +40,16 @@ export class CartController {
     return { message: 'Item successfully deleted' };
   }
 
-  @Delete('/:id') // Test delete - Accepts cart objectId
-  async deleteCart(@Param('id') userID: string) {
-    const cart = await this.cartService.deleteCart(userID);
-    if (!cart) throw new NotFoundException('Cart does not exist');
-    return cart;
+  @Delete('/:id')
+  async deleteCart(@Request() req, @Param('id') userID: string) {
+    const userIdFromToken = await this.cartService.extractIdFromToken(req);
+
+    if (userIdFromToken === userID) {
+      const cart = await this.cartService.deleteCart(userID);
+      if (!cart) throw new NotFoundException('Cart does not exist');
+      return { message: 'Cart successfully deleted' };
+    } else {
+      throw new NotFoundException('Invalid ID ');
+    }
   }
 }
