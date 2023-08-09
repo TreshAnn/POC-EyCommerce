@@ -1,4 +1,12 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Put,
+  Param,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Public } from './decorators/public.decorator';
 import { LoginDto } from './dto/auth.dto';
@@ -12,5 +20,11 @@ export class AuthController {
   @Post('login')
   login(@Body() loginDto: LoginDto) {
     return this.authService.signIn(loginDto);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Put('deactivateAccount/:id')
+  deactivateAccount(@Param('id') id: string) {
+    return this.authService.deactivateAccount(id);
   }
 }
