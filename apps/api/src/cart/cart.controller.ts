@@ -31,8 +31,9 @@ export class CartController {
     return cart;
   }
 
-  @Get('/:id')
-  async getCart(@Param('id') userID: string) {
+  @Get('/')
+  async getCart(@Request() req) {
+    const userID = await this.cartService.extractIdFromToken(req);
     const userCart = await this.cartService.getCart(userID);
     if (!userCart) throw new NotFoundException('Cart is empty');
     return userCart;
