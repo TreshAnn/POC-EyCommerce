@@ -1,7 +1,9 @@
 import {
   Anchor,
   Button,
+  Checkbox,
   Group,
+  MantineProvider,
   Paper,
   PasswordInput,
   Select,
@@ -161,8 +163,8 @@ export const RegisterForm = ({ onSuccess }: IRegisterFormProps) => {
                   {...register('phoneNumber')}
                 />
                 <TextInput
-                  label="Street Address"
-                  placeholder="Enter your Street"
+                  label="Address"
+                  placeholder="House No. / Street / Barangay / City / Province"
                   required
                   error={formState.errors['address.street']?.message}
                   {...register('address.street')}
@@ -213,7 +215,21 @@ export const RegisterForm = ({ onSuccess }: IRegisterFormProps) => {
                   error={formState.errors['confirm']?.message}
                   {...register('confirm')}
                 />
-                <Button color="yellow" variant="filled" type="submit">
+                <Checkbox
+                  label={
+                    <>
+                      I agree to the{' '}
+                      <Anchor href="https://mantine.dev" target="_blank">
+                        Terms and Conditions
+                      </Anchor>
+                    </>
+                  }
+                />
+                <Button
+                  variant="filled"
+                  type="submit"
+                  style={{ backgroundColor: '#FFD500', color: '#333333' }}
+                >
                   Register
                 </Button>
                 <Text>

@@ -21,6 +21,7 @@ export class UsersService {
       username: createUserDto.username,
       email: createUserDto.email,
       password: createUserDto.password,
+      isActive: true,
     };
 
     const authUser = await this.authService.create({
