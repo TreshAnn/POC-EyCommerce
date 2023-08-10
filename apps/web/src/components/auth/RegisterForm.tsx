@@ -4,12 +4,13 @@ import {
   Group,
   Paper,
   PasswordInput,
+  Select,
   Stack,
   Text,
   TextInput,
   Title,
 } from '@mantine/core';
-import React from 'react';
+import React, { useState } from 'react';
 import { Form } from 'ui';
 import * as z from 'zod';
 
@@ -87,6 +88,10 @@ type IRegisterFormProps = {
 
 export const RegisterForm = ({ onSuccess }: IRegisterFormProps) => {
   const register = useRegister();
+  const [data] = useState([
+    { value: 'consumer', label: 'Consumer' },
+    { value: 'merchant', label: 'Merchant' },
+  ]);
 
   const handleOnSubmit = (values) => {
     values.address.zipcode = parseInt(values.address.zipcode, 10);
@@ -104,16 +109,19 @@ export const RegisterForm = ({ onSuccess }: IRegisterFormProps) => {
           onSubmit={(values) => handleOnSubmit(values)}
           schema={schema}
         >
-          {({ formState, register }) => (
+          {({ formState, register, setValue }) => (
             <>
               <Stack>
                 <Title order={1}>Register</Title>
-                <TextInput
+                <Select
                   label="User Type"
-                  placeholder="Enter User Type"
+                  data={data}
+                  placeholder="Select User Type"
                   required
+                  onChange={(selectedValue: string) => {
+                    setValue('userType', selectedValue);
+                  }}
                   error={formState.errors['userType']?.message}
-                  {...register('userType')}
                 />
                 <TextInput
                   label="User Name"
