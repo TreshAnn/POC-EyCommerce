@@ -52,9 +52,17 @@ export class CartService {
     return cart;
   }
 
-  async deleteCart(userID: string): Promise<Cart> {
-    const deletedCart = await this.cartModel.findOneAndRemove({ userID });
-    return deletedCart;
+  async deleteCart(userID: string): Promise<Cart | null> {
+    const cart = await this.getCart(userID);
+
+    if (!cart) {
+      throw new NotFoundException('Cart does not exist');
+    }
+
+    cart.orderedItems = []; // Clear all items from the cart
+    cart.totalAmount = 0; // Reset the total price
+
+    return cart.save();
   }
   async removeItemFromCart(userId: string, productID: string): Promise<any> {
     const cart = await this.getCart(userId);

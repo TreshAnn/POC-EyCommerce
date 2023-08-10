@@ -40,16 +40,16 @@ export class CartController {
     return { message: 'Item successfully deleted' };
   }
 
-  @Delete('/:id')
-  async deleteCart(@Request() req, @Param('id') userID: string) {
-    const userIdFromToken = await this.cartService.extractIdFromToken(req);
+  @Delete('/')
+  async deleteCart(@Request() req) {
+    const userIDFromToken = await this.cartService.extractIdFromToken(req);
 
-    if (userIdFromToken === userID) {
-      const cart = await this.cartService.deleteCart(userID);
-      if (!cart) throw new NotFoundException('Cart does not exist');
-      return { message: 'Cart successfully deleted' };
-    } else {
-      throw new NotFoundException('Invalid ID ');
+    const cart = await this.cartService.deleteCart(userIDFromToken);
+
+    if (!cart) {
+      throw new NotFoundException('Cart does not exist');
     }
+
+    return { message: 'Cart successfully deleted' };
   }
 }
