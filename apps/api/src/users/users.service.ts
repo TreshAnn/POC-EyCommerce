@@ -24,14 +24,14 @@ export class UsersService {
       isActive: true,
     };
 
-    const authUser = await this.authService.create({
+    await this.authService.create({
       ...createAuthDto,
       password: await hash(createUserDto.password, 10),
     });
 
     return await this.userModel.create({
       ...createUserDto,
-      auth: authUser,
+      auth: createAuthDto,
     });
   }
 
