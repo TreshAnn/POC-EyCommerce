@@ -110,9 +110,7 @@ export class CartService {
 
     const cart = await this.getCart(userID);
 
-    if (quantity <= 0) {
-      throw new BadRequestException('Quantity must be greater than 0.');
-    }
+    const validatedQuantity = await this.validateQuantity(quantity);
 
     const itemIndex = cart.orderedItems.findIndex(
       (item) => item.productID === productID,
@@ -123,7 +121,7 @@ export class CartService {
     }
 
     const item = cart.orderedItems[itemIndex];
-    item.quantity = quantity;
+    item.quantity = validatedQuantity;
     item.subTotalPrice = item.quantity * productPrice;
 
     cart.orderedItems[itemIndex] = item;
