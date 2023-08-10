@@ -23,14 +23,14 @@ export class UsersService {
       password: createUserDto.password,
     };
 
-    await this.authService.create({
+    const authUser = await this.authService.create({
       ...createAuthDto,
       password: await hash(createUserDto.password, 10),
     });
 
     return await this.userModel.create({
       ...createUserDto,
-      auth: createAuthDto,
+      auth: authUser,
     });
   }
 
