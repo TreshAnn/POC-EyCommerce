@@ -37,6 +37,10 @@ export class ProductsService {
       throw new NotFoundException('Product not found');
     }
 
+    if (product.isActive === false) {
+      throw new NotFoundException('Product is Disabled');
+    }
+
     return product;
   }
 
