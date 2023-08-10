@@ -8,7 +8,8 @@ import {
   Text,
   TextInput,
 } from '@mantine/core';
-import React from 'react';
+
+import React, { useState } from 'react';
 import { Form } from 'ui';
 import * as z from 'zod';
 
@@ -31,6 +32,11 @@ type LoginFormProps = {
 
 export const LoginForm = ({ onSuccess }: LoginFormProps) => {
   const login = useLogin();
+  const [inputValue, setInputValue] = useState('');
+  const handleInputChange = (event) => {
+    const newValue = event.target.value.replace(/\s/g, ''); // Remove spaces using regex
+    setInputValue(newValue);
+  };
 
   return (
     <StyledContainer>
@@ -49,6 +55,8 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
             <>
               <Stack>
                 <TextInput
+                  value={inputValue}
+                  onInput={handleInputChange}
                   label="Username"
                   placeholder="Enter your username"
                   required
