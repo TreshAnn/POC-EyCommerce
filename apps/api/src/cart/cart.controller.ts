@@ -40,13 +40,12 @@ export class CartController {
     return { message: 'Item successfully deleted' };
   }
 
-  @Delete('/')
+  @Delete('/deleteCart')
   async deleteCart(@Request() req) {
     const userIDFromToken = await this.cartService.extractIdFromToken(req);
-
     const cart = await this.cartService.deleteCart(userIDFromToken);
 
-    if (!cart) {
+    if (cart !== cart) {
       throw new NotFoundException('Cart does not exist');
     }
 
