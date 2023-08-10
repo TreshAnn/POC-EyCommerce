@@ -18,6 +18,7 @@ import { Roles } from 'src/auth/decorators/role.decorator';
 import { Role } from 'src/guards/enum/role.enum';
 import {
   CheckAbilities,
+  ConsumerAbility,
   MerchantAbility,
 } from 'src/auth/ability/ability.decorator';
 import { AuthGuard } from 'src/auth/auth.guard';
@@ -44,10 +45,17 @@ export class UsersController {
     return this.userService.findByIdAndUpdate(id, createUserDto);
   }
 
+  // this will check if the route is accessible for public or not
+  // and if the user is authorized via token
   @UseGuards(AuthGuard)
+  // define the type of user that can access this route
   @Roles(Role.CONSUMER)
+  // check whether the user can access the route based on her pre-defines role
+  @UseGuards(RolesGuard)
+  // define what type of ability can the user do based on the user role
+  @CheckAbilities(new ConsumerAbility())
+  // Check whether the ability defined from the CheckAbility decorator is allowed
   @UseGuards(AbilityGuard)
-  @CheckAbilities(new MerchantAbility())
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<User> {
     return this.userService.findOne(id);

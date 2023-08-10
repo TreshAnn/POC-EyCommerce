@@ -31,19 +31,20 @@ import { CartModule } from './cart/cart.module';
     CartModule,
   ],
   controllers: [],
-  // providers: [
-  //   {
-  //     provide: APP_GUARD,
-  //     useClass: AuthGuard,
-  //   },
-  // ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+  ],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer): void {
-    // configure what middleware you want to apply
-    consumer
-      .apply(AuthMiddleware)
-      // the middleware will be applied to this controllers and nowhere else within the application
-      .forRoutes(UsersController);
-  }
-}
+export class AppModule {}
+// export class AppModule implements NestModule {
+//   configure(consumer: MiddlewareConsumer): void {
+//     // configure what middleware you want to apply
+//     consumer
+//       .apply(AuthMiddleware)
+//       // the middleware will be applied to this controllers and nowhere else within the application
+//       .forRoutes(UsersController);
+//   }
+// }
