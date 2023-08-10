@@ -9,6 +9,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './auth/constants';
 import { MerchantsModule } from './merchants/merchants.module';
 import { ProductsModule } from './products/products.module';
+import { CartModule } from './cart/cart.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ProductsModule } from './products/products.module';
     UsersModule,
     MerchantsModule,
     ProductsModule,
+    CartModule,
   ],
   controllers: [],
   providers: [
