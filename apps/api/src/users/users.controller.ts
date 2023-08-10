@@ -20,6 +20,8 @@ import {
   CheckAbilities,
   MerchantAbility,
 } from 'src/auth/ability/ability.decorator';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { AbilityGuard } from 'src/auth/ability/ability.guard';
 
 @Controller('user')
 export class UsersController {
@@ -42,6 +44,10 @@ export class UsersController {
     return this.userService.findByIdAndUpdate(id, createUserDto);
   }
 
+  @UseGuards(AuthGuard)
+  @Roles(Role.CONSUMER)
+  @UseGuards(AbilityGuard)
+  @CheckAbilities(new MerchantAbility())
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<User> {
     return this.userService.findOne(id);

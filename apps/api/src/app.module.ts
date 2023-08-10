@@ -20,7 +20,7 @@ import { CartModule } from './cart/cart.module';
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '1d' }, // TODO move this to .env
+      signOptions: { expiresIn: '300s' }, // TODO move this to .env
     }),
     CatsModule,
     AuthModule,

@@ -16,7 +16,8 @@ export class AuthMiddleware implements NestMiddleware {
   ) {}
 
   async use(req: Request, res: Response, next: () => void) {
-    // const token = req.headers.authorization;
+    // TEMPORARY FIX FOR PUBLIC ROUTE
+    if (!req.headers.authorization) return next();
     const token = this.extractTokenFromHeader(req.headers.authorization);
     if (!token) {
       next();
