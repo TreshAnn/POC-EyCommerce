@@ -7,11 +7,10 @@ import {
   NotFoundException,
   UnauthorizedException,
   Param,
+  Put,
   Get,
 } from '@nestjs/common';
 import { CartService } from './cart.service';
-import { ItemDto } from './dto/item.dto';
-import { Public } from 'src/auth/decorators/public.decorator';
 import { JwtService } from '@nestjs/jwt';
 @Controller('cart')
 export class CartController {
@@ -43,6 +42,22 @@ export class CartController {
   async deleteCart(@Param('id') userID: string) {
     const cart = await this.cartService.deleteCart(userID);
     if (!cart) throw new NotFoundException('Cart does not exist');
+    return cart;
+  }
+
+  @Put('/')
+  async updateCartItem(@Body() reqBody, @Request() req) {
+    const userIDFromToken = await this.cartService.extractIdFromToken(req);
+    const newUpdateItemDto = await this.cartService.createItem(
+      reqBody.productID,
+      reqBody.quantity,
+    );
+
+    const cart = await this.cartService.updateCartItem(
+      userIDFromToken,
+      newUpdateItemDto,
+    );
+
     return cart;
   }
 }
