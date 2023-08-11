@@ -3,7 +3,6 @@ import {
   Button,
   Checkbox,
   Group,
-  MantineProvider,
   Paper,
   PasswordInput,
   Select,
@@ -16,8 +15,8 @@ import React, { useState } from 'react';
 import { Form } from 'ui';
 import * as z from 'zod';
 
-import { StyledContainer } from './styles';
 import { useRegister } from '../../lib/auth';
+import { StyledContainer } from './styles';
 
 const addressSchema = z.object({
   street: z.string(),
