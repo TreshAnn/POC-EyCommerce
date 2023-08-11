@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   NotAcceptableException,
   NotFoundException,
@@ -36,6 +37,10 @@ export class CartService {
 
   async createItem(productID: string, quantity: number) {
     const product = await this.productsService.findOne(productID);
+
+    if (!product) {
+      throw new NotFoundException('Product not found.');
+    }
     const itemQuantity = quantity;
     const itemDto = {
       productID: product.productID,
@@ -121,6 +126,30 @@ export class CartService {
       );
       return newCart;
     }
+  }
+  async updateCartItem(userID: string, itemDto: ItemDto): Promise<Cart> {
+    const { productID, quantity, productPrice } = itemDto;
+
+    const cart = await this.getCart(userID);
+
+    const validatedQuantity = await this.validateQuantity(quantity);
+
+    const itemIndex = cart.orderedItems.findIndex(
+      (item) => item.productID === productID,
+    );
+
+    if (itemIndex === -1) {
+      throw new NotFoundException('Item not found in the cart.');
+    }
+
+    const item = cart.orderedItems[itemIndex];
+    item.quantity = validatedQuantity;
+    item.subTotalPrice = item.quantity * productPrice;
+
+    cart.orderedItems[itemIndex] = item;
+    this.recalculateCart(cart);
+
+    return cart.save();
   }
 
   async validateQuantity(quantity: number) {

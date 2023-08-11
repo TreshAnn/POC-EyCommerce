@@ -35,4 +35,16 @@ export class ProductsController {
   ): Promise<Product> {
     return this.productsService.findByIdAndUpdate(id, UpdateProductDataDto);
   }
+
+  @HttpCode(HttpStatus.OK)
+  @Put('deactivateProduct/:id')
+  deactivateProduct(@Param('id') id: string) {
+    return this.productsService.deactivateProduct(id);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Put('activateProduct/:id')
+  activateProduct(@Param('id') id: string) {
+    return this.productsService.activateProduct(id);
+  }
 }

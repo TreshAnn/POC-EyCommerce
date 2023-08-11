@@ -16,10 +16,10 @@ export class ProductsService {
   ) {}
 
   async create(createProductDto: CreateProductDto): Promise<Product> {
-    const productID = createProductDto.productID;
+    const ProductID = createProductDto.productID;
 
     const productAlreadyExists = await this.productModel
-      .findOne({ productID: { $eq: productID } })
+      .findOne({ productID: { $eq: ProductID } })
       .exec();
 
     if (productAlreadyExists) {
@@ -35,6 +35,10 @@ export class ProductsService {
 
     if (!product) {
       throw new NotFoundException('Product not found');
+    }
+
+    if (product.isActive === false) {
+      throw new NotFoundException('Product is Disabled');
     }
 
     return product;
@@ -63,5 +67,41 @@ export class ProductsService {
     }
 
     return updatedProduct;
+  }
+
+  async deactivateProduct(id: string) {
+    const product = await this.productModel.findOne({ _id: id });
+
+    if (!product) {
+      throw new NotFoundException('Product not found.');
+    }
+
+    await this.productModel.findByIdAndUpdate(
+      { _id: product.id },
+      { isActive: false },
+      {
+        new: true,
+      },
+    );
+
+    return 'Product is deactivated.';
+  }
+
+  async activateProduct(id: string) {
+    const product = await this.productModel.findOne({ _id: id });
+
+    if (!product) {
+      throw new NotFoundException('Product not found.');
+    }
+
+    await this.productModel.findByIdAndUpdate(
+      { _id: product.id },
+      { isActive: true },
+      {
+        new: true,
+      },
+    );
+
+    return 'Product is activated.';
   }
 }
