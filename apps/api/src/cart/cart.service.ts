@@ -68,7 +68,6 @@ export class CartService {
     if (!product) {
       throw new NotFoundException('Item not found.');
     }
-    console.log(product);
     const itemIndex = cart.orderedItems.findIndex(
       (item) => item.productID == product.productID,
     );
