@@ -5,15 +5,17 @@ import { LoginForm } from '../../../components/auth/LoginForm';
 
 export const LoginView = () => {
   return (
-    <main>
-      <LoginForm
-        onSuccess={() => {
-          notifications.show({
-            message: 'Login Success!',
-          });
-          return;
-        }}
-      />
-    </main>
+    <section style={{ height: '100vh' }}>
+      <main>
+        <LoginForm
+          onSuccess={() => {
+            notifications.show({
+              message: 'Login Success!',
+            });
+            return;
+          }}
+        />
+      </main>
+    </section>
   );
 };

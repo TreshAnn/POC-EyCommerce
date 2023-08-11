@@ -58,6 +58,10 @@ export class ProductsService {
       throw new BadRequestException('Product ID cannot be updated');
     }
 
+    if (existingProduct.isActive === false) {
+      throw new BadRequestException('Cannot update disabled product');
+    }
+
     const updatedProduct = await this.productModel
       .findByIdAndUpdate(id, updateData, { new: true })
       .exec();

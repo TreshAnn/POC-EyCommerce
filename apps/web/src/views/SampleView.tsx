@@ -11,7 +11,12 @@ export const SampleView = () => {
         <div>
           <br />
           <Searchbar />
-          <Product />
+          <div style={{ display: 'flex' }}>
+            <Product />
+            <Product />
+            <Product />
+            <Product />
+          </div>
         </div>
       </section>
     </main>

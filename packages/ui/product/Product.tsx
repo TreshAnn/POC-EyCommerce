@@ -1,5 +1,6 @@
 import { CardWrapper, ContentWrapper, DetailsWrapper } from './styles';
 import { Title, Card, Image, Text, Button, Rating } from '@mantine/core';
+
 interface IProductProps {
   ratingValue?: number;
 }
@@ -9,10 +10,7 @@ export function Product({ ratingValue = 0 }: IProductProps) {
     <CardWrapper>
       <Card shadow="sm" padding="lg" radius="md" withBorder>
         <Card.Section>
-          <Image
-            src="https://placehold.co/600x500.png?text=Product+Image"
-            alt="Product"
-          />
+          <Image src="/product1.jpg" alt="Product" />
         </Card.Section>
         <ContentWrapper>
           <DetailsWrapper className="product-name">
