@@ -57,9 +57,31 @@ export class CartService {
     return cart;
   }
 
-  async deleteCart(userID: string): Promise<Cart> {
-    const deletedCart = await this.cartModel.findOneAndRemove({ userID });
-    return deletedCart;
+  async deleteCart(userID: string): Promise<void> {
+    const cart = await this.getCart(userID);
+
+    if (!cart) {
+      throw new NotFoundException('Cart does not exist');
+    }
+
+    await this.cartModel.deleteOne({ userID });
+  }
+  async removeItemFromCart(userId: string, productID: string): Promise<any> {
+    const cart = await this.getCart(userId);
+
+    const product = await this.productsService.findOne(productID);
+    if (!product) {
+      throw new NotFoundException('Item not found.');
+    }
+    const itemIndex = cart.orderedItems.findIndex(
+      (item) => item.productID == product.productID,
+    );
+
+    if (itemIndex > -1) {
+      cart.orderedItems.splice(itemIndex, 1);
+      this.recalculateCart(cart);
+      return cart.save();
+    }
   }
 
   private recalculateCart(cart: CartDocument) {

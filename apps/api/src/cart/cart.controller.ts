@@ -29,6 +29,28 @@ export class CartController {
     const cart = await this.cartService.addItemToCart(userID, newItemDto);
     return cart;
   }
+  @Delete('/') // Note: to test, apply same token decoding in Post request above
+  async removeItemFromCart(@Request() req, @Body() reqBody) {
+    const userID = await this.cartService.extractIdFromToken(req);
+    const cart = await this.cartService.removeItemFromCart(
+      userID,
+      reqBody.productID,
+    );
+    if (!cart) throw new NotFoundException('Item does not exist');
+    return { message: 'Item successfully deleted' };
+  }
+
+
+  @Delete('/deleteCart')
+  async deleteCart(@Request() req) {
+    const userIDFromToken = await this.cartService.extractIdFromToken(req);
+    const cart = await this.cartService.deleteCart(userIDFromToken);
+
+    if (cart !== cart) {
+      throw new NotFoundException('Cart does not exist');
+    }
+
+    return { message: 'Cart successfully deleted' };
 
   @Get('/')
   async getCart(@Request() req) {
@@ -43,6 +65,7 @@ export class CartController {
     const cart = await this.cartService.deleteCart(userID);
     if (!cart) throw new NotFoundException('Cart does not exist');
     return cart;
+
   }
 
   @Put('/')
