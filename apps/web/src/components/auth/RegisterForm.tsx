@@ -14,7 +14,7 @@ import {
 import React, { useState } from 'react';
 import { Form } from 'ui';
 import * as z from 'zod';
-
+import { useNavigate } from 'react-router-dom';
 import { useRegister } from '../../lib/auth';
 import { StyledContainer } from './styles';
 
@@ -89,6 +89,8 @@ type IRegisterFormProps = {
 
 export const RegisterForm = ({ onSuccess }: IRegisterFormProps) => {
   const register = useRegister();
+  const navigate = useNavigate();
+
   const [data] = useState([
     { value: 'consumer', label: 'Consumer' },
     { value: 'merchant', label: 'Merchant' },
@@ -99,6 +101,7 @@ export const RegisterForm = ({ onSuccess }: IRegisterFormProps) => {
     register.mutate(values, {
       onSuccess: () => {
         onSuccess();
+        navigate('/login');
       },
     });
   };
