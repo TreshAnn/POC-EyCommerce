@@ -74,20 +74,20 @@ export function ProductInfo({
           <RatingDescription>
             ({ratingValue.toFixed(1)} out of 5)
           </RatingDescription>
-          <Avatar
-            size="md"
-            src="https://picsum.photos/id/237/200/300"
-            alt="Merchant"
-            radius="200px"
-            style={{ width: '42.353px', height: '40px' }}
-          />
-          <MerchantText>{merchantName}</MerchantText>
+          <Group>
+            <Avatar
+              size="md"
+              src="https://picsum.photos/id/237/200/300"
+              alt="Merchant"
+              radius="200px"
+              style={{ width: '42.353px', height: '40px' }}
+            />
+            <MerchantText>{merchantName}</MerchantText>
+          </Group>
         </Group>
         <ProductDescWrapper>
           <ProductDescriptionText>{productDescription}</ProductDescriptionText>
-          <ProductPriceText>
-            Price: ₱ {productPrice.toFixed(2)}
-          </ProductPriceText>
+          <ProductPriceText>Price: ₱{productPrice.toFixed(2)}</ProductPriceText>
         </ProductDescWrapper>
         <Group>
           <AddToCartButton>

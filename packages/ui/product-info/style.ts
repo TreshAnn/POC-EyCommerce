@@ -1,6 +1,11 @@
 import { Box, Button, Container, Text } from '@mantine/core';
 import styled from 'styled-components';
 
+const maxMobileWidth = '976px';
+const sm = '600px';
+const md = '900px';
+const lg = '1200px';
+
 export const StyledBox = styled(Box)`
   display: flex;
   flex-direction: column;
@@ -12,6 +17,12 @@ export const StyledBox = styled(Box)`
   height: 604px;
   border: 1px solid #fcfcfd;
   box-shadow: 0px 2px 2px 0px #000;
+
+  @media (max-width: ${maxMobileWidth}) {
+    padding: 20px;
+    width: 100%;
+    height: auto;
+  }
 `;
 
 export const StyledContainer = styled(Container)`
@@ -27,6 +38,19 @@ export const StyledContainer = styled(Container)`
 export const RatingText = styled(Text)`
   font-size: 40px;
   line-height: 60px;
+
+  @media (max-width: ${lg}) {
+    white-space: normal;
+    font-size: 35px;
+  }
+  @media (max-width: ${md}) {
+    white-space: normal;
+    font-size: 28px;
+  }
+  @media (max-width: ${sm}) {
+    white-space: normal;
+    font-size: 25px;
+  }
 `;
 
 export const RatingDescription = styled(Text)`
@@ -41,6 +65,19 @@ export const ProductNameText = styled(Text)`
   font-weight: 700;
   line-height: 72px;
   align-items: flex-start;
+
+  @media (max-width: ${lg}) {
+    white-space: normal;
+    font-size: 45px;
+  }
+  @media (max-width: ${md}) {
+    white-space: normal;
+    font-size: 40px;
+  }
+  @media (max-width: ${sm}) {
+    white-space: normal;
+    font-size: 35px;
+  }
 `;
 export const MerchantText = styled(Text)`
   color: #000;
@@ -52,16 +89,40 @@ export const MerchantText = styled(Text)`
   font-style: normal;
   font-weight: 600;
   line-height: 130%;
+
+  @media (max-width: ${lg}) {
+    white-space: normal;
+    font-size: 18px;
+  }
+  @media (max-width: ${md}) {
+    white-space: normal;
+    font-size: 15px;
+  }
+  @media (max-width: ${sm}) {
+    white-space: normal;
+    font-size: 15x;
+  }
 `;
 
 export const ProductDescriptionText = styled(Text)`
   color: #000;
   font-family: 'Overpass';
   font-size: 20px;
-  font-style: normal;
   font-weight: 400;
-  line-height: normal;
   margin: 0;
+
+  @media (max-width: ${lg}) {
+    white-space: normal;
+    font-size: 18px;
+  }
+  @media (max-width: ${md}) {
+    white-space: normal;
+    font-size: 15px;
+  }
+  @media (max-width: ${sm}) {
+    white-space: normal;
+    font-size: 13px;
+  }
 `;
 export const ProductPriceText = styled(Text)`
   font-family: 'Overpass';
@@ -69,6 +130,19 @@ export const ProductPriceText = styled(Text)`
   font-weight: 700;
   align-self: flex-start;
   margin-top: auto;
+
+  @media (max-width: ${lg}) {
+    white-space: normal;
+    font-size: 30px;
+  }
+  @media (max-width: ${md}) {
+    white-space: normal;
+    font-size: 28px;
+  }
+  @media (max-width: ${sm}) {
+    white-space: normal;
+    font-size: 25px;
+  }
 `;
 
 export const ProductDescWrapper = styled(Container)`
@@ -80,6 +154,11 @@ export const ProductDescWrapper = styled(Container)`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+
+  @media (max-width: ${maxMobileWidth}) {
+    width: 100%;
+    height: auto;
+  }
 `;
 
 export const StyledButton = styled(Button)`
@@ -94,9 +173,27 @@ export const StyledButton = styled(Button)`
 export const AddToCartButton = styled(StyledButton)`
   background: var(--third, #fff);
   border: 1px solid var(--sixth, #ffd500);
+  width: 130px;
+  height: 45px;
+
+  @media (max-width: ${lg}) {
+    width: 128px;
+  }
+  @media (max-width: ${sm}) {
+    width: 123px;
+  }
 `;
 
 export const BuyNowButton = styled(StyledButton)`
   background: var(--sixth, #ffd500);
   border: 1px solid var(--sixth, #ffd500);
+  width: 109px;
+  height: 45px;
+
+  @media (max-width: ${lg}) {
+    width: 105px;
+  }
+  @media (max-width: ${sm}) {
+    width: 100px;
+  }
 `;
