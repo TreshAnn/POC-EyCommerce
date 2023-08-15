@@ -19,6 +19,7 @@ import { IoNotifications } from 'react-icons/io5';
 import { TiShoppingCart } from 'react-icons/ti';
 
 import { Dropdown } from '../dropdown/dropdown';
+import HeaderCart from '../cart/HeaderCart';
 import { AvatarContainer, CartTextWrapper } from './style';
 
 export const HeaderNavBar = () => {
@@ -26,6 +27,32 @@ export const HeaderNavBar = () => {
     useDisclosure(false);
   const [verifyToken, setVerifyToken] = useState<boolean>(true);
   const isMobile = useMediaQuery('(max-width: 976px)');
+
+  //Test data for cart
+  const sampleCartItems = [
+    {
+      id: 1,
+      imageSrc: 'path-to-image-1.jpg',
+      merchant: 'Sample Merchant 1',
+      productName: 'Product 1',
+      price: 200.0,
+    },
+    {
+      id: 2,
+      imageSrc: 'path-to-image-2.jpg',
+      merchant: 'Sample Merchant 2',
+      productName: 'Product 2',
+      price: 150.0,
+    },
+    {
+      id: 3,
+      imageSrc: 'path-to-image-2.jpg',
+      merchant: 'Sample Merchant 3',
+      productName: 'Product 2',
+      price: 250.0,
+    },
+    // Add more items as needed to test
+  ];
 
   return (
     <Box>
@@ -44,7 +71,7 @@ export const HeaderNavBar = () => {
               <Group position="right">
                 {verifyToken ? (
                   <>
-                    <Dropdown
+                    {/* <Dropdown
                       target={
                         <UnstyledButton>
                           <TiShoppingCart color="#fab005" size={36} />
@@ -61,7 +88,9 @@ export const HeaderNavBar = () => {
                           </Text>
                         </CartTextWrapper>
                       }
-                    />
+                    /> */}
+
+                    <HeaderCart cartItems={sampleCartItems} />
 
                     <IoNotifications color="#fab005" size={36} />
                     <Dropdown
@@ -120,7 +149,7 @@ export const HeaderNavBar = () => {
           )}
           {isMobile && (
             <Group position="right">
-              <TiShoppingCart color="#fab005" size={30} />
+              <HeaderCart cartItems={sampleCartItems} />
               <IoNotifications color="#fab005" size={30} />
               <Burger opened={drawerOpened} onClick={toggleDrawer} size="sm" />
             </Group>
