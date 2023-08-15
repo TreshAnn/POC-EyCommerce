@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Product } from '../../../../packages/ui/product/Product';
+import { ProductInfo } from '../../../../packages/ui/product-info/productInfo';
 import { Searchbar } from '../../../../packages/ui/searchbar/searchbar';
 
 export const SampleView = () => {
@@ -10,8 +11,9 @@ export const SampleView = () => {
       <section style={{ height: '100vh' }}>
         <div>
           <br />
-          <Searchbar />
-          <Product />
+          {/* <Searchbar />
+          <Product /> */}
+          <ProductInfo />
         </div>
       </section>
     </main>
