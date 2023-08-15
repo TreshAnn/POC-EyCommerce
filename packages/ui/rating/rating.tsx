@@ -3,7 +3,7 @@ import { Group, Rating, Text } from '@mantine/core';
 import { Wrapper } from './style';
 
 interface IRatingProps {
-  ratingCount?: number;
+  reviewCount?: number;
   ratingValue?: number;
 }
 
@@ -16,12 +16,7 @@ export const RatingComponent = ({
       <Wrapper>
         <Text className="text-heading">Customer reviews & ratings</Text>
 
-        <Group
-          spacing="xs"
-          style={{
-            height: '34px',
-          }}
-        >
+        <Group className="group" spacing="xs">
           <Rating
             emptySymbol={
               <svg
