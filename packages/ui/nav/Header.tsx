@@ -16,11 +16,10 @@ import {
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { useState } from 'react';
 import { IoNotifications } from 'react-icons/io5';
-import { TiShoppingCart } from 'react-icons/ti';
 
 import { Dropdown } from '../dropdown/dropdown';
 import HeaderCart from '../cart/HeaderCart';
-import { AvatarContainer, CartTextWrapper } from './style';
+import { AvatarContainer } from './style';
 
 export const HeaderNavBar = () => {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
@@ -32,7 +31,8 @@ export const HeaderNavBar = () => {
   const sampleCartItems = [
     {
       id: 1,
-      imageSrc: 'path-to-image-1.jpg',
+      imageSrc:
+        'https://retailminded.com/wp-content/uploads/2016/03/EN_GreenOlive-1.jpg',
       merchant: 'Sample Merchant 1',
       productName: 'Product 1',
       price: 200.0,
@@ -71,25 +71,6 @@ export const HeaderNavBar = () => {
               <Group position="right">
                 {verifyToken ? (
                   <>
-                    {/* <Dropdown
-                      target={
-                        <UnstyledButton>
-                          <TiShoppingCart color="#fab005" size={36} />
-                        </UnstyledButton>
-                      }
-                      menuItems={['Order 1', 'Order 2', 'Order 3']}
-                      avatarContent={
-                        <CartTextWrapper>
-                          <Text size="sm" weight={500}>
-                            My Cart (4)
-                          </Text>
-                          <Text size="xs" color="#fab005" weight={500}>
-                            View all
-                          </Text>
-                        </CartTextWrapper>
-                      }
-                    /> */}
-
                     <HeaderCart cartItems={sampleCartItems} />
 
                     <IoNotifications color="#fab005" size={36} />
