@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
   /* display: flex; */
   /* flex-direction: row; */
-  justify-content: space-between;
+  /* justify-content: space-between; */
   padding: 0;
   margin: 0;
   line-height: 1%;
@@ -16,6 +16,15 @@ export const Wrapper = styled.div`
   .grid {
     padding: 0;
     margin: 0;
+  }
+
+  .left-div {
+    @media (max-width: 828px) {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
   }
 
   .text-heading {
@@ -64,6 +73,16 @@ export const Wrapper = styled.div`
 
     @media (max-width: 452px) {
       font-size: 10px;
+    }
+  }
+
+  .right-div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    @media (max-width: 828px) {
+      display: none;
     }
   }
 

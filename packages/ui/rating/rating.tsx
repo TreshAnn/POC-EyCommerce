@@ -14,9 +14,9 @@ export const RatingComponent = ({
   return (
     <>
       <Wrapper>
-        <Grid className="grid" justify="center">
-          <Grid.Col className="grid" sm={12} md={8} lg={9}>
-            <div>
+        <Grid className="grid">
+          <Grid.Col lg={6} md={6} sm={6}>
+            <div className="left-div">
               <Text className="text-heading">Customer reviews & ratings</Text>
 
               <Group className="group-left" spacing="xs">
@@ -66,8 +66,8 @@ export const RatingComponent = ({
             </div>
           </Grid.Col>
 
-          <Grid.Col className="grid" sm={12} md={4} lg={3}>
-            <div>
+          <Grid.Col lg={6} md={6} sm={6}>
+            <div className="right-div">
               <Group className="group-right" spacing="xs">
                 <Text className="text-progress">5 stars</Text>
                 <Progress
