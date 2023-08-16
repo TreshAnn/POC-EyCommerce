@@ -1,15 +1,21 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
+  /* display: flex; */
+  /* flex-direction: row; */
+  justify-content: space-between;
   padding: 0;
   margin: 0;
   line-height: 1%;
   height: 270px;
 
-  .group {
+  .group-left {
     height: 32px;
+  }
+
+  .grid {
+    padding: 0;
+    margin: 0;
   }
 
   .text-heading {
@@ -59,5 +65,23 @@ export const Wrapper = styled.div`
     @media (max-width: 452px) {
       font-size: 10px;
     }
+  }
+
+  .group-right {
+    width: 375px;
+    height: 20px;
+  }
+
+  .progress {
+    width: 277px;
+    margin-top: -3px;
+  }
+
+  .one-star {
+    margin-left: 10px;
+  }
+
+  .text-progress {
+    font-size: 14px;
   }
 `;
