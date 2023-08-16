@@ -6,6 +6,7 @@ import {
   Button,
   Anchor,
 } from '@mantine/core';
+import { StyledMenuDropdown, StyledMenuLabel } from './styles';
 import { TiShoppingCart } from 'react-icons/ti';
 import Cart from './Cart';
 
@@ -27,14 +28,11 @@ const HeaderCart: React.FC<IHeaderCartProps> = ({ cartItems }) => {
           <TiShoppingCart color="#fab005" size={36} />
         </UnstyledButton>
       </Menu.Target>
-      <Menu.Dropdown style={{ maxHeight: '575px', overflowY: 'auto' }}>
-        <Menu.Label
+      <StyledMenuDropdown>
+        <StyledMenuLabel
           style={{
             position: 'sticky',
             top: -4,
-            background: '#fff',
-            zIndex: 2,
-            padding: '10px 0px',
           }}
         >
           <Text fz="lg" color="black">
@@ -45,14 +43,14 @@ const HeaderCart: React.FC<IHeaderCartProps> = ({ cartItems }) => {
                   <Text>&nbsp;(4)</Text>
                 </Flex>
               </div>
-              <Anchor href="#" target="_blank">
+              <Anchor href="/#" target="_blank">
                 <Text fz="sm" color="yellow">
                   View all
                 </Text>
               </Anchor>
             </Flex>
           </Text>
-        </Menu.Label>
+        </StyledMenuLabel>
         <Menu.Divider />
         {cartItems.map((item) => (
           <Menu.Item key={item.id}>
@@ -65,13 +63,10 @@ const HeaderCart: React.FC<IHeaderCartProps> = ({ cartItems }) => {
           </Menu.Item>
         ))}
         <Menu.Divider />
-        <Menu.Label
+        <StyledMenuLabel
           style={{
             position: 'sticky',
-            bottom: -4,
-            background: '#fff',
-            zIndex: 2,
-            padding: '10px 0',
+            bottom: -5,
           }}
         >
           <Flex align="center" justify="space-between">
@@ -82,8 +77,8 @@ const HeaderCart: React.FC<IHeaderCartProps> = ({ cartItems }) => {
               View Cart
             </Button>
           </Flex>
-        </Menu.Label>
-      </Menu.Dropdown>
+        </StyledMenuLabel>
+      </StyledMenuDropdown>
     </Menu>
   );
 };
