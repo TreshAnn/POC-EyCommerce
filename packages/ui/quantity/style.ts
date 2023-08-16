@@ -1,12 +1,11 @@
 import styled from 'styled-components';
-import { BsDash, BsPlus } from 'react-icons/bs';
 
 export const QuantityWrapper = styled.div`
   display: flex;
   align-items: center;
 `;
 
-export const SquareButton = styled.div`
+export const StyledButton = styled.div`
   cursor: pointer;
   border-radius: 0px;
   width: 32px;
@@ -19,19 +18,21 @@ export const SquareButton = styled.div`
   margin: 0;
   padding: 0;
 `;
+export const InputStyled = styled.input`
+  text-align: center;
+  width: 32px;
+  height: 32px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  /* Hide the spinner buttons */
+  -webkit-appearance: none;
+  -moz-appearance: textfield; /* Firefox - revert default style */
+  appearance: none;
 
-export const Count = styled.div`
-  ${SquareButton}
-  margin: 0;
-  padding: 0;
-`;
-
-export const BsDashStyled = styled(BsDash)`
-  margin: 0;
-  padding: 0;
-`;
-
-export const BsPlusStyled = styled(BsPlus)`
-  margin: 0;
-  padding: 0;
+  /* Hide the webkit inner spin button */
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `;
