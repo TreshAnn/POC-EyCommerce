@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { BsDash, BsPlus } from 'react-icons/bs';
 
 export const QuantityWrapper = styled.div`
   display: flex;
@@ -21,6 +22,16 @@ export const SquareButton = styled.div`
 
 export const Count = styled.div`
   ${SquareButton}
+  margin: 0;
+  padding: 0;
+`;
+
+export const BsDashStyled = styled(BsDash)`
+  margin: 0;
+  padding: 0;
+`;
+
+export const BsPlusStyled = styled(BsPlus)`
   margin: 0;
   padding: 0;
 `;
