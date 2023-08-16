@@ -20,8 +20,8 @@ export const StyledButton = styled.div`
 `;
 export const InputStyled = styled.input`
   text-align: center;
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
   font-size: 12px;
   border: 1px solid #ccc;
   /* Hide the spinner buttons */
