@@ -22,7 +22,7 @@ interface IHeaderCartProps {
 }
 const HeaderCart: React.FC<IHeaderCartProps> = ({ cartItems }) => {
   return (
-    <Menu shadow="md" width={400}>
+    <Menu shadow="md" width={400} closeOnItemClick={false}>
       <Menu.Target>
         <UnstyledButton>
           <TiShoppingCart color="#fab005" size={36} />
@@ -71,7 +71,7 @@ const HeaderCart: React.FC<IHeaderCartProps> = ({ cartItems }) => {
         >
           <Flex align="center" justify="space-between">
             <Text fz="md" color="black" style={{ whiteSpace: 'nowrap' }}>
-              Subtotal &nbsp;&nbsp;&nbsp; $400.00
+              Subtotal &nbsp;&nbsp; ₱400.00
             </Text>
             <Button ml="20px" fullWidth style={{ color: 'black' }}>
               View Cart

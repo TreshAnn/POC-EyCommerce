@@ -10,7 +10,6 @@ export const SampleView = () => {
       <section style={{ height: '100vh' }}>
         <div>
           <br />
-          <Quantity />
           <Searchbar />
           <Product />
         </div>

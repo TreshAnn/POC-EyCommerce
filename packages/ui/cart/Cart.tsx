@@ -10,6 +10,8 @@ import {
 } from '@mantine/core';
 import { TiTrash } from 'react-icons/ti';
 
+import { Quantity } from '../quantity/Quantity';
+
 interface ICartProps {
   imageSrc: string;
   merchant: string;
@@ -42,8 +44,9 @@ const Cart: React.FC<ICartProps> = ({
             </Text>
             <Text fz="sm">{productName}</Text>
             <Text fz="lg" fw={500} color="yellow">
-              {price.toFixed(2)}
+              ₱{price.toFixed(2)}
             </Text>
+            <Quantity />
           </div>
         </Flex>
         <Divider my="sm" />
