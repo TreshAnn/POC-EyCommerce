@@ -11,6 +11,7 @@ import { LoginView } from './auth/pages/LoginView';
 import { NotFoundView } from './NotFoundView';
 import { RegisterView } from './auth/pages/RegisterView';
 import { SampleView } from './SampleView';
+import { CartView } from './CartView';
 
 export const RootView = () => {
   const [queryClient] = React.useState(() => new QueryClient());
@@ -23,6 +24,7 @@ export const RootView = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<SampleView />} />
+            <Route path="/cart" element={<CartView />} />
             <Route path="*" element={<NotFoundView />} />
             <Route path="/login" element={<LoginView />} />
             <Route path="/register" element={<RegisterView />} />
