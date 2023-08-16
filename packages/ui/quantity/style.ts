@@ -8,8 +8,8 @@ export const QuantityWrapper = styled.div`
 export const StyledButton = styled.div`
   cursor: pointer;
   border-radius: 0px;
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,9 +20,9 @@ export const StyledButton = styled.div`
 `;
 export const InputStyled = styled.input`
   text-align: center;
-  width: 20px;
-  height: 20px;
-  font-size: 8px;
+  width: 25px;
+  height: 25px;
+  font-size: 12px;
   border: 1px solid #ccc;
   /* Hide the spinner buttons */
   -webkit-appearance: none;
