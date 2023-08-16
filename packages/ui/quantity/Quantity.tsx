@@ -49,7 +49,6 @@ export function Quantity() {
         type="number"
         min={1}
         max={100}
-        // style={{ textAlign: 'center', width: '50px' }}
       />
       <StyledButton onClick={handleIncrease}>+</StyledButton>
     </QuantityWrapper>
