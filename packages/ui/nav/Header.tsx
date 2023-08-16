@@ -16,7 +16,7 @@ import {
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { useState } from 'react';
 import { IoNotifications } from 'react-icons/io5';
-
+import { TiShoppingCart } from 'react-icons/ti';
 import { Dropdown } from '../dropdown/dropdown';
 import HeaderCart from '../cart/HeaderCart';
 import { AvatarContainer } from './style';
@@ -130,7 +130,9 @@ export const HeaderNavBar = () => {
           )}
           {isMobile && (
             <Group position="right">
-              <HeaderCart cartItems={sampleCartItems} />
+              <UnstyledButton>
+                <TiShoppingCart color="#fab005" size={36} />
+              </UnstyledButton>
               <IoNotifications color="#fab005" size={30} />
               <Burger opened={drawerOpened} onClick={toggleDrawer} size="sm" />
             </Group>
