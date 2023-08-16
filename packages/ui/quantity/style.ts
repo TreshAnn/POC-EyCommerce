@@ -8,8 +8,8 @@ export const QuantityWrapper = styled.div`
 export const StyledButton = styled.div`
   cursor: pointer;
   border-radius: 0px;
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
