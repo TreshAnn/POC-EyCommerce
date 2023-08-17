@@ -3,7 +3,6 @@ import { useDisclosure } from '@mantine/hooks';
 import React from 'react';
 import { AddressCard } from 'ui/Card/AddressCard';
 import { OrderSummary } from 'ui/Card/OrderSummary';
-import { PaymentDetails } from 'ui/Card/PaymentDetails';
 
 export const Checkout = () => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -19,7 +18,6 @@ export const Checkout = () => {
         <Stack>
           <AddressCard />
           <OrderSummary />
-          <PaymentDetails />
         </Stack>
       </Modal>
       <Group position="center">
