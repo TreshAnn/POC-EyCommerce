@@ -1,6 +1,6 @@
-import { Card, Flex, Grid, Group, Paper, Text } from '@mantine/core';
+import { Button, Card, Flex, Grid, Group, Paper, Text } from '@mantine/core';
 
-import { PaymentDetails } from './PaymentDetails'; // Make sure to provide the correct path
+import { PaymentDetails } from './PaymentDetails';
 
 interface Data {
   productName: string;
