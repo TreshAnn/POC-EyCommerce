@@ -3,6 +3,8 @@ import { Checkout } from '../components/auth/Checkout';
 import { Product } from '../../../../packages/ui/product/Product';
 import { Quantity } from '../../../../packages/ui/quantity/Quantity';
 import { Searchbar } from '../../../../packages/ui/searchbar/searchbar';
+import { RatingComponent } from '../../../../packages/ui/rating/rating';
+
 export const SampleView = () => {
   return (
     <main>
@@ -10,8 +12,7 @@ export const SampleView = () => {
         <div>
           <Checkout />
           <br />
-          <Searchbar />
-          <Product />
+          <RatingComponent />
         </div>
       </section>
     </main>
