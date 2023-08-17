@@ -8,8 +8,8 @@ import { HeaderNavBar } from 'ui/nav/Header';
 
 import theme from '../styles/theme';
 import { LoginView } from './auth/pages/LoginView';
-import { NotFoundView } from './NotFoundView';
 import { RegisterView } from './auth/pages/RegisterView';
+import { NotFoundView } from './NotFoundView';
 import { SampleView } from './SampleView';
 import { CartView } from './CartView';
 
