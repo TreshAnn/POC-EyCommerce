@@ -75,6 +75,10 @@ export const SelectedImage = styled.img`
 
   @media (max-width: ${maxMobileWidth}) {
     width: 100%;
+    height: 550px;
+  }
+  @media (max-width: ${sm}) {
+    height: 500px;
   }
 `;
 
