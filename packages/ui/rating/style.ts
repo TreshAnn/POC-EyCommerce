@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
   /* flex-direction: row; */
   /* justify-content: space-between; */
   padding: 0;
-  margin: 0;
+  margin: 0 20px 0 20px;
   line-height: 1%;
   height: 270px;
 
@@ -19,7 +19,7 @@ export const Wrapper = styled.div`
   }
 
   .left-div {
-    @media (max-width: 828px) {
+    @media (max-width: 992px) {
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -81,7 +81,14 @@ export const Wrapper = styled.div`
     flex-direction: column;
     align-items: flex-end;
 
-    @media (max-width: 828px) {
+    @media (max-width: 992px) {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    @media (max-width: 991px) {
       display: none;
     }
   }

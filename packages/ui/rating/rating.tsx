@@ -7,6 +7,12 @@ interface IRatingProps {
   ratingValue?: number;
 }
 
+// xs = 576px
+// sm = 768px
+// md = 992px
+// lg = 1200px
+// xl = 1408px
+
 export const RatingComponent = ({
   ratingValue = 5,
   reviewCount = 3423,
@@ -15,7 +21,7 @@ export const RatingComponent = ({
     <>
       <Wrapper>
         <Grid className="grid">
-          <Grid.Col lg={6} md={6} sm={6}>
+          <Grid.Col lg={6} md={6} sm={12}>
             <div className="left-div">
               <Text className="text-heading">Customer reviews & ratings</Text>
 
@@ -66,7 +72,7 @@ export const RatingComponent = ({
             </div>
           </Grid.Col>
 
-          <Grid.Col lg={6} md={6} sm={6}>
+          <Grid.Col lg={6} md={6} sm={12}>
             <div className="right-div">
               <Group className="group-right" spacing="xs">
                 <Text className="text-progress">5 stars</Text>
