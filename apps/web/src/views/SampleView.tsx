@@ -9,7 +9,7 @@ export const SampleView = () => {
   return (
     <main>
       {/* Section height is for demo purposes only; please position the footer at the bottom instead of the middle */}
-      <section style={{ height: '100vh' }}>
+      <section>
         <div>
           <br />
           <Quantity />
