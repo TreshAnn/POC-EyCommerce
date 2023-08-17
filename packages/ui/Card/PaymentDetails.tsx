@@ -16,7 +16,9 @@ export const PaymentDetails: React.FC<PaymentDetailsProps> = ({
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Card.Section p="xs" withBorder>
         <Group position="apart">
-          <Text style={{ fontWeight: '900px' }}>Payment Details</Text>
+          <Text fw={700} size="md">
+            Payment Details
+          </Text>
         </Group>
       </Card.Section>
 
