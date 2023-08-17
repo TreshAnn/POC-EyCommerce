@@ -36,7 +36,7 @@ export const Footer = () => {
             <Divider my="sm" color="ey-black" />
             {!isMobile ? (
               <Group position="apart" grow>
-                <Text>@2019 All Rights Reserved</Text>
+                <Text>© 2023 All Rights Reserved</Text>
                 <Group position="right">
                   <StyledAnchor href="#">Terms</StyledAnchor>
                   <StyledAnchor href="#">Privacy</StyledAnchor>
@@ -44,7 +44,7 @@ export const Footer = () => {
                 </Group>
               </Group>
             ) : (
-              <Text align="center">@2019 All Rights Reserved</Text>
+              <Text align="center">© 2023 All Rights Reserved</Text>
             )}
           </Stack>
         </Container>
