@@ -1,7 +1,5 @@
 import { Card, Flex, Grid, Group, Paper, Text } from '@mantine/core';
 
-import { PaymentDetails } from './PaymentDetails'; // Make sure the path is correct
-
 interface Data {
   productName: string;
   price: number;
@@ -79,7 +77,6 @@ export const OrderSummary = () => {
           </Group>
         </Card.Section>
       </Card>
-      <PaymentDetails subtotal={totalPrice} deliveryFee={deliveryFee} />
     </>
   );
 };
