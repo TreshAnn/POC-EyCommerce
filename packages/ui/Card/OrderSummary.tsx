@@ -80,6 +80,9 @@ export const OrderSummary = () => {
         </Card.Section>
       </Card>
       <PaymentDetails totalPrice={totalPrice} deliveryFee={deliveryFee} />
+      <Button fw={400} fullWidth style={{ color: 'black' }}>
+        Place Order
+      </Button>
     </>
   );
 };
