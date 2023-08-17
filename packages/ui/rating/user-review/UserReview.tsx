@@ -1,35 +1,29 @@
-import { Container, Flex, Grid, Text } from '@mantine/core';
+import { Grid, Text } from '@mantine/core';
 import { StarRating } from './Rating';
+import { StyledContainer, commentStyle } from './style';
 
 interface CommentBody {
-  comment: {
-    rating: number;
-    name: string;
-    date: string;
-    commentTitle: string;
-    commentDescription: string;
-  };
+  rating: number;
+  name: string;
+  date: string;
+  commentTitle: string;
+  commentDescription: string;
 }
 
-const UserReview = ({
-  comment: { rating, name, date, commentTitle, commentDescription },
-}: CommentBody) => {
-  const commentStyle = {
-    paddingRight: '5px',
-    paddingLeft: '5px',
-    paddingTop: '15px',
-    paddingBottom: '15px',
-  };
-  const containerStyle = {
-    borderTop: '1px solid #CCCCCC',
-    // borderBottom: '1px solid #CCCCCC',
-    marginBottom: '0px',
-    marginTop: '0px',
-  };
+interface Props {
+  comment: CommentBody[];
+}
 
-  return (
-    <>
-      <Container my="md" style={containerStyle}>
+const UserReview = ({ comment }: Props) => {
+  const displayComment = ({
+    rating,
+    name,
+    date,
+    commentTitle,
+    commentDescription,
+  }: CommentBody) => {
+    return (
+      <StyledContainer>
         <Grid>
           <Grid.Col xs={3}>
             <div style={commentStyle}>
@@ -51,9 +45,11 @@ const UserReview = ({
             </div>
           </Grid.Col>
         </Grid>
-      </Container>
-    </>
-  );
+      </StyledContainer>
+    );
+  };
+
+  return <>{comment.map(displayComment)}</>;
 };
 
 export default UserReview;
