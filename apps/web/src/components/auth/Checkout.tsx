@@ -1,4 +1,5 @@
 import { AddressCard } from 'ui/Card/AddressCard';
+import { OrderSummary } from 'ui/Card/OrderSummary';
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Group, Button, Stack } from '@mantine/core';
 import React from 'react';
@@ -16,6 +17,7 @@ export const Checkout = () => {
       >
         <Stack>
           <AddressCard />
+          <OrderSummary />
         </Stack>
       </Modal>
       <Group position="center">
