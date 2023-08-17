@@ -10,7 +10,6 @@ export const SampleView = () => {
         <div>
           <Checkout />
           <br />
-          <Quantity />
           <Searchbar />
           <Product />
         </div>
