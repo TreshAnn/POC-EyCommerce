@@ -47,8 +47,7 @@ export class AuthService {
     if (!(await compare(rq.password, user.password))) {
       throw new UnauthorizedException();
     }
-    console.log('before return');
-    console.log('after return');
+
     const payload = {
       username: user.username,
       sub: user._id,
