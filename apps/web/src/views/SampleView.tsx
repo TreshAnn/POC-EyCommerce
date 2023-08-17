@@ -1,13 +1,16 @@
 import React from 'react';
-
+import { Checkout } from '../components/auth/Checkout';
+import { Product } from '../../../../packages/ui/product/Product';
+import { Quantity } from '../../../../packages/ui/quantity/Quantity';
+import { Searchbar } from '../../../../packages/ui/searchbar/searchbar';
 import { RatingComponent } from '../../../../packages/ui/rating/rating';
 
 export const SampleView = () => {
   return (
     <main>
-      {/* Section height is for demo purposes only; please position the footer at the bottom instead of the middle */}
       <section style={{ height: '100vh' }}>
         <div>
+          <Checkout />
           <br />
           <RatingComponent />
         </div>
