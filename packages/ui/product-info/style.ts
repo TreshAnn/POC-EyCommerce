@@ -23,6 +23,13 @@ export const StyledBox = styled(Box)`
     width: 100%;
     height: auto;
   }
+
+  .group-wrapper {
+    @media (max-width: ${sm}) {
+      gap: 0;
+      margin-bottom: 20px;
+    }
+  }
 `;
 
 export const StyledContainer = styled(Container)`
@@ -49,7 +56,8 @@ export const RatingText = styled(Text)`
   }
   @media (max-width: ${sm}) {
     white-space: normal;
-    font-size: 25px;
+    font-size: 23px;
+    line-height: 45px;
   }
 `;
 
@@ -57,6 +65,15 @@ export const RatingDescription = styled(Text)`
   font-size: 20px;
   color: #777;
   margin-right: 30px;
+
+  @media (max-width: ${md}) {
+    font-size: 18px;
+    gap: inherit;
+  }
+
+  @media (max-width: ${sm}) {
+    font-size: 15px;
+  }
 `;
 
 export const ProductNameText = styled(Text)`
@@ -73,10 +90,12 @@ export const ProductNameText = styled(Text)`
   @media (max-width: ${md}) {
     white-space: normal;
     font-size: 40px;
+    line-height: 60px;
   }
   @media (max-width: ${sm}) {
     white-space: normal;
     font-size: 35px;
+    line-height: 50px;
   }
 `;
 export const MerchantText = styled(Text)`
@@ -101,6 +120,8 @@ export const MerchantText = styled(Text)`
   @media (max-width: ${sm}) {
     white-space: normal;
     font-size: 15x;
+
+    line-height: 100%;
   }
 `;
 
@@ -118,10 +139,12 @@ export const ProductDescriptionText = styled(Text)`
   @media (max-width: ${md}) {
     white-space: normal;
     font-size: 15px;
+    margin-bottom: 40px;
   }
   @media (max-width: ${sm}) {
     white-space: normal;
     font-size: 13px;
+    margin-bottom: 50px;
   }
 `;
 export const ProductPriceText = styled(Text)`

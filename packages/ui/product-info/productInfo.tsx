@@ -33,7 +33,7 @@ export function ProductInfo({
     <StyledBox>
       <StyledContainer>
         <ProductNameText>{productName}</ProductNameText>
-        <Group>
+        <Group className="group-wrapper">
           <RatingText>{ratingValue.toFixed(1)}</RatingText>
           <Rating
             emptySymbol={
@@ -80,7 +80,7 @@ export function ProductInfo({
               src="https://picsum.photos/id/237/200/300"
               alt="Merchant"
               radius="200px"
-              style={{ width: '42.353px', height: '40px' }}
+              style={{ width: '40px', height: '40px' }}
             />
             <MerchantText>{merchantName}</MerchantText>
           </Group>
