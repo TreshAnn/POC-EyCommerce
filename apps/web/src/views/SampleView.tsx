@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Product } from '../../../../packages/ui/product/Product';
+import { ProductGallery } from '../../../../packages/ui/product-gallery/productGallery';
 // import { Product } from '../../../../packages/ui/product/Product';
 import { Quantity } from '../../../../packages/ui/quantity/Quantity';
 import { RatingComponent } from '../../../../packages/ui/rating/rating';
@@ -20,6 +21,7 @@ export const SampleView = () => {
           {/* <Product /> */}
           <UserReview comment={testData} />
           <RatingComponent />
+          <ProductGallery />
         </div>
       </section>
     </main>
