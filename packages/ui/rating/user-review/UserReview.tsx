@@ -1,5 +1,5 @@
 import { Grid, Text } from '@mantine/core';
-import { StarRating } from './Rating';
+import { StarRating } from '../StarRating';
 import { StyledContainer, commentStyle } from './style';
 
 interface CommentBody {
