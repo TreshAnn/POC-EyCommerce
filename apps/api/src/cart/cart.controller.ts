@@ -58,18 +58,16 @@ export class CartController {
   }
 
   @Put('/')
-  async updateCartItem(@Body() reqBody, @Request() req) {
-    const userIDFromToken = await this.cartService.extractIdFromToken(req);
+  async updateCartItem(@Request() rqHeader, @Body() reqBody) {
     const newUpdateItemDto = await this.cartService.createItem(
       reqBody.productID,
       reqBody.quantity,
     );
 
     const cart = await this.cartService.updateCartItem(
-      userIDFromToken,
+      rqHeader,
       newUpdateItemDto,
     );
-
     return cart;
   }
 }

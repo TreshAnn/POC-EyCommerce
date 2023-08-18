@@ -1,4 +1,6 @@
-import { Card, Flex, Grid, Group, Paper, Text } from '@mantine/core';
+import { Button, Card, Flex, Grid, Group, Paper, Text } from '@mantine/core';
+
+import { PaymentDetails } from './PaymentDetails';
 
 interface Data {
   productName: string;
@@ -15,8 +17,8 @@ export const OrderSummary = () => {
     },
     {
       productName: 'Trecia’s Bakery',
-      price: 0,
-      qty: 0,
+      price: 100,
+      qty: 2,
     },
     {
       productName: 'Mark Louie’s Original Chicken Udon',
@@ -77,6 +79,10 @@ export const OrderSummary = () => {
           </Group>
         </Card.Section>
       </Card>
+      <PaymentDetails totalPrice={totalPrice} deliveryFee={deliveryFee} />
+      <Button fw={400} fullWidth style={{ color: 'black' }}>
+        Place Order
+      </Button>
     </>
   );
 };
