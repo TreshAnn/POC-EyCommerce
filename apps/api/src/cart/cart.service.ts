@@ -47,6 +47,7 @@ export class CartService {
       productImg: product.productImg,
       productName: product.productName,
       productPrice: product.productPrice,
+      productInventory: product.productInventory,
       quantity: itemQuantity,
     };
     return itemDto;
@@ -127,13 +128,20 @@ export class CartService {
       return newCart;
     }
   }
-  async updateCartItem(userID: string, itemDto: ItemDto): Promise<Cart> {
-    const { productID, quantity, productPrice } = itemDto;
+  async updateCartItem(reqHeader: any, itemDto: ItemDto): Promise<Cart> {
+    const userId = await this.extractIdFromToken(reqHeader);
 
-    const cart = await this.getCart(userID);
+    const { productID, quantity, productPrice, productInventory } = itemDto;
+
+    const cart = await this.getCart(userId);
 
     const validatedQuantity = await this.validateQuantity(quantity);
 
+    if (validatedQuantity > productInventory) {
+      throw new BadRequestException(
+        'Requested quantity exceeds product inventory.',
+      );
+    }
     const itemIndex = cart.orderedItems.findIndex(
       (item) => item.productID === productID,
     );
