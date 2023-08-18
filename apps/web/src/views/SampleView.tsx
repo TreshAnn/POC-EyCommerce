@@ -1,16 +1,12 @@
 import React from 'react';
+import { ProductInfo } from 'ui/product-info/productInfo';
+import { ProductData } from 'ui/product-info/sample.data';
 
-import { ProductInfo } from '../../../../packages/ui/product-info/productInfo';
-
-import { ProductData } from '../../../../packages/ui/product-info/sample.data';
+import { Product } from '../components/auth/Product';
 export const SampleView = () => {
   return (
     <main>
-      <section>
-        <div>
-          <ProductInfo />
-        </div>
-      </section>
+      <ProductInfo data={ProductData} />
     </main>
   );
 };
