@@ -36,7 +36,6 @@ export const ProductGallery: React.FC = () => {
               key={index}
               src={image}
               alt={`Thumbnail ${index}`}
-              //isSelected={selectedImage === image}
               onClick={() => handleImageClick(image)}
             />
           ))}
@@ -47,11 +46,18 @@ export const ProductGallery: React.FC = () => {
       </RightColumn>
       <CarouselContainer>
         <Carousel
-          maw={604}
+          maw={430}
+          mah={500}
+          slideSize="100%"
+          slideGap={10000}
           mx="auto"
           withIndicators
-          withControls={false}
-          height={604}
+          withControls={true}
+          breakpoints={[
+            { maxWidth: 'md', slideSize: '100%' },
+            { maxWidth: 'sm', slideSize: '100%', slideGap: 10 },
+            { maxWidth: 'xs', slideSize: '100%', slideGap: 10 },
+          ]}
           styles={{
             indicator: {
               width: '12px',
