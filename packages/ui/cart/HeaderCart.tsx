@@ -132,9 +132,11 @@ const HeaderCart = () => {
             <Text fz="md" color="black" style={{ whiteSpace: 'nowrap' }}>
               Subtotal &nbsp;&nbsp; ₱{subtotal.toFixed(2)}
             </Text>
-            <Button ml="20px" style={{ color: 'black' }}>
-              View Cart
-            </Button>
+            <Anchor href="/cart">
+              <Button ml="20px" style={{ color: 'black' }}>
+                View Cart
+              </Button>
+            </Anchor>
           </Flex>
         </StyledMenuLabel>
       </StyledMenuDropdown>
