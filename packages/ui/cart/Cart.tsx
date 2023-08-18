@@ -11,6 +11,7 @@ import {
 import { TiTrash } from 'react-icons/ti';
 
 import { Quantity } from '../quantity/Quantity';
+import { StyledQuantityWrapper } from './styles';
 
 interface ICartProps {
   imageSrc: string;
@@ -50,12 +51,14 @@ const Cart: React.FC<ICartProps> = ({
             <Text fz="lg" fw={500} color="yellow">
               ₱{price.toFixed(2)}
             </Text>
-            <Quantity
-              quantity={quantity}
-              onQuantityChange={(newQuantity) => {
-                onQuantityChange(newQuantity);
-              }}
-            />
+            <StyledQuantityWrapper>
+              <Quantity
+                quantity={quantity}
+                onQuantityChange={(newQuantity) => {
+                  onQuantityChange(newQuantity);
+                }}
+              />
+            </StyledQuantityWrapper>
           </div>
         </Flex>
         <Divider my="sm" />
