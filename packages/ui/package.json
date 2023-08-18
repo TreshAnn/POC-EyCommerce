@@ -25,7 +25,6 @@
     "@types/react-dom": "^18.2.0",
     "@types/styled-components": "^5.1.26",
     "clsx": "^2.0.0",
-    "embla-carousel-react": "8.0.0-rc11",
     "react-hook-form": "^7.45.2",
     "react-icons": "^4.10.1",
     "styled-components": "^6.0.5",
