@@ -23,6 +23,7 @@ interface IProductProps {
   productDescription: string;
   productPrice: number;
   merchantName: string;
+  productImg: string[];
 }
 
 interface Props {
@@ -36,12 +37,17 @@ export function ProductInfo({ data }: Props) {
     productDescription,
     productPrice,
     merchantName,
+    productImg,
   } = data;
+  const formattedPrice = productPrice.toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
   return (
     <Wrapper>
       <Grid className="grid-container" gutter="lg">
         <Col className="grid-layout" lg={6} md={7} xs={12}>
-          <ProductGallery />
+          <ProductGallery productImg={productImg} />
         </Col>
         <Col className="grid-layout" lg={6} md={5} xs={12}>
           <StyledBox>
@@ -68,9 +74,7 @@ export function ProductInfo({ data }: Props) {
                 <ProductDescriptionText>
                   {productDescription}
                 </ProductDescriptionText>
-                <ProductPriceText>
-                  Price: ₱{productPrice.toFixed(2)}
-                </ProductPriceText>
+                <ProductPriceText>Price: ₱{formattedPrice}</ProductPriceText>
               </ProductDescWrapper>
               <Group>
                 <AddToCartButton>

@@ -3,16 +3,8 @@ import styled from 'styled-components';
 
 import { Breakpoints } from '../Enum/enum';
 
-//  xs = '576px',
-//   sm = '768px',
-//   md = '992px',
-//   lg = '1200px',
-//   xl = '1400px',
-
 const xs = Breakpoints.xs;
 const sm = Breakpoints.sm;
-const md = Breakpoints.md;
-const lg = Breakpoints.lg;
 const xl = Breakpoints.xl;
 
 export const StyledContainer = styled(Container)`
@@ -21,6 +13,7 @@ export const StyledContainer = styled(Container)`
   height: 500px;
   margin: 0px;
   padding: 0;
+  justify-content: center;
 
   @media (max-width: ${xl}) {
     width: auto;
@@ -55,9 +48,6 @@ export const RightColumn = styled.div`
   @media (max-width: ${xl}) {
     align-items: center;
   }
-  @media (max-width: ${md}) {
-    display: none;
-  }
 `;
 
 export const ProductList = styled.div`
@@ -76,7 +66,6 @@ export const Thumbnail = styled.img`
 export const SelectedImage = styled.img`
   width: 450px;
   height: 450px;
-  border: 1px solid black;
 
   @media (max-width: ${sm}) {
     width: 400px;
@@ -89,22 +78,8 @@ export const SelectedImage = styled.img`
 `;
 
 export const CarouselContainer = styled(Container)`
-  display: none;
-
-  @media (max-width: ${md}) {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 350px;
-  }
-
-  @media (max-width: ${sm}) {
-    width: 100%;
-    height: auto;
-  }
-
-  @media (max-width: ${xs}) {
-    width: 350px;
-    height: auto;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 375px;
 `;

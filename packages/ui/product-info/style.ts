@@ -37,6 +37,7 @@ export const Wrapper = styled.div`
 
   .grid-layout {
     padding: 0;
+    justify-content: center;
   }
 
   .group-wrapper {
@@ -182,9 +183,9 @@ export const ProductDescriptionText = styled(Text)`
   font-size: 20px;
   font-weight: 400;
   margin: 0;
+  height: 170px;
 
   @media (max-width: ${lg}) {
-    margin-top: 25px;
     font-size: 17px;
   }
 
@@ -207,6 +208,7 @@ export const ProductPriceText = styled(Text)`
   margin-top: auto;
 
   @media (max-width: ${lg}) {
+    margin-top: 40px;
     font-size: 28px;
   }
 `;
@@ -219,6 +221,7 @@ export const ProductDescWrapper = styled(Container)`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  height: auto;
 `;
 
 export const StyledButton = styled(Button)`
