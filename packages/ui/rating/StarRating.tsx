@@ -39,6 +39,7 @@ export const StarRating = ({ rate }: RatingProps) => {
           />
         </svg>
       }
+      fractions={4}
       value={rate}
       readOnly
     />
