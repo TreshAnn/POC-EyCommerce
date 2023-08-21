@@ -1,23 +1,29 @@
+import { Button, Card, Image, Rating, Text, Title } from '@mantine/core';
+
 import { CardWrapper, ContentWrapper, DetailsWrapper } from './styles';
-import { Title, Card, Image, Text, Button, Rating } from '@mantine/core';
 interface IProductProps {
   ratingValue?: number;
+  name: string;
+  img: string;
+  price: number;
 }
 
-export function Product({ ratingValue = 0 }: IProductProps) {
+export function Product({
+  ratingValue = 0,
+  img,
+  name,
+  price = 0,
+}: IProductProps) {
   return (
     <CardWrapper>
       <Card shadow="sm" padding="lg" radius="md" withBorder>
         <Card.Section>
-          <Image
-            src="https://placehold.co/600x500.png?text=Product+Image"
-            alt="Product"
-          />
+          <Image src={img} alt="Product" />
         </Card.Section>
         <ContentWrapper>
           <DetailsWrapper className="product-name">
             <Title order={4} weight={500}>
-              Spicy Korean Chicken BBQ
+              {name}
             </Title>
           </DetailsWrapper>
           <DetailsWrapper className="product-rating">
@@ -60,7 +66,7 @@ export function Product({ ratingValue = 0 }: IProductProps) {
           </DetailsWrapper>
           <DetailsWrapper className="product-price">
             <Text size="lg" fw={500} color="yellow">
-              ₱ 120.00
+              &#8369; {price}
             </Text>
           </DetailsWrapper>
           <Button fz="md" fullWidth style={{ color: 'black' }}>

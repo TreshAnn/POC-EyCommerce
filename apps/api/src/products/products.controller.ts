@@ -12,6 +12,7 @@ import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { Product } from './schemas/products.schema';
 import { UpdateProductDataDto } from './dto/update-product.dto';
+import { Public } from 'src/auth/decorators/public.decorator';
 
 @Controller('products')
 export class ProductsController {
@@ -22,11 +23,19 @@ export class ProductsController {
     const createdProduct = await this.productsService.create(createProductDto);
     return createdProduct;
   }
+
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async findOne(@Param('id') id: string): Promise<Product> {
     return this.productsService.findOne(id);
   }
+
+  @Public()
+  @Get('get-all-product')
+  async findAllProducts(): Promise<Product[]> {
+    return this.productsService.findAllProducts();
+  }
+
   @HttpCode(HttpStatus.OK)
   @Put('update/:id')
   async findByIdAndUpdate(
