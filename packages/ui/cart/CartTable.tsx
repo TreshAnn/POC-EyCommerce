@@ -2,7 +2,7 @@ import { Image, Text, DEFAULT_THEME, Grid } from '@mantine/core';
 import { useState } from 'react';
 import { TiTrash } from 'react-icons/ti';
 import { Quantity } from '../quantity/Quantity';
-import { StyledTable, StyledScrollArea, StyledTableBody } from './styles';
+import { StyledTable, StyledScrollArea } from './styles';
 import { useMediaQuery } from '@mantine/hooks';
 import { data } from './sample.data';
 
