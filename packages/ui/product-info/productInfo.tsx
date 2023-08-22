@@ -26,19 +26,14 @@ interface IProductProps {
   productImg: string[];
 }
 
-interface Props {
-  data: IProductProps;
-}
-
-export function ProductInfo({ data }: Props) {
-  const {
-    productName,
-    ratingValue,
-    productDescription,
-    productPrice,
-    merchantName,
-    productImg,
-  } = data;
+export function ProductInfo({
+  productName,
+  ratingValue = 0,
+  productDescription,
+  productPrice = 0,
+  merchantName,
+  productImg,
+}: IProductProps) {
   const formattedPrice = productPrice.toLocaleString('en-US', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,

@@ -3,10 +3,6 @@ import styled from 'styled-components';
 
 import { Breakpoints } from '../utils/screen-size.constant';
 
-const xs = Breakpoints.xs;
-const sm = Breakpoints.sm;
-const xl = Breakpoints.xl;
-
 export const StyledContainer = styled(Container)`
   display: flex;
   width: 700px;
@@ -15,11 +11,11 @@ export const StyledContainer = styled(Container)`
   padding: 0;
   justify-content: center;
 
-  @media (max-width: ${xl}) {
+  @media (max-width: ${Breakpoints.xl}) {
     width: auto;
     height: 500px;
   }
-  @media (max-width: ${sm}) {
+  @media (max-width: ${Breakpoints.sm}) {
     width: 100%;
   }
 `;
@@ -33,7 +29,7 @@ export const LeftColumn = styled.div`
     overflow-y: auto;
   }
 
-  @media (max-width: ${xl}) {
+  @media (max-width: ${Breakpoints.xl}) {
     display: none;
   }
 `;
@@ -45,7 +41,7 @@ export const RightColumn = styled.div`
   align-items: center;
   width: 455px;
 
-  @media (max-width: ${xl}) {
+  @media (max-width: ${Breakpoints.xl}) {
     align-items: center;
   }
 `;
@@ -67,11 +63,11 @@ export const SelectedImage = styled.img`
   width: 450px;
   height: 450px;
 
-  @media (max-width: ${sm}) {
+  @media (max-width: ${Breakpoints.sm}) {
     width: 400px;
     height: auto;
   }
-  @media (max-width: ${xs}) {
+  @media (max-width: ${Breakpoints.xs}) {
     width: 350px;
     height: auto;
   }

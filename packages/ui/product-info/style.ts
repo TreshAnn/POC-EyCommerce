@@ -3,12 +3,6 @@ import styled from 'styled-components';
 
 import { Breakpoints } from '../utils/screen-size.constant';
 
-const xs = Breakpoints.xs;
-const sm = Breakpoints.sm;
-const md = Breakpoints.md;
-const lg = Breakpoints.lg;
-const xl = Breakpoints.xl;
-
 export const Wrapper = styled.div`
   display: flex;
   width: 100%;
@@ -18,17 +12,17 @@ export const Wrapper = styled.div`
   justify-content: center;
   flex-direction: column;
 
-  @media (max-width: ${sm}) {
+  @media (max-width: ${Breakpoints.sm}) {
     padding: 0;
   }
   .grid-container {
     margin: 0;
 
-    @media (max-width: ${lg}) {
+    @media (max-width: ${Breakpoints.lg}) {
       padding: 10px 20px;
     }
 
-    @media (max-width: ${md}) {
+    @media (max-width: ${Breakpoints.md}) {
       padding: 0;
       display: flex;
       flex-direction: row;
@@ -41,7 +35,7 @@ export const Wrapper = styled.div`
   }
 
   .group-wrapper {
-    @media (max-width: ${xl}) {
+    @media (max-width: ${Breakpoints.xl}) {
       gap: 0;
     }
   }
@@ -60,23 +54,23 @@ export const StyledBox = styled(Box)`
   border: 1px solid #fcfcfd;
   box-shadow: 0px 2px 2px 0px #777;
 
-  @media (max-width: ${xl}) {
+  @media (max-width: ${Breakpoints.xl}) {
     width: 600px;
     height: 500px;
   }
 
-  @media (max-width: ${lg}) {
+  @media (max-width: ${Breakpoints.lg}) {
     width: 100%;
     margin: 0;
   }
 
-  @media (max-width: ${sm}) {
+  @media (max-width: ${Breakpoints.sm}) {
     width: 100vw;
     margin: 0;
     margin-bottom: 5px;
   }
 
-  @media (max-width: ${xs}) {
+  @media (max-width: ${Breakpoints.xs}) {
     width: 300;
     padding: 5px;
     margin-bottom: 5px;
@@ -93,7 +87,7 @@ export const StyledContainer = styled(Container)`
   margin: 0;
   padding: 0;
 
-  @media (max-width: ${xs}) {
+  @media (max-width: ${Breakpoints.xs}) {
     padding: 5px;
   }
 `;
@@ -102,15 +96,15 @@ export const RatingText = styled(Text)`
   font-size: 40px;
   line-height: 60px;
 
-  @media (max-width: ${lg}) {
+  @media (max-width: ${Breakpoints.lg}) {
     font-size: 30px;
     margin-right: 5px;
   }
-  @media (max-width: ${md}) {
+  @media (max-width: ${Breakpoints.md}) {
     font-size: 35px;
     margin-left: 5px;
   }
-  @media (max-width: ${xs}) {
+  @media (max-width: ${Breakpoints.xs}) {
     font-size: 25px;
   }
 `;
@@ -121,16 +115,16 @@ export const RatingDescription = styled(Text)`
   margin-right: 30px;
   line-height: normal;
 
-  @media (max-width: ${lg}) {
+  @media (max-width: ${Breakpoints.lg}) {
     font-size: 16px;
     margin-left: 5px;
   }
 
-  @media (max-width: ${md}) {
+  @media (max-width: ${Breakpoints.md}) {
     font-size: 20px;
     margin-left: 5px;
   }
-  @media (max-width: ${xs}) {
+  @media (max-width: ${Breakpoints.xs}) {
     font-size: 18px;
   }
 `;
@@ -142,17 +136,17 @@ export const ProductNameText = styled(Text)`
   line-height: normal;
   align-items: flex-start;
 
-  @media (max-width: ${xl}) {
+  @media (max-width: ${Breakpoints.xl}) {
     font-size: 35px;
   }
-  @media (max-width: ${lg}) {
+  @media (max-width: ${Breakpoints.lg}) {
     font-size: 30px;
   }
-  @media (max-width: ${md}) {
+  @media (max-width: ${Breakpoints.md}) {
     font-size: 48px;
   }
 
-  @media (max-width: ${sm}) {
+  @media (max-width: ${Breakpoints.sm}) {
     font-size: 20px;
   }
 `;
@@ -167,12 +161,12 @@ export const MerchantText = styled(Text)`
   font-weight: 600;
   line-height: 130%;
 
-  @media (max-width: ${lg}) {
+  @media (max-width: ${Breakpoints.lg}) {
     font-size: 18px;
     font-weight: 500px;
     line-height: 100%;
   }
-  @media (max-width: ${xs}) {
+  @media (max-width: ${Breakpoints.xs}) {
     font-size: 16px;
   }
 `;
@@ -185,18 +179,18 @@ export const ProductDescriptionText = styled(Text)`
   margin: 0;
   height: 170px;
 
-  @media (max-width: ${lg}) {
+  @media (max-width: ${Breakpoints.lg}) {
     font-size: 17px;
   }
 
-  @media (max-width: ${md}) {
+  @media (max-width: ${Breakpoints.md}) {
     font-size: 20px;
   }
-  @media (max-width: ${sm}) {
+  @media (max-width: ${Breakpoints.sm}) {
     font-size: 22px;
   }
 
-  @media (max-width: ${xs}) {
+  @media (max-width: ${Breakpoints.xs}) {
     font-size: 18px;
   }
 `;
@@ -207,7 +201,7 @@ export const ProductPriceText = styled(Text)`
   align-self: flex-start;
   margin-top: auto;
 
-  @media (max-width: ${lg}) {
+  @media (max-width: ${Breakpoints.lg}) {
     margin-top: 40px;
     font-size: 28px;
   }
@@ -239,7 +233,7 @@ export const AddToCartButton = styled(StyledButton)`
   width: 130px;
   height: 45px;
 
-  @media (max-width: ${lg}) {
+  @media (max-width: ${Breakpoints.lg}) {
     width: 100px;
     height: 40px;
     font-size: 12px;
@@ -253,7 +247,7 @@ export const BuyNowButton = styled(StyledButton)`
   width: 109px;
   height: 45px;
 
-  @media (max-width: ${lg}) {
+  @media (max-width: ${Breakpoints.lg}) {
     width: 110px;
     height: 40px;
     font-size: 12px;

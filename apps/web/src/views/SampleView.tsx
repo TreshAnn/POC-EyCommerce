@@ -6,7 +6,14 @@ import { Product } from '../components/auth/Product';
 export const SampleView = () => {
   return (
     <main>
-      <ProductInfo data={ProductData} />
+      <ProductInfo
+        productName={ProductData.productName}
+        ratingValue={ProductData.ratingValue}
+        productDescription={ProductData.productDescription}
+        productPrice={ProductData.productPrice}
+        merchantName={ProductData.merchantName}
+        productImg={ProductData.productImg}
+      />
     </main>
   );
 };
