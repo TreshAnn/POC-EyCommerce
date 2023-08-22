@@ -14,8 +14,9 @@ import {
 import React, { useState } from 'react';
 import { Form } from 'ui';
 import * as z from 'zod';
-
+import { regionData, cityData, countryData } from './tempData';
 import { useRegister } from '../../lib/auth';
+import { useNavigate } from 'react-router-dom';
 import { StyledContainer } from './styles';
 
 const addressSchema = z.object({
@@ -44,12 +45,7 @@ const schema = z
         'Invalid email format. Please provide a valid email address (example@example.com).',
     }),
     address: addressSchema,
-    phoneNumber: z
-      .string()
-      .max(13, { message: 'Phone Number exceeds 10' })
-      .includes('+63', {
-        message: 'Include Country Code (ex. +639123456789)',
-      }),
+    phoneNumber: z.string().max(11),
     password: z
       .string()
       .regex(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/, {
@@ -89,6 +85,7 @@ type IRegisterFormProps = {
 
 export const RegisterForm = ({ onSuccess }: IRegisterFormProps) => {
   const register = useRegister();
+  const navigate = useNavigate();
   const [data] = useState([
     { value: 'consumer', label: 'Consumer' },
     { value: 'merchant', label: 'Merchant' },
@@ -96,8 +93,13 @@ export const RegisterForm = ({ onSuccess }: IRegisterFormProps) => {
 
   const handleOnSubmit = (values) => {
     values.address.zipcode = parseInt(values.address.zipcode, 10);
+    if (typeof values.address.region === 'string') {
+      values.address.region = values.address.region.trim();
+    }
+    values.phoneNumber = `+63${values.phoneNumber}`;
     register.mutate(values, {
       onSuccess: () => {
+        navigate('/login');
         onSuccess();
       },
     });
@@ -156,7 +158,8 @@ export const RegisterForm = ({ onSuccess }: IRegisterFormProps) => {
                 />
                 <TextInput
                   label="Phone Number"
-                  placeholder="Enter your Number"
+                  placeholder="Enter Number..."
+                  icon={<Text size="sm">+63</Text>}
                   required
                   error={formState.errors['phoneNumber']?.message}
                   {...register('phoneNumber')}
@@ -169,19 +172,25 @@ export const RegisterForm = ({ onSuccess }: IRegisterFormProps) => {
                   {...register('address.street')}
                 />
                 <Group grow>
-                  <TextInput
+                  <Select
                     label="City"
-                    placeholder="Enter your City"
+                    data={cityData}
+                    placeholder="Select City..."
                     required
+                    onChange={(selectedValue: string) => {
+                      setValue('address.city', selectedValue);
+                    }}
                     error={formState.errors['address.city']?.message}
-                    {...register('address.city')}
                   />
-                  <TextInput
+                  <Select
                     label="Region"
-                    placeholder="Enter your Region"
+                    data={regionData}
+                    placeholder="Select Region..."
                     required
+                    onChange={(selectedValue: string) => {
+                      setValue('address.region', selectedValue);
+                    }}
                     error={formState.errors['address.region']?.message}
-                    {...register('address.region')}
                   />
                 </Group>
                 <Group grow>
@@ -192,12 +201,15 @@ export const RegisterForm = ({ onSuccess }: IRegisterFormProps) => {
                     error={formState.errors['address.zipcode']?.message}
                     {...register('address.zipcode')}
                   />
-                  <TextInput
+                  <Select
                     label="Country"
-                    placeholder="Enter your Country"
+                    data={countryData}
+                    placeholder="Select Country..."
                     required
+                    onChange={(selectedValue: string) => {
+                      setValue('address.country', selectedValue);
+                    }}
                     error={formState.errors['address.country']?.message}
-                    {...register('address.country')}
                   />
                 </Group>
                 <PasswordInput
