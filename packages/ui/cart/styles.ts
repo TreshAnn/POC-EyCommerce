@@ -29,14 +29,18 @@ export const StyledTable = styled(Table)`
   padding: 30px;
   border-spacing: 0px;
   border-collapse: separate;
+
   thead tr th {
     color: black;
   }
 
-  th {
+  thead {
+    position: sticky;
+    top: -1px;
     background-color: white;
-    padding: 10px;
+    z-index: 2;
   }
+
   td {
     background-color: white;
     padding: 10px;

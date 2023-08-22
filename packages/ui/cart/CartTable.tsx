@@ -2,7 +2,7 @@ import { Image, Text, DEFAULT_THEME, Grid } from '@mantine/core';
 import { useState } from 'react';
 import { TiTrash } from 'react-icons/ti';
 import { Quantity } from '../quantity/Quantity';
-import { StyledTable, StyledScrollArea } from './styles';
+import { StyledTable, StyledScrollArea, StyledTableBody } from './styles';
 import { useMediaQuery } from '@mantine/hooks';
 import { data } from './sample.data';
 
@@ -45,7 +45,7 @@ const CartTable = () => {
   const web = useMediaQuery(`(min-width: ${DEFAULT_THEME.breakpoints.sm})`);
 
   return (
-    <StyledScrollArea h={475}>
+    <StyledScrollArea>
       {web ? (
         <StyledTable fontSize="md">
           <thead>
@@ -77,7 +77,6 @@ const CartTable = () => {
               </th>
             </tr>
           </thead>
-
           <tbody>
             {cartItems.map((item) => (
               <CartRow
