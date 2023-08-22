@@ -1,11 +1,10 @@
-import { Button } from '@mantine/core';
+import { Button, Grid } from '@mantine/core';
 import React from 'react';
 import Product from 'ui/product/Product';
 
 import { useGetAllProducts } from '../api';
 import { CreateProductDTO, useCreateProduct } from '../api/addProduct';
 import { StyledContainer } from './styles';
-import { Grid } from '@mantine/core';
 
 export const ProductsView = () => {
   const productQuery = useGetAllProducts({});
