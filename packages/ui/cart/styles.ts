@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Menu, Table, DEFAULT_THEME } from '@mantine/core';
+import { Menu, Table, DEFAULT_THEME, ScrollArea } from '@mantine/core';
 
 export const StyledMenuDropdown = styled(Menu.Dropdown)`
   max-height: 575px;
@@ -19,6 +19,10 @@ export const StyledQuantityWrapper = styled.div`
 export const StyledTableDiv = styled.div`
   overflow-y: auto;
   height: 200px;
+`;
+
+export const StyledScrollArea = styled(ScrollArea)`
+  height: 65vh;
 `;
 
 export const StyledTable = styled(Table)`
