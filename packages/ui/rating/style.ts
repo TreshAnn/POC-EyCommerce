@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Breakpoints } from '../utils/screen-size.constant';
 
 export const Wrapper = styled.div`
   /* display: flex; */
@@ -111,23 +112,19 @@ export const Wrapper = styled.div`
     font-size: 14px;
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: ${Breakpoints.xs}) {
     height: 120px;
   }
 
-  @media only screen and (min-width: 600px) {
+  @media only screen and (min-width: ${Breakpoints.sm}) {
     height: 150px;
   }
 
-  @media only screen and (min-width: 768px) {
-    height: 150px;
-  }
-
-  @media only screen and (min-width: 992px) {
+  @media only screen and (min-width: ${Breakpoints.md}) {
     height: 180px;
   }
 
-  @media only screen and (min-width: 1200px) {
+  @media only screen and (min-width: ${Breakpoints.lg}) {
     height: 170px;
   }
 `;
