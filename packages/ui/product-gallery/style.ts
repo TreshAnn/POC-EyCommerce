@@ -1,7 +1,7 @@
 import { Container } from '@mantine/core';
 import styled from 'styled-components';
 
-import { Breakpoints } from '../Enum/enum';
+import { Breakpoints } from '../utils/screen-size.constant';
 
 const xs = Breakpoints.xs;
 const sm = Breakpoints.sm;

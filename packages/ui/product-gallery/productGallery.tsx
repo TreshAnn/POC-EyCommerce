@@ -2,7 +2,6 @@ import { Carousel } from '@mantine/carousel';
 import { useMediaQuery } from '@mantine/hooks';
 import React, { useState } from 'react';
 
-import { Breakpoints } from '../Enum/enum';
 import {
   CarouselContainer,
   LeftColumn,
@@ -12,6 +11,7 @@ import {
   StyledContainer,
   Thumbnail,
 } from '../product-gallery/style';
+import { Breakpoints } from '../utils/screen-size.constant';
 
 interface IProductGalleryProps {
   productImg: string[];
