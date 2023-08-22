@@ -27,7 +27,7 @@ export const PaymentDetails: React.FC<PaymentDetailsProps> = ({
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <Flex align="center">
               <IoCashOutline size={20} style={{ marginRight: '5px' }} />
-              <Text size="sm">Cash Payment</Text>
+              <Text size="sm">Cash</Text>
             </Flex>
           </div>
         </Group>
