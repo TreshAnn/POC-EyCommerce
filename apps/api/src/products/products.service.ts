@@ -44,6 +44,10 @@ export class ProductsService {
     return product;
   }
 
+  async findAllProducts(): Promise<Product[]> {
+    return this.productModel.find();
+  }
+
   async findByIdAndUpdate(
     id: string,
     updateData: UpdateProductDataDto,

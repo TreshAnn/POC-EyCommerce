@@ -2,10 +2,10 @@ import { configureAuth } from 'react-query-auth';
 
 import storage from '../utils/storage';
 import {
+  createUserApi,
   loginWithUsernameAndPassword,
   TLoginCredentialsDTO,
   TLoginResponse,
-  createUserApi,
   TRegisterData,
 } from '../views/auth';
 
