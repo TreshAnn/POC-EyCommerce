@@ -1,6 +1,11 @@
 import { Button, Card, Image, Rating, Text, Title } from '@mantine/core';
 
-import { CardWrapper, ContentWrapper, DetailsWrapper } from './styles';
+import {
+  CardWrapper,
+  ContentWrapper,
+  DetailsWrapper,
+  ProductImage,
+} from './styles';
 interface IProductProps {
   ratingValue?: number;
   name: string;
@@ -18,7 +23,7 @@ export function Product({
     <CardWrapper>
       <Card shadow="sm" padding="lg" radius="md" withBorder>
         <Card.Section>
-          <Image src={img} alt="Product" />
+          <ProductImage src={img} alt="Product" />
         </Card.Section>
         <ContentWrapper>
           <DetailsWrapper className="product-name">

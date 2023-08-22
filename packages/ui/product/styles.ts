@@ -1,7 +1,9 @@
 import { styled } from 'styled-components';
+import { Image } from '@mantine/core';
 
-export const ProductImage = styled.img`
+export const ProductImage = styled(Image)`
   height: 200px;
+  padding: 20px 40px;
 `;
 
 export const CardWrapper = styled.div`
