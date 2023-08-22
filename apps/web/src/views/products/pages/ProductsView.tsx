@@ -4,6 +4,8 @@ import Product from 'ui/product/Product';
 
 import { useGetAllProducts } from '../api';
 import { CreateProductDTO, useCreateProduct } from '../api/addProduct';
+import { StyledContainer } from './styles';
+import { Grid } from '@mantine/core';
 
 export const ProductsView = () => {
   const productQuery = useGetAllProducts({});
@@ -39,21 +41,27 @@ export const ProductsView = () => {
 
   return (
     <main>
-      <Button
-        loading={createProductMutation.isLoading}
-        onClick={handleAddProduct}
-      >
-        Add Product
-      </Button>
-      {productQuery.data.map((data, index) => {
-        return (
-          <Product
-            img={data.productImg.ImgURL}
-            name={data.productName}
-            price={data.productPrice}
-          ></Product>
-        );
-      })}
+      <StyledContainer fluid>
+        <Button
+          loading={createProductMutation.isLoading}
+          onClick={handleAddProduct}
+        >
+          Add Product
+        </Button>
+        <Grid>
+          {productQuery.data.map((data, index) => {
+            return (
+              <Grid.Col sm={4} md={3} lg={2.4}>
+                <Product
+                  img={data.productImg.ImgURL}
+                  name={data.productName}
+                  price={data.productPrice}
+                ></Product>
+              </Grid.Col>
+            );
+          })}
+        </Grid>
+      </StyledContainer>
     </main>
   );
 };

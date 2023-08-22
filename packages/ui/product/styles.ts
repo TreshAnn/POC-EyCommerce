@@ -5,9 +5,9 @@ export const ProductImage = styled.img`
 `;
 
 export const CardWrapper = styled.div`
-  margin: 48px auto 0;
-  width: 300px;
-  height: 600px;
+  margin: 12px auto 0;
+  width: 240px;
+  height: 500px;
   // display: flex; TO DO - add this when used for the catalog page
 `;
 
