@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
   padding: 0;
   margin: 0 20px 0 20px;
   line-height: 1%;
-  height: 270px;
+  height: 150px;
 
   .group-left {
     height: 32px;
@@ -109,5 +109,25 @@ export const Wrapper = styled.div`
 
   .text-progress {
     font-size: 14px;
+  }
+
+  @media only screen and (max-width: 600px) {
+    height: 120px;
+  }
+
+  @media only screen and (min-width: 600px) {
+    height: 150px;
+  }
+
+  @media only screen and (min-width: 768px) {
+    height: 150px;
+  }
+
+  @media only screen and (min-width: 992px) {
+    height: 180px;
+  }
+
+  @media only screen and (min-width: 1200px) {
+    height: 170px;
   }
 `;
