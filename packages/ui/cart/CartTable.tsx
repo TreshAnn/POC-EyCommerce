@@ -11,6 +11,7 @@ import { TiTrash } from 'react-icons/ti';
 import { Quantity } from '../quantity/Quantity';
 import { StyledTable } from './styles';
 import { useMediaQuery } from '@mantine/hooks';
+import { data } from './sample.data';
 
 interface ICartItem {
   id: number;
@@ -27,99 +28,7 @@ interface ICartProps {
 }
 
 const CartTable = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      imageSrc:
-        'https://retailminded.com/wp-content/uploads/2016/03/EN_GreenOlive-1.jpg',
-      merchant: 'Sample Merchant 1',
-      productName: 'Product 1',
-      price: 200.0,
-      quantity: 4,
-    },
-    {
-      id: 2,
-      imageSrc: 'path-to-image-2.jpg',
-      merchant: 'Sample Merchant 2',
-      productName: 'Product 2',
-      price: 150.0,
-      quantity: 2,
-    },
-    {
-      id: 3,
-      imageSrc: 'path-to-image-2.jpg',
-      merchant: 'Sample Merchant 3',
-      productName: 'Product 2',
-      price: 250.0,
-      quantity: 2,
-    },
-    {
-      id: 4,
-      imageSrc: 'path-to-image-2.jpg',
-      merchant: 'Sample Merchant 3',
-      productName: 'Product 2',
-      price: 250.0,
-      quantity: 2,
-    },
-    {
-      id: 5,
-      imageSrc: 'path-to-image-2.jpg',
-      merchant: 'Sample Merchant 3',
-      productName: 'Product 2',
-      price: 250.0,
-      quantity: 2,
-    },
-    {
-      id: 6,
-      imageSrc: 'path-to-image-2.jpg',
-      merchant: 'Sample Merchant 3',
-      productName: 'Product 2',
-      price: 250.0,
-      quantity: 2,
-    },
-    {
-      id: 7,
-      imageSrc: 'path-to-image-2.jpg',
-      merchant: 'Sample Merchant 3',
-      productName: 'Product 2',
-      price: 250.0,
-      quantity: 2,
-    },
-    {
-      id: 8,
-      imageSrc: 'path-to-image-2.jpg',
-      merchant: 'Sample Merchant 3',
-      productName: 'Product 2',
-      price: 250.0,
-      quantity: 2,
-    },
-    {
-      id: 9,
-      imageSrc: 'path-to-image-2.jpg',
-      merchant: 'Sample Merchant 3',
-      productName: 'Product 2',
-      price: 250.0,
-      quantity: 2,
-    },
-    {
-      id: 10,
-      imageSrc: 'path-to-image-2.jpg',
-      merchant: 'Sample Merchant 3',
-      productName: 'Product 2',
-      price: 250.0,
-      quantity: 2,
-    },
-    {
-      id: 11,
-      imageSrc: 'path-to-image-2.jpg',
-      merchant: 'Sample Merchant 3',
-      productName: 'Product 2',
-      price: 250.0,
-      quantity: 2,
-    },
-
-    // Add more items as needed to test
-  ]);
+  const [cartItems, setCartItems] = useState(data);
 
   const calculateSubtotal = (items: ICartItem[]) => {
     return items.reduce((total, item) => total + item.price * item.quantity, 0);
@@ -263,19 +172,17 @@ const CartRow: React.FC<ICartProps> = ({ item, onQuantityChange }) => {
       ) : (
         <>
           <tr key={item.id}>
-            {/* <td> TO DO - remove once approved
-            <Image
-              width={120}
-              height={120}
-              src={item.imageSrc}
-              alt="With default placeholder"
-              withPlaceholder
-            />
-          </td> */}
             <td className="col-two">
               <Text fz="xs" align="start">
                 {item.productName}
               </Text>
+              <Image
+                width={75}
+                height={75}
+                src={item.imageSrc}
+                alt="With default placeholder"
+                withPlaceholder
+              />
             </td>
             <td>
               <Text fz="xs">₱{item.price.toFixed(2)}</Text>
