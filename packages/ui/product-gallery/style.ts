@@ -1,18 +1,22 @@
 import { Container } from '@mantine/core';
 import styled from 'styled-components';
 
-const maxMobileWidth = '976px';
-const sm = '600px';
+import { Breakpoints } from '../utils/screen-size.constant';
 
 export const StyledContainer = styled(Container)`
   display: flex;
-  width: 772px;
-  height: 604px;
+  width: 700px;
+  height: 500px;
   margin: 0px;
+  padding: 0;
+  justify-content: center;
 
-  @media (max-width: ${maxMobileWidth}) {
+  @media (max-width: ${Breakpoints.xl}) {
+    width: auto;
+    height: 500px;
+  }
+  @media (max-width: ${Breakpoints.sm}) {
     width: 100%;
-    height: auto;
   }
 `;
 
@@ -25,12 +29,7 @@ export const LeftColumn = styled.div`
     overflow-y: auto;
   }
 
-  @media (max-width: ${maxMobileWidth}) {
-    &:hover {
-      overflow-y: auto;
-    }
-  }
-  @media (max-width: ${sm}) {
+  @media (max-width: ${Breakpoints.xl}) {
     display: none;
   }
 `;
@@ -40,11 +39,10 @@ export const RightColumn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 10px;
-  width: 604px;
+  width: 455px;
 
-  @media (max-width: ${sm}) {
-    display: none;
+  @media (max-width: ${Breakpoints.xl}) {
+    align-items: center;
   }
 `;
 
@@ -53,44 +51,31 @@ export const ProductList = styled.div`
   width: 168px;
   flex-direction: column;
   gap: 10px;
-
-  @media (max-width: ${sm}) {
-    width: 100px;
-  }
 `;
 
 export const Thumbnail = styled.img`
   width: 153px;
   height: 153px;
   cursor: pointer;
-
-  @media (max-width: ${sm}) {
-    width: 100px;
-  }
 `;
 
 export const SelectedImage = styled.img`
-  width: 604px;
-  height: 604px;
+  width: 450px;
+  height: 450px;
 
-  @media (max-width: ${maxMobileWidth}) {
-    width: 100%;
-    height: 550px;
+  @media (max-width: ${Breakpoints.sm}) {
+    width: 400px;
+    height: auto;
   }
-  @media (max-width: ${sm}) {
-    height: 500px;
+  @media (max-width: ${Breakpoints.xs}) {
+    width: 350px;
+    height: auto;
   }
 `;
 
 export const CarouselContainer = styled(Container)`
-  display: none;
-
-  @media (max-width: ${sm}) {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 10px;
-    width: 604px;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 375px;
 `;

@@ -1,4 +1,5 @@
 import { Carousel } from '@mantine/carousel';
+import { useMediaQuery } from '@mantine/hooks';
 import React, { useState } from 'react';
 
 import {
@@ -10,65 +11,69 @@ import {
   StyledContainer,
   Thumbnail,
 } from '../product-gallery/style';
+import { Breakpoints } from '../utils/screen-size.constant';
 
-const imageUrls = [
-  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6pJrM3THonook4QahSDYOIJhvk9pOPEq_DA&usqp=CAU',
-  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5hINwudKO3LHLMg7jNeF93QUbH18Z-hTVjQ&usqp=CAU',
-  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjRpdlEgOL790GI3DHpdhm-3-cJB-U_4z98A&usqp=CAU',
-  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmg9CJ9EqC1QieFQn2AifLSJ6WEE1ieB8PNg&usqp=CAU',
-  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5hINwudKO3LHLMg7jNeF93QUbH18Z-hTVjQ&usqp=CAU',
-  // Add more image URLs as needed
-];
+interface IProductGalleryProps {
+  productImg: string[];
+}
 
-export const ProductGallery: React.FC = () => {
-  const [selectedImage, setSelectedImage] = useState(imageUrls[0]);
+export const ProductGallery: React.FC<IProductGalleryProps> = ({
+  productImg,
+}) => {
+  const [selectedImage, setSelectedImage] = useState(productImg[0]);
 
   const handleImageClick = (image: string) => {
     setSelectedImage(image);
   };
 
+  const isMd = useMediaQuery(`(max-width: ${Breakpoints.md})`);
+
   return (
     <StyledContainer>
       <LeftColumn>
         <ProductList>
-          {imageUrls.map((image, index) => (
+          {productImg.map((image, index) => (
             <Thumbnail
               key={index}
               src={image}
               alt={`Thumbnail ${index}`}
-              //isSelected={selectedImage === image}
               onClick={() => handleImageClick(image)}
             />
           ))}
         </ProductList>
       </LeftColumn>
       <RightColumn>
-        <SelectedImage src={selectedImage} alt="Selected Product" />
-      </RightColumn>
-      <CarouselContainer>
-        <Carousel
-          maw={604}
-          mx="auto"
-          withIndicators
-          withControls={false}
-          height={604}
-          styles={{
-            indicator: {
-              width: '12px',
-              height: '4px',
-              transition: 'width 250ms ease',
+        {!isMd ? (
+          <SelectedImage src={selectedImage} alt="Selected Product" />
+        ) : (
+          <CarouselContainer>
+            <Carousel
+              maw={375}
+              mx="auto"
+              withIndicators
+              height={375}
+              dragFree
+              slideGap="md"
+              align="start"
+              styles={{
+                indicator: {
+                  width: '12px',
+                  height: '4px',
+                  transition: 'width 250ms ease',
 
-              '&[data-active]': {
-                width: '40px',
-              },
-            },
-          }}
-        >
-          {imageUrls.map((image, index) => (
-            <SelectedImage key={index} src={image} alt={`Product ${index}`} />
-          ))}
-        </Carousel>
-      </CarouselContainer>
+                  '&[data-active]': {
+                    width: '40px',
+                  },
+                },
+              }}
+            >
+              {productImg.map((image, index) => (
+                <img key={index} src={image} alt={`Image ${index}`} />
+              ))}
+            </Carousel>
+          </CarouselContainer>
+        )}
+      </RightColumn>
     </StyledContainer>
   );
 };
