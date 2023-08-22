@@ -24,16 +24,16 @@ export class ProductsController {
     return createdProduct;
   }
 
-  @Get(':id')
-  @HttpCode(HttpStatus.OK)
-  async findOne(@Param('id') id: string): Promise<Product> {
-    return this.productsService.findOne(id);
-  }
-
   @Public()
   @Get('get-all-product')
   async findAllProducts(): Promise<Product[]> {
     return this.productsService.findAllProducts();
+  }
+
+  @Get(':id')
+  @HttpCode(HttpStatus.OK)
+  async findOne(@Param('id') id: string): Promise<Product> {
+    return this.productsService.findOne(id);
   }
 
   @HttpCode(HttpStatus.OK)
