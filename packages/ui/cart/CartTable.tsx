@@ -43,6 +43,11 @@ const CartTable = () => {
   };
 
   const web = useMediaQuery(`(min-width: ${DEFAULT_THEME.breakpoints.sm})`);
+  const totalItems = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0,
+  );
+  const subtotal = calculateSubtotal(cartItems);
 
   return (
     <StyledScrollArea>
@@ -87,6 +92,29 @@ const CartTable = () => {
               />
             ))}
           </tbody>
+          <tfoot>
+            <tr>
+              <th colSpan={5} style={{ textAlign: 'right' }}>
+                <Text fz="sm" fw={100} c="black">
+                  Total ({totalItems} items):{' '}
+                  <Text fz="sm" fw={700}>
+                    ₱{subtotal.toFixed(2)}
+                  </Text>
+                </Text>
+              </th>
+              <th colSpan={1}>
+                <button
+                  style={{
+                    marginLeft: '20px',
+                    backgroundColor: '#FFD500',
+                    color: 'black',
+                  }}
+                >
+                  Checkout
+                </button>
+              </th>
+            </tr>
+          </tfoot>
         </StyledTable>
       ) : (
         <StyledTable>
