@@ -7,6 +7,7 @@ export interface Product {
   productPrice: number;
   productInventory: number;
   productCategory: string[];
+  merchantID: string;
   isActive: boolean;
 }
 

@@ -12,19 +12,19 @@ export const ProductsView = () => {
 
   const handleAddProduct = () => {
     const rq: CreateProductDTO = {
-      productID: 'product11333',
+      productID: 'product10010',
       productImg: {
         ImgAttch: 'base64encodedimage',
         ImgURL:
-          'https://ever-supermarket2.myshopify.com/cdn/shop/products/9000007743-Purefoods-Tender-Juicy-Hotdog-Jumbo-45-1kg-210430_cefb9798-cde5-4bd8-8931-33c201ca4f69_1200x1200.jpg?v=1674195201',
+          'https://sneakernews.com/wp-content/uploads/2020/02/nike-kobe-5-protro-lakers-CD4991-500-2.jpg',
       },
-      productName: 'TJ CheeseDog 123213',
-      productInfo: 'TJ Desc',
-      productPrice: 180,
-      productInventory: 3,
+      productName: 'Kobe 5 Protro',
+      productInfo: 'Mamba 4ever',
+      productPrice: 12000,
+      productInventory: 10,
       productCategory: ['sample1'],
     };
-
+    console.log(rq);
     createProductMutation.mutate({ ...rq });
   };
 
