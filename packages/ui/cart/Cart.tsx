@@ -30,6 +30,11 @@ const Cart: React.FC<ICartProps> = ({
   quantity,
   onQuantityChange,
 }) => {
+  const formattedPrice = price.toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
   return (
     <div>
       <Paper shadow="xs" radius="lg" p="md">
@@ -49,7 +54,7 @@ const Cart: React.FC<ICartProps> = ({
             </Text>
             <Text fz="sm">{productName}</Text>
             <Text fz="lg" fw={500} color="yellow">
-              ₱{price.toFixed(2)}
+              ₱{formattedPrice}
             </Text>
             <StyledQuantityWrapper>
               <Quantity
