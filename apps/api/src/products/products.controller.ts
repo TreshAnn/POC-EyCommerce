@@ -25,9 +25,13 @@ export class ProductsController {
     return this.productsService.findAllProducts();
   }
 
+  @Get('get-merchant-products')
+  async findAllMerchantProducts(@Request() req): Promise<Product[]> {
+    return this.productsService.findAllMerchantProducts(req);
+  }
+
   @Post('create')
   async create(@Request() req, @Body() createProductDto: CreateProductDto) {
-    console.log(createProductDto);
     const createdProduct = await this.productsService.create(
       req,
       createProductDto,

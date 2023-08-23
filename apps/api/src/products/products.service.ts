@@ -4,6 +4,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
 import { CreateProductDto } from '../products/dto/create-product.dto';
 import { UpdateProductDataDto } from '../products/dto/update-product.dto';
@@ -53,6 +54,14 @@ export class ProductsService {
 
   async findAllProducts(): Promise<Product[]> {
     return this.productModel.find();
+  }
+
+  async findAllMerchantProducts(req: any): Promise<Product[]> {
+    const merchantID = await extractIdFromToken(req, this.jwtService);
+    console.log(merchantID);
+    return this.productModel.find({
+      merchantID: merchantID,
+    });
   }
 
   async findByIdAndUpdate(
