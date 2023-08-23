@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, SchemaTypes } from 'mongoose';
+import { Merchant } from 'src/merchants/schemas/merchant.schema';
 
 export type ProductDocument = HydratedDocument<Product>;
 
@@ -34,6 +35,9 @@ export class Product {
 
   @Prop()
   productCategory: string[];
+
+  @Prop({ type: SchemaTypes.ObjectId, ref: Merchant.name })
+  merchantID: string;
 
   @Prop({ default: true })
   isActive: boolean;
