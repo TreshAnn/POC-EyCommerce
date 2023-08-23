@@ -5,6 +5,7 @@ import { Quantity } from '../quantity/Quantity';
 import { StyledTable, StyledScrollArea } from './styles';
 import { useMediaQuery } from '@mantine/hooks';
 import { data } from './sample.data';
+import { Cart, OrderedItems } from '../../../apps/web/src/views/cart/types';
 
 interface ICartItem {
   id: number;
@@ -16,12 +17,17 @@ interface ICartItem {
 }
 
 interface ICartProps {
-  item: ICartItem;
+  item: OrderedItems;
   onQuantityChange: (newQuantity: number) => void;
 }
 
-const CartTable = () => {
-  const [cartItems, setCartItems] = useState(data);
+interface Props {
+  data: Cart;
+}
+
+const CartTable = ({ data: { orderedItems } }: Props) => {
+  const [cartItems, setCartItems] = useState(orderedItems);
+  // const { data: cartItems, isLoading, isError, error } = useGetCart({});
 
   const calculateSubtotal = (items: ICartItem[]) => {
     return items.reduce((total, item) => total + item.price * item.quantity, 0);
@@ -78,11 +84,12 @@ const CartTable = () => {
             </tr>
           </thead>
           <tbody>
-            {cartItems.map((item) => (
+            {cartItems.map((item, index) => (
               <CartRow
+                key={index}
                 item={item}
                 onQuantityChange={(newQuantity: number) =>
-                  handleCartItemQuantityChange(item.id, newQuantity)
+                  handleCartItemQuantityChange(item.quantity, newQuantity)
                 }
               />
             ))}
@@ -111,7 +118,7 @@ const CartTable = () => {
               <CartRow
                 item={item}
                 onQuantityChange={(newQuantity: number) =>
-                  handleCartItemQuantityChange(item.id, newQuantity)
+                  handleCartItemQuantityChange(item.quantity, newQuantity)
                 }
               />
             ))}
@@ -129,12 +136,12 @@ const CartRow: React.FC<ICartProps> = ({ item, onQuantityChange }) => {
     <>
       {web ? (
         <>
-          <tr key={item.id}>
+          <tr key={item.productID}>
             <td>
               <Image
                 width={120}
                 height={120}
-                src={item.imageSrc}
+                src={item?.productImg?.ImgURL}
                 alt="With default placeholder"
                 withPlaceholder
               />
@@ -142,7 +149,7 @@ const CartRow: React.FC<ICartProps> = ({ item, onQuantityChange }) => {
             <td className="col-two">
               <Text align="start">{item.productName}</Text>
             </td>
-            <td>₱{item.price.toFixed(2)}</td>
+            <td>₱{item.productPrice.toFixed(2)}</td>
             <td>
               <Quantity
                 quantity={item.quantity}
@@ -153,7 +160,7 @@ const CartRow: React.FC<ICartProps> = ({ item, onQuantityChange }) => {
             </td>
             <td>
               <Text fz="xl" fw={700} c="brand">
-                ₱{(item.quantity * item.price).toFixed(2)}
+                ₱{(item.quantity * item.productPrice).toFixed(2)}
               </Text>
             </td>
             <td>
@@ -163,7 +170,7 @@ const CartRow: React.FC<ICartProps> = ({ item, onQuantityChange }) => {
         </>
       ) : (
         <>
-          <tr key={item.id}>
+          <tr key={item.productID}>
             <td className="col-two">
               <Text fz="xs" align="start">
                 {item.productName}
@@ -171,13 +178,13 @@ const CartRow: React.FC<ICartProps> = ({ item, onQuantityChange }) => {
               <Image
                 width={75}
                 height={75}
-                src={item.imageSrc}
+                src={item?.productImg?.ImgURL}
                 alt="With default placeholder"
                 withPlaceholder
               />
             </td>
             <td>
-              <Text fz="xs">₱{item.price.toFixed(2)}</Text>
+              <Text fz="xs">₱{item.productPrice.toFixed(2)}</Text>
             </td>
             <td>
               <Quantity
@@ -191,7 +198,7 @@ const CartRow: React.FC<ICartProps> = ({ item, onQuantityChange }) => {
               <Grid>
                 <Grid.Col span={8}>
                   <Text fz="xs" fw={700} c="brand">
-                    ₱{(item.quantity * item.price).toFixed(2)}
+                    ₱{(item.quantity * item.productPrice).toFixed(2)}
                   </Text>
                 </Grid.Col>
                 <Grid.Col span={4}>
