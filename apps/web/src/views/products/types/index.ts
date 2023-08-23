@@ -11,6 +11,16 @@ export interface Product {
   isActive: boolean;
 }
 
+export interface Merchant {
+  _id: string;
+  merchantName: string;
+  auth: object;
+  firstName: string;
+  lastName: ProductImg;
+  address: object;
+  phoneNumber: number;
+}
+
 export interface ProductImg {
   _id?: string;
   ImgURL: string;
