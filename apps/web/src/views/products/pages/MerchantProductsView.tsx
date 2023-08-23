@@ -18,28 +18,13 @@ export const MerchantProducts: React.FC = () => {
   const productQuery = useGetMerchantProducts({});
   const createProductMutation = useCreateProduct({});
 
-  const handleProductSave = (productData: CreateProductDTO) => {
-    // Do something with the product data, such as saving it to state
-    setSavedProductData(productData);
-    console.log(productData);
-    close(); // Close the modal after saving
-  };
+  // const handleProductSave = (productData: CreateProductDTO) => {
+  //   setSavedProductData(productData);
+  //   console.log(productData);
+  //   close();
+  // };
 
   const handleAddProduct = (newProductData: CreateProductDTO) => {
-    // const rq: CreateProductDTO = {
-    //   productID: 'product10011',
-    //   productImg: {
-    //     ImgAttch: 'base64encodedimage',
-    //     ImgURL:
-    //       'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/250b948a-4cc6-48d2-8cb8-a5bcdfe36992/kd-trey-5-x-basketball-shoes-cNfPMN.png',
-    //   },
-    //   productName: 'KD Trey 5',
-    //   productInfo: 'Kevin Durant Signature Shoes',
-    //   productPrice: 7500,
-    //   productInventory: 10,
-    //   productCategory: ['sample1'],
-    // };
-    // console.log(rq);
     console.log(newProductData);
     createProductMutation.mutate({ ...newProductData });
   };
@@ -67,16 +52,11 @@ export const MerchantProducts: React.FC = () => {
         <Title order={1} align="center">
           {merchantQuery.data?.merchantName} Products
         </Title>
-        {/* Display other user information */}
       </div>
       <StyledContainer fluid>
-        {/* <Button
-          loading={createProductMutation.isLoading}
-          onClick={handleAddProduct}
-        >
+        <Button loading={createProductMutation.isLoading} onClick={open}>
           Add Product
-        </Button> */}
-        <Button onClick={open}>Add Product</Button>
+        </Button>
         <Grid>
           {productQuery.data.map((data) => {
             return (
