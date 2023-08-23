@@ -1,15 +1,20 @@
 import {
-  Menu,
-  UnstyledButton,
-  Text,
-  Flex,
-  Button,
   Anchor,
+  Button,
+  Flex,
+  Menu,
+  Text,
+  UnstyledButton,
 } from '@mantine/core';
 import React, { useState } from 'react';
-import { StyledMenuDropdown, StyledMenuLabel } from './styles';
 import { TiShoppingCart } from 'react-icons/ti';
+
+import {
+  Cart as RqCart,
+  OrderedItems,
+} from '../../../apps/web/src/views/cart/types';
 import Cart from './Cart';
+import { StyledMenuDropdown, StyledMenuLabel } from './styles';
 
 interface ICartItem {
   id: number;
@@ -20,39 +25,19 @@ interface ICartItem {
   quantity: number;
 }
 
-const HeaderCart = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      imageSrc:
-        'https://retailminded.com/wp-content/uploads/2016/03/EN_GreenOlive-1.jpg',
-      merchant: 'Sample Merchant 1',
-      productName: 'Product 1',
-      price: 200.0,
-      quantity: 4,
-    },
-    {
-      id: 2,
-      imageSrc: 'path-to-image-2.jpg',
-      merchant: 'Sample Merchant 2',
-      productName: 'Product 2',
-      price: 150.0,
-      quantity: 2,
-    },
-    {
-      id: 3,
-      imageSrc: 'path-to-image-2.jpg',
-      merchant: 'Sample Merchant 3',
-      productName: 'Product 2',
-      price: 250.0,
-      quantity: 2,
-    },
-    // Add more items as needed to test
-  ]);
+interface Props {
+  data: RqCart;
+}
+
+const HeaderCart = ({ data: { orderedItems } }: Props) => {
+  const [cartItems, setCartItems] = useState(orderedItems);
   const [subtotal, setSubtotal] = React.useState(0);
 
-  const calculateSubtotal = (items: ICartItem[]) => {
-    return items.reduce((total, item) => total + item.price * item.quantity, 0);
+  const calculateSubtotal = (items: OrderedItems[]) => {
+    return items.reduce(
+      (total, item) => total + item.productPrice * item.quantity,
+      0,
+    );
   };
 
   React.useEffect(() => {
@@ -65,7 +50,9 @@ const HeaderCart = () => {
     newQuantity: number,
   ) => {
     const updatedCartItems = cartItems.map((item) => {
-      if (item.id === itemId) {
+      if (item.quantity === itemId) {
+        // eslint-disable-next-line no-console
+        console.log(itemId);
         return { ...item, quantity: newQuantity };
       }
       return item;
@@ -75,6 +62,11 @@ const HeaderCart = () => {
     const newSubtotal = calculateSubtotal(updatedCartItems);
     setSubtotal(newSubtotal);
   };
+
+  const formattedSubtotal = subtotal.toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 
   return (
     <Menu shadow="md" width={400} closeOnItemClick={false}>
@@ -95,7 +87,7 @@ const HeaderCart = () => {
               <div>
                 <Flex>
                   <Text fw={700}>My Cart</Text>
-                  <Text>&nbsp;(4)</Text>
+                  <Text>&nbsp;({orderedItems.length})</Text>
                 </Flex>
               </div>
               <Anchor href="/#" target="_blank">
@@ -107,16 +99,16 @@ const HeaderCart = () => {
           </Text>
         </StyledMenuLabel>
         <Menu.Divider />
-        {cartItems.map((item) => (
-          <Menu.Item key={item.id}>
+        {cartItems.map((item, index) => (
+          <Menu.Item key={index}>
             <Cart
-              imageSrc={item.imageSrc}
-              merchant={item.merchant}
+              imageSrc={item.productImg.ImgURL}
+              merchant={'Test Merchant'}
               productName={item.productName}
-              price={item.price}
+              price={item.productPrice}
               quantity={item.quantity}
               onQuantityChange={(newQuantity: number) =>
-                handleCartItemQuantityChange(item.id, newQuantity)
+                handleCartItemQuantityChange(item.quantity, newQuantity)
               }
             />
           </Menu.Item>
@@ -130,7 +122,7 @@ const HeaderCart = () => {
         >
           <Flex align="center" justify="space-between">
             <Text fz="md" color="black" style={{ whiteSpace: 'nowrap' }}>
-              Subtotal &nbsp;&nbsp; ₱{subtotal.toFixed(2)}
+              Subtotal &nbsp;&nbsp; ₱{formattedSubtotal}
             </Text>
             <Anchor href="/cart">
               <Button ml="20px" style={{ color: 'black' }}>

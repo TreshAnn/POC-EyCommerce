@@ -17,11 +17,15 @@ import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { useState } from 'react';
 import { IoNotifications } from 'react-icons/io5';
 import { TiShoppingCart } from 'react-icons/ti';
-import { Dropdown } from '../dropdown/dropdown';
+
+import { useGetCart } from '../../../apps/web/src/views/cart/api/getCart';
 import HeaderCart from '../cart/HeaderCart';
+import { Dropdown } from '../dropdown/dropdown';
 import { AvatarContainer } from './style';
 
 export const HeaderNavBar = () => {
+  const { data, isLoading, isError, error } = useGetCart({});
+
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const [verifyToken, setVerifyToken] = useState<boolean>(true);
@@ -46,7 +50,11 @@ export const HeaderNavBar = () => {
               <Group position="right">
                 {verifyToken ? (
                   <>
-                    <HeaderCart />
+                    {!isLoading && !isError ? (
+                      <HeaderCart data={data} />
+                    ) : (
+                      <p>Loading...</p>
+                    )}
                     <IoNotifications color="#fab005" size={36} />
                     <Dropdown
                       target={
