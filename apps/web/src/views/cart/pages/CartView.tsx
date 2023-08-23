@@ -14,8 +14,8 @@ export const CartView = () => {
     return <h1>Loading, Please Wait.</h1>;
   }
 
-  if (!cartQuery.data) {
-    return <h1>No Cart.</h1>;
+  if (!cartQuery?.data?.orderedItems?.length) {
+    return <h1>No Cart item.</h1>;
   }
 
   if (cartQuery.isError) return <h1>error</h1>;
@@ -49,3 +49,5 @@ export const CartView = () => {
     </main>
   );
 };
+
+// cartQuery.data.orderedItems - holds the data
