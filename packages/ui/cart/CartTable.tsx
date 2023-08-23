@@ -1,20 +1,19 @@
-import { Image, Text, DEFAULT_THEME, Grid } from '@mantine/core';
+import { DEFAULT_THEME, Grid, Image, Text } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { useState } from 'react';
 import { TiTrash } from 'react-icons/ti';
-import { Quantity } from '../quantity/Quantity';
-import { StyledTable, StyledScrollArea } from './styles';
-import { useMediaQuery } from '@mantine/hooks';
-import { data } from './sample.data';
 import { Cart, OrderedItems } from '../../../apps/web/src/views/cart/types';
+import { Quantity } from '../quantity/Quantity';
+import { StyledScrollArea, StyledTable } from './styles';
 
-interface ICartItem {
-  id: number;
-  imageSrc: string;
-  merchant: string;
-  productName: string;
-  price: number;
-  quantity: number;
-}
+// interface ICartItem {
+//   id: number;
+//   imageSrc: string;
+//   merchant: string;
+//   productName: string;
+//   price: number;
+//   quantity: number;
+// }
 
 interface ICartProps {
   item: OrderedItems;
@@ -27,18 +26,20 @@ interface Props {
 
 const CartTable = ({ data: { orderedItems } }: Props) => {
   const [cartItems, setCartItems] = useState(orderedItems);
-  // const { data: cartItems, isLoading, isError, error } = useGetCart({});
 
-  const calculateSubtotal = (items: ICartItem[]) => {
-    return items.reduce((total, item) => total + item.price * item.quantity, 0);
+  const calculateSubtotal = (items: OrderedItems[]) => {
+    return items.reduce(
+      (total, item) => total + item.productPrice * item.quantity,
+      0,
+    );
   };
 
   const handleCartItemQuantityChange = (
-    itemId: number,
+    itemId: string,
     newQuantity: number,
   ) => {
     const updatedCartItems = cartItems.map((item) => {
-      if (item.id === itemId) {
+      if (item.productID === itemId) {
         return { ...item, quantity: newQuantity };
       }
       return item;
@@ -89,7 +90,7 @@ const CartTable = ({ data: { orderedItems } }: Props) => {
                 key={index}
                 item={item}
                 onQuantityChange={(newQuantity: number) =>
-                  handleCartItemQuantityChange(item.quantity, newQuantity)
+                  handleCartItemQuantityChange(item.productID, newQuantity)
                 }
               />
             ))}
@@ -114,11 +115,12 @@ const CartTable = ({ data: { orderedItems } }: Props) => {
           </thead>
 
           <tbody>
-            {cartItems.map((item) => (
+            {cartItems.map((item, index) => (
               <CartRow
+                key={index}
                 item={item}
                 onQuantityChange={(newQuantity: number) =>
-                  handleCartItemQuantityChange(item.quantity, newQuantity)
+                  handleCartItemQuantityChange(item.productID, newQuantity)
                 }
               />
             ))}

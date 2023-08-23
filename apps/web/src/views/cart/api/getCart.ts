@@ -5,9 +5,6 @@ import { ExtractFnReturnType, QueryConfig } from '../../../lib/react-query';
 import { Cart } from '../types';
 
 export const getCart = (): Promise<Cart> => {
-  const dataCart = axios.get('/api/cart');
-  // eslint-disable-next-line no-console
-  // console.log(axios.get('/api/cart'));
   return axios.get('/api/cart');
 };
 
