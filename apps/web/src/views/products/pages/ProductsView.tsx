@@ -48,7 +48,7 @@ export const ProductsView = () => {
           Add Product
         </Button>
         <Grid>
-          {productQuery.data.map((data, index) => {
+          {productQuery.data.map((data) => {
             return (
               <Grid.Col sm={4} md={3} lg={2.4}>
                 <Product
