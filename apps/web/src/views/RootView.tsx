@@ -10,7 +10,7 @@ import theme from '../styles/theme';
 import { LoginView } from './auth/pages/LoginView';
 import { RegisterView } from './auth/pages/RegisterView';
 import { NotFoundView } from './NotFoundView';
-import { ProductsView } from './products/pages';
+import { ProductDetailView, ProductsView } from './products/pages';
 import { SampleView } from './SampleView';
 
 export const RootView = () => {
@@ -28,6 +28,10 @@ export const RootView = () => {
             <Route path="/login" element={<LoginView />} />
             <Route path="/register" element={<RegisterView />} />
             <Route path="/products" element={<ProductsView />} />
+            <Route
+              path="/products/:productID"
+              element={<ProductDetailView />}
+            />
           </Routes>
         </BrowserRouter>
         <Footer />

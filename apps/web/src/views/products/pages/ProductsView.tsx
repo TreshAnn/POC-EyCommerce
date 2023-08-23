@@ -1,6 +1,7 @@
 import { Button, Grid } from '@mantine/core';
 import React from 'react';
-import Product from 'ui/product/Product';
+import { useNavigate } from 'react-router-dom';
+import { Product } from 'ui/product/Product';
 
 import { useGetAllProducts } from '../api';
 import { CreateProductDTO, useCreateProduct } from '../api/addProduct';
@@ -10,14 +11,14 @@ export const ProductsView = () => {
   const productQuery = useGetAllProducts({});
   const createProductMutation = useCreateProduct({});
 
+  const navigate = useNavigate();
+
   const handleAddProduct = () => {
     const rq: CreateProductDTO = {
-      productID: 'product11333',
-      productImg: {
-        ImgAttch: 'base64encodedimage',
-        ImgURL:
-          'https://ever-supermarket2.myshopify.com/cdn/shop/products/9000007743-Purefoods-Tender-Juicy-Hotdog-Jumbo-45-1kg-210430_cefb9798-cde5-4bd8-8931-33c201ca4f69_1200x1200.jpg?v=1674195201',
-      },
+      productID: 'product00002',
+      productImg: [
+        'https://ever-supermarket2.myshopify.com/cdn/shop/products/9000007743-Purefoods-Tender-Juicy-Hotdog-Jumbo-45-1kg-210430_cefb9798-cde5-4bd8-8931-33c201ca4f69_1200x1200.jpg?v=1674195201',
+      ],
       productName: 'TJ CheeseDog 123213',
       productInfo: 'TJ Desc',
       productPrice: 180,
@@ -50,11 +51,12 @@ export const ProductsView = () => {
         <Grid>
           {productQuery.data.map((data, index) => {
             return (
-              <Grid.Col sm={4} md={3} lg={2.4}>
+              <Grid.Col sm={4} md={3} lg={2.4} key={data._id}>
                 <Product
-                  img={data.productImg.ImgURL}
+                  img={data.productImg[0]}
                   name={data.productName}
                   price={data.productPrice}
+                  onClick={() => navigate(`/products/${data._id}`)}
                 ></Product>
               </Grid.Col>
             );

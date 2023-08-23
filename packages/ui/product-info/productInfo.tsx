@@ -19,7 +19,7 @@ import { StarRating } from '../rating/StarRating';
 
 interface IProductProps {
   productName: string;
-  ratingValue: number;
+  ratingValue?: number;
   productDescription: string;
   productPrice: number;
   merchantName: string;

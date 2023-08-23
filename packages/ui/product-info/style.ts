@@ -94,10 +94,9 @@ export const StyledContainer = styled(Container)`
 
 export const RatingText = styled(Text)`
   font-size: 40px;
-  line-height: 60px;
 
   @media (max-width: ${Breakpoints.lg}) {
-    font-size: 30px;
+    font-size: 30 px;
     margin-right: 5px;
   }
   @media (max-width: ${Breakpoints.md}) {
@@ -113,7 +112,6 @@ export const RatingDescription = styled(Text)`
   font-size: 20px;
   color: #777;
   margin-right: 30px;
-  line-height: normal;
 
   @media (max-width: ${Breakpoints.lg}) {
     font-size: 16px;
@@ -175,19 +173,18 @@ export const ProductDescriptionText = styled(Text)`
   color: #000;
   font-family: 'Overpass';
   font-size: 20px;
-  font-weight: 400;
   margin: 0;
-  height: 170px;
+  height: auto;
 
   @media (max-width: ${Breakpoints.lg}) {
-    font-size: 17px;
+    font-size: 15px;
   }
 
   @media (max-width: ${Breakpoints.md}) {
-    font-size: 20px;
+    font-size: 18px;
   }
   @media (max-width: ${Breakpoints.sm}) {
-    font-size: 22px;
+    font-size: 18px;
   }
 
   @media (max-width: ${Breakpoints.xs}) {
@@ -202,20 +199,18 @@ export const ProductPriceText = styled(Text)`
   margin-top: auto;
 
   @media (max-width: ${Breakpoints.lg}) {
-    margin-top: 40px;
-    font-size: 28px;
+    font-size: 24px;
   }
 `;
 
 export const ProductDescWrapper = styled(Container)`
-  height: 200px;
+  height: 280px;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  height: auto;
 `;
 
 export const StyledButton = styled(Button)`
@@ -232,6 +227,7 @@ export const AddToCartButton = styled(StyledButton)`
   border: 1px solid var(--sixth, #ffd500);
   width: 130px;
   height: 45px;
+  margin: 0;
 
   @media (max-width: ${Breakpoints.lg}) {
     width: 100px;
@@ -246,6 +242,7 @@ export const BuyNowButton = styled(StyledButton)`
   border: 1px solid var(--sixth, #ffd500);
   width: 109px;
   height: 45px;
+  margin: 0;
 
   @media (max-width: ${Breakpoints.lg}) {
     width: 110px;
