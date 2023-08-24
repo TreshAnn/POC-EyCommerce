@@ -69,7 +69,9 @@ export function ProductInfo({
                 <ProductDescriptionText>
                   {productDescription}
                 </ProductDescriptionText>
-                <ProductPriceText>Price: ₱{formattedPrice}</ProductPriceText>
+                <ProductPriceText>
+                  Price: &#8369; {formattedPrice}
+                </ProductPriceText>
               </ProductDescWrapper>
               <Group>
                 <AddToCartButton>
