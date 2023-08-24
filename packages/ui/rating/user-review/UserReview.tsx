@@ -1,14 +1,7 @@
 import { Grid, Text } from '@mantine/core';
 import { StarRating } from '../StarRating';
 import { StyledContainer, commentStyle } from './style';
-
-interface CommentBody {
-  rating: number;
-  name: string;
-  date: string;
-  commentTitle: string;
-  commentDescription: string;
-}
+import { CommentBody } from '../types/Rating-types';
 
 interface Props {
   comment: CommentBody[];
@@ -31,7 +24,9 @@ const UserReview = ({ comment }: Props) => {
               <Text fz="xl" fw={700} sx={{ marginTop: '3px' }}>
                 {name}
               </Text>
-              <Text fz="xs">{date}</Text>
+              <Text fz="xs" style={{ color: '#777' }}>
+                {date}
+              </Text>
             </div>
           </Grid.Col>
           <Grid.Col xs={9}>
