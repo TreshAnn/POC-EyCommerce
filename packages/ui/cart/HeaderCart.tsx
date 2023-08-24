@@ -46,11 +46,11 @@ const HeaderCart = ({ data: { orderedItems = [] } }: Props) => {
   }, [cartItems]);
 
   const handleCartItemQuantityChange = (
-    itemId: number,
+    itemId: string,
     newQuantity: number,
   ) => {
     const updatedCartItems = cartItems.map((item) => {
-      if (item.quantity === itemId) {
+      if (item.productID === itemId) {
         // eslint-disable-next-line no-console
         console.log(itemId);
         return { ...item, quantity: newQuantity };
@@ -118,7 +118,7 @@ const HeaderCart = ({ data: { orderedItems = [] } }: Props) => {
                   price={item.productPrice}
                   quantity={item.quantity}
                   onQuantityChange={(newQuantity: number) =>
-                    handleCartItemQuantityChange(item.quantity, newQuantity)
+                    handleCartItemQuantityChange(item.productID, newQuantity)
                   }
                 />
               </Menu.Item>
