@@ -1,5 +1,4 @@
 import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
-import { ImageDto } from 'src/products/dto/create-product.dto';
 
 export class ItemDto {
   @IsNotEmpty()
@@ -11,7 +10,7 @@ export class ItemDto {
   productName: string;
 
   @IsNotEmpty()
-  productImg: ImageDto;
+  productImg: string;
 
   @IsNotEmpty()
   @IsNumber()

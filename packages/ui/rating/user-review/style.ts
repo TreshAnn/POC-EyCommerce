@@ -7,7 +7,7 @@ export const StyledContainer = styled.div`
   margin-bottom: '0px',
   margin-top: '0px',
   padding: 5px;
-  border-top: 1px solid #CCCCCC;
+  border-bottom: 1px solid #CCCCCC;
 `;
 
 export const commentStyle = {

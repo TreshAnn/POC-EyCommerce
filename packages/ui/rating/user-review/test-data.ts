@@ -35,4 +35,49 @@ export const testData = [
     commentDescription:
       'In ipsum necessitatibus in laborum facilis ut inventore ducimus ut consectetur voluptatem est atque voluptas. Ut earum accusantium sit dolorem velit ut alias beatae 33 tenetur consequatur sed cupiditate consequatur eum voluptates enim qui cumque odit. Qui vero autem vel praesentium quasi et animi quos et dignissimos quibusdam a molestias consequatur in vitae debitis ut possimus omnis.',
   },
+  {
+    rating: 2,
+    name: 'Company',
+    date: 'December 6, 2023',
+    commentTitle:
+      'Lorem ipsum dolor sit amet. Sit fugiat atque in voluptatem delectus non illo vitae.',
+    commentDescription:
+      'In ipsum necessitatibus in laborum facilis ut inventore ducimus ut consectetur voluptatem est atque voluptas. Ut earum accusantium sit dolorem velit ut alias beatae 33 tenetur consequatur sed cupiditate consequatur eum voluptates enim qui cumque odit. Qui vero autem vel praesentium quasi et animi quos et dignissimos quibusdam a molestias consequatur in vitae debitis ut possimus omnis.',
+  },
+  {
+    rating: 1,
+    name: 'Company',
+    date: 'December 7, 2023',
+    commentTitle:
+      'Lorem ipsum dolor sit amet. Sit fugiat atque in voluptatem delectus non illo vitae.',
+    commentDescription:
+      'In ipsum necessitatibus in laborum facilis ut inventore ducimus ut consectetur voluptatem est atque voluptas. Ut earum accusantium sit dolorem velit ut alias beatae 33 tenetur consequatur sed cupiditate consequatur eum voluptates enim qui cumque odit. Qui vero autem vel praesentium quasi et animi quos et dignissimos quibusdam a molestias consequatur in vitae debitis ut possimus omnis.',
+  },
+  {
+    rating: 3,
+    name: 'Company',
+    date: 'December 8, 2023',
+    commentTitle:
+      'Lorem ipsum dolor sit amet. Sit fugiat atque in voluptatem delectus non illo vitae.',
+    commentDescription:
+      'In ipsum necessitatibus in laborum facilis ut inventore ducimus ut consectetur voluptatem est atque voluptas. Ut earum accusantium sit dolorem velit ut alias beatae 33 tenetur consequatur sed cupiditate consequatur eum voluptates enim qui cumque odit. Qui vero autem vel praesentium quasi et animi quos et dignissimos quibusdam a molestias consequatur in vitae debitis ut possimus omnis.',
+  },
+  {
+    rating: 4,
+    name: 'Company',
+    date: 'December 9, 2023',
+    commentTitle:
+      'Lorem ipsum dolor sit amet. Sit fugiat atque in voluptatem delectus non illo vitae.',
+    commentDescription:
+      'In ipsum necessitatibus in laborum facilis ut inventore ducimus ut consectetur voluptatem est atque voluptas. Ut earum accusantium sit dolorem velit ut alias beatae 33 tenetur consequatur sed cupiditate consequatur eum voluptates enim qui cumque odit. Qui vero autem vel praesentium quasi et animi quos et dignissimos quibusdam a molestias consequatur in vitae debitis ut possimus omnis.',
+  },
+  {
+    rating: 2,
+    name: 'Company',
+    date: 'December 10, 2023',
+    commentTitle:
+      'Lorem ipsum dolor sit amet. Sit fugiat atque in voluptatem delectus non illo vitae.',
+    commentDescription:
+      'In ipsum necessitatibus in laborum facilis ut inventore ducimus ut consectetur voluptatem est atque voluptas. Ut earum accusantium sit dolorem velit ut alias beatae 33 tenetur consequatur sed cupiditate consequatur eum voluptates enim qui cumque odit. Qui vero autem vel praesentium quasi et animi quos et dignissimos quibusdam a molestias consequatur in vitae debitis ut possimus omnis.',
+  },
 ];

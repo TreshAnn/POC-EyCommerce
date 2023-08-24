@@ -3,37 +3,44 @@ import { useMediaQuery } from '@mantine/hooks';
 import { useState } from 'react';
 import { TiTrash } from 'react-icons/ti';
 
+import { Cart, OrderedItems } from '../../../apps/web/src/views/cart/types';
 import { Quantity } from '../quantity/Quantity';
-import { data } from './sample.data';
 import { StyledScrollArea, StyledTable } from './styles';
 
-interface ICartItem {
-  id: number;
-  imageSrc: string;
-  merchant: string;
-  productName: string;
-  price: number;
-  quantity: number;
-}
+// interface ICartItem {
+//   id: number;
+//   imageSrc: string;
+//   merchant: string;
+//   productName: string;
+//   price: number;
+//   quantity: number;
+// }
 
 interface ICartProps {
-  item: ICartItem;
+  item: OrderedItems;
   onQuantityChange: (newQuantity: number) => void;
 }
 
-const CartTable = () => {
-  const [cartItems, setCartItems] = useState(data);
+interface Props {
+  data: Cart;
+}
 
-  const calculateSubtotal = (items: ICartItem[]) => {
-    return items.reduce((total, item) => total + item.price * item.quantity, 0);
+const CartTable = ({ data: { orderedItems } }: Props) => {
+  const [cartItems, setCartItems] = useState(orderedItems);
+
+  const calculateSubtotal = (items: OrderedItems[]) => {
+    return items.reduce(
+      (total, item) => total + item.productPrice * item.quantity,
+      0,
+    );
   };
 
   const handleCartItemQuantityChange = (
-    itemId: number,
+    itemId: string,
     newQuantity: number,
   ) => {
     const updatedCartItems = cartItems.map((item) => {
-      if (item.id === itemId) {
+      if (item.productID === itemId) {
         return { ...item, quantity: newQuantity };
       }
       return item;
@@ -92,11 +99,12 @@ const CartTable = () => {
             </tr>
           </thead>
           <tbody>
-            {cartItems.map((item) => (
+            {cartItems.map((item, index) => (
               <CartRow
+                key={index}
                 item={item}
                 onQuantityChange={(newQuantity: number) =>
-                  handleCartItemQuantityChange(item.id, newQuantity)
+                  handleCartItemQuantityChange(item.productID, newQuantity)
                 }
               />
             ))}
@@ -153,11 +161,12 @@ const CartTable = () => {
           </thead>
 
           <tbody>
-            {cartItems.map((item) => (
+            {cartItems.map((item, index) => (
               <CartRow
+                key={index}
                 item={item}
                 onQuantityChange={(newQuantity: number) =>
-                  handleCartItemQuantityChange(item.id, newQuantity)
+                  handleCartItemQuantityChange(item.productID, newQuantity)
                 }
               />
             ))}
@@ -175,12 +184,12 @@ const CartRow: React.FC<ICartProps> = ({ item, onQuantityChange }) => {
     <>
       {web ? (
         <>
-          <tr key={item.id}>
+          <tr key={item.productID}>
             <td>
               <Image
                 width={120}
                 height={120}
-                src={item.imageSrc}
+                src={item?.productImg?.ImgURL}
                 alt="With default placeholder"
                 withPlaceholder
               />
@@ -188,7 +197,7 @@ const CartRow: React.FC<ICartProps> = ({ item, onQuantityChange }) => {
             <td className="col-two">
               <Text align="start">{item.productName}</Text>
             </td>
-            <td>₱{item.price.toFixed(2)}</td>
+            <td>₱{item.productPrice.toFixed(2)}</td>
             <td>
               <Quantity
                 quantity={item.quantity}
@@ -199,7 +208,7 @@ const CartRow: React.FC<ICartProps> = ({ item, onQuantityChange }) => {
             </td>
             <td>
               <Text fz="xl" fw={700} c="brand">
-                ₱{(item.quantity * item.price).toFixed(2)}
+                ₱{(item.quantity * item.productPrice).toFixed(2)}
               </Text>
             </td>
             <td>
@@ -209,7 +218,7 @@ const CartRow: React.FC<ICartProps> = ({ item, onQuantityChange }) => {
         </>
       ) : (
         <>
-          <tr key={item.id}>
+          <tr key={item.productID}>
             <td className="col-two">
               <Text fz="xs" align="start">
                 {item.productName}
@@ -217,13 +226,13 @@ const CartRow: React.FC<ICartProps> = ({ item, onQuantityChange }) => {
               <Image
                 width={75}
                 height={75}
-                src={item.imageSrc}
+                src={item?.productImg?.ImgURL}
                 alt="With default placeholder"
                 withPlaceholder
               />
             </td>
             <td>
-              <Text fz="xs">₱{item.price.toFixed(2)}</Text>
+              <Text fz="xs">₱{item.productPrice.toFixed(2)}</Text>
             </td>
             <td>
               <Quantity
@@ -237,7 +246,7 @@ const CartRow: React.FC<ICartProps> = ({ item, onQuantityChange }) => {
               <Grid>
                 <Grid.Col span={8}>
                   <Text fz="xs" fw={700} c="brand">
-                    ₱{(item.quantity * item.price).toFixed(2)}
+                    ₱{(item.quantity * item.productPrice).toFixed(2)}
                   </Text>
                 </Grid.Col>
                 <Grid.Col span={4}>
