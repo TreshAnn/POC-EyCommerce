@@ -1,4 +1,4 @@
-import { Image, Text, DEFAULT_THEME, Grid } from '@mantine/core';
+import { Image, Text, DEFAULT_THEME, Grid, Button } from '@mantine/core';
 import { useState } from 'react';
 import { TiTrash } from 'react-icons/ti';
 import { Quantity } from '../quantity/Quantity';
@@ -49,6 +49,11 @@ const CartTable = () => {
   );
   const subtotal = calculateSubtotal(cartItems);
 
+  const formattedSubtotal = subtotal.toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
   return (
     <StyledScrollArea>
       {web ? (
@@ -94,24 +99,34 @@ const CartTable = () => {
           </tbody>
           <tfoot>
             <tr>
-              <th colSpan={5} style={{ textAlign: 'right' }}>
-                <Text fz="sm" fw={100} c="black">
-                  Total ({totalItems} items):{' '}
-                  <Text fz="sm" fw={700}>
-                    ₱{subtotal.toFixed(2)}
-                  </Text>
+              <th
+                colSpan={5}
+                style={{ textAlign: 'right', alignItems: 'center' }}
+              >
+                <Text
+                  fz="sm"
+                  fw={100}
+                  color="black"
+                  style={{ display: 'inline-block' }}
+                >
+                  Total ({totalItems} items):
+                </Text>{' '}
+                &nbsp;&nbsp;
+                <Text fz="sm" fw={700} style={{ display: 'inline-block' }}>
+                  ₱{formattedSubtotal}
                 </Text>
               </th>
-              <th colSpan={1}>
-                <button
+              <th colSpan={1} style={{ paddingRight: '50px' }}>
+                <Button
+                  fz="md"
                   style={{
-                    marginLeft: '20px',
-                    backgroundColor: '#FFD500',
                     color: 'black',
+                    alignItems: 'center',
+                    marginTop: 0,
                   }}
                 >
-                  Checkout
-                </button>
+                  Add to cart
+                </Button>
               </th>
             </tr>
           </tfoot>
