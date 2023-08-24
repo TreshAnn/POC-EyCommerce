@@ -31,7 +31,13 @@ export const HeaderNavBar = () => {
   const [verifyToken, setVerifyToken] = useState<boolean>(true);
   const isMobile = useMediaQuery('(max-width: 976px)');
 
-  //Test data for cart
+  if (isLoading) {
+    return 'Loading...';
+  }
+
+  if (isError) {
+    return 'Something went wrong';
+  }
 
   return (
     <Box>
@@ -50,11 +56,7 @@ export const HeaderNavBar = () => {
               <Group position="right">
                 {verifyToken ? (
                   <>
-                    {!isLoading && !isError ? (
-                      <HeaderCart data={data} />
-                    ) : (
-                      <p>Loading...</p>
-                    )}
+                    <HeaderCart data={data} />
                     <IoNotifications color="#fab005" size={36} />
                     <Dropdown
                       target={

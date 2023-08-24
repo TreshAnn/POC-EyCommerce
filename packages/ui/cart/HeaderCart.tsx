@@ -29,7 +29,7 @@ interface Props {
   data: RqCart;
 }
 
-const HeaderCart = ({ data: { orderedItems } }: Props) => {
+const HeaderCart = ({ data: { orderedItems = [] } }: Props) => {
   const [cartItems, setCartItems] = useState(orderedItems);
   const [subtotal, setSubtotal] = React.useState(0);
 
@@ -87,7 +87,7 @@ const HeaderCart = ({ data: { orderedItems } }: Props) => {
               <div>
                 <Flex>
                   <Text fw={700}>My Cart</Text>
-                  <Text>&nbsp;({orderedItems.length})</Text>
+                  <Text>&nbsp;({orderedItems?.length})</Text>
                 </Flex>
               </div>
               <Anchor href="/#" target="_blank">
@@ -99,20 +99,32 @@ const HeaderCart = ({ data: { orderedItems } }: Props) => {
           </Text>
         </StyledMenuLabel>
         <Menu.Divider />
-        {cartItems.map((item, index) => (
-          <Menu.Item key={index}>
-            <Cart
-              imageSrc={item.productImg.ImgURL}
-              merchant={'Test Merchant'}
-              productName={item.productName}
-              price={item.productPrice}
-              quantity={item.quantity}
-              onQuantityChange={(newQuantity: number) =>
-                handleCartItemQuantityChange(item.quantity, newQuantity)
-              }
-            />
-          </Menu.Item>
-        ))}
+        {cartItems.length === 0 ? (
+          <Text
+            style={{
+              textAlign: 'center',
+            }}
+          >
+            Cart is empty
+          </Text>
+        ) : (
+          <>
+            {cartItems.map((item, index) => (
+              <Menu.Item key={index}>
+                <Cart
+                  imageSrc={item.productImg.ImgURL}
+                  merchant={'Test Merchant'}
+                  productName={item.productName}
+                  price={item.productPrice}
+                  quantity={item.quantity}
+                  onQuantityChange={(newQuantity: number) =>
+                    handleCartItemQuantityChange(item.quantity, newQuantity)
+                  }
+                />
+              </Menu.Item>
+            ))}
+          </>
+        )}
         <Menu.Divider />
         <StyledMenuLabel
           style={{
