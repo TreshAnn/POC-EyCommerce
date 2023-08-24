@@ -125,7 +125,7 @@ const CartTable = () => {
                     marginTop: 0,
                   }}
                 >
-                  Add to cart
+                  Checkout
                 </Button>
               </th>
             </tr>
