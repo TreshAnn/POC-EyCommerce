@@ -54,7 +54,7 @@ const Cart: React.FC<ICartProps> = ({
             </Text>
             <Text fz="sm">{productName}</Text>
             <Text fz="lg" fw={500} color="yellow">
-              ₱{formattedPrice}
+              &#8369;{formattedPrice}
             </Text>
             <StyledQuantityWrapper>
               <Quantity

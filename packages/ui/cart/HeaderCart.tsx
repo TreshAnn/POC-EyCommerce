@@ -132,7 +132,7 @@ const HeaderCart = ({ data: { orderedItems = [] } }: Props) => {
         >
           <Flex align="center" justify="space-between">
             <Text fz="md" color="black" style={{ whiteSpace: 'nowrap' }}>
-              Subtotal &nbsp;&nbsp; ₱{formattedSubtotal}
+              Subtotal &nbsp;&nbsp; &#8369;{formattedSubtotal}
             </Text>
             <Anchor href="/cart">
               <Button ml="20px" style={{ color: 'black' }}>
