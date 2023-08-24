@@ -24,7 +24,6 @@ export const ProductsView = () => {
       productInventory: 10,
       productCategory: ['sample1'],
     };
-    console.log(rq);
     createProductMutation.mutate({ ...rq });
   };
 

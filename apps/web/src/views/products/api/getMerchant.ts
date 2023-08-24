@@ -9,12 +9,12 @@ export const getMerchant = (merchantID): Promise<Merchant[]> => {
 
 type QueryFnType = typeof getMerchant;
 
-type UseGetAllProductsOption = {
+type UseGetMerchantOption = {
   config?: QueryConfig<QueryFnType>;
 };
 
 export const useGetMerchant = (
-  { config }: UseGetAllProductsOption,
+  { config }: UseGetMerchantOption,
   merchantID: string | undefined,
 ) => {
   return useQuery<ExtractFnReturnType<QueryFnType>>({
@@ -23,9 +23,3 @@ export const useGetMerchant = (
     ...config,
   });
 };
-
-// const { data, isLoading, isError } = useQuery<any>( //TO DO - resolve promise
-//   ['merchant', merchantID],
-//   () => axios.get(`/api/merchant/${merchantID}`),
-// );
-// console.log(data);
