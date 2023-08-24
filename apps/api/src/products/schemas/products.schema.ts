@@ -4,21 +4,12 @@ import { HydratedDocument } from 'mongoose';
 export type ProductDocument = HydratedDocument<Product>;
 
 @Schema()
-export class Image {
-  @Prop()
-  ImgURL: string;
-
-  @Prop()
-  ImgAttch: string;
-}
-
-@Schema()
 export class Product {
   @Prop({ unique: true })
   productID: string;
 
   @Prop()
-  productImg: Image;
+  productImg: string[];
 
   @Prop()
   productName: string;
