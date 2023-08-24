@@ -10,7 +10,9 @@ import theme from '../styles/theme';
 import { LoginView } from './auth/pages/LoginView';
 import { RegisterView } from './auth/pages/RegisterView';
 import { NotFoundView } from './NotFoundView';
+import { ProductsView } from './products/pages';
 import { SampleView } from './SampleView';
+import { CartView } from './CartView';
 
 export const RootView = () => {
   const [queryClient] = React.useState(() => new QueryClient());
@@ -23,9 +25,11 @@ export const RootView = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<SampleView />} />
+            <Route path="/cart" element={<CartView />} />
             <Route path="*" element={<NotFoundView />} />
             <Route path="/login" element={<LoginView />} />
             <Route path="/register" element={<RegisterView />} />
+            <Route path="/products" element={<ProductsView />} />
           </Routes>
         </BrowserRouter>
         <Footer />
