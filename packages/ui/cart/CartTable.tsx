@@ -1,10 +1,11 @@
-import { Image, Text, DEFAULT_THEME, Grid, Button } from '@mantine/core';
+import { Button, DEFAULT_THEME, Grid, Image, Text } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { useState } from 'react';
 import { TiTrash } from 'react-icons/ti';
+
 import { Quantity } from '../quantity/Quantity';
-import { StyledTable, StyledScrollArea } from './styles';
-import { useMediaQuery } from '@mantine/hooks';
 import { data } from './sample.data';
+import { StyledScrollArea, StyledTable } from './styles';
 
 interface ICartItem {
   id: number;
@@ -49,7 +50,10 @@ const CartTable = () => {
   );
   const subtotal = calculateSubtotal(cartItems);
 
-  const formattedSubtotal = subtotal.toLocaleString('en-US', {
+  //mock data only
+  const totalPrice = 4;
+
+  const formattedTotal = totalPrice.toLocaleString('en-US', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
@@ -112,7 +116,7 @@ const CartTable = () => {
                   Total ({totalItems} items):
                 </Text>{' '}
                 <Text fz="sm" fw={700} style={{ display: 'inline-block' }}>
-                  &#8369;{formattedSubtotal}
+                  &#8369;{formattedTotal}
                 </Text>
               </th>
               <th colSpan={1} style={{ paddingRight: '50px' }}>
