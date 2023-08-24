@@ -51,8 +51,6 @@ const HeaderCart = ({ data: { orderedItems = [] } }: Props) => {
   ) => {
     const updatedCartItems = cartItems.map((item) => {
       if (item.productID === itemId) {
-        // eslint-disable-next-line no-console
-        console.log(itemId);
         return { ...item, quantity: newQuantity };
       }
       return item;
