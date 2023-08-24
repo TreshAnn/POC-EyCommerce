@@ -58,6 +58,16 @@ export class AuthService {
     return await this.authModel.create(createAuthDto);
   }
 
+  async findOne(id: string): Promise<Auth> {
+    const user = await this.authModel.findOne({ _id: id });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
+  }
+
   async deactivateAccount(id: string) {
     const user = await this.authModel.findOne({ _id: id });
 

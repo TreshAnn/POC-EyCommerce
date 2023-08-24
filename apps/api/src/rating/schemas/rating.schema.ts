@@ -1,12 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, SchemaTypes } from 'mongoose';
-import { User } from 'src/users/schemas/user.schema';
+import { Auth } from 'src/auth/schemas/auth.schema';
 
 export type RatingDocument = HydratedDocument<Rating>;
 
-@Schema()
+@Schema({ timestamps: true })
 export class Rating {
-  @Prop({ type: SchemaTypes.ObjectId, ref: User.name })
+  @Prop({ type: SchemaTypes.ObjectId, ref: Auth.name })
   userId: string;
 
   @Prop({ required: true })
@@ -20,9 +20,6 @@ export class Rating {
 
   @Prop()
   description: string;
-
-  @Prop({ default: Date.now })
-  publishedDate: Date;
 }
 
 export const RatingSchema = SchemaFactory.createForClass(Rating);
