@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
-import { useGetMerchant, useGetMerchantProducts, useGetProduct } from '../api';
+import { useGetMerchant, useGetMerchantProducts } from '../api';
 import { CreateProductDTO, useCreateProduct } from '../api/addProduct';
+import { UpdateProductDTO, useUpdateProduct } from '../api/updateProduct';
 import MerchantProduct from 'ui/product/MerchantProduct';
 import ProductModal from 'ui/product/ProductModal';
 import { StyledContainer } from './styles';
@@ -22,8 +23,9 @@ export const MerchantProducts: React.FC = () => {
   const [selectedProductId, setSelectedProductId] = useState('');
   const [isAddingProduct, setIsAddingProduct] = useState(false);
 
+  const updateProductMutation = useUpdateProduct({}, selectedProductId || '');
+
   //Conditionally execute useGetProduct
-  const getProductQuery = useGetProduct({}, selectedProductId);
   const selectedProduct = merchantProducts.find(
     (product) => product._id === selectedProductId,
   );
@@ -42,13 +44,17 @@ export const MerchantProducts: React.FC = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    console.log(selectedProductId);
-    setSelectedProductId('');
+
+    // setSelectedProductId('');
     setIsAddingProduct(false);
   };
 
   const handleAddProduct = (newProductData: CreateProductDTO) => {
     createProductMutation.mutate({ ...newProductData });
+  };
+
+  const handleUpdateProduct = (newProductData: UpdateProductDTO) => {
+    updateProductMutation.mutate({ ...newProductData });
   };
 
   if (merchantQuery.isLoading || merchantProductsQuery.isLoading) {
@@ -68,12 +74,17 @@ export const MerchantProducts: React.FC = () => {
       <StyledContainer fluid>
         <div>
           <ProductModal
-            onSave={handleAddProduct}
+            onSave={isAddingProduct ? handleAddProduct : handleUpdateProduct}
             isOpen={isModalOpen}
             onClose={handleCloseModal}
             id={selectedProductId}
             editProduct={selectedProduct}
             isAddingProduct={isAddingProduct}
+            isLoading={
+              isAddingProduct
+                ? createProductMutation.isLoading
+                : updateProductMutation.isLoading
+            }
           />
           <Title order={1} align="center">
             {merchantQuery.data?.merchantName} Products

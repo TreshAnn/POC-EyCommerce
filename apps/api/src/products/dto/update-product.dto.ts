@@ -4,9 +4,31 @@ import {
   IsArray,
   IsNumber,
   Matches,
+  ValidateNested,
 } from 'class-validator';
+import { Type } from 'class-transformer';
+export class ImageDto {
+  @IsNotEmpty()
+  @IsString()
+  @Matches(/^\S(?:.*\S)?$/, {
+    message: 'ImgURL must not have trailing and leading spaces',
+  })
+  ImgURL?: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @Matches(/^\S(?:.*\S)?$/, {
+    message: 'ImgAttch must not have trailing and leading spaces',
+  })
+  ImgAttch?: string;
+}
 
 export class UpdateProductDataDto {
+  @ValidateNested()
+  @Type(() => ImageDto)
+  @IsNotEmpty()
+  readonly productImg?: ImageDto;
+
   @IsString()
   @IsNotEmpty()
   @Matches(/^\S(?:.*\S)?$/, {

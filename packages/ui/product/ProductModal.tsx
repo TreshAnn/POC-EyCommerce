@@ -4,10 +4,11 @@ import { Button, Modal, TextInput } from '@mantine/core';
 interface ProductModalProps {
   onSave: (data: ProductData) => void;
   isOpen: boolean;
+  isLoading?: boolean;
   onClose: () => void;
   isAddingProduct: boolean;
   editProduct?: ProductData;
-  id?: string;
+  id: string;
 }
 
 interface ProductData {
@@ -24,40 +25,39 @@ interface ProductData {
 }
 
 const ProductModal: React.FC<ProductModalProps> = ({
-  id = '',
+  id,
   onSave,
   isOpen,
+  isLoading,
   onClose,
   isAddingProduct,
   editProduct,
 }) => {
-  const [productData, setProductData] = useState<ProductData>(
-    editProduct || {
-      productID: '',
-      productImg: {
-        ImgAttch: 'base64encodedimage',
-        ImgURL: '',
-      },
-      productName: '',
-      productInfo: '',
-      productPrice: 0,
-      productInventory: 0,
-      productCategory: ['shoes'],
+  const addProduct = {
+    productID: '',
+    productImg: {
+      ImgAttch: 'base64encodedimage',
+      ImgURL: '',
     },
+    productName: '',
+    productInfo: '',
+    productPrice: 0,
+    productInventory: 0,
+    productCategory: ['shoes'],
+  };
+  const [productData, setProductData] = useState<ProductData>(
+    editProduct || addProduct,
   );
 
   useEffect(() => {
     if (editProduct) {
       setProductData(editProduct);
+    } else {
+      setProductData(addProduct);
     }
   }, [id, editProduct]);
 
-  const handleSave = () => {
-    onSave(productData);
-    onClose();
-  };
-
-  const handleUpdate = () => {
+  const handleSave = async () => {
     onSave(productData);
     onClose();
   };
@@ -78,19 +78,6 @@ const ProductModal: React.FC<ProductModalProps> = ({
                 })
               }
             />
-            <TextInput
-              label="Product Image URL"
-              value={productData.productImg.ImgURL}
-              onChange={(event) =>
-                setProductData({
-                  ...productData,
-                  productImg: {
-                    ...productData.productImg,
-                    ImgURL: event.currentTarget.value,
-                  },
-                })
-              }
-            />
           </>
         ) : (
           <>
@@ -105,23 +92,21 @@ const ProductModal: React.FC<ProductModalProps> = ({
               }
               disabled
             />
-            <TextInput
-              label="Product Image URL"
-              value={productData.productImg.ImgURL}
-              onChange={(event) =>
-                setProductData({
-                  ...productData,
-                  productImg: {
-                    ...productData.productImg,
-                    ImgURL: event.currentTarget.value,
-                  },
-                })
-              }
-              disabled
-            />
           </>
         )}
-
+        <TextInput
+          label="Product Image URL"
+          value={productData.productImg.ImgURL}
+          onChange={(event) =>
+            setProductData({
+              ...productData,
+              productImg: {
+                ...productData.productImg,
+                ImgURL: event.currentTarget.value,
+              },
+            })
+          }
+        />
         <TextInput
           label="Product Name"
           value={productData.productName}
@@ -165,7 +150,9 @@ const ProductModal: React.FC<ProductModalProps> = ({
           }
         />
       </Modal.Body>
-      <Button onClick={handleSave}>Save</Button>
+      <Button loading={isLoading} onClick={handleSave} loaderPosition="center">
+        Save
+      </Button>
     </Modal>
   );
 };
