@@ -96,7 +96,7 @@ export const RatingText = styled(Text)`
   font-size: 40px;
 
   @media (max-width: ${Breakpoints.lg}) {
-    font-size: 30 px;
+    font-size: 30px;
     margin-right: 5px;
   }
   @media (max-width: ${Breakpoints.md}) {
