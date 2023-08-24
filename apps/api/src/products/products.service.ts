@@ -58,7 +58,6 @@ export class ProductsService {
 
   async findAllMerchantProducts(req: any): Promise<Product[]> {
     const merchantID = await extractIdFromToken(req, this.jwtService);
-    console.log(merchantID);
     return this.productModel.find({
       merchantID: merchantID,
     });

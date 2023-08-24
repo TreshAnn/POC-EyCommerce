@@ -1,71 +1,107 @@
 import { useParams } from 'react-router-dom';
-import { useGetMerchant, useGetMerchantProducts } from '../api';
+import { useGetMerchant, useGetMerchantProducts, useGetProduct } from '../api';
 import { CreateProductDTO, useCreateProduct } from '../api/addProduct';
-import { Product } from 'ui/product/Product';
+import MerchantProduct from 'ui/product/MerchantProduct';
 import ProductModal from 'ui/product/ProductModal';
-import { useDisclosure } from '@mantine/hooks';
 import { StyledContainer } from './styles';
 import { Button, Grid, Title } from '@mantine/core';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const MerchantProducts: React.FC = () => {
-  const [savedProductData, setSavedProductData] =
-    useState<CreateProductDTO | null>(null);
-  const [isOpen, { open, close }] = useDisclosure();
+  //API
   const { merchantID } = useParams<{ merchantID: string }>();
   const merchantQuery = useGetMerchant({}, merchantID);
-  const productQuery = useGetMerchantProducts({});
+  const merchantProductsQuery = useGetMerchantProducts({});
+  const merchantProducts = merchantProductsQuery.data || [];
   const createProductMutation = useCreateProduct({});
 
-  // const handleProductSave = (productData: CreateProductDTO) => {
-  //   setSavedProductData(productData);
-  //   console.log(productData);
-  //   close();
-  // };
+  //Modal states
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState('');
+  const [isAddingProduct, setIsAddingProduct] = useState(false);
+
+  //Conditionally execute useGetProduct
+  const getProductQuery = useGetProduct({}, selectedProductId);
+  const selectedProduct = merchantProducts.find(
+    (product) => product._id === selectedProductId,
+  );
+
+  const handleEditProduct = (productId: string) => {
+    setSelectedProductId(productId);
+    setIsAddingProduct(false); // Set to false to indicate editing
+    setIsModalOpen(true); // Open the modal
+  };
+
+  const handleNewProduct = () => {
+    setSelectedProductId('');
+    setIsAddingProduct(true); // Set to true to indicate adding
+    setIsModalOpen(true); // Open the modal
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    console.log(selectedProductId);
+    setSelectedProductId('');
+    setIsAddingProduct(false);
+  };
 
   const handleAddProduct = (newProductData: CreateProductDTO) => {
-    console.log(newProductData);
     createProductMutation.mutate({ ...newProductData });
   };
 
-  if (merchantQuery.isLoading || productQuery.isLoading) {
+  if (merchantQuery.isLoading || merchantProductsQuery.isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (merchantQuery.isError || !productQuery.data) {
+  if (merchantQuery.isError || !merchantProductsQuery.data) {
     return <div>Error loading store data</div>;
   }
 
-  if (!productQuery?.data?.length) {
+  if (!merchantProductsQuery?.data?.length) {
     return <h1>No Product</h1>;
   }
 
   return (
     <main>
-      <div>
-        <ProductModal
-          onSave={handleAddProduct}
-          isOpen={isOpen}
-          onClose={close}
-        />
-        <Title order={1} align="center">
-          {merchantQuery.data?.merchantName} Products
-        </Title>
-      </div>
       <StyledContainer fluid>
-        <Button loading={createProductMutation.isLoading} onClick={open}>
+        <div>
+          <ProductModal
+            onSave={handleAddProduct}
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            id={selectedProductId}
+            editProduct={selectedProduct}
+            isAddingProduct={isAddingProduct}
+          />
+          <Title order={1} align="center">
+            {merchantQuery.data?.merchantName} Products
+          </Title>
+        </div>
+
+        <Button
+          loading={createProductMutation.isLoading}
+          onClick={handleNewProduct}
+          style={{ color: 'black' }}
+        >
           Add Product
         </Button>
         <Grid>
-          {productQuery.data.map((data) => {
+          {merchantProductsQuery.data.map((data) => {
             return (
               <Grid.Col sm={4} md={3} lg={2.4}>
-                <Product
+                <MerchantProduct
+                  id={data._id}
                   img={data.productImg.ImgURL}
                   name={data.productName}
+                  info={data.productInfo}
+                  stock={data.productInventory}
                   price={data.productPrice}
-                ></Product>
+                  onEdit={(selectedProductId) =>
+                    handleEditProduct(selectedProductId)
+                  }
+                ></MerchantProduct>
               </Grid.Col>
             );
           })}

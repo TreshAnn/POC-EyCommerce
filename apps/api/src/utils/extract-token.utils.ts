@@ -8,11 +8,9 @@ export function extractIdFromToken(
   jwtService: JwtService,
 ): string | undefined {
   const [type, token] = request.headers.authorization?.split(' ') ?? [];
-  console.log(token);
   if (type === 'Bearer') {
     try {
       const decoded = jwtService.decode(token) as { sub: string };
-      console.log(decoded);
       if (decoded && decoded.hasOwnProperty('sub')) {
         const userID = decoded.sub;
         return userID;
