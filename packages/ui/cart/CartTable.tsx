@@ -107,13 +107,12 @@ const CartTable = () => {
                   fz="sm"
                   fw={100}
                   color="black"
-                  style={{ display: 'inline-block' }}
+                  style={{ display: 'inline-block', marginLeft: '10px' }}
                 >
                   Total ({totalItems} items):
                 </Text>{' '}
-                &nbsp;&nbsp;
                 <Text fz="sm" fw={700} style={{ display: 'inline-block' }}>
-                  ₱{formattedSubtotal}
+                  &#8369;{formattedSubtotal}
                 </Text>
               </th>
               <th colSpan={1} style={{ paddingRight: '50px' }}>
