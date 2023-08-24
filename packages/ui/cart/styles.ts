@@ -44,7 +44,7 @@ export const StyledTable = styled(Table)`
   .col-two {
     width: 40%;
   }
-  thead tfoot tr th:not(:first-child),
+  thead tr th:not(:first-child),
   tbody tr td {
     text-align: center;
   }
@@ -65,6 +65,13 @@ export const StyledTable = styled(Table)`
     line-height: 7px;
     color: transparent;
   }
+  tbody:after {
+    content: '-';
+    display: block;
+    line-height: 7px;
+    color: transparent;
+  }
+
   td:first-child,
   th:first-child {
     margin-top: 20px;

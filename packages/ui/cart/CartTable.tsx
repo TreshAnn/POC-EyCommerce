@@ -111,7 +111,7 @@ const CartTable = ({ data: { orderedItems } }: Props) => {
           </tbody>
           <tfoot>
             <tr>
-              <th
+              <td
                 colSpan={5}
                 style={{ textAlign: 'right', alignItems: 'center' }}
               >
@@ -126,8 +126,8 @@ const CartTable = ({ data: { orderedItems } }: Props) => {
                 <Text fz="sm" fw={700} style={{ display: 'inline-block' }}>
                   &#8369;{formattedTotal}
                 </Text>
-              </th>
-              <th colSpan={1} style={{ paddingRight: '50px' }}>
+              </td>
+              <td colSpan={1}>
                 <Button
                   fz="md"
                   style={{
@@ -138,7 +138,7 @@ const CartTable = ({ data: { orderedItems } }: Props) => {
                 >
                   Checkout
                 </Button>
-              </th>
+              </td>
             </tr>
           </tfoot>
         </StyledTable>
@@ -171,6 +171,38 @@ const CartTable = ({ data: { orderedItems } }: Props) => {
               />
             ))}
           </tbody>
+          <tfoot>
+            <tr>
+              <td
+                colSpan={2}
+                style={{ textAlign: 'right', alignItems: 'center' }}
+              >
+                <Text
+                  fz="sm"
+                  fw={100}
+                  color="black"
+                  style={{ display: 'inline-block', marginLeft: '10px' }}
+                >
+                  Total ({totalItems} items):
+                </Text>{' '}
+                <Text fz="sm" fw={700} style={{ display: 'inline-block' }}>
+                  &#8369;{formattedTotal}
+                </Text>
+              </td>
+              <td colSpan={2}>
+                <Button
+                  fz="md"
+                  style={{
+                    color: 'black',
+                    alignItems: 'center',
+                    marginTop: 0,
+                  }}
+                >
+                  Checkout
+                </Button>
+              </td>
+            </tr>
+          </tfoot>
         </StyledTable>
       )}
     </StyledScrollArea>
