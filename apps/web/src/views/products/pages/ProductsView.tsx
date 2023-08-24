@@ -1,6 +1,7 @@
-import { Button, Grid } from '@mantine/core';
+import { Flex, Grid, Title } from '@mantine/core';
 import React from 'react';
 import Product from 'ui/product/Product';
+import { Searchbar } from 'ui/searchbar/searchbar';
 
 import { useGetAllProducts } from '../api';
 import { StyledContainer } from './styles';
@@ -21,6 +22,16 @@ export const ProductsView = () => {
   return (
     <main>
       <StyledContainer fluid>
+        <Flex justify="center" align="center" gap="xs">
+          <Title order={1} weight={600} align="center">
+            EY
+          </Title>
+          <Title order={1} weight={200} align="center">
+            Store
+          </Title>
+        </Flex>
+
+        <Searchbar />
         <Grid>
           {productQuery.data.map((data) => {
             return (

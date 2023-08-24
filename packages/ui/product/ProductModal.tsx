@@ -64,7 +64,9 @@ const ProductModal: React.FC<ProductModalProps> = ({
 
   return (
     <Modal opened={isOpen} onClose={onClose}>
-      <Modal.Title>Product Details</Modal.Title>
+      <Modal.Title>
+        {isAddingProduct ? 'New Product' : 'Edit Product'}
+      </Modal.Title>
       <Modal.Body>
         {isAddingProduct ? (
           <>
