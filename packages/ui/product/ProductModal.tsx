@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import {
   Button,
   Modal,
@@ -82,6 +82,48 @@ const ProductModal: React.FC<ProductModalProps> = ({
     }
   };
 
+  const handleDataChange = (
+    property: string,
+    event: ChangeEvent<HTMLInputElement>,
+  ) => {
+    const newValue = event.currentTarget.value;
+    if (property === 'productPrice') {
+      const parsedValue = parseFloat(newValue);
+      setProductData({
+        ...productData,
+        [property]: parsedValue,
+      });
+    } else if (property === 'productInventory') {
+      const parsedValue = parseInt(newValue);
+      setProductData({
+        ...productData,
+        [property]: parsedValue,
+      });
+    } else if (property === 'productImg') {
+      const newProductImg = [...productData.productImg];
+      newProductImg[0] = newValue;
+      setProductData({
+        ...productData,
+        productImg: newProductImg,
+      });
+    } else {
+      setProductData({
+        ...productData,
+        [property]: newValue,
+      });
+    }
+  };
+  const handleBlur = (
+    property: string,
+    event: ChangeEvent<HTMLInputElement>,
+  ) => {
+    const newValue = event.currentTarget.value.trim();
+    setProductData({
+      ...productData,
+      [property]: newValue,
+    });
+  };
+
   return (
     <>
       <Modal size="xs" opened={opened} onClose={close} centered>
@@ -112,12 +154,8 @@ const ProductModal: React.FC<ProductModalProps> = ({
                 label="Product ID"
                 placeholder="product00000"
                 value={productData.productID}
-                onChange={(event) =>
-                  setProductData({
-                    ...productData,
-                    productID: event.currentTarget.value,
-                  })
-                }
+                onChange={(event) => handleDataChange('productID', event)}
+                onBlur={(event) => handleBlur('productID', event)}
                 withAsterisk
               />
             </>
@@ -127,12 +165,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
                 label="Product ID"
                 placeholder="product00000"
                 value={editProduct?.productID}
-                onChange={(event) =>
-                  setProductData({
-                    ...productData,
-                    productID: event.currentTarget.value,
-                  })
-                }
+                onChange={(event) => handleDataChange('productID', event)}
                 disabled
               />
             </>
@@ -141,12 +174,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
             label="Product Image URL"
             placeholder="Insert image URL"
             value={productData.productImg[0]}
-            onChange={(event) =>
-              setProductData({
-                ...productData,
-                productImg: [event.currentTarget.value],
-              })
-            }
+            onChange={(event) => handleDataChange('productImg', event)}
           />
           {productData.productImg && (
             <Image
@@ -162,48 +190,30 @@ const ProductModal: React.FC<ProductModalProps> = ({
             label="Product Name"
             placeholder="Store Item"
             value={productData.productName}
-            onChange={(event) =>
-              setProductData({
-                ...productData,
-                productName: event.currentTarget.value,
-              })
-            }
+            onChange={(event) => handleDataChange('productName', event)}
+            onBlur={(event) => handleBlur('productName', event)}
             withAsterisk
           />
           <TextInput
             label="Product Info"
             placeholder="Enter item information"
             value={productData.productInfo}
-            onChange={(event) =>
-              setProductData({
-                ...productData,
-                productInfo: event.currentTarget.value,
-              })
-            }
+            onChange={(event) => handleDataChange('productInfo', event)}
+            onBlur={(event) => handleBlur('productInfo', event)}
             withAsterisk
           />
           <TextInput
             label="Product Price"
             type="number"
             value={productData.productPrice.toString()}
-            onChange={(event) =>
-              setProductData({
-                ...productData,
-                productPrice: parseFloat(event.currentTarget.value),
-              })
-            }
+            onChange={(event) => handleDataChange('productPrice', event)}
             withAsterisk
           />
           <TextInput
             label="Product Inventory"
             type="number"
             value={productData.productInventory.toString()}
-            onChange={(event) =>
-              setProductData({
-                ...productData,
-                productInventory: parseInt(event.currentTarget.value),
-              })
-            }
+            onChange={(event) => handleDataChange('productInventory', event)}
             withAsterisk
           />
           {!isAddingProduct ? (
