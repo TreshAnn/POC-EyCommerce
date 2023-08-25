@@ -1,6 +1,6 @@
-import { Button, Card, Text, Title } from '@mantine/core';
+import React from 'react';
+import { Button, Card, Image, Rating, Text, Title } from '@mantine/core';
 
-import { StarRating } from '../rating/StarRating';
 import {
   CardWrapper,
   ContentWrapper,
@@ -8,24 +8,33 @@ import {
   ProductImage,
 } from './styles';
 interface IProductProps {
-  ratingValue?: number;
+  id: string;
   name: string;
   img: string;
+  info: string;
+  stock: number;
   price: number;
-  onClick?: () => void;
+  onEdit: (id: string) => void;
+  isLoading: boolean;
 }
 
-export function Product({
-  ratingValue = 0,
+export function MerchantProduct({
+  id,
   img,
   name,
+  info,
+  stock = 0,
   price = 0,
-  onClick,
+  isLoading,
+  onEdit,
 }: IProductProps) {
+  const handleEditClick = () => {
+    onEdit(id);
+  };
   return (
     <CardWrapper>
-      <Card shadow="sm" padding="lg" radius="md" withBorder>
-        <Card.Section onClick={onClick}>
+      <Card shadow="sm" padding="lg" radius="md" h={410} withBorder>
+        <Card.Section>
           <ProductImage src={img} alt="Product" />
         </Card.Section>
         <ContentWrapper>
@@ -34,8 +43,10 @@ export function Product({
               {name}
             </Title>
           </DetailsWrapper>
-          <DetailsWrapper className="product-rating">
-            <StarRating rate={ratingValue} />
+          <DetailsWrapper className="product-name">
+            <Text size="sm" fw={500}>
+              Stock: {stock}
+            </Text>
           </DetailsWrapper>
           <DetailsWrapper className="product-price">
             <Text size="lg" fw={500} color="yellow">
@@ -46,8 +57,16 @@ export function Product({
               })}
             </Text>
           </DetailsWrapper>
-          <Button fz="md" fullWidth style={{ color: 'black' }}>
-            Add to cart
+
+          <Button
+            onClick={handleEditClick}
+            fz="md"
+            fullWidth
+            style={{ color: 'black' }}
+            loading={isLoading}
+            loaderPosition="center"
+          >
+            Edit
           </Button>
         </ContentWrapper>
       </Card>
@@ -55,4 +74,4 @@ export function Product({
   );
 }
 
-export default Product;
+export default MerchantProduct;

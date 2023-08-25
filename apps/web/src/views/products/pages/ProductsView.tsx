@@ -1,34 +1,15 @@
-import { Button, Grid } from '@mantine/core';
+import { Flex, Grid, Title } from '@mantine/core';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Product } from 'ui/product/Product';
+import { Searchbar } from 'ui/searchbar/searchbar';
 
 import { useGetAllProducts } from '../api';
-import { CreateProductDTO, useCreateProduct } from '../api/addProduct';
 import { StyledContainer } from './styles';
 
 export const ProductsView = () => {
   const productQuery = useGetAllProducts({});
-  const createProductMutation = useCreateProduct({});
-
   const navigate = useNavigate();
-
-  const handleAddProduct = () => {
-    const rq: CreateProductDTO = {
-      productID: 'product00002',
-      productImg: [
-        'https://ever-supermarket2.myshopify.com/cdn/shop/products/9000007743-Purefoods-Tender-Juicy-Hotdog-Jumbo-45-1kg-210430_cefb9798-cde5-4bd8-8931-33c201ca4f69_1200x1200.jpg?v=1674195201',
-      ],
-      productName: 'TJ CheeseDog 123213',
-      productInfo: 'TJ Desc',
-      productPrice: 180,
-      productInventory: 3,
-      productCategory: ['sample1'],
-    };
-
-    createProductMutation.mutate({ ...rq });
-  };
-
   if (productQuery.isLoading) {
     return <h1>...Loading</h1>;
   }
@@ -42,24 +23,32 @@ export const ProductsView = () => {
   return (
     <main>
       <StyledContainer fluid>
-        <Button
-          loading={createProductMutation.isLoading}
-          onClick={handleAddProduct}
-        >
-          Add Product
-        </Button>
+        <Flex justify="center" align="center" gap="xs">
+          <Title order={1} weight={600} align="center">
+            EY
+          </Title>
+          <Title order={1} weight={200} align="center">
+            Store
+          </Title>
+        </Flex>
+
+        <Searchbar />
         <Grid>
           {productQuery.data.map((data, index) => {
-            return (
-              <Grid.Col sm={4} md={3} lg={2.4} key={data._id}>
-                <Product
-                  img={data.productImg[0]}
-                  name={data.productName}
-                  price={data.productPrice}
-                  onClick={() => navigate(`/products/${data._id}`)}
-                ></Product>
-              </Grid.Col>
-            );
+            if (data.isActive && data.productInventory > 0) {
+              return (
+                <Grid.Col sm={4} md={3} lg={2.4} key={data._id}>
+                  <Product
+                    img={data.productImg[0]}
+                    name={data.productName}
+                    price={data.productPrice}
+                    onClick={() => navigate(`/products/${data._id}`)}
+                  ></Product>
+                </Grid.Col>
+              );
+            } else {
+              return null;
+            }
           })}
         </Grid>
       </StyledContainer>

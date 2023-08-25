@@ -7,10 +7,9 @@ export const ProductImage = styled(Image)`
 `;
 
 export const CardWrapper = styled.div`
-  margin: 12px auto 0;
+  margin: 40px 0px;
   width: 240px;
-  height: 500px;
-  // display: flex; TO DO - add this when used for the catalog page
+  height: 400px;
 `;
 
 export const ContentWrapper = styled.div`
