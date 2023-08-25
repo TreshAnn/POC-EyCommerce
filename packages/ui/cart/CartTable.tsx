@@ -25,7 +25,7 @@ interface Props {
   data: Cart;
 }
 
-const CartTable = ({ data: { orderedItems } }: Props) => {
+const CartTable = ({ data: { orderedItems, totalAmount } }: Props) => {
   const [cartItems, setCartItems] = useState(orderedItems);
 
   const calculateSubtotal = (items: OrderedItems[]) => {
@@ -57,14 +57,10 @@ const CartTable = ({ data: { orderedItems } }: Props) => {
   );
   const subtotal = calculateSubtotal(cartItems);
 
-  //mock data only
-  const totalPrice = 4;
-
-  const formattedTotal = totalPrice.toLocaleString('en-US', {
+  const formattedTotalAmount = totalAmount.toLocaleString('en-US', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
-
   return (
     <StyledScrollArea>
       {web ? (
@@ -124,7 +120,7 @@ const CartTable = ({ data: { orderedItems } }: Props) => {
                   Total ({totalItems} items):
                 </Text>{' '}
                 <Text fz="sm" fw={700} style={{ display: 'inline-block' }}>
-                  &#8369;{formattedTotal}
+                  &#8369;{formattedTotalAmount}
                 </Text>
               </td>
               <td colSpan={1}>
@@ -186,7 +182,7 @@ const CartTable = ({ data: { orderedItems } }: Props) => {
                   Total ({totalItems} items):
                 </Text>{' '}
                 <Text fz="sm" fw={700} style={{ display: 'inline-block' }}>
-                  &#8369;{formattedTotal}
+                  &#8369;{formattedTotalAmount}
                 </Text>
               </td>
               <td colSpan={2}>
