@@ -1,10 +1,12 @@
-import { DEFAULT_THEME, Grid, Image, Text } from '@mantine/core';
+import { Button, DEFAULT_THEME, Grid, Image, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useState } from 'react';
 import { TiTrash } from 'react-icons/ti';
 import { Cart, OrderedItems } from '../../../apps/web/src/views/cart/types';
 import { Quantity } from '../quantity/Quantity';
 import { StyledScrollArea, StyledTable } from './styles';
+import { useCreateProduct } from '../../../apps/web/src/views/cart/api/increaseCartItem';
+import { UpdateCart } from '../../../apps/web/src/views/cart/types/index';
 
 // interface ICartItem {
 //   id: number;
@@ -134,7 +136,18 @@ const CartTable = ({ data: { orderedItems } }: Props) => {
 
 const CartRow: React.FC<ICartProps> = ({ item, onQuantityChange }) => {
   const web = useMediaQuery(`(min-width: ${DEFAULT_THEME.breakpoints.sm})`);
-
+  const cartUpdate = useCreateProduct({});
+  // eslint-disable-next-line no-console
+  // console.log(item);
+  const testIncrease = (id: string, inc: number) => {
+    // eslint-disable-next-line no-console
+    console.log(item.quantity, inc);
+    const newItem: UpdateCart = {
+      productID: id,
+      quantity: item.quantity + inc,
+    };
+    cartUpdate.mutate(newItem);
+  };
   return (
     <>
       {web ? (
@@ -167,7 +180,8 @@ const CartRow: React.FC<ICartProps> = ({ item, onQuantityChange }) => {
               </Text>
             </td>
             <td>
-              <TiTrash color="red" size={40} />
+              <TiTrash color="orange" size={40} />
+              <Button onClick={() => testIncrease(item.productID, 1)}>+</Button>
             </td>
           </tr>
         </>

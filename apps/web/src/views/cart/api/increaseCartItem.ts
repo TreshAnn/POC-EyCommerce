@@ -1,65 +1,58 @@
-// import { notifications } from '@mantine/notifications';
-// import { useMutation } from '@tanstack/react-query';
+import { notifications } from '@mantine/notifications';
+import { useMutation } from '@tanstack/react-query';
 
-// import { axios } from '../../../lib/axios';
-// import { queryClient, QueryConfig } from '../../../lib/react-query';
-// import { Product } from '../types';
+import { axios } from '../../../lib/axios';
+import { queryClient, QueryConfig } from '../../../lib/react-query';
+import { Cart, UpdateCart } from '../types';
 
-// export type AddItemDTO = Omit<Product, '__v' | '_id' | 'isActive'>;
+// export type CreateProductDTO = Omit<Product, '__v' | '_id' | 'isActive'>;
 
-// export const increaseCartItem = ({
-//   productCategory,
-//   productID,
-//   productImg,
-//   productInfo,
-//   productInventory,
-//   productName,
-//   productPrice,
-// }: AddItemDTO): Promise<Product> => {
-//   return axios.put('/api/cart', {
-//     productCategory,
-//     productID,
-//     productImg,
-//     productInfo,
-//     productInventory,
-//     productName,
-//     productPrice,
-//   });
-// };
+export const createProduct = ({
+  productID,
+  quantity,
+}: UpdateCart): Promise<UpdateCart> => {
+  return axios.put('/api/cart', {
+    productID,
+    quantity,
+  });
+};
 
-// type QueryFnType = typeof increaseCartItem;
+type QueryFnType = typeof createProduct;
 
-// type UseCreateProductOption = {
-//   config?: QueryConfig<QueryFnType>;
-// };
+type UseCreateProductOption = {
+  config?: QueryConfig<QueryFnType>;
+};
 
-// export const useCreateProduct = ({ config }: UseCreateProductOption) => {
-//   return useMutation({
-//     onMutate: async (newProduct) => {
-//       await queryClient.cancelQueries(['products']);
+export const useCreateProduct = ({ config }: UseCreateProductOption) => {
+  return useMutation({
+    onMutate: async (newProduct) => {
+      await queryClient.cancelQueries(['cart']);
+      // eslint-disable-next-line no-console
+      console.log(newProduct);
+      const previousProducts = queryClient.getQueriesData<Cart[]>(['cart']);
 
-//       const previousProducts = queryClient.getQueriesData<Product[]>([
-//         'products',
-//       ]);
-
-//       queryClient.setQueryData(
-//         ['addCartItem'],
-//         [...(previousProducts || []), newProduct.data],
-//       );
-//       return { previousProducts };
-//     },
-//     onError: (_, __, context: any) => {
-//       if (context?.previousProducts) {
-//         queryClient.setQueryData(['products'], context.previousProducts);
-//       }
-//     },
-//     onSuccess: () => {
-//       queryClient.invalidateQueries(['products']);
-//       notifications.show({
-//         message: 'Added Product!',
-//       });
-//     },
-//     mutationFn: increaseCartItem,
-//     ...config,
-//   });
-// };
+      queryClient.setQueryData(
+        ['cart'],
+        [...(previousProducts || []), newProduct.data],
+      );
+      return { previousProducts };
+    },
+    onError: (_, __, context: any) => {
+      // eslint-disable-next-line no-console
+      console.log('theres an error');
+      if (context?.previousProducts) {
+        queryClient.setQueryData(['cart'], context.previousProducts);
+      }
+    },
+    onSuccess: () => {
+      // eslint-disable-next-line no-console
+      console.log('success naman');
+      queryClient.invalidateQueries(['cart']);
+      notifications.show({
+        message: 'Added to cart!',
+      });
+    },
+    mutationFn: createProduct,
+    ...config,
+  });
+};
