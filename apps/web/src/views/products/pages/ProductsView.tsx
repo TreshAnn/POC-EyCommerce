@@ -34,15 +34,19 @@ export const ProductsView = () => {
         <Searchbar />
         <Grid>
           {productQuery.data.map((data) => {
-            return (
-              <Grid.Col sm={4} md={3} lg={2.4}>
-                <Product
-                  img={data.productImg.ImgURL}
-                  name={data.productName}
-                  price={data.productPrice}
-                ></Product>
-              </Grid.Col>
-            );
+            if (data.isActive && data.productInventory > 0) {
+              return (
+                <Grid.Col sm={4} md={3} lg={2.4}>
+                  <Product
+                    img={data.productImg.ImgURL}
+                    name={data.productName}
+                    price={data.productPrice}
+                  ></Product>
+                </Grid.Col>
+              );
+            } else {
+              return null;
+            }
           })}
         </Grid>
       </StyledContainer>

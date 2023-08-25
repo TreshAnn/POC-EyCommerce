@@ -1,5 +1,10 @@
 import { useParams } from 'react-router-dom';
-import { useGetMerchant, useGetMerchantProducts } from '../api';
+import {
+  useGetMerchant,
+  useGetMerchantProducts,
+  useDeactivateProduct,
+  useActivateProduct,
+} from '../api';
 import { CreateProductDTO, useCreateProduct } from '../api/addProduct';
 import { UpdateProductDTO, useUpdateProduct } from '../api/updateProduct';
 import MerchantProduct from 'ui/product/MerchantProduct';
@@ -21,7 +26,8 @@ export const MerchantProducts: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState('');
   const [isAddingProduct, setIsAddingProduct] = useState(false);
-
+  const deactivateProductQuery = useDeactivateProduct({}, selectedProductId);
+  const activateProductQuery = useActivateProduct({}, selectedProductId);
   const updateProductMutation = useUpdateProduct({}, selectedProductId || '');
 
   //Conditionally execute useGetProduct
@@ -46,6 +52,14 @@ export const MerchantProducts: React.FC = () => {
 
     // setSelectedProductId('');
     setIsAddingProduct(false);
+  };
+
+  const handleDeactivateProduct = () => {
+    deactivateProductQuery.refetch();
+  };
+
+  const handleActivateProduct = () => {
+    activateProductQuery.refetch();
   };
 
   const handleAddProduct = (newProductData: CreateProductDTO) => {
@@ -76,6 +90,11 @@ export const MerchantProducts: React.FC = () => {
             onSave={isAddingProduct ? handleAddProduct : handleUpdateProduct}
             isOpen={isModalOpen}
             onClose={handleCloseModal}
+            onConfirm={
+              selectedProduct?.isActive
+                ? handleDeactivateProduct
+                : handleActivateProduct
+            }
             id={selectedProductId}
             editProduct={selectedProduct}
             isAddingProduct={isAddingProduct}
