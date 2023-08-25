@@ -27,7 +27,7 @@ export function Product({
         </Card.Section>
         <ContentWrapper>
           <DetailsWrapper className="product-name">
-            <Title order={4} weight={500}>
+            <Title order={4} weight={500} h={50}>
               {name}
             </Title>
           </DetailsWrapper>
@@ -71,7 +71,11 @@ export function Product({
           </DetailsWrapper>
           <DetailsWrapper className="product-price">
             <Text size="lg" fw={500} color="yellow">
-              &#8369; {price}
+              &#8369;{' '}
+              {price.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
             </Text>
           </DetailsWrapper>
           <Button fz="md" fullWidth style={{ color: 'black' }}>

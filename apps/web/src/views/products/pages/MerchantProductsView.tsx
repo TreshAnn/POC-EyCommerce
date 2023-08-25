@@ -8,7 +8,6 @@ import { StyledContainer } from './styles';
 import { Button, Grid, Title } from '@mantine/core';
 
 import React, { useEffect, useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
 
 export const MerchantProducts: React.FC = () => {
   //API

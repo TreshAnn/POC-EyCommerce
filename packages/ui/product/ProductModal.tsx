@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, TextInput } from '@mantine/core';
+import { Button, Modal, TextInput, Image } from '@mantine/core';
 
 interface ProductModalProps {
   onSave: (data: ProductData) => void;
@@ -43,7 +43,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
     productInfo: '',
     productPrice: 0,
     productInventory: 0,
-    productCategory: ['shoes'],
+    productCategory: ['sample1'],
   };
   const [productData, setProductData] = useState<ProductData>(
     editProduct || addProduct,
@@ -60,6 +60,19 @@ const ProductModal: React.FC<ProductModalProps> = ({
   const handleSave = async () => {
     onSave(productData);
     onClose();
+  };
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value) {
+      const uploadedImage = event.target.value;
+      setProductData({
+        ...productData,
+        productImg: {
+          ImgAttch: 'base64encodedimage',
+          ImgURL: uploadedImage,
+        },
+      });
+    }
   };
 
   return (
@@ -79,6 +92,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
                   productID: event.currentTarget.value,
                 })
               }
+              withAsterisk
             />
           </>
         ) : (
@@ -109,6 +123,9 @@ const ProductModal: React.FC<ProductModalProps> = ({
             })
           }
         />
+        {productData.productImg.ImgURL && (
+          <Image src={productData.productImg.ImgURL} alt="Image" />
+        )}
         <TextInput
           label="Product Name"
           value={productData.productName}
@@ -118,6 +135,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
               productName: event.currentTarget.value,
             })
           }
+          withAsterisk
         />
         <TextInput
           label="Product Info"
@@ -128,6 +146,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
               productInfo: event.currentTarget.value,
             })
           }
+          withAsterisk
         />
         <TextInput
           label="Product Price"
@@ -139,6 +158,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
               productPrice: parseFloat(event.currentTarget.value),
             })
           }
+          withAsterisk
         />
         <TextInput
           label="Product Inventory"
@@ -150,6 +170,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
               productInventory: parseInt(event.currentTarget.value),
             })
           }
+          withAsterisk
         />
       </Modal.Body>
       <Button loading={isLoading} onClick={handleSave} loaderPosition="center">
