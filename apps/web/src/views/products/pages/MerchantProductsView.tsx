@@ -11,8 +11,7 @@ import MerchantProduct from 'ui/product/MerchantProduct';
 import ProductModal from 'ui/product/ProductModal';
 import { StyledContainer } from './styles';
 import { Button, Grid, Title } from '@mantine/core';
-
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 export const MerchantProducts: React.FC = () => {
   //API
@@ -30,7 +29,6 @@ export const MerchantProducts: React.FC = () => {
   const activateProductQuery = useActivateProduct({}, selectedProductId);
   const updateProductMutation = useUpdateProduct({}, selectedProductId || '');
 
-  //Conditionally execute useGetProduct
   const selectedProduct = merchantProducts.find(
     (product) => product._id === selectedProductId,
   );

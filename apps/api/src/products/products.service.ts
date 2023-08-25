@@ -30,7 +30,6 @@ export class ProductsService {
     if (productAlreadyExists) {
       throw new BadRequestException('Product ID already exists');
     }
-    console.log(createProductDto);
     const createdProduct = await this.productModel.create({
       ...createProductDto,
       merchantID,
