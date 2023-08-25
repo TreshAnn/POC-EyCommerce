@@ -73,7 +73,6 @@ const ProductModal: React.FC<ProductModalProps> = ({
 
   const handleSave = async () => {
     onSave(productData);
-    onClose();
   };
 
   const handleConfirm = async () => {
@@ -111,6 +110,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
             <>
               <TextInput
                 label="Product ID"
+                placeholder="product00000"
                 value={productData.productID}
                 onChange={(event) =>
                   setProductData({
@@ -125,6 +125,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
             <>
               <TextInput
                 label="Product ID"
+                placeholder="product00000"
                 value={editProduct?.productID}
                 onChange={(event) =>
                   setProductData({
@@ -138,6 +139,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
           )}
           <TextInput
             label="Product Image URL"
+            placeholder="Insert image URL"
             value={productData.productImg[0]}
             onChange={(event) =>
               setProductData({
@@ -147,10 +149,18 @@ const ProductModal: React.FC<ProductModalProps> = ({
             }
           />
           {productData.productImg && (
-            <Image src={productData.productImg[0]} alt="Image" />
+            <Image
+              src={
+                productData.productImg[0]
+                  ? productData.productImg[0]
+                  : 'https://placehold.co/540x540.png'
+              }
+              alt="Product Image"
+            />
           )}
           <TextInput
             label="Product Name"
+            placeholder="Store Item"
             value={productData.productName}
             onChange={(event) =>
               setProductData({
@@ -162,6 +172,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
           />
           <TextInput
             label="Product Info"
+            placeholder="Enter item information"
             value={productData.productInfo}
             onChange={(event) =>
               setProductData({

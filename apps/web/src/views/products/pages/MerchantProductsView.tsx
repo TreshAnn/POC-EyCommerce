@@ -11,7 +11,7 @@ import MerchantProduct from 'ui/product/MerchantProduct';
 import ProductModal from 'ui/product/ProductModal';
 import { StyledContainer } from './styles';
 import { Button, Grid, Title } from '@mantine/core';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export const MerchantProducts: React.FC = () => {
   //API
@@ -28,6 +28,24 @@ export const MerchantProducts: React.FC = () => {
   const deactivateProductQuery = useDeactivateProduct({}, selectedProductId);
   const activateProductQuery = useActivateProduct({}, selectedProductId);
   const updateProductMutation = useUpdateProduct({}, selectedProductId || '');
+
+  useEffect(() => {
+    if (updateProductMutation.isSuccess) {
+      setIsModalOpen(false);
+    }
+    if (updateProductMutation.isSuccess) {
+      setIsModalOpen(false);
+    }
+  }, [createProductMutation.isSuccess, updateProductMutation.isSuccess]);
+
+  useEffect(() => {
+    if (updateProductMutation.isError) {
+      setIsModalOpen(true);
+    }
+    if (updateProductMutation.isSuccess) {
+      setIsModalOpen(false);
+    }
+  }, [createProductMutation.isSuccess, updateProductMutation.isError]);
 
   const selectedProduct = merchantProducts.find(
     (product) => product._id === selectedProductId,
@@ -62,7 +80,7 @@ export const MerchantProducts: React.FC = () => {
     createProductMutation.mutate({ ...newProductData });
   };
 
-  const handleUpdateProduct = (newProductData: UpdateProductDTO) => {
+  const handleUpdateProduct = async (newProductData: UpdateProductDTO) => {
     updateProductMutation.mutate({ ...newProductData });
   };
 
