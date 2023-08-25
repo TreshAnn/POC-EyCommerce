@@ -26,7 +26,6 @@ interface Props {
 
 const CartTable = ({ data: { orderedItems } }: Props) => {
   const [cartItems, setCartItems] = useState(orderedItems);
-
   const calculateSubtotal = (items: OrderedItems[]) => {
     return items.reduce(
       (total, item) => total + item.productPrice * item.quantity,
@@ -47,6 +46,8 @@ const CartTable = ({ data: { orderedItems } }: Props) => {
 
     setCartItems(updatedCartItems);
     const newSubtotal = calculateSubtotal(updatedCartItems);
+    // eslint-disable-next-line no-console
+    console.log(newSubtotal);
   };
 
   const web = useMediaQuery(`(min-width: ${DEFAULT_THEME.breakpoints.sm})`);

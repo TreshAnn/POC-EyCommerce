@@ -41,6 +41,7 @@ export class CartService {
     if (!product) {
       throw new NotFoundException('Product not found.');
     }
+    console.log(product);
     const itemQuantity = quantity;
     const itemDto = {
       productID: product.productID,
@@ -142,10 +143,13 @@ export class CartService {
         'Requested quantity exceeds product inventory.',
       );
     }
+    console.log('user id:', userId);
+    console.log('before item index');
+    console.log(cart);
     const itemIndex = cart.orderedItems.findIndex(
       (item) => item.productID === productID,
     );
-
+    console.log('after item index');
     if (itemIndex === -1) {
       throw new NotFoundException('Item not found in the cart.');
     }
