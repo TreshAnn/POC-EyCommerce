@@ -14,7 +14,7 @@ interface ProductModalProps {
   onSave: (data: ProductData) => void;
   onConfirm?: (id: string) => void;
   isOpen: boolean;
-  isLoading?: boolean;
+  isLoading: boolean;
   onClose: () => void;
   isAddingProduct: boolean;
   editProduct?: ProductData;

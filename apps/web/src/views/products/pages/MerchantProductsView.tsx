@@ -101,7 +101,9 @@ export const MerchantProducts: React.FC = () => {
             isLoading={
               isAddingProduct
                 ? createProductMutation.isLoading
-                : updateProductMutation.isLoading
+                : updateProductMutation.isLoading ||
+                  activateProductQuery.isLoading ||
+                  deactivateProductQuery.isLoading
             }
           />
           <Title order={1} align="center">
@@ -110,7 +112,11 @@ export const MerchantProducts: React.FC = () => {
         </div>
 
         <Button
-          loading={createProductMutation.isLoading}
+          loading={
+            createProductMutation.isLoading ||
+            activateProductQuery.isLoading ||
+            deactivateProductQuery.isLoading
+          }
           onClick={handleNewProduct}
           style={{ color: 'black' }}
         >
@@ -118,21 +124,59 @@ export const MerchantProducts: React.FC = () => {
         </Button>
         <Grid>
           {merchantProductsQuery.data.map((data) => {
-            return (
-              <Grid.Col sm={4} md={3} lg={2.4}>
-                <MerchantProduct
-                  id={data._id}
-                  img={data.productImg.ImgURL}
-                  name={data.productName}
-                  info={data.productInfo}
-                  stock={data.productInventory}
-                  price={data.productPrice}
-                  onEdit={(selectedProductId) =>
-                    handleEditProduct(selectedProductId)
-                  }
-                ></MerchantProduct>
-              </Grid.Col>
-            );
+            if (data.isActive) {
+              return (
+                <Grid.Col sm={4} md={3} lg={2.4}>
+                  <MerchantProduct
+                    id={data._id}
+                    img={data.productImg.ImgURL}
+                    name={data.productName}
+                    info={data.productInfo}
+                    stock={data.productInventory}
+                    price={data.productPrice}
+                    onEdit={(selectedProductId) =>
+                      handleEditProduct(selectedProductId)
+                    }
+                    isLoading={
+                      updateProductMutation.isLoading ||
+                      createProductMutation.isLoading ||
+                      activateProductQuery.isLoading ||
+                      deactivateProductQuery.isLoading
+                    }
+                  ></MerchantProduct>
+                </Grid.Col>
+              );
+            }
+          })}
+        </Grid>
+        <Title order={4} pt={20}>
+          Hidden products
+        </Title>
+        <Grid>
+          {merchantProductsQuery.data.map((data) => {
+            if (!data.isActive) {
+              return (
+                <Grid.Col sm={4} md={3} lg={2.4}>
+                  <MerchantProduct
+                    id={data._id}
+                    img={data.productImg.ImgURL}
+                    name={data.productName}
+                    info={data.productInfo}
+                    stock={data.productInventory}
+                    price={data.productPrice}
+                    onEdit={(selectedProductId) =>
+                      handleEditProduct(selectedProductId)
+                    }
+                    isLoading={
+                      updateProductMutation.isLoading ||
+                      createProductMutation.isLoading ||
+                      activateProductQuery.isLoading ||
+                      deactivateProductQuery.isLoading
+                    }
+                  ></MerchantProduct>
+                </Grid.Col>
+              );
+            }
           })}
         </Grid>
       </StyledContainer>

@@ -15,6 +15,7 @@ interface IProductProps {
   stock: number;
   price: number;
   onEdit: (id: string) => void;
+  isLoading: boolean;
 }
 
 export function MerchantProduct({
@@ -24,6 +25,7 @@ export function MerchantProduct({
   info,
   stock = 0,
   price = 0,
+  isLoading,
   onEdit,
 }: IProductProps) {
   const handleEditClick = () => {
@@ -61,6 +63,8 @@ export function MerchantProduct({
             fz="md"
             fullWidth
             style={{ color: 'black' }}
+            loading={isLoading}
+            loaderPosition="center"
           >
             Edit
           </Button>
