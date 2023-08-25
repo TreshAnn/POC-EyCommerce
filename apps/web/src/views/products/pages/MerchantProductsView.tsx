@@ -33,7 +33,7 @@ export const MerchantProducts: React.FC = () => {
     if (updateProductMutation.isSuccess) {
       setIsModalOpen(false);
     }
-    if (updateProductMutation.isSuccess) {
+    if (createProductMutation.isSuccess) {
       setIsModalOpen(false);
     }
   }, [createProductMutation.isSuccess, updateProductMutation.isSuccess]);
@@ -42,8 +42,8 @@ export const MerchantProducts: React.FC = () => {
     if (updateProductMutation.isError) {
       setIsModalOpen(true);
     }
-    if (updateProductMutation.isSuccess) {
-      setIsModalOpen(false);
+    if (createProductMutation.isError) {
+      setIsModalOpen(true);
     }
   }, [createProductMutation.isSuccess, updateProductMutation.isError]);
 
