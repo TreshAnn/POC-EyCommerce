@@ -1,7 +1,7 @@
 export interface Product {
   _id: string;
   productID: string;
-  productImg: ProductImg;
+  productImg: string[];
   productName: string;
   productInfo: string;
   productPrice: number;
@@ -16,13 +16,7 @@ export interface Merchant {
   merchantName: string;
   auth: object;
   firstName: string;
-  lastName: ProductImg;
+  lastName: string;
   address: object;
   phoneNumber: number;
-}
-
-export interface ProductImg {
-  _id?: string;
-  ImgURL: string;
-  ImgAttch: string;
 }

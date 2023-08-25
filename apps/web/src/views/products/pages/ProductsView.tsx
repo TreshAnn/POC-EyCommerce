@@ -1,6 +1,7 @@
 import { Flex, Grid, Title } from '@mantine/core';
 import React from 'react';
-import Product from 'ui/product/Product';
+import { useNavigate } from 'react-router-dom';
+import { Product } from 'ui/product/Product';
 import { Searchbar } from 'ui/searchbar/searchbar';
 
 import { useGetAllProducts } from '../api';
@@ -8,7 +9,7 @@ import { StyledContainer } from './styles';
 
 export const ProductsView = () => {
   const productQuery = useGetAllProducts({});
-
+  const navigate = useNavigate();
   if (productQuery.isLoading) {
     return <h1>...Loading</h1>;
   }
@@ -33,14 +34,15 @@ export const ProductsView = () => {
 
         <Searchbar />
         <Grid>
-          {productQuery.data.map((data) => {
+          {productQuery.data.map((data, index) => {
             if (data.isActive && data.productInventory > 0) {
               return (
-                <Grid.Col sm={4} md={3} lg={2.4}>
+                <Grid.Col sm={4} md={3} lg={2.4} key={data._id}>
                   <Product
-                    img={data.productImg.ImgURL}
+                    img={data.productImg[0]}
                     name={data.productName}
                     price={data.productPrice}
+                    onClick={() => navigate(`/products/${data._id}`)}
                   ></Product>
                 </Grid.Col>
               );
