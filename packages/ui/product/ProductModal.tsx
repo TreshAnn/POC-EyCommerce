@@ -23,10 +23,7 @@ interface ProductModalProps {
 
 interface ProductData {
   productID: string;
-  productImg: {
-    ImgAttch: string;
-    ImgURL: string;
-  };
+  productImg: string[];
   productName: string;
   productInfo: string;
   productPrice: number;
@@ -47,10 +44,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
 }) => {
   const addProduct = {
     productID: '',
-    productImg: {
-      ImgAttch: 'base64encodedimage',
-      ImgURL: '',
-    },
+    productImg: [''],
     productName: '',
     productInfo: '',
     productPrice: 0,
@@ -144,19 +138,16 @@ const ProductModal: React.FC<ProductModalProps> = ({
           )}
           <TextInput
             label="Product Image URL"
-            value={productData.productImg.ImgURL}
+            value={productData.productImg[0]}
             onChange={(event) =>
               setProductData({
                 ...productData,
-                productImg: {
-                  ...productData.productImg,
-                  ImgURL: event.currentTarget.value,
-                },
+                productImg: [event.currentTarget.value],
               })
             }
           />
-          {productData.productImg.ImgURL && (
-            <Image src={productData.productImg.ImgURL} alt="Image" />
+          {productData.productImg && (
+            <Image src={productData.productImg[0]} alt="Image" />
           )}
           <TextInput
             label="Product Name"

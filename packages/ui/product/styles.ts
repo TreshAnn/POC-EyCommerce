@@ -7,7 +7,7 @@ export const ProductImage = styled(Image)`
 `;
 
 export const CardWrapper = styled.div`
-  margin: 12px 0px;
+  margin: 40px 0px;
   width: 240px;
   height: 400px;
 `;

@@ -49,8 +49,6 @@ export const MerchantProducts: React.FC = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-
-    // setSelectedProductId('');
     setIsAddingProduct(false);
   };
 
@@ -101,9 +99,7 @@ export const MerchantProducts: React.FC = () => {
             isLoading={
               isAddingProduct
                 ? createProductMutation.isLoading
-                : updateProductMutation.isLoading ||
-                  activateProductQuery.isLoading ||
-                  deactivateProductQuery.isLoading
+                : updateProductMutation.isLoading
             }
           />
           <Title order={1} align="center">
@@ -112,11 +108,7 @@ export const MerchantProducts: React.FC = () => {
         </div>
 
         <Button
-          loading={
-            createProductMutation.isLoading ||
-            activateProductQuery.isLoading ||
-            deactivateProductQuery.isLoading
-          }
+          loading={createProductMutation.isLoading}
           onClick={handleNewProduct}
           style={{ color: 'black' }}
         >
@@ -129,7 +121,7 @@ export const MerchantProducts: React.FC = () => {
                 <Grid.Col sm={4} md={3} lg={2.4}>
                   <MerchantProduct
                     id={data._id}
-                    img={data.productImg.ImgURL}
+                    img={data.productImg[0]}
                     name={data.productName}
                     info={data.productInfo}
                     stock={data.productInventory}
@@ -139,9 +131,7 @@ export const MerchantProducts: React.FC = () => {
                     }
                     isLoading={
                       updateProductMutation.isLoading ||
-                      createProductMutation.isLoading ||
-                      activateProductQuery.isLoading ||
-                      deactivateProductQuery.isLoading
+                      createProductMutation.isLoading
                     }
                   ></MerchantProduct>
                 </Grid.Col>
@@ -159,7 +149,7 @@ export const MerchantProducts: React.FC = () => {
                 <Grid.Col sm={4} md={3} lg={2.4}>
                   <MerchantProduct
                     id={data._id}
-                    img={data.productImg.ImgURL}
+                    img={data.productImg[0]}
                     name={data.productName}
                     info={data.productInfo}
                     stock={data.productInventory}
@@ -169,9 +159,7 @@ export const MerchantProducts: React.FC = () => {
                     }
                     isLoading={
                       updateProductMutation.isLoading ||
-                      createProductMutation.isLoading ||
-                      activateProductQuery.isLoading ||
-                      deactivateProductQuery.isLoading
+                      createProductMutation.isLoading
                     }
                   ></MerchantProduct>
                 </Grid.Col>
