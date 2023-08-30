@@ -2,6 +2,7 @@ import { Button, DEFAULT_THEME, Grid, Image, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useState } from 'react';
 import { TiTrash } from 'react-icons/ti';
+
 import { Cart, OrderedItems } from '../../../apps/web/src/views/cart/types';
 import { Quantity } from '../quantity/Quantity';
 import { StyledScrollArea, StyledTable } from './styles';
@@ -26,7 +27,7 @@ interface Props {
   data: Cart;
 }
 
-const CartTable = ({ data: { orderedItems } }: Props) => {
+const CartTable = ({ data: { orderedItems, totalAmount } }: Props) => {
   const [cartItems, setCartItems] = useState(orderedItems);
   const calculateSubtotal = (items: OrderedItems[]) => {
     return items.reduce(
@@ -53,7 +54,16 @@ const CartTable = ({ data: { orderedItems } }: Props) => {
   };
 
   const web = useMediaQuery(`(min-width: ${DEFAULT_THEME.breakpoints.sm})`);
+  const totalItems = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0,
+  );
+  const subtotal = calculateSubtotal(cartItems);
 
+  const formattedTotalAmount = totalAmount.toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
   return (
     <StyledScrollArea>
       {web ? (
@@ -98,6 +108,38 @@ const CartTable = ({ data: { orderedItems } }: Props) => {
               />
             ))}
           </tbody>
+          <tfoot>
+            <tr>
+              <td
+                colSpan={5}
+                style={{ textAlign: 'right', alignItems: 'center' }}
+              >
+                <Text
+                  fz="sm"
+                  fw={100}
+                  color="black"
+                  style={{ display: 'inline-block', marginLeft: '10px' }}
+                >
+                  Total ({totalItems} items):
+                </Text>{' '}
+                <Text fz="sm" fw={700} style={{ display: 'inline-block' }}>
+                  &#8369;{formattedTotalAmount}
+                </Text>
+              </td>
+              <td colSpan={1}>
+                <Button
+                  fz="md"
+                  style={{
+                    color: 'black',
+                    alignItems: 'center',
+                    marginTop: 0,
+                  }}
+                >
+                  Checkout
+                </Button>
+              </td>
+            </tr>
+          </tfoot>
         </StyledTable>
       ) : (
         <StyledTable>
@@ -128,6 +170,38 @@ const CartTable = ({ data: { orderedItems } }: Props) => {
               />
             ))}
           </tbody>
+          <tfoot>
+            <tr>
+              <td
+                colSpan={2}
+                style={{ textAlign: 'right', alignItems: 'center' }}
+              >
+                <Text
+                  fz="sm"
+                  fw={100}
+                  color="black"
+                  style={{ display: 'inline-block', marginLeft: '10px' }}
+                >
+                  Total ({totalItems} items):
+                </Text>{' '}
+                <Text fz="sm" fw={700} style={{ display: 'inline-block' }}>
+                  &#8369;{formattedTotalAmount}
+                </Text>
+              </td>
+              <td colSpan={2}>
+                <Button
+                  fz="md"
+                  style={{
+                    color: 'black',
+                    alignItems: 'center',
+                    marginTop: 0,
+                  }}
+                >
+                  Checkout
+                </Button>
+              </td>
+            </tr>
+          </tfoot>
         </StyledTable>
       )}
     </StyledScrollArea>

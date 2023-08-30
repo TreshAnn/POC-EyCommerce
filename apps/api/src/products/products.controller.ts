@@ -5,6 +5,7 @@ import {
   Param,
   HttpCode,
   HttpStatus,
+  Request,
   Get,
   Put,
 } from '@nestjs/common';
@@ -18,16 +19,24 @@ import { Public } from 'src/auth/decorators/public.decorator';
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @Post('create')
-  async create(@Body() createProductDto: CreateProductDto) {
-    const createdProduct = await this.productsService.create(createProductDto);
-    return createdProduct;
-  }
-
   @Public()
   @Get('get-all-product')
   async findAllProducts(): Promise<Product[]> {
     return this.productsService.findAllProducts();
+  }
+
+  @Get('get-merchant-products')
+  async findAllMerchantProducts(@Request() req): Promise<Product[]> {
+    return this.productsService.findAllMerchantProducts(req);
+  }
+
+  @Post('create')
+  async create(@Request() req, @Body() createProductDto: CreateProductDto) {
+    const createdProduct = await this.productsService.create(
+      req,
+      createProductDto,
+    );
+    return createdProduct;
   }
 
   @Get(':id')

@@ -5,25 +5,28 @@ import { axios } from '../../../lib/axios';
 import { queryClient, QueryConfig } from '../../../lib/react-query';
 import { Product } from '../types';
 
-export type CreateProductDTO = Omit<Product, '__v' | '_id' | 'isActive'>;
+export type CreateProductDTO = Omit<
+  Product,
+  '__v' | '_id' | 'isActive' | 'merchantID'
+>;
 
 export const createProduct = ({
-  productCategory,
   productID,
   productImg,
   productInfo,
   productInventory,
   productName,
   productPrice,
+  productCategory,
 }: CreateProductDTO): Promise<Product> => {
   return axios.post('/api/products/create', {
-    productCategory,
     productID,
     productImg,
     productInfo,
     productInventory,
     productName,
     productPrice,
+    productCategory,
   });
 };
 

@@ -7,10 +7,16 @@ export interface Product {
   productPrice: number;
   productInventory: number;
   productCategory: string[];
+  merchantID: string;
   isActive: boolean;
 }
 
-// export interface ProductImg {
-//   _id?: string;
-//   ImgURL: string;
-// }
+export interface Merchant {
+  _id: string;
+  merchantName: string;
+  auth: object;
+  firstName: string;
+  lastName: string;
+  address: object;
+  phoneNumber: number;
+}
