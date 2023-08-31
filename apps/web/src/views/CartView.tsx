@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
 import { Center, Container, Text } from '@mantine/core';
+import React, { useEffect, useState } from 'react';
+
 import CartTable from '../../../../packages/ui/cart/CartTable';
-import { useGetCart } from './cart/api/getCart';
 import { useCartQuantity } from './cart/api/cartQuantity';
+import { DeleteItemDTO, useDeleteItem } from './cart/api/deleteItem';
+import { useGetCart } from './cart/api/getCart';
 import { UpdateCart } from './cart/types';
 
 export const CartView = () => {
@@ -10,6 +12,7 @@ export const CartView = () => {
   const [cartData, setCartData] = useState([]);
   const [totalCartItemAmount, setTotalCartItemAmount] = useState<number>(0);
   const cartUpdate = useCartQuantity({});
+  const deleteItem = useDeleteItem({});
 
   // eslint-disable-next-line no-console
   // console.log(item);
@@ -49,6 +52,10 @@ export const CartView = () => {
     }
   };
 
+  const deleteItemHandler = (id) => {
+    const rq: DeleteItemDTO = { productID: id };
+  };
+
   return (
     <main>
       {/* Section height is for demo purposes only; please position the footer at the bottom instead of the middle */}
@@ -60,7 +67,8 @@ export const CartView = () => {
               data={data}
               totalCartItemAmount={totalCartItemAmount}
               totalAmountHandler={totalAmountHandler}
-              updateToCartHandler={updateToCartHandler}
+              updateToCartHandler={() => updateToCartHandler}
+              deleteItem={() => deleteItemHandler(data._id)}
             />
           ) : (
             customMessage('Cart empty')

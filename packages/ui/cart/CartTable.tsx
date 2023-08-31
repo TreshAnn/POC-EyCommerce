@@ -18,6 +18,7 @@ import { StyledScrollArea, StyledTable } from './styles';
 interface ICartProps {
   item: OrderedItems;
   onQuantityChange: (newQuantity: number) => void;
+  deleteItem: () => void;
 }
 
 interface Props {
@@ -25,6 +26,7 @@ interface Props {
   totalCartItemAmount: number;
   totalAmountHandler: (value: number) => void;
   updateToCartHandler: (id: string, quantity?: number) => void;
+  deleteItem: () => void;
 }
 
 const CartTable = ({
@@ -238,7 +240,11 @@ const CartTable = ({
   );
 };
 
-const CartRow: React.FC<ICartProps> = ({ item, onQuantityChange }) => {
+const CartRow: React.FC<ICartProps> = ({
+  item,
+  onQuantityChange,
+  deleteItem,
+}) => {
   const web = useMediaQuery(`(min-width: ${DEFAULT_THEME.breakpoints.sm})`);
   return (
     <>
@@ -272,7 +278,9 @@ const CartRow: React.FC<ICartProps> = ({ item, onQuantityChange }) => {
               </Text>
             </td>
             <td>
-              <TiTrash color="red" size={40} />
+              <Button onClick={deleteItem}>
+                <TiTrash color="red" size={40} />
+              </Button>
               {/* <Button onClick={() => testIncrease(item.productID, 1)}>+</Button> */}
             </td>
           </tr>
@@ -311,7 +319,9 @@ const CartRow: React.FC<ICartProps> = ({ item, onQuantityChange }) => {
                   </Text>
                 </Grid.Col>
                 <Grid.Col span={4}>
-                  <TiTrash color="red" size={14} />
+                  <Button onClick={deleteItem}>
+                    <TiTrash color="red" size={14} />
+                  </Button>
                 </Grid.Col>
               </Grid>
             </td>
