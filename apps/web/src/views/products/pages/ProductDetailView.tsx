@@ -4,6 +4,8 @@ import { ProductInfo } from 'ui/product-info/productInfo';
 
 import { useGetAll } from '../api/getAllMerchant';
 import { useGetProductById } from '../api/getProduct';
+import { RatingModule } from 'ui/rating/RatingModule';
+import { testData } from 'ui/rating/user-review/test-data';
 
 export const ProductDetailView = () => {
   const { productID } = useParams();
@@ -36,6 +38,10 @@ export const ProductDetailView = () => {
         merchantName={getMerchant?.merchantName || ''}
         productImg={product.productImg}
       />
+
+      <br />
+      <br />
+      <RatingModule reviews={testData} ratingValue={5} reviewCount={3423} />
     </main>
   );
 };
