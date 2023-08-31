@@ -12,7 +12,9 @@ interface IProductProps {
   name: string;
   img: string;
   price: number;
-  onClick?: () => void;
+  // onClick: () => void;
+  viewProductHandler: () => void;
+  addToCart: () => void;
 }
 
 export function Product({
@@ -20,12 +22,14 @@ export function Product({
   img,
   name,
   price = 0,
-  onClick,
+  // onClick,
+  viewProductHandler,
+  addToCart,
 }: IProductProps) {
   return (
     <CardWrapper>
       <Card shadow="sm" padding="lg" radius="md" withBorder>
-        <Card.Section onClick={onClick}>
+        <Card.Section onClick={viewProductHandler}>
           <ProductImage src={img} alt="Product" />
         </Card.Section>
         <ContentWrapper>
@@ -46,7 +50,12 @@ export function Product({
               })}
             </Text>
           </DetailsWrapper>
-          <Button fz="md" fullWidth style={{ color: 'black' }}>
+          <Button
+            onClick={addToCart}
+            fz="md"
+            fullWidth
+            style={{ color: 'black' }}
+          >
             Add to cart
           </Button>
         </ContentWrapper>
