@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
+
 import { axios } from '../../../lib/axios';
 import { ExtractFnReturnType, QueryConfig } from '../../../lib/react-query';
 import { Merchant } from '../types';
 
-export const getMerchant = (merchantID): Promise<Merchant[]> => {
+export const getMerchant = (merchantID): Promise<Merchant> => {
   return axios.get(`/api/merchant/${merchantID}`);
 };
 

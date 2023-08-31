@@ -14,7 +14,7 @@ export interface Product {
 export interface Merchant {
   _id: string;
   merchantName: string;
-  auth: object;
+  auth: { _id: string };
   firstName: string;
   lastName: string;
   address: object;

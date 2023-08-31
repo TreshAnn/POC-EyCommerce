@@ -31,7 +31,7 @@ export class Item {
 @Schema()
 export class Cart {
   @Prop({ type: SchemaTypes.ObjectId, ref: User.name })
-  userID: string;
+  userId: string;
 
   @Prop()
   orderedItems: Item[];

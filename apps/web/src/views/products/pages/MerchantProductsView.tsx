@@ -1,17 +1,18 @@
+import { Button, Grid, Title } from '@mantine/core';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import MerchantProduct from 'ui/product/MerchantProduct';
+import ProductModal from 'ui/product/ProductModal';
+
 import {
+  useActivateProduct,
+  useDeactivateProduct,
   useGetMerchant,
   useGetMerchantProducts,
-  useDeactivateProduct,
-  useActivateProduct,
 } from '../api';
 import { CreateProductDTO, useCreateProduct } from '../api/addProduct';
 import { UpdateProductDTO, useUpdateProduct } from '../api/updateProduct';
-import MerchantProduct from 'ui/product/MerchantProduct';
-import ProductModal from 'ui/product/ProductModal';
 import { StyledContainer } from './styles';
-import { Button, Grid, Title } from '@mantine/core';
-import React, { useState, useEffect } from 'react';
 
 export const MerchantProducts: React.FC = () => {
   //API
@@ -45,7 +46,7 @@ export const MerchantProducts: React.FC = () => {
     if (createProductMutation.isError) {
       setIsModalOpen(true);
     }
-  }, [createProductMutation.isSuccess, updateProductMutation.isError]);
+  }, [createProductMutation.isError, updateProductMutation.isError]);
 
   const selectedProduct = merchantProducts.find(
     (product) => product._id === selectedProductId,
