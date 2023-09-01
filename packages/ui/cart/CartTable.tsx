@@ -42,7 +42,6 @@ const CartTable = ({
       0,
     );
   };
-
   const handleCartItemQuantityChange = (
     itemId: string,
     newQuantity: number,

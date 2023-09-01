@@ -39,7 +39,7 @@ export const CartView = () => {
     setTotalCartItemAmount(testAmount);
   };
 
-  const updateToCartHandler = (id: string, quantity: number) => {
+  const updateToCartHandler = (id: string, quantity?: number) => {
     if (quantity !== undefined) {
       const updatedItem: UpdateCart = {
         productID: id,
@@ -55,7 +55,7 @@ export const CartView = () => {
       <section style={{ height: '80vh', background: 'lightgray' }}>
         <div>
           <br />
-          {!data || data?.orderedItems?.length !== 0 ? (
+          {data.length !== 0 ? (
             <CartTable
               data={data}
               totalCartItemAmount={totalCartItemAmount}
