@@ -148,7 +148,6 @@ export class CartService {
     const itemIndex = cart.orderedItems.findIndex(
       (item) => item.productID === productID,
     );
-
     if (itemIndex === -1) {
       throw new NotFoundException('Item not found in the cart.');
     }
