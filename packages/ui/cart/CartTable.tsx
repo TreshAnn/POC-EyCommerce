@@ -1,8 +1,7 @@
 import { Button, DEFAULT_THEME, Grid, Image, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TiTrash } from 'react-icons/ti';
-
 import { Cart, OrderedItems } from '../../../apps/web/src/views/cart/types';
 import { Quantity } from '../quantity/Quantity';
 import { StyledScrollArea, StyledTable } from './styles';
@@ -23,10 +22,19 @@ interface ICartProps {
 
 interface Props {
   data: Cart;
+  totalCartItemAmount: number;
+  totalAmountHandler: (value: number) => void;
+  updateToCartHandler: (id: string, quantity?: number) => void;
 }
 
-const CartTable = ({ data: { orderedItems, totalAmount } }: Props) => {
+const CartTable = ({
+  data: { orderedItems, totalAmount },
+  totalCartItemAmount,
+  totalAmountHandler,
+  updateToCartHandler,
+}: Props) => {
   const [cartItems, setCartItems] = useState(orderedItems);
+  const [itemId, setItemId] = useState<string>('');
 
   const calculateSubtotal = (items: OrderedItems[]) => {
     return items.reduce(
@@ -34,7 +42,6 @@ const CartTable = ({ data: { orderedItems, totalAmount } }: Props) => {
       0,
     );
   };
-
   const handleCartItemQuantityChange = (
     itemId: string,
     newQuantity: number,
@@ -45,8 +52,9 @@ const CartTable = ({ data: { orderedItems, totalAmount } }: Props) => {
       }
       return item;
     });
-
+    setItemId(itemId);
     setCartItems(updatedCartItems);
+
     const newSubtotal = calculateSubtotal(updatedCartItems);
   };
 
@@ -57,10 +65,34 @@ const CartTable = ({ data: { orderedItems, totalAmount } }: Props) => {
   );
   const subtotal = calculateSubtotal(cartItems);
 
-  const formattedTotalAmount = totalAmount.toLocaleString('en-US', {
+  useEffect(() => {
+    const count = setTimeout(() => {
+      totalAmountHandler(subtotal);
+    }, 500);
+
+    return () => {
+      clearTimeout(count);
+    };
+  }, [subtotal]);
+
+  useEffect(() => {
+    const count = setTimeout(() => {
+      const cartItemFiltered = cartItems.filter(
+        (item) => item.productID === itemId,
+      );
+      updateToCartHandler(itemId, cartItemFiltered[0]?.quantity);
+    }, 300);
+
+    return () => {
+      clearTimeout(count);
+    };
+  }, [subtotal]);
+
+  const formattedTotalAmount = totalCartItemAmount.toLocaleString('en-US', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
+
   return (
     <StyledScrollArea>
       {web ? (
@@ -207,7 +239,6 @@ const CartTable = ({ data: { orderedItems, totalAmount } }: Props) => {
 
 const CartRow: React.FC<ICartProps> = ({ item, onQuantityChange }) => {
   const web = useMediaQuery(`(min-width: ${DEFAULT_THEME.breakpoints.sm})`);
-
   return (
     <>
       {web ? (
@@ -217,7 +248,7 @@ const CartRow: React.FC<ICartProps> = ({ item, onQuantityChange }) => {
               <Image
                 width={120}
                 height={120}
-                src={item?.productImg?.ImgURL}
+                src={item?.productImg}
                 alt="With default placeholder"
                 withPlaceholder
               />
@@ -241,6 +272,7 @@ const CartRow: React.FC<ICartProps> = ({ item, onQuantityChange }) => {
             </td>
             <td>
               <TiTrash color="red" size={40} />
+              {/* <Button onClick={() => testIncrease(item.productID, 1)}>+</Button> */}
             </td>
           </tr>
         </>
@@ -254,7 +286,7 @@ const CartRow: React.FC<ICartProps> = ({ item, onQuantityChange }) => {
               <Image
                 width={75}
                 height={75}
-                src={item?.productImg?.ImgURL}
+                src={item?.productImg}
                 alt="With default placeholder"
                 withPlaceholder
               />
