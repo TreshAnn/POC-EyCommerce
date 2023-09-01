@@ -7,8 +7,8 @@ import { Cart, OrderedItems } from '../types';
 
 export type DeleteItemDTO = Pick<OrderedItems, 'productID'>;
 
-export const deleteProduct = ({ productID }: DeleteItemDTO): Promise<Cart> => {
-  return axios.delete(`/api/cart/${productID}`);
+export const deleteProduct = (productID): Promise<Cart> => {
+  return axios.delete(`/api/cart/`, { data: { productID } });
 };
 
 type QueryFnType = typeof deleteProduct;

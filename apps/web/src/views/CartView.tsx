@@ -3,13 +3,14 @@ import React, { useEffect, useState } from 'react';
 
 import CartTable from '../../../../packages/ui/cart/CartTable';
 import { useCartQuantity } from './cart/api/cartQuantity';
-import { DeleteItemDTO, useDeleteItem } from './cart/api/deleteItem';
+import { useDeleteItem } from './cart/api/deleteItem';
 import { useGetCart } from './cart/api/getCart';
 import { UpdateCart } from './cart/types';
 
 export const CartView = () => {
   const { data, isLoading, isError, error } = useGetCart({});
   const [cartData, setCartData] = useState([]);
+  const [selectedItemId, setSelectedItemId] = useState('');
   const [totalCartItemAmount, setTotalCartItemAmount] = useState<number>(0);
   const cartUpdate = useCartQuantity({});
   const deleteItem = useDeleteItem({});
@@ -52,8 +53,8 @@ export const CartView = () => {
     }
   };
 
-  const deleteItemHandler = (id) => {
-    const rq: DeleteItemDTO = { productID: id };
+  const deleteItemHandler = (productId: string) => {
+    deleteItem.mutate(productId);
   };
 
   return (
@@ -68,7 +69,7 @@ export const CartView = () => {
               totalCartItemAmount={totalCartItemAmount}
               totalAmountHandler={totalAmountHandler}
               updateToCartHandler={() => updateToCartHandler}
-              deleteItem={() => deleteItemHandler(data._id)}
+              deleteItem={deleteItemHandler}
             />
           ) : (
             customMessage('Cart empty')
