@@ -4,11 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import { Product } from 'ui/product/Product';
 import { Searchbar } from 'ui/searchbar/searchbar';
 
+import { AddToCartDTO, useAddToCart } from '../../cart/api/addToCart';
 import { useGetAllProducts } from '../api';
 import { StyledContainer } from './styles';
 
 export const ProductsView = () => {
   const productQuery = useGetAllProducts({});
+  const addToCartMutation = useAddToCart({});
   const navigate = useNavigate();
   if (productQuery.isLoading) {
     return <h1>...Loading</h1>;
@@ -19,6 +21,17 @@ export const ProductsView = () => {
   }
 
   if (!productQuery.data) return <h1>error</h1>;
+
+  const addToCartHandler = (productId) => {
+    const rq: AddToCartDTO = {
+      quantity: 1,
+      productID: productId,
+    };
+
+    // eslint-disable-next-line no-console
+    console.log(rq);
+    addToCartMutation.mutate({ ...rq });
+  };
 
   return (
     <main>
@@ -42,7 +55,8 @@ export const ProductsView = () => {
                     img={data.productImg[0]}
                     name={data.productName}
                     price={data.productPrice}
-                    onClick={() => navigate(`/products/${data._id}`)}
+                    viewProductHandler={() => navigate(`/products/${data._id}`)}
+                    addToCart={() => addToCartHandler(data._id)}
                   ></Product>
                 </Grid.Col>
               );
