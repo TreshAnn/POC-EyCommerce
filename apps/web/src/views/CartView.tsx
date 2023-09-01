@@ -3,6 +3,7 @@ import { Center, Container, Text } from '@mantine/core';
 import CartTable from '../../../../packages/ui/cart/CartTable';
 import { useGetCart } from './cart/api/getCart';
 import { UpdateCart } from './cart/types';
+import { useCartQuantity } from './cart/api/cartQuantity';
 
 export const CartView = () => {
   const { data, isLoading, isError, error } = useGetCart({});
