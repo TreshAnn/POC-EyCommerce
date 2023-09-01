@@ -32,6 +32,15 @@ export const Wrapper = styled.div`
   .grid-layout {
     padding: 0;
     justify-content: center;
+
+    @media (max-width: ${Breakpoints.xxl}) {
+      display: flex;
+      justify-content: flex-end;
+    }
+    @media (max-width: ${Breakpoints.xl}) {
+      padding: 0;
+      justify-content: center;
+    }
   }
 
   .group-wrapper {
