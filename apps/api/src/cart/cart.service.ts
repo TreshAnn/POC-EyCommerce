@@ -96,7 +96,7 @@ export class CartService {
   }
 
   async addItemToCart(reqHeader: any, itemDto: ItemDto): Promise<Cart> {
-    const { productID, quantity, productPrice } = itemDto;
+    const { productID, quantity, productPrice, productInventory } = itemDto;
     const subTotalPrice =
       (await this.validateQuantity(quantity)) * productPrice;
     const userId = await extractIdFromToken(reqHeader, this.jwtService);
@@ -109,7 +109,15 @@ export class CartService {
 
       if (itemIndex > -1) {
         const item = cart.orderedItems[itemIndex];
-        item.quantity = Number(item.quantity) + Number(quantity);
+        const newQuantity = Number(item.quantity) + Number(quantity);
+
+        if (newQuantity > productInventory) {
+          throw new BadRequestException(
+            'Requested quantity exceeds product inventory.',
+          );
+        }
+
+        item.quantity = newQuantity;
         item.subTotalPrice = item.quantity * item.productPrice;
 
         cart.orderedItems[itemIndex] = item;
