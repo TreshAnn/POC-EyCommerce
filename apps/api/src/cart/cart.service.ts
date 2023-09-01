@@ -129,6 +129,11 @@ export class CartService {
         return cart.save();
       }
     } else {
+      if (quantity > productInventory) {
+        throw new BadRequestException(
+          'Requested quantity exceeds product inventory.',
+        );
+      }
       const totalAmount = quantity * productPrice;
       const newCart = await this.createCart(
         userId,
