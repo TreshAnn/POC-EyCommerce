@@ -33,6 +33,7 @@ export class CartController {
       reqBody.productID,
     );
     if (!cart) throw new NotFoundException('Item does not exist');
+    if (cart.orderedItems.length === 0) this.cartService.deleteCart(rqHeader);
     return { message: 'Item successfully deleted' };
   }
 
