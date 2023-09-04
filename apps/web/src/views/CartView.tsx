@@ -68,7 +68,7 @@ export const CartView = () => {
               data={data}
               totalCartItemAmount={totalCartItemAmount}
               totalAmountHandler={totalAmountHandler}
-              updateToCartHandler={() => updateToCartHandler}
+              updateToCartHandler={updateToCartHandler}
               deleteItem={deleteItemHandler}
             />
           ) : (

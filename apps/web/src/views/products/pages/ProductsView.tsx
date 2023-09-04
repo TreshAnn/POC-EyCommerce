@@ -55,7 +55,9 @@ export const ProductsView = () => {
                     img={data.productImg[0]}
                     name={data.productName}
                     price={data.productPrice}
-                    viewProductHandler={() => navigate(`/products/${data._id}`)}
+                    viewProductHandler={() =>
+                      navigate(`/products/${data.productID}`)
+                    }
                     addToCart={() => addToCartHandler(data.productID)}
                   ></Product>
                 </Grid.Col>
