@@ -13,6 +13,7 @@ import { NotFoundView } from './NotFoundView';
 import { ProductsView } from './products/pages';
 import { SampleView } from './SampleView';
 import { CartView } from './CartView';
+import { UserProfile } from './user/pages/UserProfile';
 
 export const RootView = () => {
   const [queryClient] = React.useState(() => new QueryClient());
@@ -29,6 +30,7 @@ export const RootView = () => {
             <Route path="*" element={<NotFoundView />} />
             <Route path="/login" element={<LoginView />} />
             <Route path="/register" element={<RegisterView />} />
+            <Route path="/profile/:id" element={<UserProfile />} />
             <Route path="/products" element={<ProductsView />} />
           </Routes>
         </BrowserRouter>
