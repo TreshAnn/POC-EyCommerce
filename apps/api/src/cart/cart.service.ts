@@ -44,7 +44,7 @@ export class CartService {
     }
     const itemQuantity = quantity;
     const itemDto = {
-      productID: product.productID,
+      productID: productID,
       productImg: product.productImg[0],
       productName: product.productName,
       productPrice: product.productPrice,
