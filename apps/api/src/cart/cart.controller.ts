@@ -5,12 +5,10 @@ import {
   Request,
   Delete,
   NotFoundException,
-  UnauthorizedException,
-  Param,
+  Put,
+  Get,
 } from '@nestjs/common';
 import { CartService } from './cart.service';
-import { ItemDto } from './dto/item.dto';
-import { Public } from 'src/auth/decorators/public.decorator';
 import { JwtService } from '@nestjs/jwt';
 @Controller('cart')
 export class CartController {
@@ -20,20 +18,50 @@ export class CartController {
   ) {}
 
   @Post('/')
-  async addItemToCart(@Request() req, @Body() reqBody) {
-    const userID = await this.cartService.extractIdFromToken(req);
+  async addItemToCart(@Request() rqHeader, @Body() reqBody) {
     const newItemDto = await this.cartService.createItem(
       reqBody.productID,
       reqBody.quantity,
     );
-    const cart = await this.cartService.addItemToCart(userID, newItemDto);
+    const cart = await this.cartService.addItemToCart(rqHeader, newItemDto);
     return cart;
   }
+  @Delete('/') // Note: to test, apply same token decoding in Post request above
+  async removeItemFromCart(@Request() rqHeader, @Body() reqBody) {
+    const cart = await this.cartService.removeItemFromCart(
+      rqHeader,
+      reqBody.productID,
+    );
+    if (!cart) throw new NotFoundException('Item does not exist');
+    if (cart.orderedItems.length === 0) this.cartService.deleteCart(rqHeader);
+    return { message: 'Item successfully deleted' };
+  }
 
-  @Delete('/:id') // Test delete - Accepts cart objectId
-  async deleteCart(@Param('id') userID: string) {
-    const cart = await this.cartService.deleteCart(userID);
-    if (!cart) throw new NotFoundException('Cart does not exist');
+  @Delete('/deleteCart')
+  async deleteCart(@Request() reqHeader) {
+    const cart = await this.cartService.deleteCart(reqHeader);
+
+    return cart;
+  }
+  @Get('/')
+  async getCart(@Request() req) {
+    const userID = await this.cartService.extractIdFromToken2(req);
+    const userCart = await this.cartService.getCart(userID);
+    if (!userCart) return [];
+    return userCart;
+  }
+
+  @Put('/')
+  async updateCartItem(@Request() rqHeader, @Body() reqBody) {
+    const newUpdateItemDto = await this.cartService.createItem(
+      reqBody.productID,
+      reqBody.quantity,
+    );
+
+    const cart = await this.cartService.updateCartItem(
+      rqHeader,
+      newUpdateItemDto,
+    );
     return cart;
   }
 }

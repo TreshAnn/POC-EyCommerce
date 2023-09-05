@@ -1,15 +1,11 @@
 import React from 'react';
+import { RatingModule } from 'ui/rating/RatingModule';
+import { testData } from 'ui/rating/user-review/test-data';
 
 export const SampleView = () => {
   return (
     <main>
-      <section>
-        <h1>Hello world!</h1>
-        <h1>Ey React App Boilerplate made by DanDalanDone! TEST HERE</h1>
-        <div>
-          <br />
-        </div>
-      </section>
+      <RatingModule reviews={testData} ratingValue={5} reviewCount={3423} />
     </main>
   );
 };

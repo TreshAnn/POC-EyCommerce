@@ -1,6 +1,8 @@
 import {
+  BadRequestException,
   Injectable,
   NotAcceptableException,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { Model } from 'mongoose';
@@ -9,6 +11,7 @@ import { Cart, CartDocument } from './schemas/cart.schema';
 import { ItemDto } from './dto/item.dto';
 import { ProductsService } from 'src/products/products.service';
 import { Request } from 'express';
+import { extractIdFromToken } from 'src/utils/extract-token.utils';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
@@ -20,13 +23,13 @@ export class CartService {
   ) {}
 
   async createCart(
-    userID: string,
+    userId: string,
     itemDto: ItemDto,
     subTotalPrice: number,
     totalAmount: number,
   ): Promise<Cart> {
     const newCart = await this.cartModel.create({
-      userID,
+      userId,
       orderedItems: [{ ...itemDto, subTotalPrice }],
       totalAmount,
     });
@@ -35,25 +38,54 @@ export class CartService {
 
   async createItem(productID: string, quantity: number) {
     const product = await this.productsService.findOne(productID);
+
+    if (!product) {
+      throw new NotFoundException('Product not found.');
+    }
     const itemQuantity = quantity;
     const itemDto = {
       productID: product.productID,
-      productImg: product.productImg,
+      productImg: product.productImg[0],
       productName: product.productName,
       productPrice: product.productPrice,
+      productInventory: product.productInventory,
       quantity: itemQuantity,
     };
     return itemDto;
   }
 
-  async getCart(userID: string): Promise<CartDocument> {
-    const cart = await this.cartModel.findOne({ userID });
+  async getCart(userId: string): Promise<CartDocument> {
+    const cart = await this.cartModel.findOne({ userId });
     return cart;
   }
 
-  async deleteCart(userID: string): Promise<Cart> {
-    const deletedCart = await this.cartModel.findOneAndRemove({ userID });
-    return deletedCart;
+  async deleteCart(reqHeader: any): Promise<void> {
+    const userId = await extractIdFromToken(reqHeader, this.jwtService);
+    const cart = await this.getCart(userId);
+    if (!cart) {
+      throw new NotFoundException('Cart does not exist');
+    }
+
+    await this.cartModel.deleteOne({ userId });
+  }
+
+  async removeItemFromCart(reqHeader: any, productID: string): Promise<any> {
+    const userId = await extractIdFromToken(reqHeader, this.jwtService);
+    const cart = await this.getCart(userId);
+
+    const product = await this.productsService.findOne(productID);
+    if (!product) {
+      throw new NotFoundException('Item not found.');
+    }
+    const itemIndex = cart.orderedItems.findIndex(
+      (item) => item.productID == product.productID,
+    );
+
+    if (itemIndex > -1) {
+      cart.orderedItems.splice(itemIndex, 1);
+      this.recalculateCart(cart);
+      return cart.save();
+    }
   }
 
   private recalculateCart(cart: CartDocument) {
@@ -63,12 +95,12 @@ export class CartService {
     });
   }
 
-  async addItemToCart(userID: string, itemDto: ItemDto): Promise<Cart> {
-    const { productID, quantity, productPrice } = itemDto;
+  async addItemToCart(reqHeader: any, itemDto: ItemDto): Promise<Cart> {
+    const { productID, quantity, productPrice, productInventory } = itemDto;
     const subTotalPrice =
       (await this.validateQuantity(quantity)) * productPrice;
-
-    const cart = await this.getCart(userID);
+    const userId = await extractIdFromToken(reqHeader, this.jwtService);
+    const cart = await this.getCart(userId);
 
     if (cart) {
       const itemIndex = cart.orderedItems.findIndex(
@@ -77,7 +109,15 @@ export class CartService {
 
       if (itemIndex > -1) {
         const item = cart.orderedItems[itemIndex];
-        item.quantity = Number(item.quantity) + Number(quantity);
+        const newQuantity = Number(item.quantity) + Number(quantity);
+
+        if (newQuantity > productInventory) {
+          throw new BadRequestException(
+            'Requested quantity exceeds product inventory.',
+          );
+        }
+
+        item.quantity = newQuantity;
         item.subTotalPrice = item.quantity * item.productPrice;
 
         cart.orderedItems[itemIndex] = item;
@@ -89,15 +129,50 @@ export class CartService {
         return cart.save();
       }
     } else {
+      if (quantity > productInventory) {
+        throw new BadRequestException(
+          'Requested quantity exceeds product inventory.',
+        );
+      }
       const totalAmount = quantity * productPrice;
       const newCart = await this.createCart(
-        userID,
+        userId,
         itemDto,
         subTotalPrice,
         totalAmount,
       );
       return newCart;
     }
+  }
+  async updateCartItem(reqHeader: any, itemDto: ItemDto): Promise<Cart> {
+    const userId = await extractIdFromToken(reqHeader, this.jwtService);
+
+    const { productID, quantity, productPrice, productInventory } = itemDto;
+
+    const cart = await this.getCart(userId);
+
+    const validatedQuantity = await this.validateQuantity(quantity);
+
+    if (validatedQuantity > productInventory) {
+      throw new BadRequestException(
+        'Requested quantity exceeds product inventory.',
+      );
+    }
+    const itemIndex = cart.orderedItems.findIndex(
+      (item) => item.productID === productID,
+    );
+    if (itemIndex === -1) {
+      throw new NotFoundException('Item not found in the cart.');
+    }
+
+    const item = cart.orderedItems[itemIndex];
+    item.quantity = validatedQuantity;
+    item.subTotalPrice = item.quantity * productPrice;
+
+    cart.orderedItems[itemIndex] = item;
+    this.recalculateCart(cart);
+
+    return cart.save();
   }
 
   async validateQuantity(quantity: number) {
@@ -109,7 +184,7 @@ export class CartService {
   }
 
   //Temporary token extractor and decoder for testing
-  async extractIdFromToken(request: Request): Promise<string | undefined> {
+  async extractIdFromToken2(request: Request): Promise<string | undefined> {
     const [type, token] = request.headers.authorization?.split(' ') ?? [];
     if (type === 'Bearer') {
       try {

@@ -17,9 +17,9 @@ import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { useState } from 'react';
 import { IoNotifications } from 'react-icons/io5';
 import { TiShoppingCart } from 'react-icons/ti';
-
 import { Dropdown } from '../dropdown/dropdown';
-import { AvatarContainer, CartTextWrapper } from './style';
+import HeaderCart from '../cart/HeaderCart';
+import { AvatarContainer } from './style';
 
 export const HeaderNavBar = () => {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
@@ -27,15 +27,21 @@ export const HeaderNavBar = () => {
   const [verifyToken, setVerifyToken] = useState<boolean>(true);
   const isMobile = useMediaQuery('(max-width: 976px)');
 
+  //Test data for cart
+
   return (
     <Box>
       <Header height={60} px="md">
         <Group sx={{ height: '100%' }} position="apart" grow>
-          <Title order={3}>EYCommerce</Title>
+          <Anchor href="/products">
+            <Title order={3} style={{ color: 'black', textDecoration: 'none' }}>
+              EYCommerce
+            </Title>
+          </Anchor>
           {!isMobile && (
             <>
               <Group sx={{ height: '100%' }} spacing={40} position="center">
-                <Anchor href="#">Home</Anchor>
+                <Anchor href="/products">Home</Anchor>
                 <Anchor href="#">About Us</Anchor>
                 <Anchor href="#">Services</Anchor>
                 <Anchor href="#">Contact Us</Anchor>
@@ -44,25 +50,7 @@ export const HeaderNavBar = () => {
               <Group position="right">
                 {verifyToken ? (
                   <>
-                    <Dropdown
-                      target={
-                        <UnstyledButton>
-                          <TiShoppingCart color="#fab005" size={36} />
-                        </UnstyledButton>
-                      }
-                      menuItems={['Order 1', 'Order 2', 'Order 3']}
-                      avatarContent={
-                        <CartTextWrapper>
-                          <Text size="sm" weight={500}>
-                            My Cart (4)
-                          </Text>
-                          <Text size="xs" color="#fab005" weight={500}>
-                            View all
-                          </Text>
-                        </CartTextWrapper>
-                      }
-                    />
-
+                    <HeaderCart />
                     <IoNotifications color="#fab005" size={36} />
                     <Dropdown
                       target={
@@ -120,7 +108,9 @@ export const HeaderNavBar = () => {
           )}
           {isMobile && (
             <Group position="right">
-              <TiShoppingCart color="#fab005" size={30} />
+              <UnstyledButton>
+                <TiShoppingCart color="#fab005" size={36} />
+              </UnstyledButton>
               <IoNotifications color="#fab005" size={30} />
               <Burger opened={drawerOpened} onClick={toggleDrawer} size="sm" />
             </Group>
