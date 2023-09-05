@@ -3,6 +3,9 @@ import { IsNotEmpty, IsNumber, IsString, Max, Min } from 'class-validator';
 
 export class CreateRatingDto {
   @IsNotEmpty()
+  readonly productId: string;
+
+  @IsNotEmpty()
   @IsNumber()
   @Min(1, {
     message: 'Rating should be from 1 to 5',
