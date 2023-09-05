@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, SchemaType, SchemaTypes } from 'mongoose';
+import { HydratedDocument, SchemaTypes } from 'mongoose';
 
 import { User } from 'src/users/schemas/user.schema';
 import { Product, ProductSchema } from '../../products/schemas/products.schema';
@@ -11,7 +11,7 @@ export type ItemDocument = HydratedDocument<Item>;
 @Schema()
 export class Item {
   @Prop({ type: ProductSchema, ref: Product.name })
-  productID: string;
+  productId: string;
 
   @Prop()
   productImg: string;
