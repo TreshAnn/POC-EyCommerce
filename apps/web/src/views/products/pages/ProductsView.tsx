@@ -6,7 +6,7 @@ import { Searchbar } from 'ui/searchbar/searchbar';
 
 import { AddToCartDTO, useAddToCart } from '../../cart/api/addToCart';
 import { useGetAllProducts } from '../api';
-import { StyledContainer } from './styles';
+import { StyledContainer, StyledGridCol } from './styles';
 
 export const ProductsView = () => {
   const productQuery = useGetAllProducts({});
@@ -50,7 +50,7 @@ export const ProductsView = () => {
           {productQuery.data.map((data, index) => {
             if (data.isActive && data.productInventory > 0) {
               return (
-                <Grid.Col sm={4} md={3} lg={2.4} key={data._id}>
+                <StyledGridCol xs={6} sm={4} md={3} lg={2.4} key={data._id}>
                   <Product
                     img={data.productImg[0]}
                     name={data.productName}
@@ -58,7 +58,7 @@ export const ProductsView = () => {
                     viewProductHandler={() => navigate(`/products/${data._id}`)}
                     addToCart={() => addToCartHandler(data.productID)}
                   ></Product>
-                </Grid.Col>
+                </StyledGridCol>
               );
             } else {
               return null;
