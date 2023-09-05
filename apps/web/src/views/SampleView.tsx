@@ -1,20 +1,11 @@
 import React from 'react';
-import { Checkout } from '../components/auth/Checkout';
-import { Product } from '../../../../packages/ui/product/Product';
-import { Quantity } from '../../../../packages/ui/quantity/Quantity';
-import { Searchbar } from '../../../../packages/ui/searchbar/searchbar';
-import { RatingComponent } from '../../../../packages/ui/rating/rating';
+import { RatingModule } from 'ui/rating/RatingModule';
+import { testData } from 'ui/rating/user-review/test-data';
 
 export const SampleView = () => {
   return (
     <main>
-      <section style={{ height: '100vh' }}>
-        <div>
-          <Checkout />
-          <br />
-          <RatingComponent />
-        </div>
-      </section>
+      <RatingModule reviews={testData} ratingValue={5} reviewCount={3423} />
     </main>
   );
 };

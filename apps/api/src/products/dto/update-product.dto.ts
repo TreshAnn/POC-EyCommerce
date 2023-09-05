@@ -4,9 +4,13 @@ import {
   IsArray,
   IsNumber,
   Matches,
+  ValidateNested,
 } from 'class-validator';
-
+import { Type } from 'class-transformer';
 export class UpdateProductDataDto {
+  @IsNotEmpty()
+  readonly productImg: string[];
+
   @IsString()
   @IsNotEmpty()
   @Matches(/^\S(?:.*\S)?$/, {

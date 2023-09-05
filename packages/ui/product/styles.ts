@@ -1,14 +1,15 @@
 import { styled } from 'styled-components';
+import { Image } from '@mantine/core';
 
-export const ProductImage = styled.img`
+export const ProductImage = styled(Image)`
   height: 200px;
+  padding: 20px 40px;
 `;
 
 export const CardWrapper = styled.div`
-  margin: 48px auto 0;
-  width: 300px;
-  height: 600px;
-  // display: flex; TO DO - add this when used for the catalog page
+  margin: 40px 0px;
+  width: 240px;
+  height: 400px;
 `;
 
 export const ContentWrapper = styled.div`

@@ -1,12 +1,4 @@
-import {
-  IsNotEmpty,
-  IsString,
-  Matches,
-  IsIn,
-  IsNumber,
-  IsObject,
-} from 'class-validator';
-import { ImageDto } from 'src/products/dto/create-product.dto';
+import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
 
 export class ItemDto {
   @IsNotEmpty()
@@ -18,7 +10,7 @@ export class ItemDto {
   productName: string;
 
   @IsNotEmpty()
-  productImg: ImageDto;
+  productImg: string;
 
   @IsNotEmpty()
   @IsNumber()
@@ -27,4 +19,6 @@ export class ItemDto {
   @IsNotEmpty()
   @IsNumber()
   productPrice: number;
+
+  productInventory: number;
 }

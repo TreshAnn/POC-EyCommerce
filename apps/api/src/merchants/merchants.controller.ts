@@ -27,6 +27,10 @@ export class MerchantsController {
     return createdMerchant;
   }
 
+  @Get('get-all-merchant')
+  async findAllMerchants(): Promise<Merchant[]> {
+    return this.merchantsService.findAllMerchants();
+  }
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async findOne(@Param('id') id: string): Promise<Merchant> {

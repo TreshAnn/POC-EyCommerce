@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Breakpoints } from '../utils/screen-size.constant';
 
 export const Wrapper = styled.div`
   /* display: flex; */
@@ -7,7 +8,7 @@ export const Wrapper = styled.div`
   padding: 0;
   margin: 0 20px 0 20px;
   line-height: 1%;
-  height: 270px;
+  height: 150px;
 
   .group-left {
     height: 32px;
@@ -109,5 +110,21 @@ export const Wrapper = styled.div`
 
   .text-progress {
     font-size: 14px;
+  }
+
+  @media only screen and (max-width: ${Breakpoints.xs}) {
+    height: 120px;
+  }
+
+  @media only screen and (min-width: ${Breakpoints.sm}) {
+    height: 150px;
+  }
+
+  @media only screen and (min-width: ${Breakpoints.md}) {
+    height: 180px;
+  }
+
+  @media only screen and (min-width: ${Breakpoints.lg}) {
+    height: 170px;
   }
 `;

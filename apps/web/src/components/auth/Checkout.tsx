@@ -1,8 +1,8 @@
+import { Button, Group, Modal, Stack } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import React from 'react';
 import { AddressCard } from 'ui/Card/AddressCard';
 import { OrderSummary } from 'ui/Card/OrderSummary';
-import { useDisclosure } from '@mantine/hooks';
-import { Modal, Group, Button, Stack } from '@mantine/core';
-import React from 'react';
 
 export const Checkout = () => {
   const [opened, { open, close }] = useDisclosure(false);

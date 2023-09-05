@@ -7,7 +7,7 @@ async function authRequestInterceptor(config: AxiosRequestConfig) {
   const token = storage.getToken();
   if (token) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    config.headers!.authorization = `${token}`;
+    config.headers!.authorization = `Bearer ${token}`;
   }
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   config.headers!.Accept = 'application/json';

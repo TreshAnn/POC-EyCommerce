@@ -1,16 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, SchemaTypes } from 'mongoose';
+import { Merchant } from 'src/merchants/schemas/merchant.schema';
 
 export type ProductDocument = HydratedDocument<Product>;
-
-@Schema()
-export class Image {
-  @Prop()
-  ImgURL: string;
-
-  @Prop()
-  ImgAttch: string;
-}
 
 @Schema()
 export class Product {
@@ -18,7 +10,7 @@ export class Product {
   productID: string;
 
   @Prop()
-  productImg: Image;
+  productImg: string[];
 
   @Prop()
   productName: string;
@@ -34,6 +26,9 @@ export class Product {
 
   @Prop()
   productCategory: string[];
+
+  @Prop({ type: SchemaTypes.ObjectId, ref: Merchant.name })
+  merchantID: string;
 
   @Prop({ default: true })
   isActive: boolean;

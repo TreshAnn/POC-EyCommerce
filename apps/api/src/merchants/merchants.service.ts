@@ -49,7 +49,9 @@ export class MerchantsService {
 
     return createdMerchant;
   }
-
+  async findAllMerchants(): Promise<Merchant[]> {
+    return this.merchantModel.find();
+  }
   async findOne(id: string): Promise<Merchant> {
     const merchant = await this.merchantModel.findOne({ _id: id });
 
@@ -57,10 +59,9 @@ export class MerchantsService {
       throw new NotFoundException('Merchant not found');
     }
 
-    //console.log(merchant);
-
     return merchant;
   }
+
   async findByIdAndUpdate(
     id: string,
     createMerchantDto: CreateMerchantDto,
@@ -74,8 +75,6 @@ export class MerchantsService {
     if (!updatedMerchant) {
       throw new NotFoundException('User not found');
     }
-
-    console.log(updatedMerchant);
 
     return updatedMerchant;
   }
