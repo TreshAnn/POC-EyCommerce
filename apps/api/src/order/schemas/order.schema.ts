@@ -1,32 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, SchemaTypes } from 'mongoose';
 import { Address, User, UserSchema } from 'src/users/schemas/user.schema';
-import { Cart } from 'src/cart/schemas/cart.schema';
-import { Product, ProductSchema } from '../../products/schemas/products.schema';
+import { Cart, Item } from 'src/cart/schemas/cart.schema';
 import { AuthSchema } from 'src/auth/schemas/auth.schema';
 
 export type OrderDocument = HydratedDocument<Order>;
-
-@Schema()
-export class Item {
-  @Prop({ type: ProductSchema, ref: Product.name })
-  productID: string;
-
-  @Prop()
-  productImg: string;
-
-  @Prop()
-  productName: string;
-
-  @Prop()
-  productPrice: number;
-
-  @Prop()
-  quantity: number;
-
-  @Prop()
-  subTotalPrice: number;
-}
 
 @Schema()
 export class Order {
@@ -53,6 +31,9 @@ export class Order {
 
   @Prop()
   totalAmount: number;
+
+  @Prop()
+  shippingFee: number;
 
   @Prop({ default: Date.now })
   date: Date;
