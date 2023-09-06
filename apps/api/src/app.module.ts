@@ -10,6 +10,7 @@ import { jwtConstants } from './auth/constants';
 import { MerchantsModule } from './merchants/merchants.module';
 import { ProductsModule } from './products/products.module';
 import { CartModule } from './cart/cart.module';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { CartModule } from './cart/cart.module';
     MerchantsModule,
     ProductsModule,
     CartModule,
+    OrderModule,
   ],
   controllers: [],
   providers: [

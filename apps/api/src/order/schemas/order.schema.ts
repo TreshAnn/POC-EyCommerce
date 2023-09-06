@@ -11,7 +11,7 @@ export class Order {
   @Prop({ type: SchemaTypes.ObjectId, ref: User.name })
   userId: string;
 
-  @Prop({ required: true })
+  @Prop()
   name: string;
 
   @Prop({ type: UserSchema })
@@ -27,6 +27,9 @@ export class Order {
   orderId: string;
 
   @Prop()
+  productID: string[];
+
+  @Prop()
   orderedItems: Item[];
 
   @Prop()
@@ -38,10 +41,10 @@ export class Order {
   @Prop({ default: Date.now })
   date: Date;
 
-  @Prop({ required: true, enum: ['processing', 'shipped', 'delivered'] })
+  @Prop({ enum: ['processing', 'shipped', 'delivered'] })
   status: string;
 
-  @Prop({ required: true, enum: ['cash'] })
+  @Prop({ enum: ['cash'] })
   paymentMethod: string;
 }
 
