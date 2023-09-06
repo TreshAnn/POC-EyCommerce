@@ -43,9 +43,8 @@ export class CartService {
       throw new NotFoundException('Product not found.');
     }
     const itemQuantity = quantity;
-    const productCode = productId;
     const itemDto = {
-      productId: productCode,
+      productId,
       productImg: product.productImg[0],
       productName: product.productName,
       productPrice: product.productPrice,

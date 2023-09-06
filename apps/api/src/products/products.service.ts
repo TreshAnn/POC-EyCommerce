@@ -19,16 +19,7 @@ export class ProductsService {
   ) {}
 
   async create(req: any, createProductDto: CreateProductDto): Promise<Product> {
-    // const ProductID = createProductDto.productID;
     const merchantID = await extractIdFromToken(req, this.jwtService);
-
-    // const productAlreadyExists = await this.productModel
-    //   .findOne({ productID: { $eq: ProductID } })
-    //   .exec();
-
-    // if (productAlreadyExists) {
-    //   throw new BadRequestException('Product ID already exists');
-    // }
     const createdProduct = await this.productModel.create({
       ...createProductDto,
       merchantID,
