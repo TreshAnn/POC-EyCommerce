@@ -1,28 +1,25 @@
 import {
   Body,
   Controller,
-  Post,
   Get,
-  Put,
-  Param,
   HttpCode,
   HttpStatus,
+  Param,
+  Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { Public } from '../auth/decorators/public.decorator';
-import { User } from './schemas/user.schema';
-import { RolesGuard } from 'src/guards/Role.guard';
-import { Roles } from 'src/auth/decorators/role.decorator';
-import { Role } from 'src/guards/enum/role.enum';
-import {
-  CheckAbilities,
-  ConsumerAbility,
-  MerchantAbility,
-} from 'src/auth/ability/ability.decorator';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { CheckAbilities } from 'src/auth/ability/ability.decorator';
 import { AbilityGuard } from 'src/auth/ability/ability.guard';
+import { Action } from 'src/auth/ability/enum/ability.enum';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { Roles } from 'src/auth/decorators/role.decorator';
+import { RolesGuard } from 'src/guards/Role.guard';
+import { Role } from 'src/guards/enum/role.enum';
+import { Public } from '../auth/decorators/public.decorator';
+import { CreateUserDto } from './dto/create-user.dto';
+import { User } from './schemas/user.schema';
+import { UsersService } from './users.service';
 
 @Controller('user')
 export class UsersController {
@@ -53,7 +50,8 @@ export class UsersController {
   // check whether the user can access the route based on her pre-defines role
   @UseGuards(RolesGuard)
   // define what type of ability can the user do based on the user role
-  @CheckAbilities(new ConsumerAbility())
+  @CheckAbilities({ action: Action.Read, subject: User })
+  // @CheckAbilities({ action: Action.Update, subject: User })
   // Check whether the ability defined from the CheckAbility decorator is allowed
   @UseGuards(AbilityGuard)
   @Get(':id')
