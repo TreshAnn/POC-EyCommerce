@@ -26,7 +26,7 @@ export const ProductGallery: React.FC<IProductGalleryProps> = ({
     setSelectedImage(image);
   };
 
-  const isMd = useMediaQuery(`(max-width: ${Breakpoints.md})`);
+  const isMd = useMediaQuery(`(max-width: ${Breakpoints.lg})`);
 
   return (
     <StyledContainer>
@@ -60,7 +60,6 @@ export const ProductGallery: React.FC<IProductGalleryProps> = ({
                   width: '12px',
                   height: '4px',
                   transition: 'width 250ms ease',
-
                   '&[data-active]': {
                     width: '40px',
                   },
@@ -68,7 +67,14 @@ export const ProductGallery: React.FC<IProductGalleryProps> = ({
               }}
             >
               {productImg.map((image, index) => (
-                <img key={index} src={image} alt={`Image ${index}`} />
+                <img
+                  key={index}
+                  src={image}
+                  alt={`Image ${index}`}
+                  style={{
+                    objectFit: 'contain',
+                  }}
+                />
               ))}
             </Carousel>
           </CarouselContainer>
