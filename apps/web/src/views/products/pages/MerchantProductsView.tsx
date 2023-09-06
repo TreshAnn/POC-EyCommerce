@@ -20,6 +20,7 @@ export const MerchantProducts: React.FC = () => {
   const merchantQuery = useGetMerchant({}, merchantID);
   const merchantProductsQuery = useGetMerchantProducts({});
   const merchantProducts = merchantProductsQuery.data || [];
+  const reversedData = [...merchantProducts].reverse();
   const createProductMutation = useCreateProduct({});
 
   //Modal states
@@ -33,9 +34,11 @@ export const MerchantProducts: React.FC = () => {
   useEffect(() => {
     if (updateProductMutation.isSuccess) {
       setIsModalOpen(false);
+      merchantProductsQuery.refetch();
     }
     if (createProductMutation.isSuccess) {
       setIsModalOpen(false);
+      merchantProductsQuery.refetch();
     }
   }, [createProductMutation.isSuccess, updateProductMutation.isSuccess]);
 
@@ -132,7 +135,7 @@ export const MerchantProducts: React.FC = () => {
           Add Product
         </Button>
         <Grid>
-          {merchantProductsQuery.data.map((data) => {
+          {reversedData.map((data) => {
             if (data.isActive) {
               return (
                 <Grid.Col sm={4} md={3} lg={2.4}>
@@ -160,7 +163,7 @@ export const MerchantProducts: React.FC = () => {
           Hidden products
         </Title>
         <Grid>
-          {merchantProductsQuery.data.map((data) => {
+          {reversedData.map((data) => {
             if (!data.isActive) {
               return (
                 <Grid.Col sm={4} md={3} lg={2.4}>
