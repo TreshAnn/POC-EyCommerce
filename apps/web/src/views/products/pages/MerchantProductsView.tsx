@@ -37,8 +37,7 @@ export const MerchantProducts: React.FC = () => {
       merchantProductsQuery.refetch();
     }
     if (createProductMutation.isSuccess) {
-      setIsModalOpen(false);
-      merchantProductsQuery.refetch();
+      handleCloseModal();
     }
   }, [createProductMutation.isSuccess, updateProductMutation.isSuccess]);
 
