@@ -25,14 +25,14 @@ export type TuserAuth = {
 
 export type TuserPayload = {
   _id: string;
-  firstName: string;
-  lastName: string;
-  address: TuserPayloadAddress;
-  phoneNumber: string;
   userType: string;
   username: string;
   email: string;
   password: string;
+  firstName: string;
+  lastName: string;
+  address: TuserPayloadAddress;
+  phoneNumber: string;
 };
 
 export type TuserPayloadAddress = {

@@ -12,7 +12,7 @@ import {
 } from '@mantine/core';
 import { StyledContainer } from '../auth/styles';
 import { useUpdateUser } from '../../views/user/api/updateUser';
-import { useGetOneUser } from '../../views/user';
+import { useGetOneUser } from '../../views/user/api/getUser';
 import { useParams } from 'react-router-dom';
 
 export type TUserAddress = {
@@ -76,6 +76,7 @@ export const UpdateForm = ({ onSuccess }: IUserUpdateFormProps) => {
       userType: userData.auth.userType,
       username: userData.auth.username,
       email: userData.auth.email,
+      password: userData.auth.password,
       firstName: userData.firstName,
       lastName: userData.lastName,
       address: {
@@ -86,7 +87,6 @@ export const UpdateForm = ({ onSuccess }: IUserUpdateFormProps) => {
         zipcode: parseInt(userData.address.zipcode),
       },
       phoneNumber: userData.phoneNumber,
-      password: userData.auth.password,
     };
     // eslint-disable-next-line no-console
     console.log('Payload: ', formatPayload);
@@ -180,13 +180,6 @@ export const UpdateForm = ({ onSuccess }: IUserUpdateFormProps) => {
                   onChange={(event) => handleOnChange('lastName', event)}
                 />
               </Group>
-              <TextInput
-                label="Email"
-                placeholder="Enter your Email"
-                required
-                value={userData?.auth.email}
-                onChange={(event) => handleOnChange('auth.email', event)}
-              />
               <TextInput
                 label="Phone Number"
                 placeholder="Enter your Number"
