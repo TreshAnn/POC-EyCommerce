@@ -7,9 +7,10 @@ import {
   Param,
   HttpCode,
   HttpStatus,
+  Request,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto, UpdateUserDto } from './dto/create-user.dto';
 import { Public } from '../auth/decorators/public.decorator';
 import { User } from './schemas/user.schema';
 
@@ -28,10 +29,11 @@ export class UsersController {
   @HttpCode(HttpStatus.OK)
   @Put('update/:id')
   async findByIdAndUpdate(
-    @Body() createUserDto: CreateUserDto,
+    @Request() reqHeader,
+    @Body() updateUserDto: UpdateUserDto,
     @Param('id') id: string,
   ): Promise<User> {
-    return this.userService.findByIdAndUpdate(id, createUserDto);
+    return this.userService.findByIdAndUpdate(reqHeader, id, updateUserDto);
   }
 
   @Get(':id')
