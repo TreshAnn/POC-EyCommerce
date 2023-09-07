@@ -4,19 +4,24 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
 import { CreateProductDto } from '../products/dto/create-product.dto';
 import { UpdateProductDataDto } from '../products/dto/update-product.dto';
 import { Product } from '../products/schemas/products.schema';
+import { extractIdFromToken } from 'src/utils/extract-token.utils';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectModel(Product.name) private readonly productModel: Model<Product>,
+    private readonly jwtService: JwtService,
   ) {}
 
-  async create(createProductDto: CreateProductDto): Promise<Product> {
+  async create(req: any, createProductDto: CreateProductDto): Promise<Product> {
     const ProductID = createProductDto.productID;
+    const merchantID = await extractIdFromToken(req, this.jwtService);
 
     const productAlreadyExists = await this.productModel
       .findOne({ productID: { $eq: ProductID } })
@@ -25,13 +30,15 @@ export class ProductsService {
     if (productAlreadyExists) {
       throw new BadRequestException('Product ID already exists');
     }
-
-    const createdProduct = await this.productModel.create(createProductDto);
+    const createdProduct = await this.productModel.create({
+      ...createProductDto,
+      merchantID,
+    });
     return createdProduct;
   }
 
   async findOne(id: string): Promise<Product> {
-    const product = await this.productModel.findOne({ _id: id });
+    const product = await this.productModel.findOne({ productID: id });
 
     if (!product) {
       throw new NotFoundException('Product not found');
@@ -46,6 +53,13 @@ export class ProductsService {
 
   async findAllProducts(): Promise<Product[]> {
     return this.productModel.find();
+  }
+
+  async findAllMerchantProducts(req: any): Promise<Product[]> {
+    const merchantID = await extractIdFromToken(req, this.jwtService);
+    return this.productModel.find({
+      merchantID: merchantID,
+    });
   }
 
   async findByIdAndUpdate(

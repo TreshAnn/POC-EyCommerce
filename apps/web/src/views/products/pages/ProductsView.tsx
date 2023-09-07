@@ -1,33 +1,17 @@
-import { Button, Grid } from '@mantine/core';
+import { Flex, Grid, Title } from '@mantine/core';
 import React from 'react';
-import Product from 'ui/product/Product';
+import { useNavigate } from 'react-router-dom';
+import { Product } from 'ui/product/Product';
+import { Searchbar } from 'ui/searchbar/searchbar';
 
+import { AddToCartDTO, useAddToCart } from '../../cart/api/addToCart';
 import { useGetAllProducts } from '../api';
-import { CreateProductDTO, useCreateProduct } from '../api/addProduct';
-import { StyledContainer } from './styles';
+import { StyledContainer, StyledGridCol } from './styles';
 
 export const ProductsView = () => {
   const productQuery = useGetAllProducts({});
-  const createProductMutation = useCreateProduct({});
-
-  const handleAddProduct = () => {
-    const rq: CreateProductDTO = {
-      productID: 'product11333',
-      productImg: {
-        ImgAttch: 'base64encodedimage',
-        ImgURL:
-          'https://ever-supermarket2.myshopify.com/cdn/shop/products/9000007743-Purefoods-Tender-Juicy-Hotdog-Jumbo-45-1kg-210430_cefb9798-cde5-4bd8-8931-33c201ca4f69_1200x1200.jpg?v=1674195201',
-      },
-      productName: 'TJ CheeseDog 123213',
-      productInfo: 'TJ Desc',
-      productPrice: 180,
-      productInventory: 3,
-      productCategory: ['sample1'],
-    };
-
-    createProductMutation.mutate({ ...rq });
-  };
-
+  const addToCartMutation = useAddToCart({});
+  const navigate = useNavigate();
   if (productQuery.isLoading) {
     return <h1>...Loading</h1>;
   }
@@ -38,26 +22,47 @@ export const ProductsView = () => {
 
   if (!productQuery.data) return <h1>error</h1>;
 
+  const addToCartHandler = (productId) => {
+    const rq: AddToCartDTO = {
+      quantity: 1,
+      productID: productId,
+    };
+
+    // eslint-disable-next-line no-console
+    console.log(rq);
+    addToCartMutation.mutate({ ...rq });
+  };
+
   return (
     <main>
       <StyledContainer fluid>
-        <Button
-          loading={createProductMutation.isLoading}
-          onClick={handleAddProduct}
-        >
-          Add Product
-        </Button>
+        <Flex justify="center" align="center" gap="xs">
+          <Title order={1} weight={600} align="center">
+            EY
+          </Title>
+          <Title order={1} weight={200} align="center">
+            Store
+          </Title>
+        </Flex>
+
+        <Searchbar />
         <Grid>
           {productQuery.data.map((data, index) => {
-            return (
-              <Grid.Col sm={4} md={3} lg={2.4}>
-                <Product
-                  img={data.productImg.ImgURL}
-                  name={data.productName}
-                  price={data.productPrice}
-                ></Product>
-              </Grid.Col>
-            );
+            if (data.isActive && data.productInventory > 0) {
+              return (
+                <StyledGridCol xs={6} sm={4} md={3} lg={2.4} key={data._id}>
+                  <Product
+                    img={data.productImg[0]}
+                    name={data.productName}
+                    price={data.productPrice}
+                    viewProductHandler={() => navigate(`/products/${data._id}`)}
+                    addToCart={() => addToCartHandler(data.productID)}
+                  ></Product>
+                </StyledGridCol>
+              );
+            } else {
+              return null;
+            }
           })}
         </Grid>
       </StyledContainer>

@@ -1,48 +1,100 @@
-import { Image, Text, DEFAULT_THEME, Grid } from '@mantine/core';
-import { useState } from 'react';
-import { TiTrash } from 'react-icons/ti';
-import { Quantity } from '../quantity/Quantity';
-import { StyledTable, StyledScrollArea } from './styles';
+import { Button, DEFAULT_THEME, Grid, Image, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { data } from './sample.data';
+import { useEffect, useState } from 'react';
+import { TiTrash } from 'react-icons/ti';
+import { Cart, OrderedItems } from '../../../apps/web/src/views/cart/types';
+import { Quantity } from '../quantity/Quantity';
+import { StyledScrollArea, StyledTable } from './styles';
 
-interface ICartItem {
-  id: number;
-  imageSrc: string;
-  merchant: string;
-  productName: string;
-  price: number;
-  quantity: number;
-}
+// interface ICartItem {
+//   id: number;
+//   imageSrc: string;
+//   merchant: string;
+//   productName: string;
+//   price: number;
+//   quantity: number;
+// }
 
 interface ICartProps {
-  item: ICartItem;
+  item: OrderedItems;
   onQuantityChange: (newQuantity: number) => void;
+  deleteRowItem: (key: string) => void;
 }
 
-const CartTable = () => {
-  const [cartItems, setCartItems] = useState(data);
+interface Props {
+  data: Cart;
+  totalCartItemAmount: number;
+  totalAmountHandler: (value: number) => void;
+  updateToCartHandler: (id: string, quantity?: number) => void;
+  deleteItem: (key: string) => void;
+}
 
-  const calculateSubtotal = (items: ICartItem[]) => {
-    return items.reduce((total, item) => total + item.price * item.quantity, 0);
+const CartTable = ({
+  data: { orderedItems, totalAmount },
+  totalCartItemAmount,
+  totalAmountHandler,
+  updateToCartHandler,
+  deleteItem,
+}: Props) => {
+  const [cartItems, setCartItems] = useState(orderedItems);
+  const [itemId, setItemId] = useState<string>('');
+
+  const calculateSubtotal = (items: OrderedItems[]) => {
+    return items.reduce(
+      (total, item) => total + item.productPrice * item.quantity,
+      0,
+    );
   };
-
   const handleCartItemQuantityChange = (
-    itemId: number,
+    itemId: string,
     newQuantity: number,
   ) => {
     const updatedCartItems = cartItems.map((item) => {
-      if (item.id === itemId) {
+      if (item.productID === itemId) {
         return { ...item, quantity: newQuantity };
       }
       return item;
     });
-
+    setItemId(itemId);
     setCartItems(updatedCartItems);
+
     const newSubtotal = calculateSubtotal(updatedCartItems);
   };
 
   const web = useMediaQuery(`(min-width: ${DEFAULT_THEME.breakpoints.sm})`);
+  const totalItems = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0,
+  );
+  const subtotal = calculateSubtotal(cartItems);
+
+  useEffect(() => {
+    const count = setTimeout(() => {
+      totalAmountHandler(subtotal);
+    }, 500);
+
+    return () => {
+      clearTimeout(count);
+    };
+  }, [subtotal]);
+
+  useEffect(() => {
+    const count = setTimeout(() => {
+      const cartItemFiltered = cartItems.filter(
+        (item) => item.productID === itemId,
+      );
+      updateToCartHandler(itemId, cartItemFiltered[0]?.quantity);
+    }, 300);
+
+    return () => {
+      clearTimeout(count);
+    };
+  }, [subtotal]);
+
+  const formattedTotalAmount = totalCartItemAmount.toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 
   return (
     <StyledScrollArea>
@@ -80,13 +132,47 @@ const CartTable = () => {
           <tbody>
             {cartItems.map((item) => (
               <CartRow
+                key={item.productID}
                 item={item}
                 onQuantityChange={(newQuantity: number) =>
-                  handleCartItemQuantityChange(item.id, newQuantity)
+                  handleCartItemQuantityChange(item.productID, newQuantity)
                 }
+                deleteRowItem={deleteItem}
               />
             ))}
           </tbody>
+          <tfoot>
+            <tr>
+              <td
+                colSpan={5}
+                style={{ textAlign: 'right', alignItems: 'center' }}
+              >
+                <Text
+                  fz="sm"
+                  fw={100}
+                  color="black"
+                  style={{ display: 'inline-block', marginLeft: '10px' }}
+                >
+                  Total ({totalItems} items):
+                </Text>{' '}
+                <Text fz="sm" fw={700} style={{ display: 'inline-block' }}>
+                  &#8369;{formattedTotalAmount}
+                </Text>
+              </td>
+              <td colSpan={1}>
+                <Button
+                  fz="md"
+                  style={{
+                    color: 'black',
+                    alignItems: 'center',
+                    marginTop: 0,
+                  }}
+                >
+                  Checkout
+                </Button>
+              </td>
+            </tr>
+          </tfoot>
         </StyledTable>
       ) : (
         <StyledTable>
@@ -109,32 +195,73 @@ const CartTable = () => {
           <tbody>
             {cartItems.map((item) => (
               <CartRow
+                key={item.productID}
                 item={item}
                 onQuantityChange={(newQuantity: number) =>
-                  handleCartItemQuantityChange(item.id, newQuantity)
+                  handleCartItemQuantityChange(item.productID, newQuantity)
                 }
+                deleteRowItem={deleteItem}
               />
             ))}
           </tbody>
+          <tfoot>
+            <tr>
+              <td
+                colSpan={2}
+                style={{ textAlign: 'right', alignItems: 'center' }}
+              >
+                <Text
+                  fz="sm"
+                  fw={100}
+                  color="black"
+                  style={{ display: 'inline-block', marginLeft: '10px' }}
+                >
+                  Total ({totalItems} items):
+                </Text>{' '}
+                <Text fz="sm" fw={700} style={{ display: 'inline-block' }}>
+                  &#8369;{formattedTotalAmount}
+                </Text>
+              </td>
+              <td colSpan={2}>
+                <Button
+                  fz="md"
+                  style={{
+                    color: 'black',
+                    alignItems: 'center',
+                    marginTop: 0,
+                  }}
+                >
+                  Checkout
+                </Button>
+              </td>
+            </tr>
+          </tfoot>
         </StyledTable>
       )}
     </StyledScrollArea>
   );
 };
 
-const CartRow: React.FC<ICartProps> = ({ item, onQuantityChange }) => {
-  const web = useMediaQuery(`(min-width: ${DEFAULT_THEME.breakpoints.sm})`);
+const CartRow: React.FC<ICartProps> = ({
+  item,
+  onQuantityChange,
+  deleteRowItem,
+}) => {
+  const handleDeleteItem = () => {
+    deleteRowItem(item.productID);
+  };
 
+  const web = useMediaQuery(`(min-width: ${DEFAULT_THEME.breakpoints.sm})`);
   return (
     <>
       {web ? (
         <>
-          <tr key={item.id}>
+          <tr key={item.productID}>
             <td>
               <Image
                 width={120}
                 height={120}
-                src={item.imageSrc}
+                src={item?.productImg}
                 alt="With default placeholder"
                 withPlaceholder
               />
@@ -142,7 +269,7 @@ const CartRow: React.FC<ICartProps> = ({ item, onQuantityChange }) => {
             <td className="col-two">
               <Text align="start">{item.productName}</Text>
             </td>
-            <td>₱{item.price.toFixed(2)}</td>
+            <td>₱{item.productPrice.toFixed(2)}</td>
             <td>
               <Quantity
                 quantity={item.quantity}
@@ -153,17 +280,20 @@ const CartRow: React.FC<ICartProps> = ({ item, onQuantityChange }) => {
             </td>
             <td>
               <Text fz="xl" fw={700} c="brand">
-                ₱{(item.quantity * item.price).toFixed(2)}
+                ₱{(item.quantity * item.productPrice).toFixed(2)}
               </Text>
             </td>
             <td>
-              <TiTrash color="red" size={40} />
+              <Button onClick={handleDeleteItem}>
+                <TiTrash color="red" size={40} />
+              </Button>
+              {/* <Button onClick={() => testIncrease(item.productID, 1)}>+</Button> */}
             </td>
           </tr>
         </>
       ) : (
         <>
-          <tr key={item.id}>
+          <tr key={item.productID}>
             <td className="col-two">
               <Text fz="xs" align="start">
                 {item.productName}
@@ -171,13 +301,13 @@ const CartRow: React.FC<ICartProps> = ({ item, onQuantityChange }) => {
               <Image
                 width={75}
                 height={75}
-                src={item.imageSrc}
+                src={item?.productImg}
                 alt="With default placeholder"
                 withPlaceholder
               />
             </td>
             <td>
-              <Text fz="xs">₱{item.price.toFixed(2)}</Text>
+              <Text fz="xs">₱{item.productPrice.toFixed(2)}</Text>
             </td>
             <td>
               <Quantity
@@ -191,11 +321,13 @@ const CartRow: React.FC<ICartProps> = ({ item, onQuantityChange }) => {
               <Grid>
                 <Grid.Col span={8}>
                   <Text fz="xs" fw={700} c="brand">
-                    ₱{(item.quantity * item.price).toFixed(2)}
+                    ₱{(item.quantity * item.productPrice).toFixed(2)}
                   </Text>
                 </Grid.Col>
                 <Grid.Col span={4}>
-                  <TiTrash color="red" size={14} />
+                  <Button onClick={handleDeleteItem}>
+                    <TiTrash color="red" size={14} />
+                  </Button>
                 </Grid.Col>
               </Grid>
             </td>

@@ -19,7 +19,7 @@ import { StarRating } from '../rating/StarRating';
 
 interface IProductProps {
   productName: string;
-  ratingValue: number;
+  ratingValue?: number;
   productDescription: string;
   productPrice: number;
   merchantName: string;
@@ -40,11 +40,11 @@ export function ProductInfo({
   });
   return (
     <Wrapper>
-      <Grid className="grid-container" gutter="lg">
+      <Grid className="grid-container" gutter="lg" justify="center">
         <Col className="grid-layout" lg={6} md={7} xs={12}>
           <ProductGallery productImg={productImg} />
         </Col>
-        <Col className="grid-layout" lg={6} md={5} xs={12}>
+        <Col lg={6} md={5} xs={12}>
           <StyledBox>
             <StyledContainer>
               <ProductNameText>{productName}</ProductNameText>
@@ -69,7 +69,9 @@ export function ProductInfo({
                 <ProductDescriptionText>
                   {productDescription}
                 </ProductDescriptionText>
-                <ProductPriceText>Price: ₱{formattedPrice}</ProductPriceText>
+                <ProductPriceText>
+                  Price: &#8369; {formattedPrice}
+                </ProductPriceText>
               </ProductDescWrapper>
               <Group>
                 <AddToCartButton>

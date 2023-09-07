@@ -18,42 +18,36 @@ export class CartController {
   ) {}
 
   @Post('/')
-  async addItemToCart(@Request() req, @Body() reqBody) {
-    const userID = await this.cartService.extractIdFromToken(req);
+  async addItemToCart(@Request() rqHeader, @Body() reqBody) {
     const newItemDto = await this.cartService.createItem(
       reqBody.productID,
       reqBody.quantity,
     );
-    const cart = await this.cartService.addItemToCart(userID, newItemDto);
+    const cart = await this.cartService.addItemToCart(rqHeader, newItemDto);
     return cart;
   }
   @Delete('/') // Note: to test, apply same token decoding in Post request above
-  async removeItemFromCart(@Request() req, @Body() reqBody) {
-    const userID = await this.cartService.extractIdFromToken(req);
+  async removeItemFromCart(@Request() rqHeader, @Body() reqBody) {
     const cart = await this.cartService.removeItemFromCart(
-      userID,
+      rqHeader,
       reqBody.productID,
     );
     if (!cart) throw new NotFoundException('Item does not exist');
+    if (cart.orderedItems.length === 0) this.cartService.deleteCart(rqHeader);
     return { message: 'Item successfully deleted' };
   }
 
   @Delete('/deleteCart')
-  async deleteCart(@Request() req) {
-    const userIDFromToken = await this.cartService.extractIdFromToken(req);
-    const cart = await this.cartService.deleteCart(userIDFromToken);
+  async deleteCart(@Request() reqHeader) {
+    const cart = await this.cartService.deleteCart(reqHeader);
 
-    if (cart !== cart) {
-      throw new NotFoundException('Cart does not exist');
-    }
-
-    return { message: 'Cart successfully deleted' };
+    return cart;
   }
   @Get('/')
   async getCart(@Request() req) {
-    const userID = await this.cartService.extractIdFromToken(req);
+    const userID = await this.cartService.extractIdFromToken2(req);
     const userCart = await this.cartService.getCart(userID);
-    if (!userCart) throw new NotFoundException('Cart is empty');
+    if (!userCart) return [];
     return userCart;
   }
 

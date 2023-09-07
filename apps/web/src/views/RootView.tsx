@@ -10,7 +10,11 @@ import theme from '../styles/theme';
 import { LoginView } from './auth/pages/LoginView';
 import { RegisterView } from './auth/pages/RegisterView';
 import { NotFoundView } from './NotFoundView';
-import { ProductsView } from './products/pages';
+import {
+  ProductDetailView,
+  ProductsView,
+  MerchantProducts,
+} from './products/pages';
 import { SampleView } from './SampleView';
 import { CartView } from './CartView';
 import { UserProfile } from './user/pages/UserProfile';
@@ -32,6 +36,14 @@ export const RootView = () => {
             <Route path="/register" element={<RegisterView />} />
             <Route path="/profile/:id" element={<UserProfile />} />
             <Route path="/products" element={<ProductsView />} />
+            <Route
+              path="/products/:productID"
+              element={<ProductDetailView />}
+            />
+            <Route
+              path="/:merchantID/products"
+              element={<MerchantProducts />}
+            />
           </Routes>
         </BrowserRouter>
         <Footer />

@@ -3,14 +3,11 @@ import { Grid, Group, Progress, Rating, Text } from '@mantine/core';
 import { Wrapper } from './style';
 import { StarRating } from './StarRating';
 interface IRatingProps {
-  reviewCount?: number;
-  ratingValue?: number;
+  reviewCount: number;
+  ratingValue: number;
 }
 
-export const RatingComponent = ({
-  ratingValue = 5,
-  reviewCount = 3423,
-}: IRatingProps) => {
+export const RatingComponent = ({ ratingValue, reviewCount }: IRatingProps) => {
   return (
     <>
       <Wrapper>
@@ -18,7 +15,6 @@ export const RatingComponent = ({
           <Grid.Col lg={6} md={6} sm={12}>
             <div className="left-div">
               <Text className="text-heading">Customer reviews & ratings</Text>
-
               <Group className="group-left" spacing="xs">
                 <StarRating rate={ratingValue} />
                 <Text className="text-rating">

@@ -33,11 +33,15 @@ export const HeaderNavBar = () => {
     <Box>
       <Header height={60} px="md">
         <Group sx={{ height: '100%' }} position="apart" grow>
-          <Title order={3}>EYCommerce</Title>
+          <Anchor href="/products">
+            <Title order={3} style={{ color: 'black', textDecoration: 'none' }}>
+              EYCommerce
+            </Title>
+          </Anchor>
           {!isMobile && (
             <>
               <Group sx={{ height: '100%' }} spacing={40} position="center">
-                <Anchor href="#">Home</Anchor>
+                <Anchor href="/products">Home</Anchor>
                 <Anchor href="#">About Us</Anchor>
                 <Anchor href="#">Services</Anchor>
                 <Anchor href="#">Contact Us</Anchor>
