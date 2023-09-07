@@ -12,7 +12,7 @@ import {
 } from '../api';
 import { CreateProductDTO, useCreateProduct } from '../api/addProduct';
 import { UpdateProductDTO, useUpdateProduct } from '../api/updateProduct';
-import { StyledContainer } from './styles';
+import { StyledContainer, StyledDiv, StyledGridCol } from './styles';
 
 export const MerchantProducts: React.FC = () => {
   //API
@@ -123,19 +123,21 @@ export const MerchantProducts: React.FC = () => {
             {merchantQuery.data?.merchantName} Products
           </Title>
         </div>
+        <StyledDiv>
+          <Button
+            loading={createProductMutation.isLoading}
+            onClick={handleNewProduct}
+            style={{ color: 'black' }}
+          >
+            Add Product
+          </Button>
+        </StyledDiv>
 
-        <Button
-          loading={createProductMutation.isLoading}
-          onClick={handleNewProduct}
-          style={{ color: 'black' }}
-        >
-          Add Product
-        </Button>
         <Grid>
           {merchantProductsQuery.data.map((data) => {
             if (data.isActive) {
               return (
-                <Grid.Col sm={4} md={3} lg={2.4}>
+                <StyledGridCol xs={6} sm={4} md={3} lg={2.4}>
                   <MerchantProduct
                     id={data._id}
                     img={data.productImg[0]}
@@ -151,7 +153,7 @@ export const MerchantProducts: React.FC = () => {
                       createProductMutation.isLoading
                     }
                   ></MerchantProduct>
-                </Grid.Col>
+                </StyledGridCol>
               );
             }
           })}
@@ -163,7 +165,7 @@ export const MerchantProducts: React.FC = () => {
           {merchantProductsQuery.data.map((data) => {
             if (!data.isActive) {
               return (
-                <Grid.Col sm={4} md={3} lg={2.4}>
+                <StyledGridCol xs={6} sm={4} md={3} lg={2.4}>
                   <MerchantProduct
                     id={data._id}
                     img={data.productImg[0]}
@@ -179,7 +181,7 @@ export const MerchantProducts: React.FC = () => {
                       createProductMutation.isLoading
                     }
                   ></MerchantProduct>
-                </Grid.Col>
+                </StyledGridCol>
               );
             }
           })}

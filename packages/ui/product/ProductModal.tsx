@@ -224,15 +224,16 @@ const ProductModal: React.FC<ProductModalProps> = ({
               onClick={handleCheck}
             />
           ) : null}
+          <Button
+            loading={isLoading}
+            onClick={handleSave}
+            loaderPosition="center"
+            style={{ color: 'black' }}
+            fullWidth
+          >
+            Save
+          </Button>
         </Modal.Body>
-
-        <Button
-          loading={isLoading}
-          onClick={handleSave}
-          loaderPosition="center"
-        >
-          Save
-        </Button>
       </Modal>
     </>
   );
