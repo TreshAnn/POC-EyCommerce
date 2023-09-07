@@ -14,7 +14,7 @@ import { AuthMiddleware } from 'src/middleware/auth.middleware';
     AbilityModule,
   ],
   controllers: [UsersController],
-  providers: [UsersService, AuthMiddleware],
+  providers: [UsersService],
   exports: [UsersService],
 })
 export class UsersModule {}

@@ -23,7 +23,7 @@ export class AbilityGuard implements CanActivate {
       definedAbility.action,
       definedAbility.subject,
     );
-
+    console.log(isAllowed);
     return isAllowed;
   }
 }

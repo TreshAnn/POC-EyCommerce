@@ -1,6 +1,5 @@
 import { SetMetadata } from '@nestjs/common';
 import { Subjects } from './ability.factory';
-import { User } from 'src/users/schemas/user.schema';
 import { Action } from './enum/ability.enum';
 
 export interface RequireRule {

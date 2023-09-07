@@ -4,6 +4,7 @@ import { UsersModule } from '../users/users.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { Auth, AuthSchema } from '../auth/schemas/auth.schema';
+import { AuthMiddleware } from 'src/middleware/auth.middleware';
 
 @Module({
   imports: [
