@@ -65,17 +65,19 @@ export const ProductList = styled.div`
   width: 168px;
   flex-direction: column;
   gap: 10px;
+  cursor: pointer;
 `;
 
 export const Thumbnail = styled.img`
   width: 153px;
   height: 153px;
+  object-fit: contain;
   cursor: pointer;
 `;
 
 export const SelectedImage = styled.img`
   width: 450px;
-  height: 500px;
+  height: 450px;
   object-fit: contain;
 
   @media (max-width: ${Breakpoints.xl}) {

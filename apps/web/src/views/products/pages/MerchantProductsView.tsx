@@ -93,10 +93,6 @@ export const MerchantProducts: React.FC = () => {
     return <div>Error loading store data</div>;
   }
 
-  if (!merchantProductsQuery?.data?.length) {
-    return <h1>No Product</h1>;
-  }
-
   return (
     <main>
       <StyledContainer fluid>
