@@ -4,21 +4,11 @@ import {
   IsArray,
   IsNumber,
   Matches,
-  ValidateNested,
 } from 'class-validator';
-
-import { Type } from 'class-transformer';
 
 export class CreateProductDto {
   @IsNotEmpty()
   readonly productImg: string[];
-
-  @IsNotEmpty()
-  @IsString()
-  @Matches(/^product\d{5}$/, {
-    message: 'ProductID must be product + 5 digit number',
-  })
-  readonly productID: string;
 
   @IsString()
   @IsNotEmpty()
