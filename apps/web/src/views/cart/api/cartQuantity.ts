@@ -3,14 +3,16 @@ import { useMutation } from '@tanstack/react-query';
 
 import { axios } from '../../../lib/axios';
 import { queryClient, QueryConfig } from '../../../lib/react-query';
-import { Cart, UpdateCart } from '../types';
+// import { Cart, UpdateCart } from '../types';
+import { Cart, OrderedItems } from '../types';
 
 // export type CreateProductDTO = Omit<Product, '__v' | '_id' | 'isActive'>;
+export type UpdateCartDTO = Pick<OrderedItems, 'productId' | 'quantity'>;
 
 export const createProduct = ({
   productId,
   quantity,
-}: UpdateCart): Promise<UpdateCart> => {
+}: UpdateCartDTO): Promise<OrderedItems> => {
   return axios.put('/api/cart', {
     productId,
     quantity,
