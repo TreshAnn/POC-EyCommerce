@@ -10,7 +10,6 @@ export const StyledContainer = styled(Container)`
   margin: 0px;
   padding: 0;
   justify-content: center;
-
   @media (max-width: ${Breakpoints.xl}) {
     width: auto;
     height: 500px;
@@ -27,9 +26,21 @@ export const LeftColumn = styled.div`
   position: relative;
   &:hover {
     overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: gray transparent;
+
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: gray;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
   }
 
-  @media (max-width: ${Breakpoints.xl}) {
+  @media (max-width: ${Breakpoints.lg}) {
     display: none;
   }
 `;
@@ -40,9 +51,12 @@ export const RightColumn = styled.div`
   justify-content: center;
   align-items: center;
   width: 455px;
+  height: 500px;
+  margin: 1px;
 
   @media (max-width: ${Breakpoints.xl}) {
     align-items: center;
+    width: 420px;
   }
 `;
 
@@ -66,12 +80,8 @@ export const SelectedImage = styled.img`
   height: 450px;
   object-fit: contain;
 
-  @media (max-width: ${Breakpoints.sm}) {
-    width: 400px;
-    height: auto;
-  }
-  @media (max-width: ${Breakpoints.xs}) {
-    width: 350px;
+  @media (max-width: ${Breakpoints.xl}) {
+    width: 420px;
     height: auto;
   }
 `;

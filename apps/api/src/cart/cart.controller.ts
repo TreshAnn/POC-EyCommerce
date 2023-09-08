@@ -9,18 +9,14 @@ import {
   Get,
 } from '@nestjs/common';
 import { CartService } from './cart.service';
-import { JwtService } from '@nestjs/jwt';
 @Controller('cart')
 export class CartController {
-  constructor(
-    private cartService: CartService,
-    private jwtService: JwtService,
-  ) {}
+  constructor(private cartService: CartService) {}
 
   @Post('/')
   async addItemToCart(@Request() rqHeader, @Body() reqBody) {
     const newItemDto = await this.cartService.createItem(
-      reqBody.productID,
+      reqBody.productId,
       reqBody.quantity,
     );
     const cart = await this.cartService.addItemToCart(rqHeader, newItemDto);
@@ -30,7 +26,7 @@ export class CartController {
   async removeItemFromCart(@Request() rqHeader, @Body() reqBody) {
     const cart = await this.cartService.removeItemFromCart(
       rqHeader,
-      reqBody.productID,
+      reqBody.productId,
     );
     if (!cart) throw new NotFoundException('Item does not exist');
     if (cart.orderedItems.length === 0) this.cartService.deleteCart(rqHeader);
@@ -54,7 +50,7 @@ export class CartController {
   @Put('/')
   async updateCartItem(@Request() rqHeader, @Body() reqBody) {
     const newUpdateItemDto = await this.cartService.createItem(
-      reqBody.productID,
+      reqBody.productId,
       reqBody.quantity,
     );
 
