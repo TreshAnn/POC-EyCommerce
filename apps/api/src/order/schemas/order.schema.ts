@@ -41,7 +41,7 @@ export class Order {
   @Prop({ default: Date.now })
   date: Date;
 
-  @Prop({ enum: ['processing', 'shipped', 'delivered'] })
+  @Prop({ enum: ['ordered', 'processing', 'shipped', 'delivered'] })
   status: string;
 
   @Prop({ enum: ['cash'] })
