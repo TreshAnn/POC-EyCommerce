@@ -19,11 +19,12 @@ export class AbilityGuard implements CanActivate {
     const _id = request['_id'];
     const userType = request['userType'];
     const ability = this.abilityFactory.definedAbility(userType, _id);
+
     const isAllowed = ability.can(
       definedAbility.action,
       definedAbility.subject,
     );
-    console.log(isAllowed);
+
     return isAllowed;
   }
 }

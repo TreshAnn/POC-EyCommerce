@@ -23,6 +23,9 @@ import { CheckAbilities } from 'src/auth/ability/ability.decorator';
 import { Roles } from 'src/auth/decorators/role.decorator';
 import { AbilityGuard } from 'src/auth/ability/ability.guard';
 
+@UseGuards(AuthGuard)
+@Roles(Role.CONSUMER)
+@UseGuards(RolesGuard)
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
@@ -30,12 +33,12 @@ export class ProductsController {
   // @Public()
   // this will check if the route is accessible for public or not
   // and if the user is authorized via token
-  @UseGuards(AuthGuard)
-  // define the type of user that can access this route
-  @Roles(Role.CONSUMER)
-  // check whether the user can access the route based on her pre-defines role
-  @UseGuards(RolesGuard)
-  // define what type of ability can the user do based on the user role
+  // @UseGuards(AuthGuard)
+  // // define the type of user that can access this route
+  // @Roles(Role.CONSUMER)
+  // // check whether the user can access the route based on her pre-defines role
+  // @UseGuards(RolesGuard)
+  // // define what type of ability can the user do based on the user role
   @CheckAbilities({ action: Action.Update, subject: Product })
   // @CheckAbilities({ action: Action.Update, subject: User })
   // Check whether the ability defined from the CheckAbility decorator is allowed
