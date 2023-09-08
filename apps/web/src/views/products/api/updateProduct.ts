@@ -1,8 +1,8 @@
 import { notifications } from '@mantine/notifications';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { axios } from '../../../lib/axios';
-import { queryClient, QueryConfig } from '../../../lib/react-query';
+import { QueryConfig } from '../../../lib/react-query';
 import { Product } from '../types';
 
 export type UpdateProductDTO = Omit<
@@ -41,33 +41,45 @@ export const useUpdateProduct = (
   { config }: UseUpdateProductOption,
   id: string,
 ) => {
+  const queryClient = useQueryClient();
   return useMutation({
-    onMutate: async (product) => {
-      await queryClient.cancelQueries(['update-product']);
+    onMutate: async (newProduct) => {
+      await queryClient.cancelQueries({ queryKey: ['merchant-products'] });
 
-      const previousProducts = queryClient.getQueriesData<Product[]>([
-        'update-product',
-      ]);
+      const previousProducts =
+        queryClient.getQueryData<Product[]>(['merchant-products']) || [];
 
-      queryClient.setQueryData(
-        ['update-product'],
-        [...(previousProducts || []), product.data],
+      const productIndex = previousProducts.findIndex(
+        (product) => product._id === id,
       );
-      return { previousProducts };
+
+      if (productIndex !== -1) {
+        const updatedProducts = [...previousProducts];
+        updatedProducts[productIndex] = {
+          ...updatedProducts[productIndex],
+          ...newProduct,
+        };
+
+        queryClient.setQueryData(['merchant-products'], updatedProducts);
+
+        return { previousProducts };
+      }
     },
     onError: (_, __, context: any) => {
       if (context?.previousProducts) {
-        queryClient.setQueryData(['update-product'], context.previousProducts);
+        queryClient.setQueryData(
+          ['merchant-products'],
+          context.previousProducts,
+        );
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['update-product']);
+      queryClient.invalidateQueries(['merchant-products']);
       notifications.show({
         message: 'Product updated',
       });
     },
     mutationFn: (newProductData: UpdateProductDTO) =>
       updateProduct(newProductData, id),
-    ...config,
   });
 };
