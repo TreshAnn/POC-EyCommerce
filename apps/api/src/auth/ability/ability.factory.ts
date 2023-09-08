@@ -30,6 +30,9 @@ export class AbilityFactory {
       can(Action.Delete, User);
 
       can(Action.Create, Product);
+      can(Action.Read, Product);
+      can(Action.Update, Product);
+      can(Action.Delete, Product);
     }
 
     // can(Action.Update, Article, { authorId: user.id });
