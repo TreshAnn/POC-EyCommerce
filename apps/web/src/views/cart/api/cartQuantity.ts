@@ -8,11 +8,11 @@ import { Cart, UpdateCart } from '../types';
 // export type CreateProductDTO = Omit<Product, '__v' | '_id' | 'isActive'>;
 
 export const createProduct = ({
-  productID,
+  productId,
   quantity,
 }: UpdateCart): Promise<UpdateCart> => {
   return axios.put('/api/cart', {
-    productID,
+    productId,
     quantity,
   });
 };

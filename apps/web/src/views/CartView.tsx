@@ -46,7 +46,7 @@ export const CartView = () => {
   const updateToCartHandler = (id: string, quantity?: number) => {
     if (quantity !== undefined) {
       const updatedItem: UpdateCart = {
-        productID: id,
+        productId: id,
         quantity: quantity,
       };
       cartUpdate.mutate(updatedItem);
