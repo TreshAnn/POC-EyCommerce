@@ -5,8 +5,9 @@ import CartTable from '../../../../packages/ui/cart/CartTable';
 import { useCartQuantity } from './cart/api/cartQuantity';
 import { useDeleteItem } from './cart/api/deleteItem';
 import { useGetCart } from './cart/api/getCart';
-import { UpdateCart } from './cart/types';
-import { useQuery } from '@tanstack/react-query';
+import { OrderedItems } from './cart/types';
+
+export type UpdateCartDTO = Pick<OrderedItems, 'productId' | 'quantity'>;
 
 export const CartView = () => {
   const { data, isLoading, isError, refetch, isSuccess } = useGetCart({});
@@ -16,12 +17,7 @@ export const CartView = () => {
   const cartUpdate = useCartQuantity({});
   const deleteItem = useDeleteItem({});
 
-  // eslint-disable-next-line no-console
-  // console.log(item);
-
   useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('useEffect triggered');
     // If a deletion is successful, refetch the 'cart' query to get updated data
     if (deleteItem.isSuccess) {
       // eslint-disable-next-line no-console
@@ -57,7 +53,7 @@ export const CartView = () => {
 
   const updateToCartHandler = (id: string, quantity?: number) => {
     if (quantity !== undefined) {
-      const updatedItem: UpdateCart = {
+      const updatedItem: UpdateCartDTO = {
         productId: id,
         quantity: quantity,
       };
