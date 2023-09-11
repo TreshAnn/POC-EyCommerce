@@ -5,10 +5,10 @@ import { axios } from '../../../lib/axios';
 import { QueryConfig } from '../../../lib/react-query';
 import { Cart, OrderedItems } from '../types';
 
-export type DeleteItemDTO = Pick<OrderedItems, 'productID'>;
+export type DeleteItemDTO = Pick<OrderedItems, 'productId'>;
 
-export const deleteProduct = (productID): Promise<Cart> => {
-  return axios.delete(`/api/cart/`, { data: { productID } });
+export const deleteProduct = (productId): Promise<Cart> => {
+  return axios.delete(`/api/cart/`, { data: { productId } });
 };
 
 type QueryFnType = typeof deleteProduct;
@@ -30,7 +30,7 @@ export const useDeleteItem = ({ config }: UseDeleteItemOption) => {
         (oldCartItem: OrderedItems[] | undefined) => {
           if (Array.isArray(oldCartItem)) {
             return oldCartItem.filter(
-              (cartItem) => cartItem.productID !== deletedProductId,
+              (cartItem) => cartItem.productId !== deletedProductId,
             );
           }
           return [];
