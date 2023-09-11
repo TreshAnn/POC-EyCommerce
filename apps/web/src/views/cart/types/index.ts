@@ -9,7 +9,7 @@ export interface Cart {
 }
 
 export interface OrderedItems {
-  productID: string;
+  productId: string;
   productImg: ProductImg;
   productName: string;
   productPrice: number;

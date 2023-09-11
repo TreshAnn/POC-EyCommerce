@@ -30,19 +30,19 @@ import { AbilityGuard } from 'src/auth/ability/ability.guard';
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  // @Public()
-  // this will check if the route is accessible for public or not
-  // and if the user is authorized via token
-  // @UseGuards(AuthGuard)
-  // // define the type of user that can access this route
-  // @Roles(Role.CONSUMER)
-  // // check whether the user can access the route based on her pre-defines role
-  // @UseGuards(RolesGuard)
-  // // define what type of ability can the user do based on the user role
-  @CheckAbilities({ action: Action.Update, subject: Product })
-  // @CheckAbilities({ action: Action.Update, subject: User })
-  // Check whether the ability defined from the CheckAbility decorator is allowed
-  @UseGuards(AbilityGuard)
+  @Public()
+  // // this will check if the route is accessible for public or not
+  // // and if the user is authorized via token
+  // // @UseGuards(AuthGuard)
+  // // // define the type of user that can access this route
+  // // @Roles(Role.CONSUMER)
+  // // // check whether the user can access the route based on her pre-defines role
+  // // @UseGuards(RolesGuard)
+  // // // define what type of ability can the user do based on the user role
+  // @CheckAbilities({ action: Action.Update, subject: Product })
+  // // @CheckAbilities({ action: Action.Update, subject: User })
+  // // Check whether the ability defined from the CheckAbility decorator is allowed
+  // @UseGuards(AbilityGuard)
   @Get('get-all-product')
   async findAllProducts(): Promise<Product[]> {
     return this.productsService.findAllProducts();
