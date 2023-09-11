@@ -213,6 +213,7 @@ export const UpdateForm = ({ onSuccess }: IUserUpdateFormProps) => {
                   label="Zip Code"
                   placeholder="Enter your Zip Code"
                   required
+                  type="number"
                   value={userData?.address.zipcode}
                   onChange={(event) => handleOnChange('address.zipcode', event)}
                 />
