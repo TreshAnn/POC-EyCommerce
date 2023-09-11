@@ -7,12 +7,24 @@ import {
   NotFoundException,
   Put,
   Get,
+  UseGuards,
 } from '@nestjs/common';
 import { CartService } from './cart.service';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { RolesGuard } from 'src/guards/Role.guard';
+import { AbilityGuard } from 'src/auth/ability/ability.guard';
+import { Roles } from 'src/auth/decorators/role.decorator';
+import { Role } from 'src/guards/enum/role.enum';
+import { CheckAbilities } from 'src/auth/ability/ability.decorator';
+import { Action } from 'src/auth/ability/enum/ability.enum';
+import { Cart } from './schemas/cart.schema';
 @Controller('cart')
 export class CartController {
   constructor(private cartService: CartService) {}
 
+  @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
+  @Roles(Role.CONSUMER)
+  @CheckAbilities({ action: Action.Create, subject: Cart })
   @Post('/')
   async addItemToCart(@Request() rqHeader, @Body() reqBody) {
     const newItemDto = await this.cartService.createItem(
