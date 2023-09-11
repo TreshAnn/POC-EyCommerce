@@ -10,12 +10,14 @@ import {
   UnauthorizedException,
   NotFoundException,
 } from '@nestjs/common';
+import { CustomErrorService } from 'src/utils/service/custom-error.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel(Auth.name) private readonly authModel: Model<AuthDocument>,
     private jwtService: JwtService,
+    private customErrorService: CustomErrorService,
   ) {}
 
   async findEmail(email: string) {
@@ -28,6 +30,15 @@ export class AuthService {
 
   async signIn(rq: LoginDto) {
     const user = await this.findUserName(rq.username);
+    const { isActive } = user;
+
+    if (!isActive) {
+      const createCustomError = this.customErrorService.createError(
+        403,
+        'Login restricted. Account is deactivated.',
+      );
+      return createCustomError;
+    }
 
     if (!user) {
       throw new UnauthorizedException();
