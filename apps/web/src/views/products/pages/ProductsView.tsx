@@ -25,7 +25,7 @@ export const ProductsView = () => {
   const addToCartHandler = (productId) => {
     const rq: AddToCartDTO = {
       quantity: 1,
-      productID: productId,
+      productId: productId,
     };
 
     // eslint-disable-next-line no-console
