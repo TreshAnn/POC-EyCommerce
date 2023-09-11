@@ -93,6 +93,7 @@ export function ProductInfo({
                   onQuantityChange={(newQuantity) =>
                     onQuantityChange(newQuantity)
                   }
+                  maxQty={inventory}
                 />
                 <Text color="#777777" size={10}>
                   {inventory} item/s available
