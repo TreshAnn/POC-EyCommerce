@@ -94,10 +94,6 @@ export const MerchantProducts: React.FC = () => {
     return <div>Error loading store data</div>;
   }
 
-  if (!merchantProductsQuery?.data?.length) {
-    return <h1>No Product</h1>;
-  }
-
   return (
     <main>
       <StyledContainer fluid>
@@ -124,69 +120,90 @@ export const MerchantProducts: React.FC = () => {
             {merchantQuery.data?.merchantName} Products
           </Title>
         </div>
-        <StyledDiv>
-          <Button
-            loading={createProductMutation.isLoading}
-            onClick={handleNewProduct}
-            style={{ color: 'black' }}
-          >
-            Add Product
-          </Button>
-        </StyledDiv>
-
-        <Grid>
-          {reversedData.map((data) => {
-            if (data.isActive) {
-              return (
-                <StyledGridCol xs={6} sm={4} md={3} lg={2.4}>
-                  <MerchantProduct
-                    id={data._id}
-                    img={data.productImg[0]}
-                    name={data.productName}
-                    info={data.productInfo}
-                    stock={data.productInventory}
-                    price={data.productPrice}
-                    onEdit={(selectedProductId) =>
-                      handleEditProduct(selectedProductId)
-                    }
-                    isLoading={
-                      updateProductMutation.isLoading ||
-                      createProductMutation.isLoading
-                    }
-                  ></MerchantProduct>
-                </StyledGridCol>
-              );
-            }
-          })}
-        </Grid>
-        <Title order={4} pt={20}>
-          Hidden products
-        </Title>
-        <Grid>
-          {reversedData.map((data) => {
-            if (!data.isActive) {
-              return (
-                <StyledGridCol xs={6} sm={4} md={3} lg={2.4}>
-                  <MerchantProduct
-                    id={data._id}
-                    img={data.productImg[0]}
-                    name={data.productName}
-                    info={data.productInfo}
-                    stock={data.productInventory}
-                    price={data.productPrice}
-                    onEdit={(selectedProductId) =>
-                      handleEditProduct(selectedProductId)
-                    }
-                    isLoading={
-                      updateProductMutation.isLoading ||
-                      createProductMutation.isLoading
-                    }
-                  ></MerchantProduct>
-                </StyledGridCol>
-              );
-            }
-          })}
-        </Grid>
+        {!merchantProductsQuery?.data?.length ? (
+          <>
+            <Button
+              loading={createProductMutation.isLoading}
+              onClick={handleNewProduct}
+              style={{ color: 'black' }}
+            >
+              Add Product
+            </Button>
+            <h1>No Product</h1>
+          </>
+        ) : (
+          <>
+            <Button
+              loading={createProductMutation.isLoading}
+              onClick={handleNewProduct}
+              style={{ color: 'black' }}
+            >
+              Add Product
+            </Button>
+            <Grid>
+              {reversedData.map((data) => {
+                if (data.isActive) {
+                  return (
+                    <StyledGridCol xs={6} sm={4} md={3} lg={2.4}>
+                      <MerchantProduct
+                        id={data._id}
+                        img={data.productImg[0]}
+                        name={data.productName}
+                        info={data.productInfo}
+                        stock={data.productInventory}
+                        price={data.productPrice}
+                        onEdit={(selectedProductId) =>
+                          handleEditProduct(selectedProductId)
+                        }
+                        isLoading={
+                          updateProductMutation.isLoading ||
+                          createProductMutation.isLoading
+                        }
+                      ></MerchantProduct>
+                    </StyledGridCol>
+                  );
+                }
+              })}
+            </Grid>
+            <Title order={4} pt={20}>
+              Hidden products
+            </Title>
+            {reversedData.some((data) => !data.isActive) ? (
+              <Grid>
+                {reversedData.map((data) => {
+                  if (!data.isActive) {
+                    return (
+                      <StyledGridCol xs={6} sm={4} md={3} lg={2.4}>
+                        <MerchantProduct
+                          id={data._id}
+                          img={data.productImg[0]}
+                          name={data.productName}
+                          info={data.productInfo}
+                          stock={data.productInventory}
+                          price={data.productPrice}
+                          onEdit={(selectedProductId) =>
+                            handleEditProduct(selectedProductId)
+                          }
+                          isLoading={
+                            updateProductMutation.isLoading ||
+                            createProductMutation.isLoading
+                          }
+                        ></MerchantProduct>
+                      </StyledGridCol>
+                    );
+                  } else {
+                    return null;
+                  }
+                })}
+              </Grid>
+            ) : (
+              <div>
+                <br />
+                No hidden products
+              </div>
+            )}
+          </>
+        )}
       </StyledContainer>
     </main>
   );
