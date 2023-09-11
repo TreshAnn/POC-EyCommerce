@@ -100,6 +100,7 @@ export class OrderService {
         zipcode: userData.address.zipcode,
         country: userData.address.country,
       },
+      phoneNumber: userData.phoneNumber,
       orderedItems: selectedProducts.map((product) => ({
         productName: product.productName,
         price: product.productPrice,

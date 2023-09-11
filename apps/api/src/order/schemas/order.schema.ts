@@ -38,7 +38,7 @@ export class Order {
   @Prop()
   address: UserAddress;
 
-  @Prop({ type: UserSchema })
+  @Prop()
   phoneNumber: string;
 
   @Prop({ type: AuthSchema })
