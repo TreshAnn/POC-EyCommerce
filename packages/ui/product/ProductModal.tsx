@@ -61,10 +61,10 @@ const ProductModal: React.FC<ProductModalProps> = ({
   useEffect(() => {
     if (editProduct) {
       setProductData(editProduct);
-    } else {
+    } else if (isAddingProduct) {
       setProductData(addProduct);
     }
-  }, [id, editProduct]);
+  }, [isAddingProduct, editProduct]);
 
   const handleCheck = () => {
     open();
