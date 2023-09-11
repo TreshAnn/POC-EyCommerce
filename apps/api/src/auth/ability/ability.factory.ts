@@ -23,16 +23,17 @@ export class AbilityFactory {
 
     if (userType === Role.MERCHANT) {
       can(Action.Manage, 'all');
+      can(Action.Create, Product);
+      can(Action.Read, Product);
+      can(Action.Update, Product);
+      can(Action.Delete, Product);
     } else {
       can(Action.Create, User);
       can(Action.Read, User);
       can(Action.Update, User);
       can(Action.Delete, User);
 
-      can(Action.Create, Product);
       can(Action.Read, Product);
-      can(Action.Update, Product);
-      can(Action.Delete, Product);
     }
 
     // can(Action.Update, Article, { authorId: user.id });
