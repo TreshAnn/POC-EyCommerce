@@ -42,8 +42,6 @@ export class UsersService {
       throw new NotFoundException('User not found');
     }
 
-    console.log(user);
-
     return user;
   }
 
@@ -60,8 +58,6 @@ export class UsersService {
     if (!updatedUser) {
       throw new NotFoundException('User not found');
     }
-
-    console.log(updatedUser);
 
     return updatedUser;
   }

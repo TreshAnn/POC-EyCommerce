@@ -6,9 +6,6 @@ export type ProductDocument = HydratedDocument<Product>;
 
 @Schema()
 export class Product {
-  @Prop({ unique: true })
-  productID: string;
-
   @Prop()
   productImg: string[];
 

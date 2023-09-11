@@ -1,4 +1,6 @@
 export interface Cart {
+  reduce(arg0: (acc: any, item: any) => any, arg1: number): unknown;
+  filter(arg0: (cartItem: any) => boolean): unknown;
   _id: string;
   userID: string;
   orderedItems: OrderedItems[];
@@ -7,7 +9,7 @@ export interface Cart {
 }
 
 export interface OrderedItems {
-  productID: string;
+  productId: string;
   productImg: ProductImg;
   productName: string;
   productPrice: number;
@@ -19,9 +21,4 @@ export interface ProductImg {
   ImgURL: string;
   ImgAttch: string;
   _id: string;
-}
-
-export interface UpdateCart {
-  productID: string;
-  quantity: number;
 }
