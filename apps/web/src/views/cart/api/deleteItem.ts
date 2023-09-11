@@ -1,8 +1,8 @@
 import { notifications } from '@mantine/notifications';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { axios } from '../../../lib/axios';
-import { queryClient, QueryConfig } from '../../../lib/react-query';
+import { QueryConfig } from '../../../lib/react-query';
 import { Cart, OrderedItems } from '../types';
 
 export type DeleteItemDTO = Pick<OrderedItems, 'productID'>;
@@ -18,16 +18,17 @@ type UseDeleteItemOption = {
 };
 
 export const useDeleteItem = ({ config }: UseDeleteItemOption) => {
+  const queryClient = useQueryClient();
   return useMutation({
     onMutate: async (deletedProductId) => {
-      await queryClient.cancelQueries(['cart']);
+      await queryClient.cancelQueries({ queryKey: ['cart'] });
 
-      const previousCart = queryClient.getQueriesData<Cart>(['cart']);
+      const previousCart = queryClient.getQueryData<Cart>(['cart']);
 
       queryClient.setQueryData(
         ['cart'],
         (oldCartItem: OrderedItems[] | undefined) => {
-          if (oldCartItem) {
+          if (Array.isArray(oldCartItem)) {
             return oldCartItem.filter(
               (cartItem) => cartItem.productID !== deletedProductId,
             );
@@ -49,6 +50,5 @@ export const useDeleteItem = ({ config }: UseDeleteItemOption) => {
       });
     },
     mutationFn: deleteProduct,
-    ...config,
   });
 };
