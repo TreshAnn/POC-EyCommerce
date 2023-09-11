@@ -8,18 +8,41 @@ import {
   Request,
   Get,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { Product } from './schemas/products.schema';
 import { UpdateProductDataDto } from './dto/update-product.dto';
 import { Public } from 'src/auth/decorators/public.decorator';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { Role } from 'src/guards/enum/role.enum';
+import { RolesGuard } from 'src/guards/Role.guard';
+import { Action } from 'src/auth/ability/enum/ability.enum';
+import { CheckAbilities } from 'src/auth/ability/ability.decorator';
+import { Roles } from 'src/auth/decorators/role.decorator';
+import { AbilityGuard } from 'src/auth/ability/ability.guard';
 
+@UseGuards(AuthGuard)
+@Roles(Role.CONSUMER)
+@UseGuards(RolesGuard)
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @Public()
+  // @Public()
+  // this will check if the route is accessible for public or not
+  // and if the user is authorized via token
+  // @UseGuards(AuthGuard)
+  // // define the type of user that can access this route
+  // @Roles(Role.CONSUMER)
+  // // check whether the user can access the route based on her pre-defines role
+  // @UseGuards(RolesGuard)
+  // // define what type of ability can the user do based on the user role
+  @CheckAbilities({ action: Action.Update, subject: Product })
+  // @CheckAbilities({ action: Action.Update, subject: User })
+  // Check whether the ability defined from the CheckAbility decorator is allowed
+  @UseGuards(AbilityGuard)
   @Get('get-all-product')
   async findAllProducts(): Promise<Product[]> {
     return this.productsService.findAllProducts();

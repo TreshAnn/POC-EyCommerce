@@ -19,7 +19,7 @@ import { StarRating } from '../rating/StarRating';
 
 interface IProductProps {
   productName: string;
-  ratingValue?: number;
+  ratingValue: number;
   productDescription: string;
   productPrice: number;
   merchantName: string;
@@ -69,10 +69,10 @@ export function ProductInfo({
                 <ProductDescriptionText>
                   {productDescription}
                 </ProductDescriptionText>
-                <ProductPriceText>
-                  Price: &#8369; {formattedPrice}
-                </ProductPriceText>
               </ProductDescWrapper>
+              <ProductPriceText>
+                Price: &#8369; {formattedPrice}
+              </ProductPriceText>
               <Group>
                 <AddToCartButton>
                   <Text color="#FFC815"> Add to Cart</Text>

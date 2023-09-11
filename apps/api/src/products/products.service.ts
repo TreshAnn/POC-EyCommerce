@@ -4,7 +4,6 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
 import { CreateProductDto } from '../products/dto/create-product.dto';
 import { UpdateProductDataDto } from '../products/dto/update-product.dto';
@@ -20,16 +19,7 @@ export class ProductsService {
   ) {}
 
   async create(req: any, createProductDto: CreateProductDto): Promise<Product> {
-    const ProductID = createProductDto.productID;
     const merchantID = await extractIdFromToken(req, this.jwtService);
-
-    const productAlreadyExists = await this.productModel
-      .findOne({ productID: { $eq: ProductID } })
-      .exec();
-
-    if (productAlreadyExists) {
-      throw new BadRequestException('Product ID already exists');
-    }
     const createdProduct = await this.productModel.create({
       ...createProductDto,
       merchantID,
@@ -38,7 +28,7 @@ export class ProductsService {
   }
 
   async findOne(id: string): Promise<Product> {
-    const product = await this.productModel.findOne({ productID: id });
+    const product = await this.productModel.findOne({ _id: id });
 
     if (!product) {
       throw new NotFoundException('Product not found');

@@ -61,10 +61,10 @@ const ProductModal: React.FC<ProductModalProps> = ({
   useEffect(() => {
     if (editProduct) {
       setProductData(editProduct);
-    } else {
+    } else if (isAddingProduct) {
       setProductData(addProduct);
     }
-  }, [id, editProduct]);
+  }, [isAddingProduct, editProduct]);
 
   const handleCheck = () => {
     open();
@@ -224,15 +224,16 @@ const ProductModal: React.FC<ProductModalProps> = ({
               onClick={handleCheck}
             />
           ) : null}
+          <Button
+            loading={isLoading}
+            onClick={handleSave}
+            loaderPosition="center"
+            style={{ color: 'black' }}
+            fullWidth
+          >
+            Save
+          </Button>
         </Modal.Body>
-
-        <Button
-          loading={isLoading}
-          onClick={handleSave}
-          loaderPosition="center"
-        >
-          Save
-        </Button>
       </Modal>
     </>
   );
