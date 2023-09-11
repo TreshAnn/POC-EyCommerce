@@ -45,6 +45,16 @@ export class UsersService {
     return user;
   }
 
+  async findUserName(username: string) {
+    const res = await this.userModel.findOne({ 'auth.username': username });
+
+    if (!res) {
+      throw new NotFoundException('Username was not found');
+    }
+
+    return res;
+  }
+
   async findByIdAndUpdate(
     id: string,
     createUserDto: CreateUserDto,

@@ -50,6 +50,7 @@ export class CartService {
       productPrice: product.productPrice,
       productInventory: product.productInventory,
       quantity: itemQuantity,
+      merchantId: product.merchantID,
     };
     return itemDto;
   }

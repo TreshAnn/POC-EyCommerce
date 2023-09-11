@@ -39,10 +39,10 @@ export class ProductsController {
   // // check whether the user can access the route based on her pre-defines role
   // @UseGuards(RolesGuard)
   // // define what type of ability can the user do based on the user role
-  @CheckAbilities({ action: Action.Update, subject: Product })
+  //@CheckAbilities({ action: Action.Update, subject: Product })
   // @CheckAbilities({ action: Action.Update, subject: User })
   // Check whether the ability defined from the CheckAbility decorator is allowed
-  @UseGuards(AbilityGuard)
+  //@UseGuards(AbilityGuard)
   @Get('get-all-product')
   async findAllProducts(): Promise<Product[]> {
     return this.productsService.findAllProducts();

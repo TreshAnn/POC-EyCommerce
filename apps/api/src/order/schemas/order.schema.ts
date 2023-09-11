@@ -12,7 +12,10 @@ export class Order {
   userId: string;
 
   @Prop()
-  name: string;
+  firstName: string;
+
+  @Prop()
+  lastName: string;
 
   @Prop({ type: UserSchema })
   address: Address;
@@ -25,9 +28,6 @@ export class Order {
 
   @Prop({ type: SchemaTypes.ObjectId, ref: Cart.name })
   orderId: string;
-
-  @Prop()
-  productID: string[];
 
   @Prop()
   orderedItems: Item[];

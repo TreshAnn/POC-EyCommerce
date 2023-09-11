@@ -21,4 +21,6 @@ export class ItemDto {
   productPrice: number;
 
   productInventory: number;
+
+  merchantId: string;
 }

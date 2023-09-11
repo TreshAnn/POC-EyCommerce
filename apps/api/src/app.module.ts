@@ -21,7 +21,7 @@ import { OrderModule } from './order/order.module';
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '300s' }, // TODO move this to .env
+      signOptions: { expiresIn: '1d' }, // TODO move this to .env
     }),
     CatsModule,
     AuthModule,

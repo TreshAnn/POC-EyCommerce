@@ -6,7 +6,7 @@ import {
   Post,
   Req,
 } from '@nestjs/common';
-import { OrderService } from './order.serivce';
+import { OrderService } from './order.service';
 import { JwtService } from '@nestjs/jwt';
 import { CreateOrderDto } from './dto/create-order.dto';
 
