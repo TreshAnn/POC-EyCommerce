@@ -7,6 +7,24 @@ import { AuthSchema } from 'src/auth/schemas/auth.schema';
 export type OrderDocument = HydratedDocument<Order>;
 
 @Schema()
+export class UserAddress {
+  @Prop()
+  street: string;
+
+  @Prop()
+  city: string;
+
+  @Prop()
+  region: string;
+
+  @Prop()
+  zipcode: string;
+
+  @Prop()
+  country: string;
+}
+
+@Schema()
 export class Order {
   @Prop({ type: SchemaTypes.ObjectId, ref: User.name })
   userId: string;
@@ -17,8 +35,8 @@ export class Order {
   @Prop()
   lastName: string;
 
-  @Prop({ type: UserSchema })
-  address: Address;
+  @Prop()
+  address: UserAddress;
 
   @Prop({ type: UserSchema })
   phoneNumber: string;
