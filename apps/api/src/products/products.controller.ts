@@ -53,6 +53,7 @@ export class ProductsController {
     return createdProduct;
   }
 
+  @Public()
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async findOne(@Param('id') id: string): Promise<Product> {
@@ -71,12 +72,18 @@ export class ProductsController {
     return this.productsService.findByIdAndUpdate(id, UpdateProductDataDto);
   }
 
+  @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
+  @Roles(Role.MERCHANT)
+  @CheckAbilities({ action: Action.Update, subject: Product })
   @HttpCode(HttpStatus.OK)
   @Put('deactivateProduct/:id')
   deactivateProduct(@Param('id') id: string) {
     return this.productsService.deactivateProduct(id);
   }
 
+  @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
+  @Roles(Role.MERCHANT)
+  @CheckAbilities({ action: Action.Update, subject: Product })
   @HttpCode(HttpStatus.OK)
   @Put('activateProduct/:id')
   activateProduct(@Param('id') id: string) {
