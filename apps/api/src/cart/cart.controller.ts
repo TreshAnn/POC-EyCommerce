@@ -34,6 +34,9 @@ export class CartController {
     const cart = await this.cartService.addItemToCart(rqHeader, newItemDto);
     return cart;
   }
+  @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
+  @Roles(Role.CONSUMER)
+  @CheckAbilities({ action: Action.Delete, subject: Cart })
   @Delete('/') // Note: to test, apply same token decoding in Post request above
   async removeItemFromCart(@Request() rqHeader, @Body() reqBody) {
     const cart = await this.cartService.removeItemFromCart(
@@ -44,13 +47,18 @@ export class CartController {
     if (cart.orderedItems.length === 0) this.cartService.deleteCart(rqHeader);
     return { message: 'Item successfully deleted' };
   }
-
+  @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
+  @Roles(Role.CONSUMER)
+  @CheckAbilities({ action: Action.Delete, subject: Cart })
   @Delete('/deleteCart')
   async deleteCart(@Request() reqHeader) {
     const cart = await this.cartService.deleteCart(reqHeader);
 
     return cart;
   }
+  @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
+  @Roles(Role.CONSUMER)
+  @CheckAbilities({ action: Action.Read, subject: Cart })
   @Get('/')
   async getCart(@Request() req) {
     const userID = await this.cartService.extractIdFromToken2(req);
