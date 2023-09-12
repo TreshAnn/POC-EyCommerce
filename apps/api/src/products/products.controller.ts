@@ -41,6 +41,9 @@ export class ProductsController {
     return this.productsService.findAllMerchantProducts(req);
   }
 
+  @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
+  @Roles(Role.MERCHANT)
+  @CheckAbilities({ action: Action.Create, subject: Product })
   @Post('create')
   async create(@Request() req, @Body() createProductDto: CreateProductDto) {
     const createdProduct = await this.productsService.create(
@@ -56,8 +59,8 @@ export class ProductsController {
     return this.productsService.findOne(id);
   }
 
-  @HttpCode(HttpStatus.OK)
   @Put('update/:id')
+  @HttpCode(HttpStatus.OK)
   async findByIdAndUpdate(
     @Body() UpdateProductDataDto: UpdateProductDataDto,
     @Param('id') id: string,

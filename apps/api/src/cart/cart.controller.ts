@@ -59,6 +59,9 @@ export class CartController {
     return userCart;
   }
 
+  @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
+  @Roles(Role.CONSUMER)
+  @CheckAbilities({ action: Action.Update, subject: Cart })
   @Put('/')
   async updateCartItem(@Request() rqHeader, @Body() reqBody) {
     const newUpdateItemDto = await this.cartService.createItem(

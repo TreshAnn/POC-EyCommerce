@@ -62,10 +62,6 @@ export class ProductsService {
       throw new NotFoundException('Product not found');
     }
 
-    if ('productID' in updateData) {
-      throw new BadRequestException('Product ID cannot be updated');
-    }
-
     const updatedProduct = await this.productModel
       .findByIdAndUpdate(id, updateData, { new: true })
       .exec();
