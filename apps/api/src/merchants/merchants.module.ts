@@ -4,6 +4,7 @@ import { MerchantsController } from './merchants.controller';
 import { MerchantsService } from './merchants.service';
 import { Merchant, MerchantSchema } from './schemas/merchant.schema';
 import { AuthModule } from '../auth/auth.module';
+import { AbilityModule } from 'src/auth/ability/ability.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { AuthModule } from '../auth/auth.module';
       { name: Merchant.name, schema: MerchantSchema },
     ]),
     AuthModule,
+    AbilityModule,
   ],
   controllers: [MerchantsController],
   providers: [MerchantsService],
