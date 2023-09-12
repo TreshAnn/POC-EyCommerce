@@ -41,6 +41,9 @@ export class MerchantsController {
     return this.merchantsService.findAllMerchants();
   }
 
+  @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
+  @Roles(Role.MERCHANT)
+  @CheckAbilities({ action: Action.Read, subject: Merchant })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async findOne(@Param('id') id: string): Promise<Merchant> {

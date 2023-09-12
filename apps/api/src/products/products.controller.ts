@@ -59,6 +59,9 @@ export class ProductsController {
     return this.productsService.findOne(id);
   }
 
+  @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
+  @Roles(Role.MERCHANT)
+  @CheckAbilities({ action: Action.Update, subject: Product })
   @Put('update/:id')
   @HttpCode(HttpStatus.OK)
   async findByIdAndUpdate(
