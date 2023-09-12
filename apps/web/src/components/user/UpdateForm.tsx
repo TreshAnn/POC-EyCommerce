@@ -97,7 +97,7 @@ export const UpdateForm = ({ onSuccess }: IUserUpdateFormProps) => {
     property: string,
     event: ChangeEvent<HTMLInputElement>,
   ) => {
-    const newValue = event.currentTarget.value.trim();
+    const newValue = event.currentTarget.value;
 
     // Split the property string into segments
     const segments = property.split('.');
