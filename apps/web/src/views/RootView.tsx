@@ -19,23 +19,28 @@ import {
 import { SampleView } from './SampleView';
 import { CartView } from './CartView';
 import { StyledContainer } from './styles/styles';
+import { ProtectedRoute } from './ProtectedRoute';
+import { UnauthorizedView } from './UnauthorizedView';
 
 export const RootView = () => {
   const [queryClient] = React.useState(() => new QueryClient());
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
 
-  // eslint-disable-next-line no-console
-  console.log(user);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
       <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
         <Notifications />
-        <HeaderNavBar />
+
         <StyledContainer>
           <BrowserRouter>
+            <HeaderNavBar />
             <Routes>
               <Route path="/" element={<SampleView />} />
-              <Route path="/cart" element={<CartView />} />
+
               <Route path="*" element={<NotFoundView />} />
               <Route path="/login" element={<LoginView />} />
               <Route path="/register" element={<RegisterView />} />
@@ -44,20 +49,18 @@ export const RootView = () => {
                 path="/products/:productID"
                 element={<ProductDetailView />}
               />
-              {/* <Route
-                path="/:merchantID/products"
-                element={<MerchantProducts />}
-              /> */}
+              <Route path="/unauthorized" element={<UnauthorizedView />} />
+              <Route element={<ProtectedRoute roleRequired="merchant" />}>
+                <Route
+                  index
+                  path="/my-products"
+                  element={<MerchantProducts />}
+                />
+              </Route>
 
-              {/* Conditional rendering of protected routes */}
-              {user ? (
-                <>
-                  <Route
-                    path="/:merchantID/products"
-                    element={<MerchantProducts />}
-                  />
-                </>
-              ) : null}
+              <Route element={<ProtectedRoute roleRequired="consumer" />}>
+                <Route path="/cart" element={<CartView />} />
+              </Route>
             </Routes>
           </BrowserRouter>
         </StyledContainer>

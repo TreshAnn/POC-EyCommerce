@@ -10,6 +10,7 @@ import { decodeJwt, JWTPayload } from 'jose';
 
 interface AuthContextType {
   user: any | null;
+  isLoading: boolean;
   //   login: (user: User) => void;
   //   logout: () => void;
 }
@@ -22,18 +23,24 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<JWTPayload | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem('ey_commerce_token');
     if (token) {
       // Decode the token to get the user payload
       const userPayload = decodeJwt(token);
+      // eslint-disable-next-line no-console
+      console.log(userPayload);
       setUser(userPayload);
     }
+    setIsLoading(false);
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ user, isLoading }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 
