@@ -22,8 +22,3 @@ export interface ProductImg {
   ImgAttch: string;
   _id: string;
 }
-
-export interface UpdateCart {
-  productID: string;
-  quantity: number;
-}
