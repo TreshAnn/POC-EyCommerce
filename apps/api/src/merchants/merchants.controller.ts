@@ -34,7 +34,7 @@ export class MerchantsController {
     );
     return createdMerchant;
   }
-
+@Public()
   @Get('get-all-merchant')
   @HttpCode(HttpStatus.OK)
   async findAllMerchants(): Promise<Merchant[]> {
