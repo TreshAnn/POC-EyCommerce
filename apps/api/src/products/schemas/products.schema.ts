@@ -21,6 +21,9 @@ export class Product {
   @Prop()
   productInventory: number;
 
+  @Prop({ default: null, type: Number })
+  maxOrder: number | null;
+
   @Prop()
   productCategory: string[];
 
