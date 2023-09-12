@@ -11,7 +11,6 @@ export type CreateProductDTO = Omit<
 >;
 
 export const createProduct = ({
-  productID,
   productImg,
   productInfo,
   productInventory,
@@ -20,7 +19,6 @@ export const createProduct = ({
   productCategory,
 }: CreateProductDTO): Promise<Product> => {
   return axios.post('/api/products/create', {
-    productID,
     productImg,
     productInfo,
     productInventory,
