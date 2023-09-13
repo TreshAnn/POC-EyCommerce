@@ -105,3 +105,56 @@ export class CreateMerchantDto {
   @isPhoneNumberWithTrim()
   phoneNumber: string;
 }
+
+export class UpdateMerchantDto {
+  @IsNotEmpty()
+  @IsString()
+  @Matches(/^[A-Za-z0-9]+$/, {
+    message:
+      'Username must contain only alphanumeric characters and no spaces.',
+  })
+  readonly username: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @Matches(
+    /^(?! )[A-Za-z0-9!@#$%^&*()_+\-=[\]{}|\\;:'",.<>/`~]+(?: [A-Za-z0-9!@#$%^&*()_+\-=[\]{}|\\;:'",.<>/`~]+)*(?<! )$/,
+    {
+      message:
+        'Merchant name must contain only alphanumeric characters and cannot have leading or trailing spaces',
+    },
+  )
+  readonly merchantName: string;
+
+  @IsNotEmpty()
+  @IsStrongPassword()
+  @MinLength(8, {
+    message: 'Password should be atleast 8 characters',
+  })
+  readonly password: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @Matches(/^[A-Za-z]+(?: [A-Za-z]+)*$/, {
+    message:
+      'First name must contain only alphabetic characters and cannot have leading or trailing spaces',
+  })
+  readonly firstName: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @Matches(/^[A-Za-z]+(?: [A-Za-z]+)*$/, {
+    message:
+      'Last name must contain only alphabetic characters and cannot have leading or trailing spaces',
+  })
+  readonly lastName: string;
+
+  @IsNotEmpty()
+  @ValidateNested()
+  @Type(() => Address)
+  readonly address: Address;
+
+  @IsNotEmpty()
+  @isPhoneNumberWithTrim()
+  phoneNumber: string;
+}

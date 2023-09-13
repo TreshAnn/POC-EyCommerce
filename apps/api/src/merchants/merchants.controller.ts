@@ -7,9 +7,13 @@ import {
   HttpCode,
   HttpStatus,
   Get,
+  Request,
 } from '@nestjs/common';
 import { MerchantsService } from './merchants.service';
-import { CreateMerchantDto } from './dto/create-merchant.dto';
+import {
+  CreateMerchantDto,
+  UpdateMerchantDto,
+} from './dto/create-merchant.dto';
 import { Public } from '../auth/decorators/public.decorator';
 import { Merchant } from './schemas/merchant.schema';
 
@@ -40,9 +44,14 @@ export class MerchantsController {
   @HttpCode(HttpStatus.OK)
   @Put('update/:id')
   async findByIdAndUpdate(
-    @Body() createMerchantDto: CreateMerchantDto,
+    @Request() reqHeader,
+    @Body() updateMerchantDto: UpdateMerchantDto,
     @Param('id') id: string,
   ): Promise<Merchant> {
-    return this.merchantsService.findByIdAndUpdate(id, createMerchantDto);
+    return this.merchantsService.findByIdAndUpdate(
+      reqHeader,
+      id,
+      updateMerchantDto,
+    );
   }
 }
