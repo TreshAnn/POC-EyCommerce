@@ -3,7 +3,6 @@ import {
   Controller,
   Post,
   Get,
-  Put,
   HttpCode,
   HttpStatus,
   Req,
@@ -18,12 +17,14 @@ export class RatingController {
 
   @HttpCode(HttpStatus.CREATED)
   @Post('create')
-  async create(@Req() req: any, @Body() createRatingDto: CreateRatingDto) {
-    const createdRating = await this.ratingService.create(req, createRatingDto);
-    return createdRating;
+  async createRating(
+    @Req() req: any,
+    @Body() createRatingDto: CreateRatingDto,
+  ): Promise<Rating> {
+    return await this.ratingService.createOrderRating(req, createRatingDto);
   }
 
-  @HttpCode(HttpStatus.CREATED)
+  @HttpCode(HttpStatus.OK)
   @Get('get-user-ratings')
   async getUserRatings(@Req() req: any): Promise<Rating[]> {
     return await this.ratingService.getUserRatings(req);

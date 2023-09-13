@@ -9,10 +9,10 @@ import { CreateRatingDto } from './dto/create-rating.dto';
 
 import { JwtService } from '@nestjs/jwt';
 import { AuthService } from 'src/auth/auth.service';
-import { CartService } from 'src/cart/cart.service';
 import { Rating } from './schemas/rating.schema';
 
 import { extractIdFromToken } from 'src/utils/extract-token.utils';
+import { OrderService } from 'src/order/order.service';
 
 @Injectable()
 export class RatingService {
@@ -20,36 +20,37 @@ export class RatingService {
     @InjectModel(Rating.name) private readonly ratingModel: Model<Rating>,
     private jwtService: JwtService,
     private authService: AuthService,
-    private cartService: CartService,
+    private orderService: OrderService,
   ) {}
 
-  async getUserRatings(reqHeader: any): Promise<Rating[]> {
-    const userId = await extractIdFromToken(reqHeader, this.jwtService);
+  async getUserRatings(req: any): Promise<Rating[]> {
+    const userId = await extractIdFromToken(req, this.jwtService);
 
     return this.ratingModel.find({ userId });
   }
 
-  async create(
-    reqHeader: any,
+  async createOrderRating(
+    req: any,
     createRatingDto: CreateRatingDto,
   ): Promise<Rating> {
-    const userId = await extractIdFromToken(reqHeader, this.jwtService);
+    const userId = await extractIdFromToken(req, this.jwtService);
 
     const authUser = await this.authService.findOne(userId);
 
-    const userCart = await this.cartService.getCart(userId);
+    // get user order
+    const userOrder = await this.orderService.getUserOrder(userId);
 
-    // note: tested for cart product while waiting for order API, will change later
-    // check if productId exists in cart
-    const itemIndex = userCart.orderedItems.findIndex(
-      (item) => item.productID === createRatingDto.productId,
+    // check if productId exists in userOrder
+    const itemIndex = userOrder.orderedItems.findIndex(
+      (item) => item.productId === createRatingDto.productId,
     );
+
     if (itemIndex === -1) {
-      throw new NotFoundException('Item not found in cart');
+      throw new NotFoundException('Item not found in order');
     }
 
     if (itemIndex > -1) {
-      // check if the user has already provided a rating for the product
+      // check if user has already provided a rating for the ordered product
       const existingRating = await this.ratingModel.findOne({
         userId,
         productId: createRatingDto.productId,
@@ -61,7 +62,6 @@ export class RatingService {
         );
       }
     }
-
     const rating = {
       ...createRatingDto,
       userId,
