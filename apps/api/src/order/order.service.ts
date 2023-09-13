@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Order } from './schemas/order.schema';
+import { Order, OrderDocument } from './schemas/order.schema';
 import { CartService } from 'src/cart/cart.service';
 import { ProductsService } from 'src/products/products.service';
 import { Model } from 'mongoose';
@@ -20,7 +20,7 @@ export class OrderService {
     @InjectModel(Order.name) private readonly orderModel: Model<Order>,
     private cartService: CartService,
     private productService: ProductsService,
-    private jwtSerivce: JwtService,
+    private jwtService: JwtService,
     private userService: UsersService,
     private authService: AuthService,
   ) {}
@@ -32,15 +32,17 @@ export class OrderService {
   // Computation for Total Price
   // Delete Items from Cart
 
+  async getUserOrder(userId: string): Promise<OrderDocument> {
+    const userOrder = await this.orderModel.findOne({ userId });
+    return userOrder;
+  }
+
   async create(req: any, createOrderDto: CreateOrderDto): Promise<Order> {
-    const userId = await extractIdFromToken(req, this.jwtSerivce);
+    const userId = await extractIdFromToken(req, this.jwtService);
     const authData = await this.authService.findAuthId(userId);
     const userData = await this.userService.findUserName(authData.username);
     const userCart = await this.cartService.getCart(userId);
     const selectedProductIds = createOrderDto.productId;
-
-    console.log('Auth Data: ', authData);
-    console.log('User Data:', userData);
 
     const selectedProducts = await this.productService.findProductById(
       selectedProductIds,
@@ -102,6 +104,7 @@ export class OrderService {
       },
       phoneNumber: userData.phoneNumber,
       orderedItems: selectedProducts.map((product) => ({
+        productId: (product as any)._id,
         productName: product.productName,
         price: product.productPrice,
         quantity: userCart.orderedItems.find(
