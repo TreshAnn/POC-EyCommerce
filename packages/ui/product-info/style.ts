@@ -70,7 +70,7 @@ export const StyledBox = styled(Box)`
     margin: 0;
   }
   @media (max-width: ${Breakpoints.sm}) {
-    width: 100vw;
+    width: 100%;
     margin: 0;
     margin-bottom: 5px;
   }
@@ -97,14 +97,14 @@ export const StyledContainer = styled(Container)`
 `;
 
 export const RatingText = styled(Text)`
-  font-size: 40px;
+  font-size: 30px;
 
   @media (max-width: ${Breakpoints.lg}) {
-    font-size: 30px;
+    font-size: 28px;
     margin-right: 5px;
   }
   @media (max-width: ${Breakpoints.md}) {
-    font-size: 35px;
+    font-size: 30px;
     margin-left: 5px;
   }
   @media (max-width: ${Breakpoints.xs}) {
@@ -141,10 +141,10 @@ export const ProductNameText = styled(Text)`
     font-size: 35px;
   }
   @media (max-width: ${Breakpoints.lg}) {
-    font-size: 30px;
+    font-size: 28px;
   }
   @media (max-width: ${Breakpoints.md}) {
-    font-size: 48px;
+    font-size: 30px;
   }
   @media (max-width: ${Breakpoints.sm}) {
     font-size: 25px;
@@ -201,8 +201,8 @@ export const ProductPriceText = styled(Text)`
 `;
 
 export const ProductDescWrapper = styled(Container)`
-  height: 200px;
-  margin: 10px 0px 10px 0px;
+  height: 150px;
+  margin: 10px 0px 0px 0px;
   padding: 0;
   overflow-y: auto;
   scrollbar-width: thin;
@@ -217,9 +217,6 @@ export const ProductDescWrapper = styled(Container)`
   &::-webkit-scrollbar-track {
     background-color: transparent;
   }
-  @media (max-width: ${Breakpoints.xs}) {
-    height: auto;
-  }
 `;
 
 export const StyledButton = styled(Button)`
@@ -229,34 +226,4 @@ export const StyledButton = styled(Button)`
   background: var(--third, #fff);
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
   padding: 10px 20px;
-`;
-
-export const AddToCartButton = styled(StyledButton)`
-  background: var(--third, #fff);
-  border: 1px solid var(--sixth, #ffd500);
-  width: 130px;
-  height: 45px;
-  margin: 0;
-
-  @media (max-width: ${Breakpoints.lg}) {
-    width: 100px;
-    height: 40px;
-    font-size: 12px;
-    padding: 10px 5px;
-  }
-`;
-
-export const BuyNowButton = styled(StyledButton)`
-  background: var(--sixth, #ffd500);
-  border: 1px solid var(--sixth, #ffd500);
-  width: 109px;
-  height: 45px;
-  margin: 0;
-
-  @media (max-width: ${Breakpoints.lg}) {
-    width: 110px;
-    height: 40px;
-    font-size: 12px;
-    padding: 10px 5px;
-  }
 `;

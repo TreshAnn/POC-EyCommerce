@@ -5,14 +5,14 @@ import { axios } from '../../../lib/axios';
 import { queryClient, QueryConfig } from '../../../lib/react-query';
 import { Cart, OrderedItems } from '../types';
 
-export type AddToCartDTO = Pick<OrderedItems, 'productID' | 'quantity'>;
+export type AddToCartDTO = Pick<OrderedItems, 'productId' | 'quantity'>;
 
 export const addToCart = ({
-  productID,
+  productId,
   quantity,
 }: AddToCartDTO): Promise<Cart> => {
   return axios.post(`/api/cart`, {
-    productID,
+    productId,
     quantity,
   });
 };
