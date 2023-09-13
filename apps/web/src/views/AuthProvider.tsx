@@ -30,8 +30,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (token) {
       // Decode the token to get the user payload
       const userPayload = decodeJwt(token);
-      // eslint-disable-next-line no-console
-      console.log(userPayload);
       setUser(userPayload);
     }
     setIsLoading(false);

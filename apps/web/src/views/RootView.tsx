@@ -21,6 +21,7 @@ import { CartView } from './CartView';
 import { StyledContainer } from './styles/styles';
 import { ProtectedRoute } from './ProtectedRoute';
 import { UnauthorizedView } from './UnauthorizedView';
+import { LogoutView } from './auth/pages/LogoutView';
 
 export const RootView = () => {
   const [queryClient] = React.useState(() => new QueryClient());
@@ -49,6 +50,7 @@ export const RootView = () => {
                 path="/products/:productID"
                 element={<ProductDetailView />}
               />
+              <Route path="/logout" element={<LogoutView />} />
               <Route path="/unauthorized" element={<UnauthorizedView />} />
               <Route element={<ProtectedRoute roleRequired="merchant" />}>
                 <Route
