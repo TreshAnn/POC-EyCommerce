@@ -22,7 +22,6 @@ interface ProductModalProps {
 }
 
 interface ProductData {
-  productID: string;
   productImg: string[];
   productName: string;
   productInfo: string;
@@ -43,7 +42,6 @@ const ProductModal: React.FC<ProductModalProps> = ({
   editProduct,
 }) => {
   const addProduct = {
-    productID: '',
     productImg: [''],
     productName: '',
     productInfo: '',
@@ -148,28 +146,6 @@ const ProductModal: React.FC<ProductModalProps> = ({
           {isAddingProduct ? 'New Product' : 'Edit Product'}
         </Modal.Title>
         <Modal.Body>
-          {isAddingProduct ? (
-            <>
-              <TextInput
-                label="Product ID"
-                placeholder="product00000"
-                value={productData.productID}
-                onChange={(event) => handleDataChange('productID', event)}
-                onBlur={(event) => handleBlur('productID', event)}
-                withAsterisk
-              />
-            </>
-          ) : (
-            <>
-              <TextInput
-                label="Product ID"
-                placeholder="product00000"
-                value={editProduct?.productID}
-                onChange={(event) => handleDataChange('productID', event)}
-                disabled
-              />
-            </>
-          )}
           <TextInput
             label="Product Image URL"
             placeholder="Insert image URL"

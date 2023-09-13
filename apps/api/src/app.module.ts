@@ -13,6 +13,7 @@ import { AuthMiddleware } from './middleware/auth.middleware';
 import { UsersController } from './users/users.controller';
 import { AbilityModule } from './auth/ability/ability.module';
 import { CartModule } from './cart/cart.module';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { CartModule } from './cart/cart.module';
     ProductsModule,
     AbilityModule,
     CartModule,
+    OrderModule,
   ],
   controllers: [],
   providers: [

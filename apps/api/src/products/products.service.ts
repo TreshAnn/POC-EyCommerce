@@ -112,4 +112,29 @@ export class ProductsService {
 
     return 'Product is activated.';
   }
+
+  async findProductById(productId: string[]): Promise<Product[]> {
+    const products = await this.productModel.find({
+      _id: { $in: productId },
+    });
+    return products;
+  }
+
+  async updateProductInventory(
+    productName: string,
+    updatedInventory: number,
+  ): Promise<Product> {
+    const product = await this.productModel.findOne({ productName });
+
+    if (!product) {
+      throw new NotFoundException(
+        `Product not found with name: ${productName}`,
+      );
+    }
+
+    product.productInventory = updatedInventory;
+    await product.save();
+
+    return product;
+  }
 }

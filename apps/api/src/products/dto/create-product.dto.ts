@@ -4,6 +4,7 @@ import {
   IsArray,
   IsNumber,
   Matches,
+  IsOptional,
 } from 'class-validator';
 
 export class CreateProductDto {
@@ -31,6 +32,10 @@ export class CreateProductDto {
   @IsNumber()
   @IsNotEmpty()
   readonly productInventory: number;
+
+  @IsOptional()
+  @IsNumber()
+  readonly maxOrder: number | null;
 
   @IsNotEmpty()
   @IsArray()
