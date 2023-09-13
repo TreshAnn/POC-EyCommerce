@@ -137,4 +137,8 @@ export class ProductsService {
 
     return product;
   }
+  async findProductByName(productName: string): Promise<Product> {
+    const product = await this.productModel.findOne({ productName });
+    return product;
+  }
 }

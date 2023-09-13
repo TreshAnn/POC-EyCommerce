@@ -3,6 +3,7 @@ import {
   Controller,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
   Req,
 } from '@nestjs/common';
@@ -21,5 +22,10 @@ export class OrderController {
   @HttpCode(HttpStatus.CREATED)
   async createOrder(@Req() req: any, @Body() createOrderDto: CreateOrderDto) {
     return await this.orderService.create(req, createOrderDto);
+  }
+  @Post('cancel/:id')
+  async cancelOrder(@Param('id') id: string) {
+    const canceledOrder = await this.orderService.cancelOrder(id);
+    return { message: 'Order canceled successfully', canceledOrder };
   }
 }

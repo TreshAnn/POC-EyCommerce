@@ -39,9 +39,6 @@ export class OrderService {
     const userCart = await this.cartService.getCart(userId);
     const selectedProductIds = createOrderDto.productId;
 
-    console.log('Auth Data: ', authData);
-    console.log('User Data:', userData);
-
     const selectedProducts = await this.productService.findProductById(
       selectedProductIds,
     );
@@ -112,9 +109,47 @@ export class OrderService {
       shippingFee: totalShippingFee,
     };
 
-    console.log('Payload', order);
-
     const userOrder = await this.orderModel.create(order);
     return userOrder;
+  }
+
+  async cancelOrder(id: string): Promise<Order> {
+    const order = await this.orderModel.findById(id);
+
+    if (!order) {
+      throw new NotFoundException('Order not found');
+    }
+
+    if (
+      order.status === 'shipped' ||
+      order.status === 'processing' ||
+      order.status === 'delivered'
+    ) {
+      throw new BadRequestException(
+        'Cannot cancel an order with status: ' + order.status,
+      );
+    }
+
+    if (order.status === 'ordered') {
+      for (const item of order.orderedItems) {
+        const product = await this.productService.findProductByName(
+          item.productName,
+        );
+        if (product) {
+          const updatedInventory = product.productInventory + item.quantity;
+          await this.productService.updateProductInventory(
+            item.productName,
+            updatedInventory,
+          );
+        }
+      }
+
+      order.status = 'Canceled';
+      await order.save();
+
+      return order;
+    }
+
+    throw new BadRequestException('Invalid order status for cancellation');
   }
 }
