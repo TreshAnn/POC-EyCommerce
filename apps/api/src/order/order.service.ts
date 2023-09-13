@@ -104,7 +104,13 @@ export class OrderService {
       },
       phoneNumber: userData.phoneNumber,
       orderedItems: selectedProducts.map((product) => ({
-        productId: (product as any)._id,
+        productId:
+          selectedProductIds[
+            selectedProducts.findIndex(
+              (selectedProduct) =>
+                selectedProduct.productName === product.productName,
+            )
+          ],
         productName: product.productName,
         price: product.productPrice,
         quantity: userCart.orderedItems.find(
