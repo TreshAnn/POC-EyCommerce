@@ -5,9 +5,14 @@ import { InputStyled, QuantityWrapper, StyledButton } from './style';
 interface IQuantityProps {
   quantity: number;
   onQuantityChange: (newQuantity: number) => void;
+  maxQty: number;
 }
 
-export function Quantity({ quantity, onQuantityChange }: IQuantityProps) {
+export function Quantity({
+  quantity,
+  onQuantityChange,
+  maxQty,
+}: IQuantityProps) {
   const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     // Allow only numeric characters and specific keys like Backspace, Delete, and arrow keys
     if (!/[0-9]|Backspace|Delete|ArrowLeft|ArrowRight/.test(event.key)) {
@@ -22,7 +27,7 @@ export function Quantity({ quantity, onQuantityChange }: IQuantityProps) {
   };
 
   const handleIncrease = () => {
-    if (quantity < 100) {
+    if (quantity < maxQty) {
       onQuantityChange(quantity + 1);
     }
   };
@@ -30,7 +35,7 @@ export function Quantity({ quantity, onQuantityChange }: IQuantityProps) {
   const handleInputChange = (event: { target: { value: any } }) => {
     const newValue = event.target.value;
 
-    if (!isNaN(newValue) && newValue >= 1 && newValue <= 100) {
+    if (!isNaN(newValue) && newValue >= 0 && newValue <= maxQty) {
       onQuantityChange(parseInt(newValue));
     } else if (newValue === '') {
       onQuantityChange(1);
@@ -46,7 +51,7 @@ export function Quantity({ quantity, onQuantityChange }: IQuantityProps) {
         onKeyDown={handleInputKeyDown}
         type="number"
         min={1}
-        max={100}
+        max={maxQty}
       />
       <StyledButton onClick={handleIncrease}>+</StyledButton>
     </QuantityWrapper>

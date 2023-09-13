@@ -1,11 +1,11 @@
 import { Button, DEFAULT_THEME, Grid, Image, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useEffect, useState } from 'react';
-import { TiTrash } from 'react-icons/ti';
+import { TbTrashX } from 'react-icons/tb';
+
 import { Cart, OrderedItems } from '../../../apps/web/src/views/cart/types';
 import { Quantity } from '../quantity/Quantity';
 import { StyledScrollArea, StyledTable } from './styles';
-
 // interface ICartItem {
 //   id: number;
 //   imageSrc: string;
@@ -14,13 +14,12 @@ import { StyledScrollArea, StyledTable } from './styles';
 //   price: number;
 //   quantity: number;
 // }
-
 interface ICartProps {
   item: OrderedItems;
   onQuantityChange: (newQuantity: number) => void;
   deleteRowItem: (key: string) => void;
+  inventory: number;
 }
-
 interface Props {
   data: Cart;
   totalCartItemAmount: number;
@@ -28,7 +27,6 @@ interface Props {
   updateToCartHandler: (id: string, quantity?: number) => void;
   deleteItem: (key: string) => void;
 }
-
 const CartTable = ({
   data: { orderedItems, totalAmount },
   totalCartItemAmount,
@@ -38,7 +36,6 @@ const CartTable = ({
 }: Props) => {
   const [cartItems, setCartItems] = useState(orderedItems);
   const [itemId, setItemId] = useState<string>('');
-
   const calculateSubtotal = (items: OrderedItems[]) => {
     return items.reduce(
       (total, item) => total + item.productPrice * item.quantity,
@@ -50,52 +47,44 @@ const CartTable = ({
     newQuantity: number,
   ) => {
     const updatedCartItems = cartItems.map((item) => {
-      if (item.productID === itemId) {
+      if (item.productId === itemId) {
         return { ...item, quantity: newQuantity };
       }
       return item;
     });
     setItemId(itemId);
     setCartItems(updatedCartItems);
-
     const newSubtotal = calculateSubtotal(updatedCartItems);
   };
-
   const web = useMediaQuery(`(min-width: ${DEFAULT_THEME.breakpoints.sm})`);
   const totalItems = cartItems.reduce(
     (total, item) => total + item.quantity,
     0,
   );
   const subtotal = calculateSubtotal(cartItems);
-
   useEffect(() => {
     const count = setTimeout(() => {
       totalAmountHandler(subtotal);
     }, 500);
-
     return () => {
       clearTimeout(count);
     };
   }, [subtotal]);
-
   useEffect(() => {
     const count = setTimeout(() => {
       const cartItemFiltered = cartItems.filter(
-        (item) => item.productID === itemId,
+        (item) => item.productId === itemId,
       );
       updateToCartHandler(itemId, cartItemFiltered[0]?.quantity);
     }, 300);
-
     return () => {
       clearTimeout(count);
     };
   }, [subtotal]);
-
   const formattedTotalAmount = totalCartItemAmount.toLocaleString('en-US', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
-
   return (
     <StyledScrollArea>
       {web ? (
@@ -132,12 +121,13 @@ const CartTable = ({
           <tbody>
             {cartItems.map((item) => (
               <CartRow
-                key={item.productID}
+                key={item.productId}
                 item={item}
                 onQuantityChange={(newQuantity: number) =>
-                  handleCartItemQuantityChange(item.productID, newQuantity)
+                  handleCartItemQuantityChange(item.productId, newQuantity)
                 }
                 deleteRowItem={deleteItem}
+                inventory={item.productInventory}
               />
             ))}
           </tbody>
@@ -191,16 +181,16 @@ const CartTable = ({
               </th>
             </tr>
           </thead>
-
           <tbody>
             {cartItems.map((item) => (
               <CartRow
-                key={item.productID}
+                key={item.productId}
                 item={item}
                 onQuantityChange={(newQuantity: number) =>
-                  handleCartItemQuantityChange(item.productID, newQuantity)
+                  handleCartItemQuantityChange(item.productId, newQuantity)
                 }
                 deleteRowItem={deleteItem}
+                inventory={item.productInventory}
               />
             ))}
           </tbody>
@@ -241,22 +231,21 @@ const CartTable = ({
     </StyledScrollArea>
   );
 };
-
 const CartRow: React.FC<ICartProps> = ({
   item,
   onQuantityChange,
   deleteRowItem,
+  inventory,
 }) => {
   const handleDeleteItem = () => {
-    deleteRowItem(item.productID);
+    deleteRowItem(item.productId);
   };
-
   const web = useMediaQuery(`(min-width: ${DEFAULT_THEME.breakpoints.sm})`);
   return (
     <>
       {web ? (
         <>
-          <tr key={item.productID}>
+          <tr key={item.productId}>
             <td>
               <Image
                 width={120}
@@ -276,6 +265,7 @@ const CartRow: React.FC<ICartProps> = ({
                 onQuantityChange={(newQuantity) => {
                   onQuantityChange(newQuantity);
                 }}
+                maxQty={inventory}
               />
             </td>
             <td>
@@ -284,8 +274,19 @@ const CartRow: React.FC<ICartProps> = ({
               </Text>
             </td>
             <td>
-              <Button onClick={handleDeleteItem}>
-                <TiTrash color="red" size={40} />
+              <Button
+                onClick={handleDeleteItem}
+                color="red"
+                style={{ width: '40px', padding: '0' }}
+              >
+                <TbTrashX
+                  color="white"
+                  size={20}
+                  style={{
+                    width: '30px',
+                    height: '30px',
+                  }}
+                />
               </Button>
               {/* <Button onClick={() => testIncrease(item.productID, 1)}>+</Button> */}
             </td>
@@ -293,7 +294,7 @@ const CartRow: React.FC<ICartProps> = ({
         </>
       ) : (
         <>
-          <tr key={item.productID}>
+          <tr key={item.productId}>
             <td className="col-two">
               <Text fz="xs" align="start">
                 {item.productName}
@@ -315,6 +316,7 @@ const CartRow: React.FC<ICartProps> = ({
                 onQuantityChange={(newQuantity) => {
                   onQuantityChange(newQuantity);
                 }}
+                maxQty={inventory}
               />
             </td>
             <td>
@@ -325,8 +327,16 @@ const CartRow: React.FC<ICartProps> = ({
                   </Text>
                 </Grid.Col>
                 <Grid.Col span={4}>
-                  <Button onClick={handleDeleteItem}>
-                    <TiTrash color="red" size={14} />
+                  <Button
+                    onClick={handleDeleteItem}
+                    color="red"
+                    style={{ width: '40px', padding: '0' }}
+                  >
+                    <TbTrashX
+                      color="white"
+                      size={14}
+                      style={{ width: '30px', height: '30px' }}
+                    />
                   </Button>
                 </Grid.Col>
               </Grid>
@@ -337,5 +347,4 @@ const CartRow: React.FC<ICartProps> = ({
     </>
   );
 };
-
 export default CartTable;

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CatsModule } from './cats/cats.module';
 import { AuthModule } from './auth/auth.module';
@@ -9,7 +9,11 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './auth/constants';
 import { MerchantsModule } from './merchants/merchants.module';
 import { ProductsModule } from './products/products.module';
+import { AuthMiddleware } from './middleware/auth.middleware';
+import { UsersController } from './users/users.controller';
+import { AbilityModule } from './auth/ability/ability.module';
 import { CartModule } from './cart/cart.module';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -24,7 +28,9 @@ import { CartModule } from './cart/cart.module';
     UsersModule,
     MerchantsModule,
     ProductsModule,
+    AbilityModule,
     CartModule,
+    OrderModule,
   ],
   controllers: [],
   providers: [
@@ -35,3 +41,12 @@ import { CartModule } from './cart/cart.module';
   ],
 })
 export class AppModule {}
+// export class AppModule implements NestModule {
+//   configure(consumer: MiddlewareConsumer): void {
+//     // configure what middleware you want to apply
+//     consumer
+//       .apply(AuthMiddleware)
+//       // the middleware will be applied to this controllers and nowhere else within the application
+//       .forRoutes(UsersController);
+//   }
+// }

@@ -7,17 +7,38 @@ import { AuthSchema } from 'src/auth/schemas/auth.schema';
 export type OrderDocument = HydratedDocument<Order>;
 
 @Schema()
+export class UserAddress {
+  @Prop()
+  street: string;
+
+  @Prop()
+  city: string;
+
+  @Prop()
+  region: string;
+
+  @Prop()
+  zipcode: string;
+
+  @Prop()
+  country: string;
+}
+
+@Schema()
 export class Order {
   @Prop({ type: SchemaTypes.ObjectId, ref: User.name })
   userId: string;
 
-  @Prop({ required: true })
-  name: string;
+  @Prop()
+  firstName: string;
 
-  @Prop({ type: UserSchema })
-  address: Address;
+  @Prop()
+  lastName: string;
 
-  @Prop({ type: UserSchema })
+  @Prop()
+  address: UserAddress;
+
+  @Prop()
   phoneNumber: string;
 
   @Prop({ type: AuthSchema })
@@ -38,10 +59,10 @@ export class Order {
   @Prop({ default: Date.now })
   date: Date;
 
-  @Prop({ required: true, enum: ['processing', 'shipped', 'delivered'] })
+  @Prop({ enum: ['ordered', 'processing', 'shipped', 'delivered'] })
   status: string;
 
-  @Prop({ required: true, enum: ['cash'] })
+  @Prop({ enum: ['cash'] })
   paymentMethod: string;
 }
 

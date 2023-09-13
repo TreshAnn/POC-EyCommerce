@@ -25,7 +25,7 @@ export const ProductsView = () => {
   const addToCartHandler = (productId) => {
     const rq: AddToCartDTO = {
       quantity: 1,
-      productID: productId,
+      productId: productId,
     };
 
     // eslint-disable-next-line no-console
@@ -56,7 +56,7 @@ export const ProductsView = () => {
                     name={data.productName}
                     price={data.productPrice}
                     viewProductHandler={() => navigate(`/products/${data._id}`)}
-                    addToCart={() => addToCartHandler(data.productID)}
+                    addToCart={() => addToCartHandler(data._id)}
                   ></Product>
                 </StyledGridCol>
               );

@@ -5,18 +5,26 @@ import CartTable from '../../../../packages/ui/cart/CartTable';
 import { useCartQuantity } from './cart/api/cartQuantity';
 import { useDeleteItem } from './cart/api/deleteItem';
 import { useGetCart } from './cart/api/getCart';
-import { UpdateCart } from './cart/types';
+import { OrderedItems } from './cart/types';
+
+export type UpdateCartDTO = Pick<OrderedItems, 'productId' | 'quantity'>;
 
 export const CartView = () => {
-  const { data, isLoading, isError, error } = useGetCart({});
+  const { data, isLoading, isError, refetch, isSuccess } = useGetCart({});
   const [cartData, setCartData] = useState([]);
   const [selectedItemId, setSelectedItemId] = useState('');
   const [totalCartItemAmount, setTotalCartItemAmount] = useState<number>(0);
   const cartUpdate = useCartQuantity({});
   const deleteItem = useDeleteItem({});
 
-  // eslint-disable-next-line no-console
-  // console.log(item);
+  useEffect(() => {
+    // If a deletion is successful, refetch the 'cart' query to get updated data
+    if (deleteItem.isSuccess) {
+      // eslint-disable-next-line no-console
+      console.log('Deletion was successful, refetching...');
+      refetch();
+    }
+  }, [deleteItem.isSuccess, refetch]);
 
   const customMessage = (message: string) => {
     return (
@@ -45,8 +53,8 @@ export const CartView = () => {
 
   const updateToCartHandler = (id: string, quantity?: number) => {
     if (quantity !== undefined) {
-      const updatedItem: UpdateCart = {
-        productID: id,
+      const updatedItem: UpdateCartDTO = {
+        productId: id,
         quantity: quantity,
       };
       cartUpdate.mutate(updatedItem);
@@ -55,6 +63,7 @@ export const CartView = () => {
 
   const deleteItemHandler = (productId: string) => {
     deleteItem.mutate(productId);
+    //refetch();
   };
 
   return (
@@ -68,7 +77,7 @@ export const CartView = () => {
               data={data}
               totalCartItemAmount={totalCartItemAmount}
               totalAmountHandler={totalAmountHandler}
-              updateToCartHandler={() => updateToCartHandler}
+              updateToCartHandler={updateToCartHandler}
               deleteItem={deleteItemHandler}
             />
           ) : (
