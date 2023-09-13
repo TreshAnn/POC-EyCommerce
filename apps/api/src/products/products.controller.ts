@@ -26,7 +26,7 @@ import { AbilityGuard } from 'src/auth/ability/ability.guard';
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
-  
+
   @Public()
   @Get('get-all-product')
   async findAllProducts(): Promise<Product[]> {
@@ -41,6 +41,9 @@ export class ProductsController {
     return this.productsService.findAllMerchantProducts(req);
   }
 
+  @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
+  @Roles(Role.MERCHANT)
+  @CheckAbilities({ action: Action.Create, subject: Product })
   @Post('create')
   async create(@Request() req, @Body() createProductDto: CreateProductDto) {
     const createdProduct = await this.productsService.create(
@@ -50,14 +53,18 @@ export class ProductsController {
     return createdProduct;
   }
 
+  @Public()
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async findOne(@Param('id') id: string): Promise<Product> {
     return this.productsService.findOne(id);
   }
 
-  @HttpCode(HttpStatus.OK)
+  @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
+  @Roles(Role.MERCHANT)
+  @CheckAbilities({ action: Action.Update, subject: Product })
   @Put('update/:id')
+  @HttpCode(HttpStatus.OK)
   async findByIdAndUpdate(
     @Body() UpdateProductDataDto: UpdateProductDataDto,
     @Param('id') id: string,
@@ -65,12 +72,18 @@ export class ProductsController {
     return this.productsService.findByIdAndUpdate(id, UpdateProductDataDto);
   }
 
+  @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
+  @Roles(Role.MERCHANT)
+  @CheckAbilities({ action: Action.Update, subject: Product })
   @HttpCode(HttpStatus.OK)
   @Put('deactivateProduct/:id')
   deactivateProduct(@Param('id') id: string) {
     return this.productsService.deactivateProduct(id);
   }
 
+  @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
+  @Roles(Role.MERCHANT)
+  @CheckAbilities({ action: Action.Update, subject: Product })
   @HttpCode(HttpStatus.OK)
   @Put('activateProduct/:id')
   activateProduct(@Param('id') id: string) {
