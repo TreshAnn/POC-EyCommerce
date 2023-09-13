@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Outlet, Navigate } from 'react-router-dom';
 import { useAuth } from './AuthProvider';
 
@@ -10,10 +10,6 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   roleRequired,
 }) => {
   const { user } = useAuth();
-
-  if (!user) {
-    return <Navigate to="/login" />;
-  }
 
   try {
     if (user.role === roleRequired) {

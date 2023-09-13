@@ -25,6 +25,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<JWTPayload | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const handleTokenChange = () => {
+    const token = localStorage.getItem('ey_commerce_token');
+    if (!token) {
+      setUser(null);
+    }
+  };
+
   useEffect(() => {
     const token = localStorage.getItem('ey_commerce_token');
     if (token) {
@@ -33,6 +40,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setUser(userPayload);
     }
     setIsLoading(false);
+
+    window.addEventListener('storage', handleTokenChange);
+
+    return () => {
+      window.removeEventListener('storage', handleTokenChange);
+    };
   }, []);
 
   return (
