@@ -4,13 +4,13 @@ import { RatingController } from './rating.controller';
 import { RatingService } from './rating.service';
 import { Rating, RatingSchema } from './schemas/rating.schema';
 import { AuthModule } from 'src/auth/auth.module';
-import { CartModule } from 'src/cart/cart.module';
+import { OrderModule } from 'src/order/order.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Rating.name, schema: RatingSchema }]),
     forwardRef(() => AuthModule),
-    forwardRef(() => CartModule),
+    forwardRef(() => OrderModule),
   ],
   controllers: [RatingController],
   providers: [RatingService],
