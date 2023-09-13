@@ -1,8 +1,8 @@
 import { notifications } from '@mantine/notifications';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { axios } from '../../../lib/axios';
-import { queryClient, QueryConfig } from '../../../lib/react-query';
+import { QueryConfig } from '../../../lib/react-query';
 import { Product } from '../types';
 
 export type CreateProductDTO = Omit<
@@ -11,7 +11,6 @@ export type CreateProductDTO = Omit<
 >;
 
 export const createProduct = ({
-  productID,
   productImg,
   productInfo,
   productInventory,
@@ -20,7 +19,6 @@ export const createProduct = ({
   productCategory,
 }: CreateProductDTO): Promise<Product> => {
   return axios.post('/api/products/create', {
-    productID,
     productImg,
     productInfo,
     productInventory,
@@ -37,32 +35,36 @@ type UseCreateProductOption = {
 };
 
 export const useCreateProduct = ({ config }: UseCreateProductOption) => {
+  const queryClient = useQueryClient();
   return useMutation({
     onMutate: async (newProduct) => {
-      await queryClient.cancelQueries(['products']);
+      await queryClient.cancelQueries({ queryKey: ['merchant-products'] });
 
-      const previousProducts = queryClient.getQueriesData<Product[]>([
-        'products',
+      const previousProducts = queryClient.getQueryData<Product[]>([
+        'merchant-products',
       ]);
-
-      queryClient.setQueryData(
-        ['products'],
-        [...(previousProducts || []), newProduct.data],
-      );
+      if (previousProducts) {
+        queryClient.setQueryData(
+          ['merchant-products'],
+          [...previousProducts, newProduct],
+        );
+      }
       return { previousProducts };
     },
     onError: (_, __, context: any) => {
       if (context?.previousProducts) {
-        queryClient.setQueryData(['products'], context.previousProducts);
+        queryClient.setQueryData(
+          ['merchant-products'],
+          context.previousProducts,
+        );
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['products']);
+      queryClient.invalidateQueries(['merchant-products']);
       notifications.show({
         message: 'Added Product!',
       });
     },
     mutationFn: createProduct,
-    ...config,
   });
 };

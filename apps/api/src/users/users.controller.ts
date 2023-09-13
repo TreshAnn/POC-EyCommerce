@@ -1,17 +1,26 @@
 import {
   Body,
   Controller,
-  Post,
   Get,
-  Put,
-  Param,
   HttpCode,
   HttpStatus,
+  Param,
+  Post,
+  Put,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CheckAbilities } from 'src/auth/ability/ability.decorator';
+import { AbilityGuard } from 'src/auth/ability/ability.guard';
+import { Action } from 'src/auth/ability/enum/ability.enum';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { Roles } from 'src/auth/decorators/role.decorator';
+import { RolesGuard } from 'src/guards/Role.guard';
+import { Role } from 'src/guards/enum/role.enum';
 import { Public } from '../auth/decorators/public.decorator';
+import { CreateUserDto, UpdateUserDto } from './dto/create-user.dto';
 import { User } from './schemas/user.schema';
+import { UsersService } from './users.service';
 
 @Controller('user')
 export class UsersController {
@@ -25,15 +34,22 @@ export class UsersController {
     return createdUser;
   }
 
+  @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
+  @Roles(Role.CONSUMER)
+  @CheckAbilities({ action: Action.Read, subject: User })
   @HttpCode(HttpStatus.OK)
   @Put('update/:id')
   async findByIdAndUpdate(
-    @Body() createUserDto: CreateUserDto,
+    @Request() reqHeader,
+    @Body() updateUserDto: UpdateUserDto,
     @Param('id') id: string,
   ): Promise<User> {
-    return this.userService.findByIdAndUpdate(id, createUserDto);
+    return this.userService.findByIdAndUpdate(reqHeader, id, updateUserDto);
   }
 
+  @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
+  @Roles(Role.CONSUMER)
+  @CheckAbilities({ action: Action.Read, subject: User })
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<User> {
     return this.userService.findOne(id);

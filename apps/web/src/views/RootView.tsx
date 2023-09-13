@@ -17,6 +17,8 @@ import {
 } from './products/pages';
 import { SampleView } from './SampleView';
 import { CartView } from './CartView';
+import { UserProfile } from './user/pages/UserProfile';
+import { StyledContainer } from './styles/styles';
 
 export const RootView = () => {
   const [queryClient] = React.useState(() => new QueryClient());
@@ -26,24 +28,27 @@ export const RootView = () => {
       <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
         <Notifications />
         <HeaderNavBar />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<SampleView />} />
-            <Route path="/cart" element={<CartView />} />
-            <Route path="*" element={<NotFoundView />} />
-            <Route path="/login" element={<LoginView />} />
-            <Route path="/register" element={<RegisterView />} />
-            <Route path="/products" element={<ProductsView />} />
-            <Route
-              path="/products/:productID"
-              element={<ProductDetailView />}
-            />
-            <Route
-              path="/:merchantID/products"
-              element={<MerchantProducts />}
-            />
-          </Routes>
-        </BrowserRouter>
+        <StyledContainer>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<SampleView />} />
+              <Route path="/cart" element={<CartView />} />
+              <Route path="*" element={<NotFoundView />} />
+              <Route path="/login" element={<LoginView />} />
+              <Route path="/register" element={<RegisterView />} />
+              <Route path="/profile/:id" element={<UserProfile />} />
+              <Route path="/products" element={<ProductsView />} />
+              <Route
+                path="/products/:productID"
+                element={<ProductDetailView />}
+              />
+              <Route
+                path="/:merchantID/products"
+                element={<MerchantProducts />}
+              />
+            </Routes>
+          </BrowserRouter>
+        </StyledContainer>
         <Footer />
       </MantineProvider>
     </QueryClientProvider>

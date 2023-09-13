@@ -30,7 +30,7 @@ export function Product({
     <CardWrapper>
       <Card shadow="sm" padding="lg" radius="md" withBorder>
         <Card.Section onClick={viewProductHandler}>
-          <ProductImage src={img} alt="Product" />
+          <ProductImage src={img} height={160} fit="contain" alt="Product" />
         </Card.Section>
         <ContentWrapper>
           <DetailsWrapper className="product-name">

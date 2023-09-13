@@ -35,7 +35,7 @@ export function MerchantProduct({
     <CardWrapper>
       <Card shadow="sm" padding="lg" radius="md" h={410} withBorder>
         <Card.Section>
-          <ProductImage src={img} alt="Product" />
+          <ProductImage src={img} height={160} fit="contain" alt="Product" />
         </Card.Section>
         <ContentWrapper>
           <DetailsWrapper className="product-name">

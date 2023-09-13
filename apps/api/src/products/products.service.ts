@@ -4,7 +4,6 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
 import { CreateProductDto } from '../products/dto/create-product.dto';
 import { UpdateProductDataDto } from '../products/dto/update-product.dto';
@@ -20,16 +19,7 @@ export class ProductsService {
   ) {}
 
   async create(req: any, createProductDto: CreateProductDto): Promise<Product> {
-    const ProductID = createProductDto.productID;
     const merchantID = await extractIdFromToken(req, this.jwtService);
-
-    const productAlreadyExists = await this.productModel
-      .findOne({ productID: { $eq: ProductID } })
-      .exec();
-
-    if (productAlreadyExists) {
-      throw new BadRequestException('Product ID already exists');
-    }
     const createdProduct = await this.productModel.create({
       ...createProductDto,
       merchantID,
@@ -70,10 +60,6 @@ export class ProductsService {
 
     if (!existingProduct) {
       throw new NotFoundException('Product not found');
-    }
-
-    if ('productID' in updateData) {
-      throw new BadRequestException('Product ID cannot be updated');
     }
 
     const updatedProduct = await this.productModel
@@ -121,5 +107,30 @@ export class ProductsService {
     );
 
     return 'Product is activated.';
+  }
+
+  async findProductById(productId: string[]): Promise<Product[]> {
+    const products = await this.productModel.find({
+      _id: { $in: productId },
+    });
+    return products;
+  }
+
+  async updateProductInventory(
+    productName: string,
+    updatedInventory: number,
+  ): Promise<Product> {
+    const product = await this.productModel.findOne({ productName });
+
+    if (!product) {
+      throw new NotFoundException(
+        `Product not found with name: ${productName}`,
+      );
+    }
+
+    product.productInventory = updatedInventory;
+    await product.save();
+
+    return product;
   }
 }

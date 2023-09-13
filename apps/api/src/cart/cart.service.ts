@@ -36,20 +36,22 @@ export class CartService {
     return newCart;
   }
 
-  async createItem(productID: string, quantity: number) {
-    const product = await this.productsService.findOne(productID);
+  async createItem(productId: string, quantity: number) {
+    const product = await this.productsService.findOne(productId);
 
     if (!product) {
       throw new NotFoundException('Product not found.');
     }
     const itemQuantity = quantity;
     const itemDto = {
-      productID: productID,
+      productId,
       productImg: product.productImg[0],
       productName: product.productName,
       productPrice: product.productPrice,
       productInventory: product.productInventory,
+      maxOrder: product.maxOrder,
       quantity: itemQuantity,
+      merchantId: product.merchantID,
     };
     return itemDto;
   }
@@ -69,16 +71,16 @@ export class CartService {
     await this.cartModel.deleteOne({ userId });
   }
 
-  async removeItemFromCart(reqHeader: any, productID: string): Promise<any> {
+  async removeItemFromCart(reqHeader: any, productId: string): Promise<any> {
     const userId = await extractIdFromToken(reqHeader, this.jwtService);
     const cart = await this.getCart(userId);
 
-    const product = await this.productsService.findOne(productID);
+    const product = await this.productsService.findOne(productId);
     if (!product) {
       throw new NotFoundException('Item not found.');
     }
     const itemIndex = cart.orderedItems.findIndex(
-      (item) => item.productID == product.productID,
+      (item) => item.productId == productId,
     );
 
     if (itemIndex > -1) {
@@ -96,7 +98,8 @@ export class CartService {
   }
 
   async addItemToCart(reqHeader: any, itemDto: ItemDto): Promise<Cart> {
-    const { productID, quantity, productPrice, productInventory } = itemDto;
+    const { productId, quantity, productPrice, productInventory, maxOrder } =
+      itemDto;
     const subTotalPrice =
       (await this.validateQuantity(quantity)) * productPrice;
     const userId = await extractIdFromToken(reqHeader, this.jwtService);
@@ -104,13 +107,18 @@ export class CartService {
 
     if (cart) {
       const itemIndex = cart.orderedItems.findIndex(
-        (item) => item.productID == productID,
+        (item) => item.productId == productId,
       );
 
       if (itemIndex > -1) {
         const item = cart.orderedItems[itemIndex];
         const newQuantity = Number(item.quantity) + Number(quantity);
 
+        if (maxOrder !== null && newQuantity > maxOrder) {
+          throw new BadRequestException(
+            'Requested quantity exceeds maximum order quantity.',
+          );
+        }
         if (newQuantity > productInventory) {
           throw new BadRequestException(
             'Requested quantity exceeds product inventory.',
@@ -129,6 +137,11 @@ export class CartService {
         return cart.save();
       }
     } else {
+      if (maxOrder !== null && quantity > maxOrder) {
+        throw new BadRequestException(
+          'Requested quantity exceeds maximum order quantity.',
+        );
+      }
       if (quantity > productInventory) {
         throw new BadRequestException(
           'Requested quantity exceeds product inventory.',
@@ -147,10 +160,16 @@ export class CartService {
   async updateCartItem(reqHeader: any, itemDto: ItemDto): Promise<Cart> {
     const userId = await extractIdFromToken(reqHeader, this.jwtService);
 
-    const { productID, quantity, productPrice, productInventory } = itemDto;
+    const { productId, quantity, productPrice, productInventory, maxOrder } =
+      itemDto;
 
     const cart = await this.getCart(userId);
 
+    if (maxOrder !== null && quantity > maxOrder) {
+      throw new BadRequestException(
+        'Requested quantity exceeds maximum order quantity.',
+      );
+    }
     const validatedQuantity = await this.validateQuantity(quantity);
 
     if (validatedQuantity > productInventory) {
@@ -159,7 +178,7 @@ export class CartService {
       );
     }
     const itemIndex = cart.orderedItems.findIndex(
-      (item) => item.productID === productID,
+      (item) => item.productId === productId,
     );
     if (itemIndex === -1) {
       throw new NotFoundException('Item not found in the cart.');

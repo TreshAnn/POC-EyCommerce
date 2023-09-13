@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
   display: flex;
   width: 100%;
   height: auto;
-  padding: 10px 40px;
+  padding: 10px 30px;
   margin: 0;
   justify-content: center;
   flex-direction: column;
@@ -28,7 +28,6 @@ export const Wrapper = styled.div`
       flex-direction: row;
     }
   }
-
   .grid-layout {
     padding: 0;
     justify-content: center;
@@ -42,7 +41,6 @@ export const Wrapper = styled.div`
       justify-content: center;
     }
   }
-
   .group-wrapper {
     @media (max-width: ${Breakpoints.xl}) {
       gap: 0;
@@ -56,7 +54,7 @@ export const StyledBox = styled(Box)`
   align-items: flex-start;
   gap: '10px';
   background-color: #fcfcfd;
-  width: 730px;
+  width: 700px;
   height: 500px;
   margin-left: 5px;
   padding: 30px 40px;
@@ -64,23 +62,20 @@ export const StyledBox = styled(Box)`
   box-shadow: 0px 2px 2px 0px #777;
 
   @media (max-width: ${Breakpoints.xl}) {
-    width: 600px;
+    width: 650px;
     height: 500px;
   }
-
   @media (max-width: ${Breakpoints.lg}) {
     width: 100%;
     margin: 0;
   }
-
   @media (max-width: ${Breakpoints.sm}) {
-    width: 100vw;
+    width: 100%;
     margin: 0;
     margin-bottom: 5px;
   }
-
   @media (max-width: ${Breakpoints.xs}) {
-    width: 300;
+    width: 100%;
     padding: 5px;
     margin-bottom: 5px;
   }
@@ -102,14 +97,14 @@ export const StyledContainer = styled(Container)`
 `;
 
 export const RatingText = styled(Text)`
-  font-size: 40px;
+  font-size: 30px;
 
   @media (max-width: ${Breakpoints.lg}) {
-    font-size: 30px;
+    font-size: 28px;
     margin-right: 5px;
   }
   @media (max-width: ${Breakpoints.md}) {
-    font-size: 35px;
+    font-size: 30px;
     margin-left: 5px;
   }
   @media (max-width: ${Breakpoints.xs}) {
@@ -126,7 +121,6 @@ export const RatingDescription = styled(Text)`
     font-size: 16px;
     margin-left: 5px;
   }
-
   @media (max-width: ${Breakpoints.md}) {
     font-size: 20px;
     margin-left: 5px;
@@ -138,7 +132,7 @@ export const RatingDescription = styled(Text)`
 
 export const ProductNameText = styled(Text)`
   font-family: 'Overpass';
-  font-size: 48px;
+  font-size: 40px;
   font-weight: 700;
   line-height: normal;
   align-items: flex-start;
@@ -147,14 +141,13 @@ export const ProductNameText = styled(Text)`
     font-size: 35px;
   }
   @media (max-width: ${Breakpoints.lg}) {
-    font-size: 30px;
+    font-size: 28px;
   }
   @media (max-width: ${Breakpoints.md}) {
-    font-size: 48px;
+    font-size: 30px;
   }
-
   @media (max-width: ${Breakpoints.sm}) {
-    font-size: 20px;
+    font-size: 25px;
   }
 `;
 export const MerchantText = styled(Text)`
@@ -183,43 +176,47 @@ export const ProductDescriptionText = styled(Text)`
   font-family: 'Overpass';
   font-size: 20px;
   margin: 0;
-  height: auto;
 
   @media (max-width: ${Breakpoints.lg}) {
     font-size: 15px;
   }
-
   @media (max-width: ${Breakpoints.md}) {
     font-size: 18px;
   }
   @media (max-width: ${Breakpoints.sm}) {
     font-size: 18px;
   }
-
   @media (max-width: ${Breakpoints.xs}) {
-    font-size: 18px;
+    font-size: 15px;
   }
 `;
 export const ProductPriceText = styled(Text)`
   font-family: 'Overpass';
-  font-size: 36px;
+  font-size: 30px;
   font-weight: 700;
-  align-self: flex-start;
-  margin-top: auto;
 
   @media (max-width: ${Breakpoints.lg}) {
-    font-size: 24px;
+    font-size: 20px;
   }
 `;
 
 export const ProductDescWrapper = styled(Container)`
-  height: 280px;
-  margin: 0;
+  height: 150px;
+  margin: 10px 0px 0px 0px;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: gray transparent;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: gray;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
 `;
 
 export const StyledButton = styled(Button)`
@@ -229,34 +226,4 @@ export const StyledButton = styled(Button)`
   background: var(--third, #fff);
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
   padding: 10px 20px;
-`;
-
-export const AddToCartButton = styled(StyledButton)`
-  background: var(--third, #fff);
-  border: 1px solid var(--sixth, #ffd500);
-  width: 130px;
-  height: 45px;
-  margin: 0;
-
-  @media (max-width: ${Breakpoints.lg}) {
-    width: 100px;
-    height: 40px;
-    font-size: 12px;
-    padding: 10px 5px;
-  }
-`;
-
-export const BuyNowButton = styled(StyledButton)`
-  background: var(--sixth, #ffd500);
-  border: 1px solid var(--sixth, #ffd500);
-  width: 109px;
-  height: 45px;
-  margin: 0;
-
-  @media (max-width: ${Breakpoints.lg}) {
-    width: 110px;
-    height: 40px;
-    font-size: 12px;
-    padding: 10px 5px;
-  }
 `;

@@ -6,15 +6,21 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateMerchantDto } from './dto/create-merchant.dto';
+import {
+  CreateMerchantDto,
+  UpdateMerchantDto,
+} from './dto/create-merchant.dto';
 import { Merchant } from './schemas/merchant.schema';
 import { AuthService } from '../auth/auth.service';
+import { extractIdFromToken } from 'src/utils/extract-token.utils';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class MerchantsService {
   constructor(
     @InjectModel(Merchant.name) private readonly merchantModel: Model<Merchant>,
     private authService: AuthService,
+    private jwtService: JwtService,
   ) {}
 
   async create(createMerchantDto: CreateMerchantDto): Promise<Merchant> {
@@ -63,17 +69,35 @@ export class MerchantsService {
   }
 
   async findByIdAndUpdate(
+    reqHeader: any,
     id: string,
-    createMerchantDto: CreateMerchantDto,
+    updateMerchantDto: UpdateMerchantDto,
   ): Promise<Merchant> {
+    const userId = extractIdFromToken(reqHeader, this.jwtService);
+
+    const hashedPassword = await bcrypt.hash(updateMerchantDto.password, 10);
+    const updateAuthDto = {
+      username: updateMerchantDto.username,
+      password: hashedPassword,
+    };
+
+    const updatedAuth = await this.authService.updateAuth(
+      userId,
+      updateAuthDto,
+    );
+    const updatedMerchantFields = {
+      ...updateMerchantDto,
+      auth: updatedAuth,
+    };
+
     const updatedMerchant = await this.merchantModel.findByIdAndUpdate(
-      { _id: id },
-      createMerchantDto,
+      id,
+      updatedMerchantFields,
       { new: true },
     );
 
     if (!updatedMerchant) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Merchant not updated');
     }
 
     return updatedMerchant;

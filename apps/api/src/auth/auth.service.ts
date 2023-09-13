@@ -1,7 +1,7 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
-import { CreateAuthDto, LoginDto } from './dto/auth.dto';
+import { CreateAuthDto, LoginDto, UpdateAuthDto } from './dto/auth.dto';
 import { Auth, AuthDocument } from './schemas/auth.schema';
 import { compare } from 'bcrypt';
 import {
@@ -10,13 +10,25 @@ import {
   UnauthorizedException,
   NotFoundException,
 } from '@nestjs/common';
+import { CustomErrorService } from 'src/utils/service/custom-error.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel(Auth.name) private readonly authModel: Model<AuthDocument>,
     private jwtService: JwtService,
+    private customErrorService: CustomErrorService,
   ) {}
+
+  async findAuthId(id: string) {
+    const res = await this.authModel.findOne({ _id: id });
+
+    if (!res) {
+      throw new NotFoundException(`User Id Not Found: ${res._id}`);
+    }
+
+    return res;
+  }
 
   async findEmail(email: string) {
     return this.authModel.findOne({ email: email }).exec();
@@ -28,6 +40,15 @@ export class AuthService {
 
   async signIn(rq: LoginDto) {
     const user = await this.findUserName(rq.username);
+    const { isActive } = user;
+
+    if (!isActive) {
+      const createCustomError = this.customErrorService.createError(
+        403,
+        'Login restricted. Account is deactivated.',
+      );
+      return createCustomError;
+    }
 
     if (!user) {
       throw new UnauthorizedException();
@@ -56,6 +77,23 @@ export class AuthService {
     }
 
     return await this.authModel.create(createAuthDto);
+  }
+
+  async updateAuth(
+    userId: string,
+    updateAuthDto: UpdateAuthDto,
+  ): Promise<Auth> {
+    const updatedAuth = await this.authModel.findByIdAndUpdate(
+      userId,
+      updateAuthDto,
+      { new: true },
+    );
+
+    if (!updatedAuth) {
+      throw new NotFoundException('User not Found');
+    }
+
+    return updatedAuth;
   }
 
   async findOne(id: string): Promise<Auth> {

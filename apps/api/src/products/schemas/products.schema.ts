@@ -6,9 +6,6 @@ export type ProductDocument = HydratedDocument<Product>;
 
 @Schema()
 export class Product {
-  @Prop({ unique: true })
-  productID: string;
-
   @Prop()
   productImg: string[];
 
@@ -23,6 +20,9 @@ export class Product {
 
   @Prop()
   productInventory: number;
+
+  @Prop({ default: null, type: Number })
+  maxOrder: number | null;
 
   @Prop()
   productCategory: string[];
