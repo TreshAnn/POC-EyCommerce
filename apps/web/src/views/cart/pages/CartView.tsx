@@ -20,8 +20,6 @@ export const CartView = () => {
   useEffect(() => {
     // If a deletion is successful, refetch the 'cart' query to get updated data
     if (deleteItem.isSuccess) {
-      // eslint-disable-next-line no-console
-      console.log('Deletion was successful, refetching...');
       refetch();
     }
   }, [deleteItem.isSuccess, refetch]);
@@ -63,7 +61,6 @@ export const CartView = () => {
 
   const deleteItemHandler = (productId: string) => {
     deleteItem.mutate(productId);
-    //refetch();
   };
 
   return (
@@ -81,7 +78,7 @@ export const CartView = () => {
               deleteItem={deleteItemHandler}
             />
           ) : (
-            customMessage(' ')
+            customMessage('Cart Empty')
           )}
         </div>
       </section>

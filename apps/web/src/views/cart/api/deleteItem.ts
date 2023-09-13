@@ -24,9 +24,6 @@ export const useDeleteItem = ({ config }: UseDeleteItemOption) => {
       await queryClient.cancelQueries({ queryKey: ['cart'] });
 
       const previousCart = queryClient.getQueryData<Cart>(['cart']);
-      // eslint-disable-next-line no-console
-      console.log(previousCart);
-
       if (previousCart && Array.isArray(previousCart.orderedItems)) {
         const updatedOrderedItems = previousCart.orderedItems.filter(
           (cartItem) => cartItem.productId !== deletedProductId,
@@ -38,8 +35,8 @@ export const useDeleteItem = ({ config }: UseDeleteItemOption) => {
         };
 
         queryClient.setQueryData(['cart'], updatedCart);
+        return { previousCart };
       }
-      return { previousCart };
     },
     onError: (_, __, context: any) => {
       if (context?.previousCart) {

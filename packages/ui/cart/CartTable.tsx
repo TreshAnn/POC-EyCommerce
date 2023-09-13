@@ -6,14 +6,7 @@ import { TbTrashX } from 'react-icons/tb';
 import { Cart, OrderedItems } from '../../../apps/web/src/views/cart/types';
 import { Quantity } from '../quantity/Quantity';
 import { StyledScrollArea, StyledTable } from './styles';
-// interface ICartItem {
-//   id: number;
-//   imageSrc: string;
-//   merchant: string;
-//   productName: string;
-//   price: number;
-//   quantity: number;
-// }
+
 interface ICartProps {
   item: OrderedItems;
   onQuantityChange: (newQuantity: number) => void;
@@ -36,6 +29,10 @@ const CartTable = ({
 }: Props) => {
   const [cartItems, setCartItems] = useState(orderedItems);
   const [itemId, setItemId] = useState<string>('');
+
+  useEffect(() => {
+    setCartItems(orderedItems);
+  }, [orderedItems]);
   const calculateSubtotal = (items: OrderedItems[]) => {
     return items.reduce(
       (total, item) => total + item.productPrice * item.quantity,
