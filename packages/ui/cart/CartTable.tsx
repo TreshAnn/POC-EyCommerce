@@ -62,6 +62,7 @@ const CartTable = ({
     0,
   );
   const subtotal = calculateSubtotal(cartItems);
+
   useEffect(() => {
     const count = setTimeout(() => {
       totalAmountHandler(subtotal);
@@ -269,8 +270,12 @@ const CartRow: React.FC<ICartProps> = ({
               />
             </td>
             <td>
-              <Text fz="xl" fw={700} c="brand">
-                ₱{(item.quantity * item.productPrice).toFixed(2)}
+              <Text size="lg" fw={700} color="yellow">
+                &#8369;{' '}
+                {(item.quantity * item.productPrice).toLocaleString('en-US', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
               </Text>
             </td>
             <td>
