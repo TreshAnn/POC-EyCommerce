@@ -20,6 +20,16 @@ export class AuthService {
     private customErrorService: CustomErrorService,
   ) {}
 
+  async findAuthId(id: string) {
+    const res = await this.authModel.findOne({ _id: id });
+
+    if (!res) {
+      throw new NotFoundException(`User Id Not Found: ${res._id}`);
+    }
+
+    return res;
+  }
+
   async findEmail(email: string) {
     return this.authModel.findOne({ email: email }).exec();
   }

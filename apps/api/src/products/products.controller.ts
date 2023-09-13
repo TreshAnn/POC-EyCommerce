@@ -26,7 +26,7 @@ import { AbilityGuard } from 'src/auth/ability/ability.guard';
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
-
+  
   @Public()
   @Get('get-all-product')
   async findAllProducts(): Promise<Product[]> {

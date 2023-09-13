@@ -51,6 +51,7 @@ export class CartService {
       productInventory: product.productInventory,
       maxOrder: product.maxOrder,
       quantity: itemQuantity,
+      merchantId: product.merchantID,
     };
     return itemDto;
   }
