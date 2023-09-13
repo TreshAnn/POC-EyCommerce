@@ -1,51 +1,92 @@
-import { Grid } from '@mantine/core';
-import React from 'react';
-import Product from 'ui/product/Product';
+import { Center, Container, Text } from '@mantine/core';
+import React, { useEffect, useState } from 'react';
 
-// Import the useGetCart hook
+import CartTable from '../../../../../../packages/ui/cart/CartTable';
+import { useCartQuantity } from '../api/cartQuantity';
+import { useDeleteItem } from '../api/deleteItem';
 import { useGetCart } from '../api/getCart';
-import { StyledContainer } from './styles';
+import { OrderedItems } from '../types';
+
+export type UpdateCartDTO = Pick<OrderedItems, 'productId' | 'quantity'>;
 
 export const CartView = () => {
-  // Use the useGetCart hook to fetch cart data
-  const cartQuery = useGetCart({});
+  const { data, isLoading, isError, refetch, isSuccess } = useGetCart({});
+  const [cartData, setCartData] = useState([]);
+  const [selectedItemId, setSelectedItemId] = useState('');
+  const [totalCartItemAmount, setTotalCartItemAmount] = useState<number>(0);
+  const cartUpdate = useCartQuantity({});
+  const deleteItem = useDeleteItem({});
 
-  if (cartQuery.isLoading) {
-    return <h1>Loading, Please Wait.</h1>;
+  useEffect(() => {
+    // If a deletion is successful, refetch the 'cart' query to get updated data
+    if (deleteItem.isSuccess) {
+      // eslint-disable-next-line no-console
+      console.log('Deletion was successful, refetching...');
+      refetch();
+    }
+  }, [deleteItem.isSuccess, refetch]);
+
+  const customMessage = (message: string) => {
+    return (
+      <Container size="xs" style={{ minHeight: '100vh', marginTop: '20px' }}>
+        <Center>
+          <Text align="center" size="xl">
+            {message}
+          </Text>
+        </Center>
+      </Container>
+    );
+  };
+
+  if (isLoading) {
+    return customMessage('Loading...');
   }
 
-  if (!cartQuery.data) {
-    return <h1>No Cart.</h1>;
+  if (isError) {
+    return customMessage('Something went wrong!');
   }
 
-  if (cartQuery.isError) return <h1>error</h1>;
+  // EVENT HANDLERS
+  const totalAmountHandler = (testAmount: number) => {
+    setTotalCartItemAmount(testAmount);
+  };
 
-  const handleOnClick = () => {
-    // eslint-disable-next-line no-console
-    console.log(cartQuery.data);
-    // console.log(Object.values(cartQuery.data));
-    // console.log(cartQuery.data.orderedItems[0].productImg.ImgURL);
+  const updateToCartHandler = (id: string, quantity?: number) => {
+    if (quantity !== undefined) {
+      const updatedItem: UpdateCartDTO = {
+        productId: id,
+        quantity: quantity,
+      };
+      cartUpdate.mutate(updatedItem);
+    }
+  };
+
+  const deleteItemHandler = (productId: string) => {
+    deleteItem.mutate(productId);
+    //refetch();
   };
 
   return (
     <main>
-      <StyledContainer fluid>
-        <Grid>
-          {cartQuery.data.orderedItems.map((item, index) => {
-            return (
-              <Grid.Col sm={4} md={3} lg={12} key={index}>
-                <Product
-                  img={item.productImg.ImgURL} // Assuming you want the first item's image
-                  name={item.productName} // Assuming you want the first item's name
-                  price={item.productPrice} // Assuming you want the first item's price
-                />
-              </Grid.Col>
-            );
-          })}
-        </Grid>
-
-        <button onClick={handleOnClick}>Test</button>
-      </StyledContainer>
+      {/* Section height is for demo purposes only; please position the footer at the bottom instead of the middle */}
+      <section style={{ height: '80vh', background: 'lightgray' }}>
+        <div>
+          <br />
+          {data.length !== 0 ? (
+            <CartTable
+              data={data}
+              totalCartItemAmount={totalCartItemAmount}
+              totalAmountHandler={totalAmountHandler}
+              updateToCartHandler={updateToCartHandler}
+              deleteItem={deleteItemHandler}
+            />
+          ) : (
+            customMessage(' ')
+          )}
+        </div>
+      </section>
     </main>
   );
 };
+
+export default CartView;

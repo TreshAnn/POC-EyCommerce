@@ -9,14 +9,14 @@ import { HeaderNavBar } from 'ui/nav/Header';
 import theme from '../styles/theme';
 import { LoginView } from './auth/pages/LoginView';
 import { RegisterView } from './auth/pages/RegisterView';
+import { CartView } from './cart/pages/CartView';
 import { NotFoundView } from './NotFoundView';
 import {
+  MerchantProducts,
   ProductDetailView,
   ProductsView,
-  MerchantProducts,
 } from './products/pages';
 import { SampleView } from './SampleView';
-import { CartView } from './CartView';
 import { StyledContainer } from './styles/styles';
 
 export const RootView = () => {
