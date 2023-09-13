@@ -12,6 +12,7 @@ import {
   Text,
   Title,
   UnstyledButton,
+  Center,
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import React, { useEffect, useState } from 'react';
@@ -117,6 +118,7 @@ export const HeaderNavBar = () => {
                   <Group>
                     <Button
                       color="yellow"
+                      mt={0}
                       onClick={() => navTo('/login')}
                       variant="filled"
                     >
@@ -125,6 +127,7 @@ export const HeaderNavBar = () => {
 
                     <Button
                       color="yellow"
+                      mt={0}
                       onClick={() => navTo('/register')}
                       variant="outline"
                     >
@@ -182,10 +185,20 @@ export const HeaderNavBar = () => {
             </Group>
           ) : (
             <Group>
-              <Button color="yellow" variant="filled" fullWidth>
+              <Button
+                color="yellow"
+                variant="filled"
+                onClick={() => navTo('/login')}
+                fullWidth
+              >
                 Log in
               </Button>
-              <Button color="yellow" variant="outline" fullWidth>
+              <Button
+                color="yellow"
+                variant="outline"
+                onClick={() => navTo('/register')}
+                fullWidth
+              >
                 Sign up
               </Button>
             </Group>

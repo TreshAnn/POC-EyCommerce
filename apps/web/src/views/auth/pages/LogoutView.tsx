@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Center } from '@mantine/core';
+import { Center, Loader } from '@mantine/core';
 import { useLogout } from '../../../lib/auth';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,7 +14,8 @@ export const LogoutView = () => {
   return (
     <main>
       <Center>
-        <h1>Logging out...</h1>
+        <h1>Logging out &nbsp;</h1>
+        <Loader color="yellow" />
       </Center>
     </main>
   );
