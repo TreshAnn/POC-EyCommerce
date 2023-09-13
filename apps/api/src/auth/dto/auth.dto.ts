@@ -28,6 +28,19 @@ export class CreateAuthDto {
   readonly password: string;
 }
 
+export class UpdateAuthDto {
+  @IsNotEmpty()
+  @IsString()
+  readonly username: string;
+
+  @IsNotEmpty()
+  @IsStrongPassword()
+  @MinLength(8, {
+    message: 'Password should be atleast 8 characters',
+  })
+  readonly password: string;
+}
+
 export class LoginDto {
   @IsNotEmpty()
   username: string;

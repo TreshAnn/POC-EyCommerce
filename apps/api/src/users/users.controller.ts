@@ -17,7 +17,7 @@ import { Roles } from 'src/auth/decorators/role.decorator';
 import { RolesGuard } from 'src/guards/Role.guard';
 import { Role } from 'src/guards/enum/role.enum';
 import { Public } from '../auth/decorators/public.decorator';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto, UpdateUserDto } from './dto/create-user.dto';
 import { User } from './schemas/user.schema';
 import { UsersService } from './users.service';
 
@@ -39,10 +39,11 @@ export class UsersController {
   @HttpCode(HttpStatus.OK)
   @Put('update/:id')
   async findByIdAndUpdate(
-    @Body() createUserDto: CreateUserDto,
+    @Request() reqHeader,
+    @Body() updateUserDto: UpdateUserDto,
     @Param('id') id: string,
   ): Promise<User> {
-    return this.userService.findByIdAndUpdate(id, createUserDto);
+    return this.userService.findByIdAndUpdate(reqHeader, id, updateUserDto);
   }
 
   @UseGuards(AuthGuard, RolesGuard, AbilityGuard)

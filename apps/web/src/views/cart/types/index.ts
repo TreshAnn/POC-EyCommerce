@@ -14,6 +14,7 @@ export interface OrderedItems {
   productName: string;
   productPrice: number;
   quantity: number;
+  productInventory: number;
   subTotalPrice: number;
 }
 

@@ -1,9 +1,7 @@
-import { Avatar, Col, Grid, Group, Text } from '@mantine/core';
+import { Avatar, Button, Col, Grid, Group, Text } from '@mantine/core';
 
 import { ProductGallery } from '../product-gallery/productGallery';
 import {
-  AddToCartButton,
-  BuyNowButton,
   MerchantText,
   ProductDescriptionText,
   ProductDescWrapper,
@@ -15,15 +13,22 @@ import {
   StyledContainer,
   Wrapper,
 } from '../product-info/style';
+import { Quantity } from '../quantity/Quantity';
 import { StarRating } from '../rating/StarRating';
 
 interface IProductProps {
   productName: string;
-  ratingValue: number;
+  ratingValue?: number;
   productDescription: string;
   productPrice: number;
   merchantName: string;
   productImg: string[];
+  inventory: number;
+  quantity: number;
+
+  addToCart: () => void;
+  checkoutBtnHandler: () => void;
+  onQuantityChange: (newQuantity: number) => void;
 }
 
 export function ProductInfo({
@@ -33,11 +38,17 @@ export function ProductInfo({
   productPrice = 0,
   merchantName,
   productImg,
+  inventory,
+  quantity = 0,
+  addToCart,
+  checkoutBtnHandler,
+  onQuantityChange,
 }: IProductProps) {
   const formattedPrice = productPrice.toLocaleString('en-US', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
+
   return (
     <Wrapper>
       <Grid className="grid-container" gutter="lg" justify="center">
@@ -74,10 +85,38 @@ export function ProductInfo({
                 Price: &#8369; {formattedPrice}
               </ProductPriceText>
               <Group>
-                <AddToCartButton>
-                  <Text color="#FFC815"> Add to Cart</Text>
-                </AddToCartButton>
-                <BuyNowButton>Buy Now</BuyNowButton>
+                <Text color="#777777" size={14}>
+                  Quantity
+                </Text>
+                <Quantity
+                  quantity={quantity}
+                  onQuantityChange={(newQuantity) =>
+                    onQuantityChange(newQuantity)
+                  }
+                  maxQty={inventory}
+                />
+                <Text color="#777777" size={10}>
+                  {inventory} item/s available
+                </Text>
+              </Group>
+              <Group style={{ marginTop: 15 }}>
+                <Button
+                  onClick={addToCart}
+                  variant="outline"
+                  fz="md"
+                  style={{ margin: 0 }}
+                >
+                  <Text color="#FFC815" size={14}>
+                    Add to Cart
+                  </Text>
+                </Button>
+                <Button
+                  onClick={checkoutBtnHandler}
+                  fz="md"
+                  style={{ color: 'black', margin: 0 }}
+                >
+                  Buy Now
+                </Button>
               </Group>
             </StyledContainer>
           </StyledBox>

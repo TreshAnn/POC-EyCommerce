@@ -2,6 +2,7 @@ import { Button, DEFAULT_THEME, Grid, Image, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useEffect, useState } from 'react';
 import { TbTrashX } from 'react-icons/tb';
+
 import { Cart, OrderedItems } from '../../../apps/web/src/views/cart/types';
 import { Quantity } from '../quantity/Quantity';
 import { StyledScrollArea, StyledTable } from './styles';
@@ -17,6 +18,7 @@ interface ICartProps {
   item: OrderedItems;
   onQuantityChange: (newQuantity: number) => void;
   deleteRowItem: (key: string) => void;
+  inventory: number;
 }
 interface Props {
   data: Cart;
@@ -125,6 +127,7 @@ const CartTable = ({
                   handleCartItemQuantityChange(item.productId, newQuantity)
                 }
                 deleteRowItem={deleteItem}
+                inventory={item.productInventory}
               />
             ))}
           </tbody>
@@ -187,6 +190,7 @@ const CartTable = ({
                   handleCartItemQuantityChange(item.productId, newQuantity)
                 }
                 deleteRowItem={deleteItem}
+                inventory={item.productInventory}
               />
             ))}
           </tbody>
@@ -231,6 +235,7 @@ const CartRow: React.FC<ICartProps> = ({
   item,
   onQuantityChange,
   deleteRowItem,
+  inventory,
 }) => {
   const handleDeleteItem = () => {
     deleteRowItem(item.productId);
@@ -260,6 +265,7 @@ const CartRow: React.FC<ICartProps> = ({
                 onQuantityChange={(newQuantity) => {
                   onQuantityChange(newQuantity);
                 }}
+                maxQty={inventory}
               />
             </td>
             <td>
@@ -310,6 +316,7 @@ const CartRow: React.FC<ICartProps> = ({
                 onQuantityChange={(newQuantity) => {
                   onQuantityChange(newQuantity);
                 }}
+                maxQty={inventory}
               />
             </td>
             <td>
