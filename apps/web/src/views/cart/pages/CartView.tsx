@@ -17,13 +17,6 @@ export const CartView = () => {
   const cartUpdate = useCartQuantity({});
   const deleteItem = useDeleteItem({});
 
-  useEffect(() => {
-    // If a deletion is successful, refetch the 'cart' query to get updated data
-    if (deleteItem.isSuccess) {
-      refetch();
-    }
-  }, [deleteItem.isSuccess, refetch]);
-
   const customMessage = (message: string) => {
     return (
       <Container size="xs" style={{ minHeight: '100vh', marginTop: '20px' }}>
