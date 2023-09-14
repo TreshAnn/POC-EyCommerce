@@ -10,8 +10,11 @@ import { Role } from 'src/guards/enum/role.enum';
 import { User } from 'src/users/schemas/user.schema';
 import { Action } from './enum/ability.enum';
 import { Product } from 'src/products/schemas/products.schema';
+import { Order } from 'src/order/schemas/order.schema';
 
-export type Subjects = InferSubjects<typeof User | typeof Product> | 'all';
+export type Subjects =
+  | InferSubjects<typeof User | typeof Product | typeof Order>
+  | 'all';
 export type AppAbility = PureAbility<[Action, Subjects]>;
 
 @Injectable()
@@ -34,6 +37,7 @@ export class AbilityFactory {
       can(Action.Delete, User);
 
       can(Action.Read, Product);
+      can(Action.Read, Order);
     }
 
     // can(Action.Update, Article, { authorId: user.id });
