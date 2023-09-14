@@ -20,20 +20,28 @@ export class OrderService {
     @InjectModel(Order.name) private readonly orderModel: Model<Order>,
     private cartService: CartService,
     private productService: ProductsService,
-    private jwtSerivce: JwtService,
+    private jwtService: JwtService,
     private userService: UsersService,
     private authService: AuthService,
   ) {}
 
-  // Objectives:
-  // Merchant Shipping Fee
-  // Product Matching - for loop userCart
-  // Product Inventory - Update Quantity
-  // Computation for Total Price
-  // Delete Items from Cart
+  async findOne(id: any): Promise<Order> {
+    const order = await this.orderModel.findOne({ _id: id });
+
+    if (!order) {
+      throw new NotFoundException('Order is not found');
+    }
+
+    return order;
+  }
+
+  async findAllOrders(req: any): Promise<Order[]> {
+    const userId = await extractIdFromToken(req, this.jwtService);
+    return this.orderModel.find({ userId: userId });
+  }
 
   async create(req: any, createOrderDto: CreateOrderDto): Promise<Order> {
-    const userId = await extractIdFromToken(req, this.jwtSerivce);
+    const userId = await extractIdFromToken(req, this.jwtService);
     const authData = await this.authService.findAuthId(userId);
     const userData = await this.userService.findUserName(authData.username);
     const userCart = await this.cartService.getCart(userId);
@@ -90,7 +98,7 @@ export class OrderService {
 
     const order = {
       ...createOrderDto,
-      userId,
+      userId: userData._id,
       firstName: userData.firstName,
       lastName: userData.lastName,
       address: {
