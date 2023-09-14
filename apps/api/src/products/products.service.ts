@@ -27,7 +27,7 @@ export class ProductsService {
     return createdProduct;
   }
 
-  async findOne(id: string): Promise<Product> {
+  async findOne(id: string) {
     const product = await this.productModel.findOne({ _id: id });
 
     if (!product) {
@@ -113,32 +113,23 @@ export class ProductsService {
     return 'Product is activated.';
   }
 
-  async findProductById(productId: string[]): Promise<Product[]> {
+  async findProductById(productId: string[]) {
     const products = await this.productModel.find({
       _id: { $in: productId },
     });
     return products;
   }
 
-  async updateProductInventory(
-    productName: string,
-    updatedInventory: number,
-  ): Promise<Product> {
-    const product = await this.productModel.findOne({ productName });
+  async updateProductInventory(productId: string, updatedInventory: number) {
+    const product = await this.productModel.findOne({ _id: productId });
 
     if (!product) {
-      throw new NotFoundException(
-        `Product not found with name: ${productName}`,
-      );
+      throw new NotFoundException(`Product not found`);
     }
 
     product.productInventory = updatedInventory;
     await product.save();
 
-    return product;
-  }
-  async findProductByName(productName: string): Promise<Product> {
-    const product = await this.productModel.findOne({ productName });
     return product;
   }
 }

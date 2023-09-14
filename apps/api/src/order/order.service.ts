@@ -42,10 +42,11 @@ export class OrderService {
     const selectedProducts = await this.productService.findProductById(
       selectedProductIds,
     );
+
     let subTotal = 0;
     for (const selectedProduct of selectedProducts) {
       const matchingProduct = userCart.orderedItems.find(
-        (item) => item.productName === selectedProduct.productName,
+        (item) => item.productId === selectedProduct._id.toString(),
       );
 
       if (!matchingProduct) {
@@ -68,7 +69,7 @@ export class OrderService {
         selectedProduct.productInventory - matchingProduct.quantity;
 
       await this.productService.updateProductInventory(
-        selectedProduct.productName,
+        selectedProduct._id.toString(),
         updatedInventory,
       );
     }
@@ -99,6 +100,7 @@ export class OrderService {
       },
       phoneNumber: userData.phoneNumber,
       orderedItems: selectedProducts.map((product) => ({
+        productId: product._id,
         productName: product.productName,
         price: product.productPrice,
         quantity: userCart.orderedItems.find(
@@ -132,19 +134,17 @@ export class OrderService {
 
     if (order.status === 'ordered') {
       for (const item of order.orderedItems) {
-        const product = await this.productService.findProductByName(
-          item.productName,
-        );
+        const product = await this.productService.findOne(item.productId);
         if (product) {
           const updatedInventory = product.productInventory + item.quantity;
           await this.productService.updateProductInventory(
-            item.productName,
+            item.productId,
             updatedInventory,
           );
         }
       }
 
-      order.status = 'Canceled';
+      order.status = 'canceled';
       await order.save();
 
       return order;
