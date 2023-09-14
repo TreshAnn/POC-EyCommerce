@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -115,11 +116,13 @@ export class OrderService {
     return userOrder;
   }
 
-  async cancelOrder(id: string): Promise<Order> {
+  async cancelOrder(request: any, id: string): Promise<Order> {
     const order = await this.orderModel.findById(id);
-
     if (!order) {
       throw new NotFoundException('Order not found');
+    }
+    if (request._id.toString() !== order.userId.toString()) {
+      throw new ForbiddenException('You are not allowed to cancel this order');
     }
 
     if (
