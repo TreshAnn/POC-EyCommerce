@@ -1,8 +1,14 @@
 import { Menu } from '@mantine/core';
+import { useNavigate } from 'react-router-dom';
+import React from 'react';
+interface DropdownItem {
+  label: string;
+  path?: string; // Make the path optional
+}
 
 interface DropdownProps {
   target: React.ReactNode;
-  menuItems: (string | 'divider')[];
+  menuItems: (DropdownItem | 'divider')[];
   avatarContent?: React.ReactNode;
 }
 
@@ -11,6 +17,13 @@ export const Dropdown: React.FC<DropdownProps> = ({
   menuItems,
   avatarContent,
 }) => {
+  const navigate = useNavigate();
+
+  const handleMenuItemClick = (path?: string) => {
+    if (path) {
+      navigate(path);
+    }
+  };
   return (
     <Menu shadow="md" width={200} position="bottom-start">
       <Menu.Target>{target}</Menu.Target>
@@ -26,7 +39,14 @@ export const Dropdown: React.FC<DropdownProps> = ({
           if (item === 'divider') {
             return <Menu.Divider key={index} />;
           } else {
-            return <Menu.Item key={index}>{item}</Menu.Item>;
+            return (
+              <Menu.Item
+                key={index}
+                onClick={() => handleMenuItemClick(item.path)}
+              >
+                {item.label}
+              </Menu.Item>
+            );
           }
         })}
       </Menu.Dropdown>
