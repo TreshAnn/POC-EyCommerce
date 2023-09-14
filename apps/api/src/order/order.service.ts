@@ -26,7 +26,7 @@ export class OrderService {
   ) {}
 
   async findOne(id: any): Promise<Order> {
-    const order = await this.orderModel.findOne({ _id: id });
+    const order = await this.orderModel.findOne({ 'auth._id': id });
 
     if (!order) {
       throw new NotFoundException('Order is not found');
@@ -35,9 +35,8 @@ export class OrderService {
     return order;
   }
 
-  async findAllOrders(req: any): Promise<Order[]> {
-    const userId = await extractIdFromToken(req, this.jwtService);
-    return this.orderModel.find({ userId: userId });
+  async findAllOrders(id: any): Promise<Order[]> {
+    return this.orderModel.find({ userId: id });
   }
 
   async create(req: any, createOrderDto: CreateOrderDto): Promise<Order> {
