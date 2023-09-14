@@ -80,7 +80,7 @@ export class RatingService {
 
     // throw exception if item is not found in order
     if (!itemFound) {
-      throw new NotFoundException('Product not found in order');
+      throw new NotFoundException('Product not found in delivered order');
     }
   }
 }
