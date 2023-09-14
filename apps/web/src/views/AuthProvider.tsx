@@ -11,8 +11,6 @@ import { decodeJwt, JWTPayload } from 'jose';
 interface AuthContextType {
   user: any | null;
   isLoading: boolean;
-  //   login: (user: User) => void;
-  //   logout: () => void;
 }
 
 interface AuthProviderProps {
