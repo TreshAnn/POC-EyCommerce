@@ -52,6 +52,15 @@ export class OrderService {
     return userOrders;
   }
 
+  async getAllDeliveredOrders(userId: string): Promise<Order[]> {
+    const allDeliveredOrders = await this.orderModel.find({
+      userId,
+      status: 'delivered',
+    });
+
+    return allDeliveredOrders;
+  }
+
   async create(req: any, createOrderDto: CreateOrderDto): Promise<Order> {
     const userId = await extractIdFromToken(req, this.jwtService);
     const authData = await this.authService.findAuthId(userId);

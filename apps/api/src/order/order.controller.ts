@@ -49,4 +49,12 @@ export class OrderController {
   async getAllUserOrders(@Request() req): Promise<Order[]> {
     return await this.orderService.getAllUserOrders(req);
   }
+
+  @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
+  @Roles(Role.CONSUMER)
+  @CheckAbilities({ action: Action.Read, subject: Order })
+  @Get('all-delivered-orders')
+  async getAllDeliveredOrders(@Request() req): Promise<Order[]> {
+    return await this.orderService.getAllDeliveredOrders(req);
+  }
 }
