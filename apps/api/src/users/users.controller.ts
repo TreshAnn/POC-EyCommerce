@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  Request,
   UseGuards,
 } from '@nestjs/common';
 import { CheckAbilities } from 'src/auth/ability/ability.decorator';
@@ -17,7 +18,7 @@ import { Roles } from 'src/auth/decorators/role.decorator';
 import { RolesGuard } from 'src/guards/Role.guard';
 import { Role } from 'src/guards/enum/role.enum';
 import { Public } from '../auth/decorators/public.decorator';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto, UpdateUserDto } from './dto/create-user.dto';
 import { User } from './schemas/user.schema';
 import { UsersService } from './users.service';
 
@@ -33,27 +34,22 @@ export class UsersController {
     return createdUser;
   }
 
+  @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
+  @Roles(Role.CONSUMER)
+  @CheckAbilities({ action: Action.Read, subject: User })
   @HttpCode(HttpStatus.OK)
   @Put('update/:id')
   async findByIdAndUpdate(
-    @Body() createUserDto: CreateUserDto,
+    @Request() reqHeader,
+    @Body() updateUserDto: UpdateUserDto,
     @Param('id') id: string,
   ): Promise<User> {
-    return this.userService.findByIdAndUpdate(id, createUserDto);
+    return this.userService.findByIdAndUpdate(reqHeader, id, updateUserDto);
   }
 
-  // this will check if the route is accessible for public or not
-  // and if the user is authorized via token
-  @UseGuards(AuthGuard)
-  // define the type of user that can access this route
+  @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
   @Roles(Role.CONSUMER)
-  // check whether the user can access the route based on her pre-defines role
-  @UseGuards(RolesGuard)
-  // define what type of ability can the user do based on the user role
   @CheckAbilities({ action: Action.Read, subject: User })
-  // @CheckAbilities({ action: Action.Update, subject: User })
-  // Check whether the ability defined from the CheckAbility decorator is allowed
-  @UseGuards(AbilityGuard)
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<User> {
     return this.userService.findOne(id);

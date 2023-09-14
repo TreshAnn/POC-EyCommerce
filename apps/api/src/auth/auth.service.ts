@@ -1,7 +1,7 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
-import { CreateAuthDto, LoginDto } from './dto/auth.dto';
+import { CreateAuthDto, LoginDto, UpdateAuthDto } from './dto/auth.dto';
 import { Auth, AuthDocument } from './schemas/auth.schema';
 import { compare } from 'bcrypt';
 import {
@@ -19,6 +19,16 @@ export class AuthService {
     private jwtService: JwtService,
     private customErrorService: CustomErrorService,
   ) {}
+
+  async findAuthId(id: string) {
+    const res = await this.authModel.findOne({ _id: id });
+
+    if (!res) {
+      throw new NotFoundException(`User Id Not Found: ${res._id}`);
+    }
+
+    return res;
+  }
 
   async findEmail(email: string) {
     return this.authModel.findOne({ email: email }).exec();
@@ -67,6 +77,23 @@ export class AuthService {
     }
 
     return await this.authModel.create(createAuthDto);
+  }
+
+  async updateAuth(
+    userId: string,
+    updateAuthDto: UpdateAuthDto,
+  ): Promise<Auth> {
+    const updatedAuth = await this.authModel.findByIdAndUpdate(
+      userId,
+      updateAuthDto,
+      { new: true },
+    );
+
+    if (!updatedAuth) {
+      throw new NotFoundException('User not Found');
+    }
+
+    return updatedAuth;
   }
 
   async deactivateAccount(id: string) {

@@ -17,6 +17,7 @@ import {
   ProductsView,
 } from './products/pages';
 import { SampleView } from './SampleView';
+import { UserProfile } from './user/pages/UserProfile';
 import { StyledContainer } from './styles/styles';
 
 export const RootView = () => {
@@ -35,6 +36,7 @@ export const RootView = () => {
               <Route path="*" element={<NotFoundView />} />
               <Route path="/login" element={<LoginView />} />
               <Route path="/register" element={<RegisterView />} />
+              <Route path="/profile/:id" element={<UserProfile />} />
               <Route path="/products" element={<ProductsView />} />
               <Route
                 path="/products/:productID"
