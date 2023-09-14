@@ -37,38 +37,50 @@ export class RatingService {
 
     const authUser = await this.authService.findOne(userId);
 
-    // get user order
-    const userOrder = await this.orderService.getUserOrder(userId);
+    // flag to check if the item is found
+    let itemFound = false;
 
-    // check if productId exists in userOrder
-    const itemIndex = userOrder.orderedItems.findIndex(
-      (item) => item.productId === createRatingDto.productId,
+    // get all delivered orders
+    const allDeliveredOrders = await this.orderService.getAllDeliveredOrders(
+      userId,
     );
 
-    if (itemIndex === -1) {
-      throw new NotFoundException('Item not found in order');
-    }
+    // for loop of allDeliveredOrders
+    for (const order of allDeliveredOrders) {
+      const itemIndex = order.orderedItems.findIndex(
+        (item) => item.productId === createRatingDto.productId,
+      );
 
-    if (itemIndex > -1) {
-      // check if user has already provided a rating for the ordered product
-      const existingRating = await this.ratingModel.findOne({
-        userId,
-        productId: createRatingDto.productId,
-      });
+      if (itemIndex > -1) {
+        // set flag to true if item is found
+        itemFound = true;
 
-      if (existingRating) {
-        throw new BadRequestException(
-          'Already provided rating for this product!',
-        );
+        // check if user has already provided a rating for the ordered product
+        const existingRating = await this.ratingModel.findOne({
+          userId,
+          productId: createRatingDto.productId,
+        });
+
+        if (existingRating) {
+          throw new BadRequestException(
+            'Already provided rating for this product!',
+          );
+        }
+
+        const rating = {
+          ...createRatingDto,
+          userId,
+          username: authUser.username,
+        };
+
+        const userRating = await this.ratingModel.create(rating);
+        return userRating;
       }
     }
-    const rating = {
-      ...createRatingDto,
-      userId,
-      username: authUser.username,
-    };
 
-    const userRating = await this.ratingModel.create(rating);
-    return userRating;
+    // throw exception if item is not found in order
+    if (!itemFound) {
+      throw new NotFoundException('Product not found in order');
+    }
   }
 }
