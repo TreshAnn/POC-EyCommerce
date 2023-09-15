@@ -8,10 +8,10 @@ export class CreateRatingDto {
   @IsNotEmpty()
   @IsNumber()
   @Min(1, {
-    message: 'Rating should be from 1 to 5',
+    message: 'Minimum rating is 1',
   })
   @Max(5, {
-    message: 'Rating should be from 1 to 5',
+    message: 'Maximum rating is 5',
   })
   readonly rating: number;
 
