@@ -16,8 +16,8 @@ export class RatingController {
   constructor(private readonly ratingService: RatingService) {}
 
   @HttpCode(HttpStatus.CREATED)
-  @Post('create')
-  async createRating(
+  @Post('')
+  async create(
     @Req() req: any,
     @Body() createRatingDto: CreateRatingDto,
   ): Promise<Rating> {
