@@ -116,6 +116,13 @@ const ProductModal: React.FC<ProductModalProps> = ({
     if (event.key === '-') {
       event.preventDefault();
     }
+
+    if (event.key === 'ArrowDown') {
+      const currentValue = parseFloat(event.currentTarget.value);
+      if (!isNaN(currentValue) && currentValue === 0) {
+        event.preventDefault();
+      }
+    }
   };
   const handleBlur = (
     property: string,
