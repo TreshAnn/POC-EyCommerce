@@ -1,5 +1,6 @@
 import { Type } from 'class-transformer';
 import { IsNotEmpty, IsNumber, IsString, Max, Min } from 'class-validator';
+import { isValidRating } from 'src/utils/custom-validations.utils';
 
 export class CreateRatingDto {
   @IsNotEmpty()
@@ -7,12 +8,7 @@ export class CreateRatingDto {
 
   @IsNotEmpty()
   @IsNumber()
-  @Min(1, {
-    message: 'Minimum rating is 1',
-  })
-  @Max(5, {
-    message: 'Maximum rating is 5',
-  })
+  @isValidRating()
   readonly rating: number;
 
   @IsString()

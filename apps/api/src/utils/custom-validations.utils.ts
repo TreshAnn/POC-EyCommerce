@@ -57,3 +57,22 @@ export function isPhoneNumberWithTrim(
     });
   };
 }
+
+export function isValidRating(options?: ValidationOptions): PropertyDecorator {
+  return function (object: Record<string, any>, propertyName: string) {
+    registerDecorator({
+      name: 'isValidRating',
+      target: object.constructor,
+      propertyName: propertyName,
+      options: options,
+      validator: {
+        validate(value: any): boolean {
+          return typeof value === 'number' && value >= 1 && value <= 5;
+        },
+        defaultMessage(): string {
+          return 'Rating must be a number between 1 and 5.';
+        },
+      },
+    });
+  };
+}
