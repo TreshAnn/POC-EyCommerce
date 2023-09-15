@@ -34,9 +34,9 @@ export class OrderController {
   @UseGuards(RolesGuard)
   @CheckAbilities({ action: Action.Read, subject: Order })
   @UseGuards(AbilityGuard)
-  @Get('/')
-  async findOne(@Request() req): Promise<Order> {
-    return this.orderService.findOne(req.id);
+  @Get('/:id')
+  async findOne(@Param('id') id: string): Promise<Order> {
+    return this.orderService.findOne(id);
   }
 
   @UseGuards(AuthGuard)
