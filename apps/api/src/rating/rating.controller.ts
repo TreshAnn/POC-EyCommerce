@@ -6,10 +6,13 @@ import {
   HttpCode,
   HttpStatus,
   Req,
+  Param,
+  Put,
 } from '@nestjs/common';
 import { RatingService } from './rating.service';
 import { Rating } from './schemas/rating.schema';
 import { CreateRatingDto } from './dto/create-rating.dto';
+import { UpdateRatingDto } from './dto/update-rating.dto';
 
 @Controller('rating')
 export class RatingController {
@@ -28,5 +31,14 @@ export class RatingController {
   @Get('get-user-ratings')
   async getUserRatings(@Req() req: any): Promise<Rating[]> {
     return await this.ratingService.getUserRatings(req);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Put('/update/:id')
+  async updateRating(
+    @Param('id') ratingId: string,
+    @Body() updatedRatingDto: UpdateRatingDto,
+  ): Promise<Rating> {
+    return await this.ratingService.updateRating(ratingId, updatedRatingDto);
   }
 }

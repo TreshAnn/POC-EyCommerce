@@ -13,9 +13,16 @@ import { Rating } from './schemas/rating.schema';
 
 import { extractIdFromToken } from 'src/utils/extract-token.utils';
 import { OrderService } from 'src/order/order.service';
+import { UpdateRatingDto } from './dto/update-rating.dto';
 
 @Injectable()
 export class RatingService {
+  // updateRating(
+  //   ratingId: string,
+  //   updatedRatingDto: UpdateRatingDto,
+  // ): Rating | PromiseLike<Rating> {
+  //   throw new Error('Method not implemented.');
+  // }
   constructor(
     @InjectModel(Rating.name) private readonly ratingModel: Model<Rating>,
     private jwtService: JwtService,
@@ -82,5 +89,39 @@ export class RatingService {
     if (!itemFound) {
       throw new NotFoundException('Product not found in delivered order');
     }
+  }
+
+  async updateRating(
+    ratingId: string,
+    updatedRatingDto: UpdateRatingDto,
+  ): Promise<Rating> {
+    const existingRating = await this.ratingModel.findById(ratingId);
+    if (!existingRating) {
+      throw new NotFoundException('Rating not found');
+    }
+
+    const now = new Date();
+    const reviewDate = existingRating.reviewDate;
+    const updateTime = new Date();
+    updateTime.setTime(updateTime.getTime() - 2 * 60 * 1000); // 2 minutes for testing only
+    //for 5 days updateTime.setDate(updateTime.getDate() - 5);
+
+    if (reviewDate < updateTime) {
+      throw new BadRequestException(
+        'You can only update your review within 2 minutes of the original review',
+      );
+    }
+
+    if (updatedRatingDto.rating !== undefined) {
+      existingRating.rating = updatedRatingDto.rating;
+    }
+    if (updatedRatingDto.title !== undefined) {
+      existingRating.title = updatedRatingDto.title;
+    }
+    if (updatedRatingDto.description !== undefined) {
+      existingRating.description = updatedRatingDto.description;
+    }
+    const updatedRating = await existingRating.save();
+    return updatedRating;
   }
 }

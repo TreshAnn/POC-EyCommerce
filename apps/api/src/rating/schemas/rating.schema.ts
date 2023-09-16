@@ -27,6 +27,9 @@ export class Rating {
 
   @Prop({ default: Date.now })
   publishedDate: Date;
+
+  @Prop({ default: Date.now })
+  reviewDate: Date;
 }
 
 export const RatingSchema = SchemaFactory.createForClass(Rating);
