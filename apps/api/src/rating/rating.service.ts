@@ -24,7 +24,7 @@ export class RatingService {
   ) {}
 
   async getUserRatings(req: any): Promise<Rating[]> {
-    const userId = await extractIdFromToken(req, this.jwtService);
+    const userId = req._id;
 
     return this.ratingModel.find({ userId });
   }
@@ -33,7 +33,7 @@ export class RatingService {
     req: any,
     createRatingDto: CreateRatingDto,
   ): Promise<Rating> {
-    const userId = await extractIdFromToken(req, this.jwtService);
+    const userId = req._id;
 
     const authUser = await this.authService.findOne(userId);
 
