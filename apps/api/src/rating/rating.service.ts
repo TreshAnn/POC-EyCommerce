@@ -11,7 +11,6 @@ import { JwtService } from '@nestjs/jwt';
 import { AuthService } from 'src/auth/auth.service';
 import { Rating } from './schemas/rating.schema';
 
-import { extractIdFromToken } from 'src/utils/extract-token.utils';
 import { OrderService } from 'src/order/order.service';
 
 @Injectable()
