@@ -25,7 +25,7 @@ export class RatingController {
   }
 
   @HttpCode(HttpStatus.OK)
-  @Get('get-user-ratings')
+  @Get('')
   async getUserRatings(@Req() req: any): Promise<Rating[]> {
     return await this.ratingService.getUserRatings(req);
   }
