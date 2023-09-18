@@ -1,4 +1,3 @@
-import { Type } from 'class-transformer';
 import { IsNotEmpty, IsNumber, IsString, Max, Min } from 'class-validator';
 import { isValidRating } from 'src/utils/custom-validations.utils';
 
