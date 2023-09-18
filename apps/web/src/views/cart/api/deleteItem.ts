@@ -24,19 +24,19 @@ export const useDeleteItem = ({ config }: UseDeleteItemOption) => {
       await queryClient.cancelQueries({ queryKey: ['cart'] });
 
       const previousCart = queryClient.getQueryData<Cart>(['cart']);
+      if (previousCart && Array.isArray(previousCart.orderedItems)) {
+        const updatedOrderedItems = previousCart.orderedItems.filter(
+          (cartItem) => cartItem.productId !== deletedProductId,
+        );
 
-      queryClient.setQueryData(
-        ['cart'],
-        (oldCartItem: OrderedItems[] | undefined) => {
-          if (Array.isArray(oldCartItem)) {
-            return oldCartItem.filter(
-              (cartItem) => cartItem.productId !== deletedProductId,
-            );
-          }
-          return [];
-        },
-      );
-      return { previousCart };
+        const updatedCart = {
+          ...previousCart,
+          orderedItems: updatedOrderedItems,
+        };
+
+        queryClient.setQueryData(['cart'], updatedCart);
+        return { previousCart };
+      }
     },
     onError: (_, __, context: any) => {
       if (context?.previousCart) {

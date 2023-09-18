@@ -50,7 +50,7 @@ export class AuthGuard implements CanActivate {
         request['userType'] = userType;
       }
     } catch {
-      throw new UnauthorizedException('No token was found catch block');
+      throw new UnauthorizedException('Cannot utilize token');
     }
     return true;
   }

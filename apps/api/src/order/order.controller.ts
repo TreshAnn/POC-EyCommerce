@@ -4,6 +4,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
   Req,
   Request,
@@ -32,6 +33,11 @@ export class OrderController {
   @HttpCode(HttpStatus.CREATED)
   async createOrder(@Req() req: any, @Body() createOrderDto: CreateOrderDto) {
     return await this.orderService.create(req, createOrderDto);
+  }
+  @Post('cancel/:id')
+  async cancelOrder(@Request() request, @Param('id') id: string) {
+    const canceledOrder = await this.orderService.cancelOrder(request._id, id);
+    return { message: 'Order canceled successfully', canceledOrder };
   }
 
   @UseGuards(AuthGuard, RolesGuard, AbilityGuard)

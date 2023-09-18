@@ -1,23 +1,24 @@
 import { Button, Grid, Title } from '@mantine/core';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useAuth } from '../../AuthProvider';
 import MerchantProduct from 'ui/product/MerchantProduct';
 import ProductModal from 'ui/product/ProductModal';
 
 import {
   useActivateProduct,
   useDeactivateProduct,
-  useGetMerchant,
   useGetMerchantProducts,
 } from '../api';
 import { CreateProductDTO, useCreateProduct } from '../api/addProduct';
 import { UpdateProductDTO, useUpdateProduct } from '../api/updateProduct';
-import { StyledContainer, StyledDiv, StyledGridCol } from './styles';
+import { useGetAll } from '../api/getAllMerchant';
+import { StyledContainer, StyledGridCol } from './styles';
 
 export const MerchantProducts: React.FC = () => {
   //API
-  const { merchantID } = useParams<{ merchantID: string }>();
-  const merchantQuery = useGetMerchant({}, merchantID);
+  const { user } = useAuth();
+  const merchantQuery = useGetAll({}) || [];
+
   const merchantProductsQuery = useGetMerchantProducts({});
   const merchantProducts = merchantProductsQuery.data || [];
   const reversedData = [...merchantProducts].reverse();
@@ -30,6 +31,9 @@ export const MerchantProducts: React.FC = () => {
   const deactivateProductQuery = useDeactivateProduct({}, selectedProductId);
   const activateProductQuery = useActivateProduct({}, selectedProductId);
   const updateProductMutation = useUpdateProduct({}, selectedProductId || '');
+  const merchant =
+    merchantQuery.data &&
+    merchantQuery.data.find((merchant) => merchant.auth._id === user.sub);
 
   useEffect(() => {
     if (updateProductMutation.isSuccess) {
@@ -117,7 +121,7 @@ export const MerchantProducts: React.FC = () => {
             }
           />
           <Title order={1} align="center">
-            {merchantQuery.data?.merchantName} Products
+            {merchant ? merchant.merchantName : 'Loading...'} Products
           </Title>
         </div>
         {!merchantProductsQuery?.data?.length ? (
