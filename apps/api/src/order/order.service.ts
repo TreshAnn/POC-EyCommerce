@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Order } from './schemas/order.schema';
+import { Order, OrderDocument } from './schemas/order.schema';
 import { CartService } from 'src/cart/cart.service';
 import { ProductsService } from 'src/products/products.service';
 import { Model } from 'mongoose';
@@ -21,7 +21,7 @@ export class OrderService {
     @InjectModel(Order.name) private readonly orderModel: Model<Order>,
     private cartService: CartService,
     private productService: ProductsService,
-    private jwtSerivce: JwtService,
+    private jwtService: JwtService,
     private userService: UsersService,
     private authService: AuthService,
   ) {}
@@ -33,8 +33,17 @@ export class OrderService {
   // Computation for Total Price
   // Delete Items from Cart
 
+  async getAllDeliveredOrders(userId: string): Promise<Order[]> {
+    const allDeliveredOrders = await this.orderModel.find({
+      userId,
+      status: 'delivered',
+    });
+
+    return allDeliveredOrders;
+  }
+
   async create(req: any, createOrderDto: CreateOrderDto): Promise<Order> {
-    const userId = await extractIdFromToken(req, this.jwtSerivce);
+    const userId = await extractIdFromToken(req, this.jwtService);
     const authData = await this.authService.findAuthId(userId);
     const userData = await this.userService.findUserName(authData.username);
     const userCart = await this.cartService.getCart(userId);
@@ -101,7 +110,13 @@ export class OrderService {
       },
       phoneNumber: userData.phoneNumber,
       orderedItems: selectedProducts.map((product) => ({
-        productId: product._id,
+        productId:
+          selectedProductIds[
+            selectedProducts.findIndex(
+              (selectedProduct) =>
+                selectedProduct.productName === product.productName,
+            )
+          ],
         productName: product.productName,
         price: product.productPrice,
         quantity: userCart.orderedItems.find(
