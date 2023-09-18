@@ -32,26 +32,6 @@ export class OrderService {
   // Computation for Total Price
   // Delete Items from Cart
 
-  async getUserOrder(userId: string): Promise<OrderDocument> {
-    const userOrder = await this.orderModel.findOne({ userId });
-
-    if (!userOrder) {
-      throw new NotFoundException('Order not found');
-    }
-
-    return userOrder;
-  }
-
-  async getAllUserOrders(userId: string): Promise<Order[]> {
-    const userOrders = await this.orderModel.find({ userId });
-
-    if (userOrders.length === 0) {
-      throw new NotFoundException('Orders not found');
-    }
-
-    return userOrders;
-  }
-
   async getAllDeliveredOrders(userId: string): Promise<Order[]> {
     const allDeliveredOrders = await this.orderModel.find({
       userId,

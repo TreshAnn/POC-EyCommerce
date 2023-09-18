@@ -37,22 +37,6 @@ export class OrderController {
   @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
   @Roles(Role.CONSUMER)
   @CheckAbilities({ action: Action.Read, subject: Order })
-  @Get('/')
-  async getUserOrder(@Request() req): Promise<Order> {
-    return await this.orderService.getUserOrder(req);
-  }
-
-  @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
-  @Roles(Role.CONSUMER)
-  @CheckAbilities({ action: Action.Read, subject: Order })
-  @Get('all-user-orders')
-  async getAllUserOrders(@Request() req): Promise<Order[]> {
-    return await this.orderService.getAllUserOrders(req);
-  }
-
-  @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
-  @Roles(Role.CONSUMER)
-  @CheckAbilities({ action: Action.Read, subject: Order })
   @Get('all-delivered-orders')
   async getAllDeliveredOrders(@Request() req): Promise<Order[]> {
     return await this.orderService.getAllDeliveredOrders(req);
