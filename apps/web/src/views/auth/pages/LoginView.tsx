@@ -1,9 +1,11 @@
 import { notifications } from '@mantine/notifications';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { LoginForm } from '../../../components/auth/LoginForm';
 
 export const LoginView = () => {
+  const navigate = useNavigate();
   return (
     <main>
       <LoginForm
@@ -11,7 +13,8 @@ export const LoginView = () => {
           notifications.show({
             message: 'Login Success!',
           });
-          return;
+
+          window.location.href = '/products';
         }}
       />
     </main>

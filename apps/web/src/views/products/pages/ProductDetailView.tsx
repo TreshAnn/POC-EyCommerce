@@ -7,9 +7,11 @@ import { testData } from 'ui/rating/user-review/test-data';
 import { AddToCartDTO, useAddToCart } from '../../cart/api/addToCart';
 import { useGetAll } from '../api/getAllMerchant';
 import { useGetProductById } from '../api/getProduct';
+import { useAuth } from '../../AuthProvider';
 
 export const ProductDetailView = () => {
   // Get the productID from the route parameters
+  const { user } = useAuth();
   const { productID } = useParams();
   const ProductID = productID ?? '';
   // APIs
@@ -36,13 +38,22 @@ export const ProductDetailView = () => {
   }
 
   const addToCartHandler = (productId) => {
-    const rq: AddToCartDTO = {
-      quantity: quantity,
-      productId: productId,
-    };
+    if (user) {
+      if (user?.role === 'consumer') {
+        const rq: AddToCartDTO = {
+          quantity: quantity,
+          productId: productId,
+        };
 
-    addToCartMutation.mutate({ ...rq });
+        addToCartMutation.mutate({ ...rq });
+      } else {
+        navigate('/unauthorized');
+      }
+    } else {
+      navigate('/login');
+    }
   };
+
   return (
     <main>
       <ProductInfo

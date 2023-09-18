@@ -111,6 +111,19 @@ const ProductModal: React.FC<ProductModalProps> = ({
       });
     }
   };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === '-') {
+      event.preventDefault();
+    }
+
+    if (event.key === 'ArrowDown') {
+      const currentValue = parseFloat(event.currentTarget.value);
+      if (!isNaN(currentValue) && currentValue === 0) {
+        event.preventDefault();
+      }
+    }
+  };
   const handleBlur = (
     property: string,
     event: ChangeEvent<HTMLInputElement>,
@@ -183,6 +196,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
             type="number"
             value={productData.productPrice.toString()}
             onChange={(event) => handleDataChange('productPrice', event)}
+            onKeyDown={handleKeyDown}
             withAsterisk
           />
           <TextInput
@@ -190,6 +204,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
             type="number"
             value={productData.productInventory.toString()}
             onChange={(event) => handleDataChange('productInventory', event)}
+            onKeyDown={handleKeyDown}
             withAsterisk
           />
           {!isAddingProduct ? (

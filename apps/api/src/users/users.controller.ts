@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  Request,
   UseGuards,
   Request,
 } from '@nestjs/common';
@@ -34,6 +35,9 @@ export class UsersController {
     return createdUser;
   }
 
+  @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
+  @Roles(Role.CONSUMER)
+  @CheckAbilities({ action: Action.Read, subject: User })
   @HttpCode(HttpStatus.OK)
   @Put('update/:id')
   async findByIdAndUpdate(
@@ -44,18 +48,9 @@ export class UsersController {
     return this.userService.findByIdAndUpdate(reqHeader, id, updateUserDto);
   }
 
-  // this will check if the route is accessible for public or not
-  // and if the user is authorized via token
-  @UseGuards(AuthGuard)
-  // define the type of user that can access this route
+  @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
   @Roles(Role.CONSUMER)
-  // check whether the user can access the route based on her pre-defines role
-  @UseGuards(RolesGuard)
-  // define what type of ability can the user do based on the user role
   @CheckAbilities({ action: Action.Read, subject: User })
-  // @CheckAbilities({ action: Action.Update, subject: User })
-  // Check whether the ability defined from the CheckAbility decorator is allowed
-  @UseGuards(AbilityGuard)
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<User> {
     return this.userService.findOne(id);

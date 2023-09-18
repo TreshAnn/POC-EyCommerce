@@ -6,14 +6,7 @@ import { TbTrashX } from 'react-icons/tb';
 import { Cart, OrderedItems } from '../../../apps/web/src/views/cart/types';
 import { Quantity } from '../quantity/Quantity';
 import { StyledScrollArea, StyledTable } from './styles';
-// interface ICartItem {
-//   id: number;
-//   imageSrc: string;
-//   merchant: string;
-//   productName: string;
-//   price: number;
-//   quantity: number;
-// }
+
 interface ICartProps {
   item: OrderedItems;
   onQuantityChange: (newQuantity: number) => void;
@@ -36,6 +29,10 @@ const CartTable = ({
 }: Props) => {
   const [cartItems, setCartItems] = useState(orderedItems);
   const [itemId, setItemId] = useState<string>('');
+
+  useEffect(() => {
+    setCartItems(orderedItems);
+  }, [orderedItems]);
   const calculateSubtotal = (items: OrderedItems[]) => {
     return items.reduce(
       (total, item) => total + item.productPrice * item.quantity,
@@ -62,6 +59,7 @@ const CartTable = ({
     0,
   );
   const subtotal = calculateSubtotal(cartItems);
+
   useEffect(() => {
     const count = setTimeout(() => {
       totalAmountHandler(subtotal);
@@ -269,8 +267,12 @@ const CartRow: React.FC<ICartProps> = ({
               />
             </td>
             <td>
-              <Text fz="xl" fw={700} c="brand">
-                ₱{(item.quantity * item.productPrice).toFixed(2)}
+              <Text size="lg" fw={700} color="yellow">
+                &#8369;{' '}
+                {(item.quantity * item.productPrice).toLocaleString('en-US', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
               </Text>
             </td>
             <td>

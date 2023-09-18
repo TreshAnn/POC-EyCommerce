@@ -27,6 +27,7 @@
     "clsx": "^2.0.0",
     "react-hook-form": "^7.45.2",
     "react-icons": "^4.10.1",
+    "react-router-dom": "^6.11.2",
     "styled-components": "^6.0.5",
     "zod": "^3.21.4"
   }

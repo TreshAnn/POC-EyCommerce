@@ -7,8 +7,10 @@ import { Searchbar } from 'ui/searchbar/searchbar';
 import { AddToCartDTO, useAddToCart } from '../../cart/api/addToCart';
 import { useGetAllProducts } from '../api';
 import { StyledContainer, StyledGridCol } from './styles';
+import { useAuth } from '../../AuthProvider';
 
 export const ProductsView = () => {
+  const { user } = useAuth();
   const productQuery = useGetAllProducts({});
   const addToCartMutation = useAddToCart({});
   const navigate = useNavigate();
@@ -23,14 +25,20 @@ export const ProductsView = () => {
   if (!productQuery.data) return <h1>error</h1>;
 
   const addToCartHandler = (productId) => {
-    const rq: AddToCartDTO = {
-      quantity: 1,
-      productId: productId,
-    };
+    if (user) {
+      if (user?.role === 'consumer') {
+        const rq: AddToCartDTO = {
+          quantity: 1,
+          productId: productId,
+        };
 
-    // eslint-disable-next-line no-console
-    console.log(rq);
-    addToCartMutation.mutate({ ...rq });
+        addToCartMutation.mutate({ ...rq });
+      } else {
+        navigate('/unauthorized');
+      }
+    } else {
+      navigate('/login');
+    }
   };
 
   return (
