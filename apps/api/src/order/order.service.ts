@@ -25,19 +25,21 @@ export class OrderService {
     private userService: UsersService,
     private authService: AuthService,
   ) {}
+  async findAllOrders(userId: any): Promise<Order[]> {
+    return await this.orderModel.find({ userId });
+  }
 
-  async findOne(id: string): Promise<Order> {
-    const order = await this.orderModel.findOne({ _id: id });
+  async findOrder(orderId: string, req: any): Promise<Order> {
+    const order = await this.orderModel.findOne({ _id: orderId });
 
+    if (req._id.toString() !== order.userId.toString()) {
+      throw new ForbiddenException('User is unauthorized!');
+    }
     if (!order) {
       throw new NotFoundException('Order is not found');
     }
 
     return order;
-  }
-
-  async findAllOrders(id: any): Promise<Order[]> {
-    return await this.orderModel.find({ userId: id });
   }
 
   async create(req: any, createOrderDto: CreateOrderDto): Promise<Order> {

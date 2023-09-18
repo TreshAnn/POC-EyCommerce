@@ -43,6 +43,7 @@ export class AbilityFactory {
 
       // order
       can(Action.Read, Order);
+      can(Action.Create, Order);
 
       // cart
       can(Action.Create, Cart);

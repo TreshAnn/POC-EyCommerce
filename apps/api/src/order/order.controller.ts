@@ -11,7 +11,6 @@ import {
   Request,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
-import { JwtService } from '@nestjs/jwt';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { Order } from './schemas/order.schema';
 import { CheckAbilities } from 'src/auth/ability/ability.decorator';
@@ -24,20 +23,7 @@ import { Role } from 'src/guards/enum/role.enum';
 
 @Controller('order')
 export class OrderController {
-  constructor(
-    private orderService: OrderService,
-    private jwtService: JwtService,
-  ) {}
-
-  @UseGuards(AuthGuard)
-  @Roles(Role.CONSUMER)
-  @UseGuards(RolesGuard)
-  @CheckAbilities({ action: Action.Read, subject: Order })
-  @UseGuards(AbilityGuard)
-  @Get('/:id')
-  async findOne(@Param('id') id: string): Promise<Order> {
-    return this.orderService.findOne(id);
-  }
+  constructor(private orderService: OrderService) {}
 
   @UseGuards(AuthGuard)
   @Roles(Role.CONSUMER)
@@ -45,8 +31,21 @@ export class OrderController {
   @CheckAbilities({ action: Action.Read, subject: Order })
   @UseGuards(AbilityGuard)
   @Get('get-all-orders')
-  async findAllOrders(@Request() req): Promise<Order[]> {
-    return this.orderService.findAllOrders(req);
+  async findAllOrders(@Request() request): Promise<Order[]> {
+    return this.orderService.findAllOrders(request._id);
+  }
+
+  @UseGuards(AuthGuard)
+  @Roles(Role.CONSUMER)
+  @UseGuards(RolesGuard)
+  @CheckAbilities({ action: Action.Read, subject: Order })
+  @UseGuards(AbilityGuard)
+  @Get('/:id')
+  async findOrder(
+    @Param('id') orderId: string,
+    @Request() req,
+  ): Promise<Order> {
+    return this.orderService.findOrder(orderId, req);
   }
 
   @Post('/checkout')
