@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, SchemaTypes } from 'mongoose';
 import { Address, User, UserSchema } from 'src/users/schemas/user.schema';
 import { Cart, Item } from 'src/cart/schemas/cart.schema';
+import { Merchant } from 'src/merchants/schemas/merchant.schema';
 import { AuthSchema } from 'src/auth/schemas/auth.schema';
 
 export type OrderDocument = HydratedDocument<Order>;
@@ -22,6 +23,24 @@ export class UserAddress {
 
   @Prop()
   country: string;
+}
+
+@Schema()
+export class Timestamp {
+  @Prop({ default: Date.now })
+  orderedAt: Date;
+
+  @Prop({ default: null })
+  processedAt: Date | null;
+
+  @Prop({ default: null })
+  shippedAt: Date | null;
+
+  @Prop({ default: null })
+  deliveredAt: Date | null;
+
+  @Prop({ default: null })
+  cancelledAt: Date | null;
 }
 
 @Schema()
@@ -47,8 +66,14 @@ export class Order {
   @Prop({ type: SchemaTypes.ObjectId, ref: Cart.name })
   orderId: string;
 
+  @Prop({ type: SchemaTypes.ObjectId, ref: Merchant.name })
+  merchantId: string;
+
   @Prop()
   orderedItems: Item[];
+
+  @Prop()
+  timestamp: Timestamp;
 
   @Prop()
   totalAmount: number;
@@ -56,10 +81,9 @@ export class Order {
   @Prop()
   shippingFee: number;
 
-  @Prop({ default: Date.now })
-  date: Date;
-
-  @Prop({ enum: ['ordered', 'processing', 'shipped', 'delivered', 'canceled'] })
+  @Prop({
+    enum: ['ordered', 'processing', 'shipped', 'delivered', 'cancelled'],
+  })
   status: string;
 
   @Prop({ enum: ['cash'] })
