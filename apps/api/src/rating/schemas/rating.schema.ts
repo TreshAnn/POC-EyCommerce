@@ -1,11 +1,15 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, SchemaTypes } from 'mongoose';
+import { Product } from 'src/products/schemas/products.schema';
 import { User } from 'src/users/schemas/user.schema';
 
 export type RatingDocument = HydratedDocument<Rating>;
 
 @Schema()
 export class Rating {
+  @Prop({ type: SchemaTypes.ObjectId, ref: Product.name })
+  productId: string;
+
   @Prop({ type: SchemaTypes.ObjectId, ref: User.name })
   userId: string;
 

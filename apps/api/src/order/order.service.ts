@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Order } from './schemas/order.schema';
+import { Order, OrderDocument } from './schemas/order.schema';
 import { CartService } from 'src/cart/cart.service';
 import { ProductsService } from 'src/products/products.service';
 import { Model } from 'mongoose';
@@ -40,6 +40,15 @@ export class OrderService {
     }
 
     return order;
+  }
+
+  async getAllDeliveredOrders(userId: string): Promise<Order[]> {
+    const allDeliveredOrders = await this.orderModel.find({
+      userId,
+      status: 'delivered',
+    });
+
+    return allDeliveredOrders;
   }
 
   async create(req: any, createOrderDto: CreateOrderDto): Promise<Order> {
@@ -110,7 +119,13 @@ export class OrderService {
       },
       phoneNumber: userData.phoneNumber,
       orderedItems: selectedProducts.map((product) => ({
-        productId: product._id,
+        productId:
+          selectedProductIds[
+            selectedProducts.findIndex(
+              (selectedProduct) =>
+                selectedProduct.productName === product.productName,
+            )
+          ],
         productName: product.productName,
         price: product.productPrice,
         quantity: userCart.orderedItems.find(
