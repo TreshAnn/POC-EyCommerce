@@ -28,6 +28,18 @@ export class RatingService {
     return this.ratingModel.find({ userId });
   }
 
+  async getProductRatings(productId: string): Promise<Rating[]> {
+    const productRatings = await this.ratingModel.find({
+      productId: productId,
+    });
+
+    if (productRatings.length === 0) {
+      throw new NotFoundException('Product has 0 reviews');
+    }
+
+    return productRatings;
+  }
+
   async createOrderRating(
     req: any,
     createRatingDto: CreateRatingDto,
