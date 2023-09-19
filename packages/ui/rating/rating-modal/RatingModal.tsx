@@ -1,6 +1,4 @@
 import {
-  Modal,
-  Textarea,
   Button,
   Title,
   Rating,
@@ -11,7 +9,12 @@ import {
   DEFAULT_THEME,
 } from '@mantine/core';
 import StarSVG from '../StarSVG';
-import { StyledImageWrapper, StyledProductDiv } from './styles';
+import {
+  StyledImageWrapper,
+  StyledProductDiv,
+  StyledTextarea,
+  StyledModal,
+} from './styles';
 import { useMediaQuery } from '@mantine/hooks';
 import { useState } from 'react';
 
@@ -28,7 +31,7 @@ export const RatingModal = ({ isOpen, onClose }: RatingModalProps) => {
 
   return (
     <>
-      <Modal opened={isOpen} onClose={onClose} size="80%">
+      <StyledModal opened={isOpen} onClose={onClose} size="80%">
         <Flex pb={10}>
           <StyledImageWrapper>
             <Image
@@ -66,11 +69,11 @@ export const RatingModal = ({ isOpen, onClose }: RatingModalProps) => {
           />
         </Flex>
 
-        <Textarea placeholder="Leave a message about the product..." />
+        <StyledTextarea placeholder="Leave a message about the product..." />
         <Button style={{ color: 'black' }} fullWidth>
           Submit
         </Button>
-      </Modal>
+      </StyledModal>
     </>
   );
 };
