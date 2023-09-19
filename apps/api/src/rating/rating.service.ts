@@ -15,6 +15,8 @@ import { extractIdFromToken } from 'src/utils/extract-token.utils';
 import { OrderService } from 'src/order/order.service';
 import { UpdateRatingDto } from './dto/update-rating.dto';
 
+import * as moment from 'moment-timezone';
+
 @Injectable()
 export class RatingService {
   // updateRating(
@@ -100,15 +102,15 @@ export class RatingService {
       throw new NotFoundException('Rating not found');
     }
 
-    const now = new Date();
-    const reviewDate = existingRating.reviewDate;
-    const updateTime = new Date();
-    updateTime.setTime(updateTime.getTime() - 2 * 60 * 1000); // 2 minutes for testing only
-    //for 5 days updateTime.setDate(updateTime.getDate() - 5);
+    const now = moment.tz('Asia/Manila');
+    const publishedDate = moment(existingRating.publishedDate).tz(
+      'Asia/Manila',
+    );
+    const updateTime = publishedDate.add(1, 'minutes');
 
-    if (reviewDate < updateTime) {
+    if (now.isAfter(updateTime)) {
       throw new BadRequestException(
-        'You can only update your review within 2 minutes of the original review',
+        'You can only update your review within 1 minute of the original review',
       );
     }
 
@@ -121,6 +123,10 @@ export class RatingService {
     if (updatedRatingDto.description !== undefined) {
       existingRating.description = updatedRatingDto.description;
     }
+
+    // Set the reviewDate to the current time in PST
+    existingRating.reviewDate = now.toDate();
+
     const updatedRating = await existingRating.save();
     return updatedRating;
   }
