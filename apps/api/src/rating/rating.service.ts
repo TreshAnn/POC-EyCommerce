@@ -6,24 +6,14 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateRatingDto } from './dto/create-rating.dto';
-
 import { JwtService } from '@nestjs/jwt';
 import { AuthService } from 'src/auth/auth.service';
 import { Rating } from './schemas/rating.schema';
-
 import { OrderService } from 'src/order/order.service';
 import { UpdateRatingDto } from './dto/update-rating.dto';
 
-import * as moment from 'moment-timezone';
-
 @Injectable()
 export class RatingService {
-  // updateRating(
-  //   ratingId: string,
-  //   updatedRatingDto: UpdateRatingDto,
-  // ): Rating | PromiseLike<Rating> {
-  //   throw new Error('Method not implemented.');
-  // }
   constructor(
     @InjectModel(Rating.name) private readonly ratingModel: Model<Rating>,
     private jwtService: JwtService,
@@ -33,7 +23,6 @@ export class RatingService {
 
   async getUserRatings(req: any): Promise<Rating[]> {
     const userId = req._id;
-
     return this.ratingModel.find({ userId });
   }
 
@@ -42,28 +31,19 @@ export class RatingService {
     createRatingDto: CreateRatingDto,
   ): Promise<Rating> {
     const userId = req._id;
-
     const authUser = await this.authService.findOne(userId);
-
-    // flag to check if the item is found
     let itemFound = false;
-
-    // get all delivered orders
     const allDeliveredOrders = await this.orderService.getAllDeliveredOrders(
       userId,
     );
 
-    // for loop of allDeliveredOrders
     for (const order of allDeliveredOrders) {
       const itemIndex = order.orderedItems.findIndex(
         (item) => item.productId === createRatingDto.productId,
       );
 
       if (itemIndex > -1) {
-        // set flag to true if item is found
         itemFound = true;
-
-        // check if user has already provided a rating for the ordered product
         const existingRating = await this.ratingModel.findOne({
           userId,
           productId: createRatingDto.productId,
@@ -75,10 +55,14 @@ export class RatingService {
           );
         }
 
+        const now = new Date();
+
         const rating = {
           ...createRatingDto,
           userId,
           username: authUser.username,
+          publishedDate: now,
+          reviewDate: now,
         };
 
         const userRating = await this.ratingModel.create(rating);
@@ -86,7 +70,6 @@ export class RatingService {
       }
     }
 
-    // throw exception if item is not found in order
     if (!itemFound) {
       throw new NotFoundException('Product not found in delivered order');
     }
@@ -101,13 +84,13 @@ export class RatingService {
       throw new NotFoundException('Rating not found');
     }
 
-    const now = moment.tz('Asia/Manila');
-    const publishedDate = moment(existingRating.publishedDate).tz(
-      'Asia/Manila',
+    const now = new Date();
+    const publishedDate = existingRating.publishedDate;
+    const updateTime = new Date(
+      publishedDate.getTime() + 60 * 1000, // Add 1 minute
     );
-    const updateTime = publishedDate.add(1, 'minutes');
 
-    if (now.isAfter(updateTime)) {
+    if (now > updateTime) {
       throw new BadRequestException(
         'You can only update your review within 1 minute of the original review',
       );
@@ -123,8 +106,7 @@ export class RatingService {
       existingRating.description = updatedRatingDto.description;
     }
 
-    // Set the reviewDate to the current time in PST
-    existingRating.reviewDate = now.toDate();
+    existingRating.reviewDate = now;
 
     const updatedRating = await existingRating.save();
     return updatedRating;
