@@ -50,8 +50,8 @@ export class UsersController {
   @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
   @Roles(Role.CONSUMER)
   @CheckAbilities({ action: Action.Read, subject: User })
-  @Get(':id')
-  async findOne(@Param('id') id: string): Promise<User> {
-    return this.userService.findOne(id);
+  @Get('/')
+  async findUser(@Request() request): Promise<User> {
+    return this.userService.findUser(request._id);
   }
 }
