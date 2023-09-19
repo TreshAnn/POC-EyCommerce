@@ -59,7 +59,7 @@ export class RatingService {
     // for loop of allDeliveredOrders
     for (const order of allDeliveredOrders) {
       const itemIndex = order.orderedItems.findIndex(
-        (item) => item.productId === createRatingDto.productId,
+        (item) => item.productId.toString() === createRatingDto.productId,
       );
 
       if (itemIndex > -1) {
