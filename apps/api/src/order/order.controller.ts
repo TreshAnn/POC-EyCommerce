@@ -25,6 +25,14 @@ import { Action } from 'src/auth/ability/enum/ability.enum';
 export class OrderController {
   constructor(private orderService: OrderService) {}
 
+  @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
+  @Roles(Role.CONSUMER)
+  @CheckAbilities({ action: Action.Read, subject: Order })
+  @Get('all-delivered-orders')
+  async getAllDeliveredOrders(@Request() req): Promise<Order[]> {
+    return await this.orderService.getAllDeliveredOrders(req);
+  }
+
   @UseGuards(AuthGuard)
   @Roles(Role.CONSUMER)
   @UseGuards(RolesGuard)
@@ -62,13 +70,5 @@ export class OrderController {
   async cancelOrder(@Request() request, @Param('id') id: string) {
     const canceledOrder = await this.orderService.cancelOrder(request._id, id);
     return { message: 'Order cancelled successfully', canceledOrder };
-  }
-
-  @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
-  @Roles(Role.CONSUMER)
-  @CheckAbilities({ action: Action.Read, subject: Order })
-  @Get('all-delivered-orders')
-  async getAllDeliveredOrders(@Request() req): Promise<Order[]> {
-    return await this.orderService.getAllDeliveredOrders(req);
   }
 }
