@@ -7,11 +7,12 @@ import {
   Param,
   Post,
   Req,
+  Get,
+  UseGuards,
   Request,
   UseGuards,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
-import { JwtService } from '@nestjs/jwt';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { Order } from './schemas/order.schema';
 import { AuthGuard } from 'src/auth/auth.guard';
@@ -24,10 +25,30 @@ import { Action } from 'src/auth/ability/enum/ability.enum';
 
 @Controller('order')
 export class OrderController {
-  constructor(
-    private orderService: OrderService,
-    private jwtService: JwtService,
-  ) {}
+  constructor(private orderService: OrderService) {}
+
+  @UseGuards(AuthGuard)
+  @Roles(Role.CONSUMER)
+  @UseGuards(RolesGuard)
+  @CheckAbilities({ action: Action.Read, subject: Order })
+  @UseGuards(AbilityGuard)
+  @Get('get-all-orders')
+  async findAllOrders(@Request() request): Promise<Order[]> {
+    return this.orderService.findAllOrders(request._id);
+  }
+
+  @UseGuards(AuthGuard)
+  @Roles(Role.CONSUMER)
+  @UseGuards(RolesGuard)
+  @CheckAbilities({ action: Action.Read, subject: Order })
+  @UseGuards(AbilityGuard)
+  @Get('/:id')
+  async findOrder(
+    @Param('id') orderId: string,
+    @Request() req,
+  ): Promise<Order> {
+    return this.orderService.findOrder(orderId, req);
+  }
 
   @Post('/checkout')
   @HttpCode(HttpStatus.CREATED)
