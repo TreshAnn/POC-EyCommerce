@@ -12,11 +12,12 @@ import { Action } from './enum/ability.enum';
 import { Product } from 'src/products/schemas/products.schema';
 import { Order } from 'src/order/schemas/order.schema';
 import { Cart } from 'src/cart/schemas/cart.schema';
-import { Order } from 'src/order/schemas/order.schema';
 import { Rating } from 'src/rating/schemas/rating.schema';
 
 export type Subjects =
-  | InferSubjects<typeof User | typeof Product | typeof Cart | typeof Order | typeof Rating>
+  | InferSubjects<
+      typeof User | typeof Product | typeof Cart | typeof Order | typeof Rating
+    >
   | 'all';
 export type AppAbility = PureAbility<[Action, Subjects]>;
 
