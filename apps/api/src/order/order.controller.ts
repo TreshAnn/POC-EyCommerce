@@ -4,6 +4,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
   Req,
   Request,
@@ -33,21 +34,10 @@ export class OrderController {
   async createOrder(@Req() req: any, @Body() createOrderDto: CreateOrderDto) {
     return await this.orderService.create(req, createOrderDto);
   }
-
-  @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
-  @Roles(Role.CONSUMER)
-  @CheckAbilities({ action: Action.Read, subject: Order })
-  @Get('/')
-  async getUserOrder(@Request() req): Promise<Order> {
-    return await this.orderService.getUserOrder(req);
-  }
-
-  @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
-  @Roles(Role.CONSUMER)
-  @CheckAbilities({ action: Action.Read, subject: Order })
-  @Get('all-user-orders')
-  async getAllUserOrders(@Request() req): Promise<Order[]> {
-    return await this.orderService.getAllUserOrders(req);
+  @Post('cancel/:id')
+  async cancelOrder(@Request() request, @Param('id') id: string) {
+    const canceledOrder = await this.orderService.cancelOrder(request._id, id);
+    return { message: 'Order canceled successfully', canceledOrder };
   }
 
   @UseGuards(AuthGuard, RolesGuard, AbilityGuard)

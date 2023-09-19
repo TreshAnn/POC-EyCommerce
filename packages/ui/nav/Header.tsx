@@ -12,22 +12,38 @@ import {
   Text,
   Title,
   UnstyledButton,
+  Center,
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IoNotifications } from 'react-icons/io5';
 import { TiShoppingCart } from 'react-icons/ti';
 import { Dropdown } from '../dropdown/dropdown';
 import HeaderCart from '../cart/HeaderCart';
-import { AvatarContainer } from './style';
+import { AvatarContainer } from '../nav/style';
+import { useAuth } from '../../../apps/web/src/views/AuthProvider';
+import { useNavigate } from 'react-router-dom';
 
 export const HeaderNavBar = () => {
+  const { user } = useAuth();
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
-  const [verifyToken, setVerifyToken] = useState<boolean>(true);
+  const [verifyToken, setVerifyToken] = useState<boolean>(false);
+  const navigate = useNavigate();
   const isMobile = useMediaQuery('(max-width: 976px)');
 
-  //Test data for cart
+  const navTo = (path: string) => {
+    navigate(path);
+  };
+
+  useEffect(() => {
+    // Check if the user is authenticated
+    if (user) {
+      setVerifyToken(true);
+    } else {
+      setVerifyToken(false);
+    }
+  }, [user]);
 
   return (
     <Box>
@@ -42,6 +58,11 @@ export const HeaderNavBar = () => {
             <>
               <Group sx={{ height: '100%' }} spacing={40} position="center">
                 <Anchor href="/products">Home</Anchor>
+                {user?.role === 'merchant' && (
+                  <>
+                    <Anchor href="/my-products">My Products</Anchor>
+                  </>
+                )}
                 <Anchor href="#">About Us</Anchor>
                 <Anchor href="#">Services</Anchor>
                 <Anchor href="#">Contact Us</Anchor>
@@ -59,13 +80,13 @@ export const HeaderNavBar = () => {
                         </Avatar>
                       }
                       menuItems={[
-                        'View Profile',
-                        'Settings',
+                        { label: 'View Profile', path: '#' },
+                        { label: 'Settings', path: '#' },
                         'divider',
-                        'My Orders',
-                        'My Wallet',
+                        { label: 'My Orders', path: '#' },
+                        { label: 'My Wallet', path: '#' },
                         'divider',
-                        'Log Out',
+                        { label: 'Log Out', path: '/logout' },
                       ]}
                       avatarContent={
                         <AvatarContainer>
@@ -95,10 +116,21 @@ export const HeaderNavBar = () => {
                   </>
                 ) : (
                   <Group>
-                    <Button color="yellow" variant="filled">
+                    <Button
+                      color="yellow"
+                      mt={0}
+                      onClick={() => navTo('/login')}
+                      variant="filled"
+                    >
                       Log in
                     </Button>
-                    <Button color="yellow" variant="outline">
+
+                    <Button
+                      color="yellow"
+                      mt={0}
+                      onClick={() => navTo('/register')}
+                      variant="outline"
+                    >
                       Sign up
                     </Button>
                   </Group>
@@ -153,10 +185,20 @@ export const HeaderNavBar = () => {
             </Group>
           ) : (
             <Group>
-              <Button color="yellow" variant="filled" fullWidth>
+              <Button
+                color="yellow"
+                variant="filled"
+                onClick={() => navTo('/login')}
+                fullWidth
+              >
                 Log in
               </Button>
-              <Button color="yellow" variant="outline" fullWidth>
+              <Button
+                color="yellow"
+                variant="outline"
+                onClick={() => navTo('/register')}
+                fullWidth
+              >
                 Sign up
               </Button>
             </Group>

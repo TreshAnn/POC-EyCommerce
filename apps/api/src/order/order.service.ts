@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -32,26 +33,6 @@ export class OrderService {
   // Computation for Total Price
   // Delete Items from Cart
 
-  async getUserOrder(userId: string): Promise<OrderDocument> {
-    const userOrder = await this.orderModel.findOne({ userId });
-
-    if (!userOrder) {
-      throw new NotFoundException('Order not found');
-    }
-
-    return userOrder;
-  }
-
-  async getAllUserOrders(userId: string): Promise<Order[]> {
-    const userOrders = await this.orderModel.find({ userId });
-
-    if (userOrders.length === 0) {
-      throw new NotFoundException('Orders not found');
-    }
-
-    return userOrders;
-  }
-
   async getAllDeliveredOrders(userId: string): Promise<Order[]> {
     const allDeliveredOrders = await this.orderModel.find({
       userId,
@@ -71,10 +52,11 @@ export class OrderService {
     const selectedProducts = await this.productService.findProductById(
       selectedProductIds,
     );
+
     let subTotal = 0;
     for (const selectedProduct of selectedProducts) {
       const matchingProduct = userCart.orderedItems.find(
-        (item) => item.productName === selectedProduct.productName,
+        (item) => item.productId === selectedProduct._id.toString(),
       );
 
       if (!matchingProduct) {
@@ -97,7 +79,7 @@ export class OrderService {
         selectedProduct.productInventory - matchingProduct.quantity;
 
       await this.productService.updateProductInventory(
-        selectedProduct.productName,
+        selectedProduct._id.toString(),
         updatedInventory,
       );
     }
@@ -145,9 +127,47 @@ export class OrderService {
       shippingFee: totalShippingFee,
     };
 
-    console.log('Payload', order);
-
     const userOrder = await this.orderModel.create(order);
     return userOrder;
+  }
+
+  async cancelOrder(request: any, id: string): Promise<Order> {
+    const order = await this.orderModel.findById(id);
+    if (!order) {
+      throw new NotFoundException('Order not found');
+    }
+    if (request._id.toString() !== order.userId.toString()) {
+      throw new ForbiddenException('You are not allowed to cancel this order');
+    }
+
+    if (
+      order.status === 'shipped' ||
+      order.status === 'processing' ||
+      order.status === 'delivered'
+    ) {
+      throw new BadRequestException(
+        'Cannot cancel an order with status: ' + order.status,
+      );
+    }
+
+    if (order.status === 'ordered') {
+      for (const item of order.orderedItems) {
+        const product = await this.productService.findOne(item.productId);
+        if (product) {
+          const updatedInventory = product.productInventory + item.quantity;
+          await this.productService.updateProductInventory(
+            item.productId,
+            updatedInventory,
+          );
+        }
+      }
+
+      order.status = 'canceled';
+      await order.save();
+
+      return order;
+    }
+
+    throw new BadRequestException('Invalid order status for cancellation');
   }
 }

@@ -11,7 +11,6 @@ import { JwtService } from '@nestjs/jwt';
 import { AuthService } from 'src/auth/auth.service';
 import { Rating } from './schemas/rating.schema';
 
-import { extractIdFromToken } from 'src/utils/extract-token.utils';
 import { OrderService } from 'src/order/order.service';
 import { UpdateRatingDto } from './dto/update-rating.dto';
 
@@ -33,7 +32,7 @@ export class RatingService {
   ) {}
 
   async getUserRatings(req: any): Promise<Rating[]> {
-    const userId = await extractIdFromToken(req, this.jwtService);
+    const userId = req._id;
 
     return this.ratingModel.find({ userId });
   }
@@ -42,7 +41,7 @@ export class RatingService {
     req: any,
     createRatingDto: CreateRatingDto,
   ): Promise<Rating> {
-    const userId = await extractIdFromToken(req, this.jwtService);
+    const userId = req._id;
 
     const authUser = await this.authService.findOne(userId);
 
