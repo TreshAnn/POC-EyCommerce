@@ -107,7 +107,7 @@ export class OrderService {
 
     const order = {
       ...createOrderDto,
-      userId: userData._id,
+      userId,
       firstName: userData.firstName,
       lastName: userData.lastName,
       address: {
