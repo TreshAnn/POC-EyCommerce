@@ -48,9 +48,8 @@ export class OrderService {
   }
 
   async create(req: any, createOrderDto: CreateOrderDto): Promise<Order[]> {
-    const userId = req._id;
-    const userData = await this.userService.findUser(userId);
-    const userCart = await this.cartService.getCart(userId);
+    const userData = await this.userService.findUser(req._id);
+    const userCart = await this.cartService.getCart(userData._id.toString());
     const selectedProductIds = createOrderDto.productId;
 
     const selectedProducts = await this.productService.findProductById(
@@ -117,7 +116,7 @@ export class OrderService {
       );
       const order = {
         ...createOrderDto,
-        userId,
+        userId: userData._id,
         firstName: userData.firstName,
         lastName: userData.lastName,
         address: {
