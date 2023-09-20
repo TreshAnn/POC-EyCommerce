@@ -2,21 +2,18 @@ import { Table } from '@mantine/core';
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  //display: flex;
-  /* width: 100%;
-  height: auto; */
   justify-content: center;
   align-self: stretch;
   padding: 50px;
   gap: 10px;
   flex: 1 0 0;
-  /* border: 1px solid black; */
   justify-content: center;
   flex-direction: column;
 `;
 
 export const StyledTable = styled(Table)`
-  //padding: 0px;
+  border-collapse: separate;
+  border-spacing: 0;
   thead tfoot tr th {
     color: black;
   }
@@ -31,7 +28,6 @@ export const StyledTable = styled(Table)`
     background-color: white;
     height: auto;
     position: sticky;
-    border: 1px solid #f2f4f6;
   }
   tr {
     padding: 15px 20px;

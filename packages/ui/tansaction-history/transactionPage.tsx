@@ -74,7 +74,6 @@ export const TransactionHistory = ({
                   </th>
                 </tr>
               </thead>
-
               <tbody>
                 <tr>
                   <td colSpan={6}>
