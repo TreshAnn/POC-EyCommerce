@@ -2,7 +2,9 @@ import { Tabs, Text, TextInput } from '@mantine/core';
 import { HiOutlineSearch } from 'react-icons/hi';
 
 import { OrderRow } from './orderComponent';
+import { OrderRating } from './OrderRating';
 import { StyledTable, Wrapper } from './style';
+
 interface ICartProps {
   merchantName: string;
   items: number;
@@ -92,6 +94,42 @@ export const TransactionHistory = ({
           </Tabs.Panel>
           <Tabs.Panel value="ordered">To follow</Tabs.Panel>
           <Tabs.Panel value="shipped">To follow</Tabs.Panel>
+          <Tabs.Panel value="delivered">
+            <StyledTable>
+              <thead>
+                <tr>
+                  <th colSpan={3}>
+                    <Text fz="xl" fw={700}>
+                      Delivered Order(s)
+                    </Text>
+                  </th>
+                  <th>
+                    <Text fw={700}>Date</Text>
+                  </th>
+                  <th>
+                    <Text fw={700}>Quantity</Text>
+                  </th>
+                  <th>
+                    <Text fw={700}>Amount</Text>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colSpan={6}>
+                    <OrderRating
+                      merchantName={merchantName}
+                      items={items}
+                      productImg={productImg}
+                      productName={productName}
+                      date={date}
+                      totalAmount={totalAmount}
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </StyledTable>
+          </Tabs.Panel>
         </Tabs>
       </Wrapper>
     </>
