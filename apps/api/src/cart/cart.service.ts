@@ -13,6 +13,11 @@ import { ProductsService } from 'src/products/products.service';
 import { Request } from 'express';
 import { extractIdFromToken } from 'src/utils/extract-token.utils';
 import { JwtService } from '@nestjs/jwt';
+import {
+  calculateSubTotal,
+  calculateTotal,
+  calculateTotalItems,
+} from '../utils/cart-computation.utils'; // Import cart computation utilities
 
 @Injectable()
 export class CartService {
@@ -100,8 +105,7 @@ export class CartService {
   async addItemToCart(reqHeader: any, itemDto: ItemDto): Promise<Cart> {
     const { productId, quantity, productPrice, productInventory, maxOrder } =
       itemDto;
-    const subTotalPrice =
-      (await this.validateQuantity(quantity)) * productPrice;
+    const subTotalPrice = calculateSubTotal(quantity, productPrice); // Use utility function
     const userId = await extractIdFromToken(reqHeader, this.jwtService);
     const cart = await this.getCart(userId);
 
@@ -126,7 +130,7 @@ export class CartService {
         }
 
         item.quantity = newQuantity;
-        item.subTotalPrice = item.quantity * item.productPrice;
+        item.subTotalPrice = calculateSubTotal(newQuantity, productPrice);
 
         cart.orderedItems[itemIndex] = item;
         this.recalculateCart(cart);
@@ -147,7 +151,7 @@ export class CartService {
           'Requested quantity exceeds product inventory.',
         );
       }
-      const totalAmount = quantity * productPrice;
+      const totalAmount = calculateSubTotal(quantity, productPrice);
       const newCart = await this.createCart(
         userId,
         itemDto,
