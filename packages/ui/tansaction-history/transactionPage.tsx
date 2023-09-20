@@ -42,13 +42,18 @@ export const TransactionHistory = ({
               <TextInput
                 className="search-input"
                 radius="xl"
-                leftSection={
+                rightSection={
                   <HiOutlineSearch
-                    style={{ width: rem(18), height: rem(18) }}
+                    style={{
+                      width: '24px',
+                      height: '24px',
+                      color: '#FFC815',
+                      paddingRight: '10px',
+                    }}
                   />
                 }
                 placeholder="Search Transaction"
-                rightSectionWidth={334}
+                rightSectionWidth={30}
                 color="none"
               />
             </Tabs.Tab>
