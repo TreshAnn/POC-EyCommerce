@@ -61,9 +61,6 @@ importers:
       class-validator:
         specifier: ^0.14.0
         version: 0.14.0
-      moment-timezone:
-        specifier: ^0.5.43
-        version: 0.5.43
       mongoose:
         specifier: 7.3.3
         version: 7.3.3
