@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Req,
+  Param,
 } from '@nestjs/common';
 import { RatingService } from './rating.service';
 import { Rating } from './schemas/rating.schema';
@@ -14,6 +15,12 @@ import { CreateRatingDto } from './dto/create-rating.dto';
 @Controller('rating')
 export class RatingController {
   constructor(private readonly ratingService: RatingService) {}
+
+  @HttpCode(HttpStatus.OK)
+  @Get('/:id')
+  async getProductRatings(@Param('id') productId: string): Promise<Rating[]> {
+    return await this.ratingService.getProductRatings(productId);
+  }
 
   @HttpCode(HttpStatus.CREATED)
   @Post('')
