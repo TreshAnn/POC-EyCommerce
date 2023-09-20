@@ -3,17 +3,15 @@ import {
   ForbiddenException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Order, OrderDocument } from './schemas/order.schema';
+import { Order } from './schemas/order.schema';
 import { CartService } from 'src/cart/cart.service';
 import { ProductsService } from 'src/products/products.service';
 import { Model } from 'mongoose';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { JwtService } from '@nestjs/jwt';
-import { extractIdFromToken } from 'src/utils/extract-token.utils';
 import { UsersService } from 'src/users/users.service';
-import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class OrderService {
@@ -21,11 +19,9 @@ export class OrderService {
     @InjectModel(Order.name) private readonly orderModel: Model<Order>,
     private cartService: CartService,
     private productService: ProductsService,
-    private jwtService: JwtService,
     private userService: UsersService,
-    private authService: AuthService,
   ) {}
-  async findAllOrders(userId: any): Promise<Order[]> {
+  async findAll(userId: any): Promise<Order[]> {
     return await this.orderModel.find({ userId });
   }
 
@@ -33,7 +29,7 @@ export class OrderService {
     const order = await this.orderModel.findOne({ _id: orderId });
 
     if (req._id.toString() !== order.userId.toString()) {
-      throw new ForbiddenException('User is unauthorized!');
+      throw new UnauthorizedException('User is unauthorized!');
     }
     if (!order) {
       throw new NotFoundException('Order is not found');
@@ -51,10 +47,9 @@ export class OrderService {
     return allDeliveredOrders;
   }
 
-  async create(req: any, createOrderDto: CreateOrderDto): Promise<Order> {
-    const userId = await extractIdFromToken(req, this.jwtService);
-    const authData = await this.authService.findAuthId(userId);
-    const userData = await this.userService.findUserName(authData.username);
+  async create(req: any, createOrderDto: CreateOrderDto): Promise<Order[]> {
+    const userId = req._id;
+    const userData = await this.userService.findUser(userId);
     const userCart = await this.cartService.getCart(userId);
     const selectedProductIds = createOrderDto.productId;
 
@@ -63,6 +58,10 @@ export class OrderService {
     );
 
     let subTotal = 0;
+    const orders: Order[] = [];
+    const productsByMerchant = new Map<string, any[]>();
+    const currentTimestamp = new Date();
+
     for (const selectedProduct of selectedProducts) {
       const matchingProduct = userCart.orderedItems.find(
         (item) => item.productId === selectedProduct._id.toString(),
@@ -79,7 +78,6 @@ export class OrderService {
           `Insufficient stock for product: ${selectedProduct.productName}`,
         );
       }
-
       // Calculate the subtotal price
       subTotal += selectedProduct.productPrice * matchingProduct.quantity;
 
@@ -91,53 +89,62 @@ export class OrderService {
         selectedProduct._id.toString(),
         updatedInventory,
       );
+      const merchantId = selectedProduct.merchantID.toString();
+      if (!productsByMerchant.has(merchantId)) {
+        productsByMerchant.set(merchantId, []);
+      }
+      productsByMerchant.get(merchantId).push(selectedProduct);
     }
-    //remove from Cart
-    for (const productId of selectedProductIds) {
-      await this.cartService.removeItemFromCart(req, productId);
-    }
-
-    // Check if there are multiple merchant IDs
-    const uniqueMerchantIds = new Set(
-      selectedProducts.map((product) => product.merchantID.toString()),
-    );
-
-    const totalShippingFee =
-      createOrderDto.shippingFee * uniqueMerchantIds.size;
-
-    const order = {
-      ...createOrderDto,
-      userId: userData._id,
-      firstName: userData.firstName,
-      lastName: userData.lastName,
-      address: {
-        street: userData.address.street,
-        city: userData.address.city,
-        region: userData.address.region,
-        zipcode: userData.address.zipcode,
-        country: userData.address.country,
-      },
-      phoneNumber: userData.phoneNumber,
-      orderedItems: selectedProducts.map((product) => ({
-        productId:
-          selectedProductIds[
-            selectedProducts.findIndex(
-              (selectedProduct) =>
-                selectedProduct.productName === product.productName,
-            )
-          ],
+    for (const [merchantId, products] of productsByMerchant) {
+      const totalShippingFee = createOrderDto.shippingFee;
+      const orderedItems = products.map((product) => ({
+        productId: product._id,
         productName: product.productName,
         price: product.productPrice,
         quantity: userCart.orderedItems.find(
-          (item) => item.productName === product.productName,
+          (item) => item.productId === product._id.toString(),
         ).quantity,
-      })),
-      totalAmount: subTotal + totalShippingFee,
-      shippingFee: totalShippingFee,
-    };
+        subtotal:
+          product.productPrice *
+          userCart.orderedItems.find(
+            (item) => item.productId === product._id.toString(),
+          ).quantity,
+      }));
 
-    const userOrder = await this.orderModel.create(order);
-    return userOrder;
+      const orderTotal = orderedItems.reduce(
+        (total, item) => total + item.subtotal,
+        0,
+      );
+      const order = {
+        ...createOrderDto,
+        userId,
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        address: {
+          street: userData.address.street,
+          city: userData.address.city,
+          region: userData.address.region,
+          zipcode: userData.address.zipcode,
+          country: userData.address.country,
+        },
+        phoneNumber: userData.phoneNumber,
+        orderedItems,
+        totalAmount: orderTotal + totalShippingFee,
+        shippingFee: totalShippingFee,
+        merchantId: merchantId,
+        timestamp: {
+          orderedAt: currentTimestamp,
+        },
+      };
+      const userOrder = await this.orderModel.create(order);
+      orders.push(userOrder);
+
+      // Remove items from Cart
+      for (const product of products) {
+        await this.cartService.removeItemFromCart(req, product._id);
+      }
+    }
+    return orders;
   }
 
   async cancelOrder(request: any, id: string): Promise<Order> {
@@ -171,7 +178,7 @@ export class OrderService {
         }
       }
 
-      order.status = 'canceled';
+      order.status = 'cancelled';
       await order.save();
 
       return order;
