@@ -1,10 +1,6 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { isValidRating } from 'src/utils/custom-validations.utils';
-
-export class CreateRatingDto {
-  @IsNotEmpty()
-  readonly productId: string;
-
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+export class UpdateRatingDto {
   @IsNotEmpty()
   @IsNumber()
   @isValidRating()

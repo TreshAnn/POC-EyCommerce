@@ -1,17 +1,9 @@
 import React from 'react';
-import { CartData } from 'ui/tansaction-history/sampledata';
-import { TransactionHistory } from 'ui/tansaction-history/transactionPage';
+//add imports for component to test
+
+// NOTE: This view is for testing of component/views(frontend only tasks)
+// When used, please remove imports and components inside main before merging active PR
 export const SampleView = () => {
-  return (
-    <main>
-      <TransactionHistory
-        merchantName={CartData.merchantName}
-        items={CartData.items}
-        productImg={CartData.productImg}
-        productName={CartData.productName}
-        date={CartData.date}
-        totalAmount={CartData.totalAmount}
-      />
-    </main>
-  );
+  //Add test functions here
+  return <main>Enter test component here</main>;
 };
