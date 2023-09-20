@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CatsModule } from './cats/cats.module';
 import { AuthModule } from './auth/auth.module';
@@ -9,8 +9,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './auth/constants';
 import { MerchantsModule } from './merchants/merchants.module';
 import { ProductsModule } from './products/products.module';
-import { AuthMiddleware } from './middleware/auth.middleware';
-import { UsersController } from './users/users.controller';
 import { AbilityModule } from './auth/ability/ability.module';
 import { CartModule } from './cart/cart.module';
 import { OrderModule } from './order/order.module';
@@ -18,6 +16,8 @@ import { RatingModule } from './rating/rating.module';
 
 @Module({
   imports: [
+    //use for local db test: mongodb://localhost:27017/test
+    //use for central db test: mongodb+srv://user:aZkh7DhYjrP2i52U@personalproject.fzwyrwp.mongodb.net/POC-EYCommerce
     MongooseModule.forRoot(
       'mongodb+srv://user:aZkh7DhYjrP2i52U@personalproject.fzwyrwp.mongodb.net/POC-EYCommerce',
     ),
