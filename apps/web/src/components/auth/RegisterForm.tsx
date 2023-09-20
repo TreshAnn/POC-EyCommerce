@@ -33,6 +33,9 @@ const schema = z
       message:
         'Username must contain only alphanumeric characters and no spaces.',
     }),
+    merchantName: z
+      .string()
+      .min(2, { message: 'Merchant Name must be at least 2 characters long.' }),
     firstName: z
       .string()
       .min(2, { message: 'First Name must be at least 2 characters long.' }),
@@ -74,6 +77,7 @@ type TRegisterAddress = {
 type TRegisterValues = {
   userType: string;
   username: string;
+  merchantName: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -89,11 +93,11 @@ type IRegisterFormProps = {
 
 export const RegisterForm = ({ onSuccess }: IRegisterFormProps) => {
   const register = useRegister();
+  const [selectedUserType, setSelectedUserType] = useState<string | null>(null);
   const [data] = useState([
     { value: 'consumer', label: 'Consumer' },
     { value: 'merchant', label: 'Merchant' },
   ]);
-
   const handleOnSubmit = (values) => {
     values.address.zipcode = parseInt(values.address.zipcode, 10);
     register.mutate(values, {
@@ -120,10 +124,20 @@ export const RegisterForm = ({ onSuccess }: IRegisterFormProps) => {
                   placeholder="Select User Type"
                   required
                   onChange={(selectedValue: string) => {
+                    setSelectedUserType(selectedValue);
                     setValue('userType', selectedValue);
                   }}
                   error={formState.errors['userType']?.message}
                 />
+                {selectedUserType === 'merchant' && (
+                  <TextInput
+                    label="Merchant Name"
+                    placeholder="Enter Merchant Name..."
+                    required
+                    error={formState.errors['merchantName']?.message}
+                    {...register('merchantName')}
+                  />
+                )}
                 <TextInput
                   label="User Name"
                   placeholder="Enter your User Name..."
