@@ -56,4 +56,18 @@ export const StyledTable = styled(Table)`
     justify-content: flex-end;
     padding-right: 20px;
   }
+
+  .btn-group {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .btn {
+    margin: 0;
+    /* padding: 0; */
+  }
+
+  .rating-btn {
+    margin-right: -50px;
+  }
 `;
