@@ -56,4 +56,8 @@ export const StyledTable = styled(Table)`
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
   }
+  .td-footer {
+    justify-content: flex-end;
+    padding-right: 20px;
+  }
 `;
