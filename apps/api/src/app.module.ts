@@ -18,7 +18,9 @@ import { RatingModule } from './rating/rating.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/test'),
+    MongooseModule.forRoot(
+      'mongodb+srv://user:aZkh7DhYjrP2i52U@personalproject.fzwyrwp.mongodb.net/POC-EYCommerce',
+    ),
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
