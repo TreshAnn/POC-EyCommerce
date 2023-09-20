@@ -20,11 +20,9 @@ export const CheckoutView = () => {
   };
   const cart = useGetCart({});
   const createOrder = useCreateOrder();
-  const cartUser = useGetOneUser({}, cart.data?.userId || '');
+  const cartUser = useGetOneUser({});
 
   const handleCheckOut = (newOrderData: CreateOrderDTO) => {
-    // eslint-disable-next-line no-console
-    console.log(newOrderData);
     createOrder.mutate({ ...newOrderData });
   };
 
