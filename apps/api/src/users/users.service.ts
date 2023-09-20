@@ -38,24 +38,14 @@ export class UsersService {
     });
   }
 
-  async findOne(id: string): Promise<User> {
-    const user = await this.userModel.findOne({ _id: id });
+  async findUser(userId: string): Promise<User> {
+    const user = await this.userModel.findOne({ 'auth._id': userId });
 
     if (!user) {
       throw new NotFoundException('User not found');
     }
 
     return user;
-  }
-
-  async findUserName(username: string) {
-    const res = await this.userModel.findOne({ 'auth.username': username });
-
-    if (!res) {
-      throw new NotFoundException('Username was not found');
-    }
-
-    return res;
   }
 
   async findByIdAndUpdate(

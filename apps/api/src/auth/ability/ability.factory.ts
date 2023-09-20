@@ -10,8 +10,8 @@ import { Role } from 'src/guards/enum/role.enum';
 import { User } from 'src/users/schemas/user.schema';
 import { Action } from './enum/ability.enum';
 import { Product } from 'src/products/schemas/products.schema';
-import { Cart } from 'src/cart/schemas/cart.schema';
 import { Order } from 'src/order/schemas/order.schema';
+import { Cart } from 'src/cart/schemas/cart.schema';
 import { Rating } from 'src/rating/schemas/rating.schema';
 
 export type Subjects =
@@ -43,6 +43,10 @@ export class AbilityFactory {
 
       // product
       can(Action.Read, Product);
+
+      // order
+      can(Action.Read, Order);
+      can(Action.Create, Order);
 
       // cart
       can(Action.Create, Cart);
