@@ -12,6 +12,7 @@ import { ProductsService } from 'src/products/products.service';
 import { Model } from 'mongoose';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UsersService } from 'src/users/users.service';
+import { MerchantsService } from 'src/merchants/merchants.service';
 
 @Injectable()
 export class OrderService {
@@ -19,10 +20,12 @@ export class OrderService {
     @InjectModel(Order.name) private readonly orderModel: Model<Order>,
     private cartService: CartService,
     private productService: ProductsService,
-    private userService: UsersService,
+    private usersService: UsersService,
+    private merchantsService: MerchantsService,
   ) {}
   async findAll(userId: any): Promise<Order[]> {
-    return await this.orderModel.find({ userId });
+    const user = await this.usersService.findUser(userId);
+    return await this.orderModel.find({ userId: user._id.toString() });
   }
 
   async findOrder(orderId: string, req: any): Promise<Order> {
@@ -48,7 +51,7 @@ export class OrderService {
   }
 
   async create(req: any, createOrderDto: CreateOrderDto): Promise<Order[]> {
-    const userData = await this.userService.findUser(req._id);
+    const userData = await this.usersService.findUser(req._id);
     const userCart = await this.cartService.getCart(userData._id.toString());
     const selectedProductIds = createOrderDto.productId;
 
@@ -96,9 +99,13 @@ export class OrderService {
     }
     for (const [merchantId, products] of productsByMerchant) {
       const totalShippingFee = createOrderDto.shippingFee;
+      const merchant = await this.merchantsService.findMerchantInModel(
+        merchantId,
+      );
       const orderedItems = products.map((product) => ({
         productId: product._id,
         productName: product.productName,
+        productImg: product.productImg,
         price: product.productPrice,
         quantity: userCart.orderedItems.find(
           (item) => item.productId === product._id.toString(),
@@ -131,6 +138,7 @@ export class OrderService {
         totalAmount: orderTotal + totalShippingFee,
         shippingFee: totalShippingFee,
         merchantId: merchantId,
+        merchantName: merchant.merchantName,
         timestamp: {
           orderedAt: currentTimestamp,
         },

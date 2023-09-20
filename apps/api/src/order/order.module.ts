@@ -8,6 +8,7 @@ import { ProductsModule } from 'src/products/products.module';
 import { UsersModule } from 'src/users/users.module';
 import { AbilityModule } from 'src/auth/ability/ability.module';
 import { AuthModule } from 'src/auth/auth.module';
+import { MerchantsModule } from 'src/merchants/merchants.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { AuthModule } from 'src/auth/auth.module';
     forwardRef(() => ProductsModule),
     forwardRef(() => UsersModule),
     forwardRef(() => AuthModule),
+    MerchantsModule,
     AbilityModule,
   ],
   controllers: [OrderController],

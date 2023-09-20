@@ -70,6 +70,9 @@ export class Order {
   merchantId: string;
 
   @Prop()
+  merchantName: string;
+
+  @Prop()
   orderedItems: Item[];
 
   @Prop()
