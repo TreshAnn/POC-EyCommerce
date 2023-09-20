@@ -1,11 +1,15 @@
 import React from 'react';
-import { RatingModule } from 'ui/rating/RatingModule';
-import { testData } from 'ui/rating/user-review/test-data';
-
+import { CartData } from 'ui/tansaction-history/sampledata';
+import { TransactionHistory } from 'ui/tansaction-history/transactionPage';
 export const SampleView = () => {
   return (
     <main>
-      <RatingModule reviews={testData} ratingValue={5} reviewCount={3423} />
+      <TransactionHistory
+        merchantName={CartData.merchantName}
+        items={CartData.items}
+        productImg={CartData.productImg}
+        productName={CartData.productName}
+      />
     </main>
   );
 };
