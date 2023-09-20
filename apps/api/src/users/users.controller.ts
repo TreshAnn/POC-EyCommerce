@@ -7,8 +7,8 @@ import {
   Param,
   Post,
   Put,
-  Request,
   UseGuards,
+  Request,
 } from '@nestjs/common';
 import { CheckAbilities } from 'src/auth/ability/ability.decorator';
 import { AbilityGuard } from 'src/auth/ability/ability.guard';
@@ -50,8 +50,8 @@ export class UsersController {
   @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
   @Roles(Role.CONSUMER)
   @CheckAbilities({ action: Action.Read, subject: User })
-  @Get(':id')
-  async findOne(@Param('id') id: string): Promise<User> {
-    return this.userService.findOne(id);
+  @Get('/')
+  async findUser(@Request() request): Promise<User> {
+    return this.userService.findUser(request._id);
   }
 }

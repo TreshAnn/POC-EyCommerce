@@ -14,6 +14,7 @@ import { UsersController } from './users/users.controller';
 import { AbilityModule } from './auth/ability/ability.module';
 import { CartModule } from './cart/cart.module';
 import { OrderModule } from './order/order.module';
+import { RatingModule } from './rating/rating.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { OrderModule } from './order/order.module';
     AbilityModule,
     CartModule,
     OrderModule,
+    RatingModule,
   ],
   controllers: [],
   providers: [

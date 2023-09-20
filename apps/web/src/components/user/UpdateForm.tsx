@@ -89,7 +89,6 @@ export const UpdateForm = ({ onSuccess }: IUserUpdateFormProps) => {
       phoneNumber: userData.phoneNumber,
     };
     // eslint-disable-next-line no-console
-    console.log('Payload: ', formatPayload);
     updateUser.mutate(formatPayload);
   };
 
