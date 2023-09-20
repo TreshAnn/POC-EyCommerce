@@ -9,6 +9,8 @@ export const SampleView = () => {
         items={CartData.items}
         productImg={CartData.productImg}
         productName={CartData.productName}
+        date={CartData.date}
+        totalAmount={CartData.totalAmount}
       />
     </main>
   );
