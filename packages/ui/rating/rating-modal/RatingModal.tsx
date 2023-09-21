@@ -26,6 +26,7 @@ interface RatingModalProps {
   onClose: () => void;
   data: IOrder;
   productId: string;
+  closeModal: () => void;
 }
 
 interface RatingData {
@@ -41,6 +42,7 @@ export const RatingModal = ({
   data,
   onRatingSubmit,
   productId,
+  closeModal,
 }: RatingModalProps) => {
   const isMobile = useMediaQuery(
     `(max-width: ${DEFAULT_THEME.breakpoints.xs})`,
@@ -62,10 +64,8 @@ export const RatingModal = ({
       rating: rating,
       productId: productId,
     };
-
-    // eslint-disable-next-line no-console
-    console.log('Rating data:', updatedRatingData);
     onRatingSubmit(updatedRatingData);
+    closeModal();
   };
 
   const handleDataChange = (
