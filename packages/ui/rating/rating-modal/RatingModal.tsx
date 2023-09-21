@@ -1,48 +1,75 @@
 import {
   Button,
-  Title,
-  Rating,
-  Flex,
-  Text,
-  Image,
-  Divider,
   DEFAULT_THEME,
+  Divider,
+  Flex,
+  Image,
+  Rating,
+  Text,
+  Title,
 } from '@mantine/core';
-import StarSVG from '../StarSVG';
-import {
-  StyledImageWrapper,
-  StyledProductDiv,
-  StyledTextarea,
-  StyledModal,
-} from './styles';
 import { useMediaQuery } from '@mantine/hooks';
 import { useState } from 'react';
 
+import { IOrder } from '../../../../apps/web/src/views/user-transaction/types';
+import StarSVG from '../StarSVG';
+import {
+  StyledImageWrapper,
+  StyledModal,
+  StyledProductDiv,
+  StyledTextarea,
+} from './styles';
 interface RatingModalProps {
+  onRatingSubmit: (rating: RatingData) => void;
   isOpen: boolean;
   onClose: () => void;
+  data: IOrder;
 }
 
-export const RatingModal = ({ isOpen, onClose }: RatingModalProps) => {
+interface RatingData {
+  rating: number;
+}
+
+export const RatingModal = ({
+  isOpen,
+  onClose,
+  data,
+  onRatingSubmit,
+}: RatingModalProps) => {
   const isMobile = useMediaQuery(
     `(max-width: ${DEFAULT_THEME.breakpoints.xs})`,
   );
+
+  const productRating = {
+    rating: 0,
+  };
   const [rating, setRating] = useState(0);
+  const [ratingData, setRatingData] = useState<RatingData>(productRating);
+
+  const handleRatingSubmit = async () => {
+    onRatingSubmit(ratingData);
+  };
 
   return (
     <>
       <StyledModal opened={isOpen} onClose={onClose} size="80%">
         <Flex pb={10}>
           <StyledImageWrapper>
-            <Image
-              fit="contain"
-              src={'https://placehold.co/540x540.png'}
-              alt="Product Image"
-            />
+            {data.orderedItems.map((item, index) => (
+              <Image
+                key={index}
+                fit="contain"
+                src={item.productImg}
+                alt="Product Image"
+              />
+            ))}
           </StyledImageWrapper>
           <StyledProductDiv>
-            <Text size={isMobile ? 'sm' : undefined}>Product Name</Text>
-            <Text size={isMobile ? 'sm' : undefined}>Product Description</Text>
+            {data.orderedItems.map((item, index) => (
+              <Text key={index} size={isMobile ? 'sm' : undefined}>
+                {item.productName}
+              </Text>
+            ))}
           </StyledProductDiv>
         </Flex>
         <Divider my="sm" />
@@ -70,7 +97,11 @@ export const RatingModal = ({ isOpen, onClose }: RatingModalProps) => {
         </Flex>
 
         <StyledTextarea placeholder="Leave a message about the product..." />
-        <Button style={{ color: 'black' }} fullWidth>
+        <Button
+          style={{ color: 'black' }}
+          fullWidth
+          onClick={handleRatingSubmit}
+        >
           Submit
         </Button>
       </StyledModal>

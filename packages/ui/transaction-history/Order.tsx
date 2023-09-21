@@ -21,7 +21,10 @@ interface OrderComponentProps {
   onRatingSubmit: (data: Rating) => void;
 }
 
-export const Order: React.FC<OrderComponentProps> = ({ data }) => {
+export const Order: React.FC<OrderComponentProps> = ({
+  data,
+  onRatingSubmit,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleCloseModal = () => {
@@ -102,6 +105,7 @@ export const Order: React.FC<OrderComponentProps> = ({ data }) => {
                       isOpen={isModalOpen}
                       onClose={handleCloseModal}
                       data={data}
+                      onRatingSubmit={onRatingSubmit}
                     />
                   </td>
                 )}
