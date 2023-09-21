@@ -5,11 +5,19 @@ import { axios } from '../../../lib/axios';
 import { QueryConfig } from '../../../lib/react-query';
 import { Rating } from '../types';
 
-export type CreateRatingDTO = Pick<Rating, 'rating'>;
+export type CreateRatingDTO = Rating;
 
-export const createRating = ({ rating }: CreateRatingDTO): Promise<Rating> => {
+export const createRating = ({
+  productId,
+  rating,
+  title,
+  description,
+}: CreateRatingDTO): Promise<Rating> => {
   return axios.post('/api/rating/', {
+    productId,
     rating,
+    title,
+    description,
   });
 };
 

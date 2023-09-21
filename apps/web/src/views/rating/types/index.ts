@@ -1,6 +1,6 @@
 export interface Rating {
-  // productId: string;
+  productId: string;
   rating: number;
-  // title: string;
-  // description: string;
+  title: string;
+  description: string;
 }

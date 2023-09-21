@@ -9,7 +9,7 @@ import {
   Title,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 import { IOrder } from '../../../../apps/web/src/views/user-transaction/types';
 import StarSVG from '../StarSVG';
@@ -28,6 +28,9 @@ interface RatingModalProps {
 
 interface RatingData {
   rating: number;
+  title: string;
+  description: string;
+  productId: string;
 }
 
 export const RatingModal = ({
@@ -42,12 +45,35 @@ export const RatingModal = ({
 
   const productRating = {
     rating: 0,
+    title: '',
+    description: '',
+    productId: '',
   };
   const [rating, setRating] = useState(0);
   const [ratingData, setRatingData] = useState<RatingData>(productRating);
 
   const handleRatingSubmit = async () => {
-    onRatingSubmit(ratingData);
+    // Update the ratingData with the selected rating
+    const updatedRatingData = {
+      ...ratingData,
+      rating: rating,
+    };
+
+    // eslint-disable-next-line no-console
+    console.log('Rating data:', updatedRatingData);
+    onRatingSubmit(updatedRatingData);
+  };
+
+  const handleDataChange = (
+    property: string,
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const newValue = event.currentTarget.value;
+
+    setRatingData({
+      ...ratingData,
+      [property]: newValue,
+    });
   };
 
   return (
@@ -96,7 +122,13 @@ export const RatingModal = ({
           />
         </Flex>
 
-        <StyledTextarea placeholder="Leave a message about the product..." />
+        <StyledTextarea
+          placeholder="Leave a message about the product..."
+          label="Product Description"
+          value={ratingData.description}
+          onChange={(event) => handleDataChange('description', event)}
+          withAsterisk
+        />
         <Button
           style={{ color: 'black' }}
           fullWidth
