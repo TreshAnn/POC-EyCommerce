@@ -11,6 +11,7 @@ import { AuthService } from 'src/auth/auth.service';
 import { Rating } from './schemas/rating.schema';
 import { OrderService } from 'src/order/order.service';
 import { UpdateRatingDto } from './dto/update-rating.dto';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class RatingService {
@@ -19,6 +20,7 @@ export class RatingService {
     private jwtService: JwtService,
     private authService: AuthService,
     private orderService: OrderService,
+    private userService: UsersService,
   ) {}
 
   async getUserRatings(req: any): Promise<Rating[]> {
@@ -42,11 +44,10 @@ export class RatingService {
     req: any,
     createRatingDto: CreateRatingDto,
   ): Promise<Rating> {
-    const userId = req._id;
-    const authUser = await this.authService.findOne(userId);
+    const userId = await this.userService.findUser(req);
     let itemFound = false;
     const allDeliveredOrders = await this.orderService.getAllDeliveredOrders(
-      userId,
+      req,
     );
 
     for (const order of allDeliveredOrders) {
@@ -72,7 +73,7 @@ export class RatingService {
         const rating = {
           ...createRatingDto,
           userId,
-          username: authUser.username,
+          username: userId.auth.username,
           publishedDate: now,
           reviewDate: now,
         };

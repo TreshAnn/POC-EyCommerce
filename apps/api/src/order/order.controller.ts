@@ -20,17 +20,21 @@ import { Roles } from 'src/auth/decorators/role.decorator';
 import { Role } from 'src/guards/enum/role.enum';
 import { CheckAbilities } from 'src/auth/ability/ability.decorator';
 import { Action } from 'src/auth/ability/enum/ability.enum';
+import { UsersService } from 'src/users/users.service';
 
 @Controller('order')
 export class OrderController {
-  constructor(private orderService: OrderService) {}
+  constructor(
+    private orderService: OrderService,
+    private userService: UsersService,
+  ) {}
 
   @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
   @Roles(Role.CONSUMER)
   @CheckAbilities({ action: Action.Read, subject: Order })
   @Get('all-delivered-orders')
   async getAllDeliveredOrders(@Request() req): Promise<Order[]> {
-    return await this.orderService.getAllDeliveredOrders(req);
+    return await this.orderService.getAllDeliveredOrders(req._id);
   }
 
   @UseGuards(AuthGuard)

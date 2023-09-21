@@ -13,10 +13,14 @@ import { RatingService } from './rating.service';
 import { Rating } from './schemas/rating.schema';
 import { CreateRatingDto } from './dto/create-rating.dto';
 import { UpdateRatingDto } from './dto/update-rating.dto';
+import { UsersService } from 'src/users/users.service';
 
 @Controller('rating')
 export class RatingController {
-  constructor(private readonly ratingService: RatingService) {}
+  constructor(
+    private readonly ratingService: RatingService,
+    private readonly userService: UsersService,
+  ) {}
 
   @HttpCode(HttpStatus.OK)
   @Get('/:id')
@@ -30,7 +34,7 @@ export class RatingController {
     @Req() req: any,
     @Body() createRatingDto: CreateRatingDto,
   ): Promise<Rating> {
-    return await this.ratingService.createOrderRating(req, createRatingDto);
+    return await this.ratingService.createOrderRating(req._id, createRatingDto);
   }
 
   @HttpCode(HttpStatus.OK)

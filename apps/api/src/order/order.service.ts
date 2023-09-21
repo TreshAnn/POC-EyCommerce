@@ -41,7 +41,8 @@ export class OrderService {
     return order;
   }
 
-  async getAllDeliveredOrders(userId: string): Promise<Order[]> {
+  async getAllDeliveredOrders(req: any): Promise<Order[]> {
+    const userId = await this.usersService.findUser(req);
     const allDeliveredOrders = await this.orderModel.find({
       userId,
       status: 'delivered',
