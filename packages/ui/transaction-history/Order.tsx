@@ -11,11 +11,17 @@ import {
 import { useState } from 'react';
 import { HiOutlineDotsVertical } from 'react-icons/hi';
 
+import { Rating } from '../../../apps/web/src/views/rating/types';
 import { IOrder } from '../../../apps/web/src/views/user-transaction/types';
 import { RatingModal } from '../rating/rating-modal/RatingModal';
 import { StyledTable } from './style';
 
-export const Order = ({ data }: { data: IOrder }) => {
+interface OrderComponentProps {
+  data: IOrder;
+  onRatingSubmit: (data: Rating) => void;
+}
+
+export const Order: React.FC<OrderComponentProps> = ({ data }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleCloseModal = () => {
@@ -95,6 +101,7 @@ export const Order = ({ data }: { data: IOrder }) => {
                     <RatingModal
                       isOpen={isModalOpen}
                       onClose={handleCloseModal}
+                      data={data}
                     />
                   </td>
                 )}
