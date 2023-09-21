@@ -1,4 +1,5 @@
 import {
+  Button,
   Card,
   CardSection,
   Divider,
@@ -6,14 +7,24 @@ import {
   Image,
   Menu,
   Text,
-  Button,
 } from '@mantine/core';
+import { useState } from 'react';
 import { HiOutlineDotsVertical } from 'react-icons/hi';
 
 import { IOrder } from '../../../apps/web/src/views/user-transaction/types';
+import { RatingModal } from '../rating/rating-modal/RatingModal';
 import { StyledTable } from './style';
 
 export const Order = ({ data }: { data: IOrder }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
   return (
     <Card
       withBorder
@@ -74,9 +85,17 @@ export const Order = ({ data }: { data: IOrder }) => {
                 {/* Conditionally render this button */}
                 {data.status === 'delivered' && (
                   <td>
-                    <Button fz="md" style={{ color: 'black' }}>
+                    <Button
+                      fz="md"
+                      style={{ color: 'black' }}
+                      onClick={handleOpenModal}
+                    >
                       Rate Item
                     </Button>
+                    <RatingModal
+                      isOpen={isModalOpen}
+                      onClose={handleCloseModal}
+                    />
                   </td>
                 )}
                 <td>
