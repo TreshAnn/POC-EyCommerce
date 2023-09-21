@@ -9,24 +9,10 @@ import {
 } from '@mantine/core';
 import { HiOutlineDotsVertical } from 'react-icons/hi';
 
+import { IOrder } from '../../../apps/web/src/views/user-transaction/types';
 import { StyledTable } from './style';
 
-interface IOrderProps {
-  merchantName: string;
-  items: number;
-  productImg: string;
-  productName: string;
-  date: string;
-  totalAmount: number;
-}
-export const Order: React.FC<IOrderProps> = ({
-  merchantName,
-  items = 0,
-  productImg,
-  productName,
-  date,
-  totalAmount,
-}) => {
+export const Order = ({ data }: { data: IOrder }) => {
   return (
     <Card
       withBorder
@@ -48,7 +34,7 @@ export const Order: React.FC<IOrderProps> = ({
       >
         <div>
           <Text fw={700} size={20}>
-            {merchantName} ({items})
+            {data.merchantName} ({2})
           </Text>
         </div>
         <div>
@@ -68,36 +54,38 @@ export const Order: React.FC<IOrderProps> = ({
       <CardSection>
         <StyledTable>
           <tbody>
-            <tr>
-              <td colSpan={3}>
-                <Group>
-                  <Image
-                    width={50}
-                    height={50}
-                    src={productImg}
-                    style={{ paddingLeft: '20px' }}
-                  />
-                  <Text fw={700} size={16} style={{ paddingLeft: '20px' }}>
-                    {productName}
+            {data.orderedItems.map((item, index) => (
+              <tr key={index}>
+                <td colSpan={3}>
+                  <Group>
+                    <Image
+                      width={50}
+                      height={50}
+                      src={item.productImg}
+                      style={{ paddingLeft: '20px' }}
+                    />
+                    <Text fw={700} size={16} style={{ paddingLeft: '20px' }}>
+                      {item.productName}
+                    </Text>
+                  </Group>
+                </td>
+                <td>
+                  <Text size={16} fw={400}>
+                    {data.timestamp.orderedAt}
                   </Text>
-                </Group>
-              </td>
-              <td>
-                <Text size={16} fw={400}>
-                  {date}
-                </Text>
-              </td>
-              <td>
-                <Text fw={700} color="#A6A6A6">
-                  x1
-                </Text>
-              </td>
-              <td>
-                <Text fw={700} color="#000">
-                  ₱190.00
-                </Text>
-              </td>
-            </tr>
+                </td>
+                <td>
+                  <Text fw={700} color="#A6A6A6">
+                    x{item.quantity}
+                  </Text>
+                </td>
+                <td>
+                  <Text fw={700} color="#000">
+                    ₱{item.price.toFixed(2)}
+                  </Text>
+                </td>
+              </tr>
+            ))}
           </tbody>
           <br />
           <tfoot>
@@ -139,7 +127,7 @@ export const Order: React.FC<IOrderProps> = ({
                     color="#FFC815"
                     style={{ display: 'inline-block' }}
                   >
-                    &#8369; {totalAmount}
+                    &#8369; {data.totalAmount}
                   </Text>
                 </Group>
               </td>

@@ -24,12 +24,8 @@ export const CheckoutView = () => {
 
   const handleCheckOut = (newOrderData: CreateOrderDTO) => {
     createOrder.mutate({ ...newOrderData });
+    window.location.href = '/orders';
   };
-
-  if (cart.data) {
-    const productIds = cart.data.orderedItems.map((item) => item.productId);
-    checkoutData.productId = productIds;
-  }
 
   if (cart.isLoading) {
     return (
@@ -47,7 +43,15 @@ export const CheckoutView = () => {
     );
   }
 
-  if (cartUser.data) {
+  if (
+    cart.data &&
+    cartUser.data &&
+    cart.data.orderedItems.length !== undefined &&
+    cart.data.orderedItems.length > 0
+  ) {
+    const productIds = cart.data.orderedItems.map((item) => item.productId);
+    checkoutData.productId = productIds;
+
     return (
       <main>
         <StyledContainer>
@@ -75,11 +79,7 @@ export const CheckoutView = () => {
       </main>
     );
   } else {
-    return (
-      <StyledContainer>
-        <Paper p="xl">No data</Paper>
-      </StyledContainer>
-    );
+    window.location.href = '/checkout-not-found';
   }
 };
 

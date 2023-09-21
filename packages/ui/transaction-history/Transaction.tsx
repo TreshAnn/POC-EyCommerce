@@ -1,24 +1,12 @@
 import { Tabs, Text, TextInput } from '@mantine/core';
 import { HiOutlineSearch } from 'react-icons/hi';
 
+import { IOrder } from '../../../apps/web/src/views/user-transaction/types';
 import { Order } from './Order';
 import { StyledTable, Wrapper } from './style';
-interface ICartProps {
-  merchantName: string;
-  items: number;
-  productImg: string;
-  productName: string;
-  date: string;
-  totalAmount: number;
-}
-export const TransactionHistory = ({
-  merchantName,
-  items = 0,
-  productImg,
-  productName,
-  date,
-  totalAmount,
-}: ICartProps) => {
+export const Transaction = ({ data }: { data: IOrder[] }) => {
+  // eslint-disable-next-line no-console
+  console.log(data);
   return (
     <>
       <Wrapper>
@@ -75,18 +63,19 @@ export const TransactionHistory = ({
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td colSpan={6}>
-                    <Order
-                      merchantName={merchantName}
-                      items={items}
-                      productImg={productImg}
-                      productName={productName}
-                      date={date}
-                      totalAmount={totalAmount}
-                    />
-                  </td>
-                </tr>
+                {data && data.length > 0 ? (
+                  data.map((item, index) => (
+                    <tr key={index}>
+                      <td colSpan={6}>
+                        <Order data={item} />
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={6}>No ordered items available.</td>
+                  </tr>
+                )}
               </tbody>
             </StyledTable>
           </Tabs.Panel>
