@@ -1,28 +1,24 @@
-import {
-  Injectable,
-  NotFoundException,
-  BadRequestException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateProductDto } from '../products/dto/create-product.dto';
 import { UpdateProductDataDto } from '../products/dto/update-product.dto';
 import { Product } from '../products/schemas/products.schema';
-import { extractIdFromToken } from 'src/utils/extract-token.utils';
-import { JwtService } from '@nestjs/jwt';
+
+import { MerchantsService } from 'src/merchants/merchants.service';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectModel(Product.name) private readonly productModel: Model<Product>,
-    private readonly jwtService: JwtService,
+    private readonly merchantsService: MerchantsService,
   ) {}
 
   async create(req: any, createProductDto: CreateProductDto): Promise<Product> {
-    const merchantID = await extractIdFromToken(req, this.jwtService);
+    const merchant = await this.merchantsService.findOne(req._id);
     const createdProduct = await this.productModel.create({
       ...createProductDto,
-      merchantID,
+      merchantID: merchant._id.toString(),
     });
     return createdProduct;
   }
@@ -46,9 +42,9 @@ export class ProductsService {
   }
 
   async findAllMerchantProducts(req: any): Promise<Product[]> {
-    const merchantID = await extractIdFromToken(req, this.jwtService);
+    const merchant = await this.merchantsService.findOne(req._id);
     return this.productModel.find({
-      merchantID: merchantID,
+      merchantID: merchant._id.toString(),
     });
   }
 

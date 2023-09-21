@@ -10,6 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CartService } from './cart.service';
+import { UsersService } from 'src/users/users.service';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { RolesGuard } from 'src/guards/Role.guard';
 import { AbilityGuard } from 'src/auth/ability/ability.guard';
@@ -20,7 +21,10 @@ import { Action } from 'src/auth/ability/enum/ability.enum';
 import { Cart } from './schemas/cart.schema';
 @Controller('cart')
 export class CartController {
-  constructor(private cartService: CartService) {}
+  constructor(
+    private cartService: CartService,
+    private usersService: UsersService,
+  ) {}
 
   @UseGuards(AuthGuard, RolesGuard, AbilityGuard)
   @Roles(Role.CONSUMER)
@@ -61,8 +65,8 @@ export class CartController {
   @CheckAbilities({ action: Action.Read, subject: Cart })
   @Get('/')
   async getCart(@Request() req) {
-    const userID = await this.cartService.extractIdFromToken2(req);
-    const userCart = await this.cartService.getCart(userID);
+    const user = await this.usersService.findUser(req._id);
+    const userCart = await this.cartService.getCart(user._id.toString());
     if (!userCart) return [];
     return userCart;
   }

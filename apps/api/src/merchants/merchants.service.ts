@@ -10,7 +10,7 @@ import {
   CreateMerchantDto,
   UpdateMerchantDto,
 } from './dto/create-merchant.dto';
-import { Merchant } from './schemas/merchant.schema';
+import { Merchant, MerchantDocument } from './schemas/merchant.schema';
 import { AuthService } from '../auth/auth.service';
 import { extractIdFromToken } from 'src/utils/extract-token.utils';
 import { JwtService } from '@nestjs/jwt';
@@ -58,11 +58,20 @@ export class MerchantsService {
   async findAllMerchants(): Promise<Merchant[]> {
     return this.merchantModel.find();
   }
-  async findOne(id: string): Promise<Merchant> {
-    const merchant = await this.merchantModel.findOne({ _id: id });
+  async findOne(id: string): Promise<MerchantDocument> {
+    const merchant = await this.merchantModel.findOne({ 'auth._id': id });
 
     if (!merchant) {
       throw new NotFoundException('Merchant not found');
+    }
+
+    return merchant;
+  }
+  async findMerchantInModel(id: string): Promise<MerchantDocument> {
+    const merchant = await this.merchantModel.findOne({ _id: id });
+
+    if (!merchant) {
+      throw new NotFoundException('No merchant data');
     }
 
     return merchant;

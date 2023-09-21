@@ -10,8 +10,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Cart, CartDocument } from './schemas/cart.schema';
 import { ItemDto } from './dto/item.dto';
 import { ProductsService } from 'src/products/products.service';
+import { UsersService } from 'src/users/users.service';
 import { Request } from 'express';
-import { extractIdFromToken } from 'src/utils/extract-token.utils';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
@@ -20,6 +20,7 @@ export class CartService {
     @InjectModel(Cart.name) private readonly cartModel: Model<CartDocument>,
     private productsService: ProductsService,
     private jwtService: JwtService,
+    private usersService: UsersService,
   ) {}
 
   async createCart(
@@ -62,18 +63,18 @@ export class CartService {
   }
 
   async deleteCart(reqHeader: any): Promise<void> {
-    const userId = await extractIdFromToken(reqHeader, this.jwtService);
-    const cart = await this.getCart(userId);
+    const user = await this.usersService.findUser(reqHeader._id);
+    const cart = await this.getCart(user._id.toString());
     if (!cart) {
       throw new NotFoundException('Cart does not exist');
     }
 
-    await this.cartModel.deleteOne({ userId });
+    await this.cartModel.deleteOne({ userId: user._id.toString() });
   }
 
   async removeItemFromCart(reqHeader: any, productId: string): Promise<any> {
-    const userId = await extractIdFromToken(reqHeader, this.jwtService);
-    const cart = await this.getCart(userId);
+    const user = await this.usersService.findUser(reqHeader._id);
+    const cart = await this.getCart(user._id.toString());
 
     const product = await this.productsService.findOne(productId);
     if (!product) {
@@ -102,8 +103,9 @@ export class CartService {
       itemDto;
     const subTotalPrice =
       (await this.validateQuantity(quantity)) * productPrice;
-    const userId = await extractIdFromToken(reqHeader, this.jwtService);
-    const cart = await this.getCart(userId);
+    const user = await this.usersService.findUser(reqHeader._id);
+
+    const cart = await this.getCart(user._id.toString());
 
     if (cart) {
       const itemIndex = cart.orderedItems.findIndex(
@@ -149,7 +151,7 @@ export class CartService {
       }
       const totalAmount = quantity * productPrice;
       const newCart = await this.createCart(
-        userId,
+        user._id.toString(),
         itemDto,
         subTotalPrice,
         totalAmount,
@@ -158,12 +160,11 @@ export class CartService {
     }
   }
   async updateCartItem(reqHeader: any, itemDto: ItemDto): Promise<Cart> {
-    const userId = await extractIdFromToken(reqHeader, this.jwtService);
-
+    const user = await this.usersService.findUser(reqHeader._id);
     const { productId, quantity, productPrice, productInventory, maxOrder } =
       itemDto;
 
-    const cart = await this.getCart(userId);
+    const cart = await this.getCart(user._id.toString());
 
     if (maxOrder !== null && quantity > maxOrder) {
       throw new BadRequestException(

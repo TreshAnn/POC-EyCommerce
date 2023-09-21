@@ -24,7 +24,7 @@ export const ProductDetailView = () => {
   const merchantID = productQuery.data?.merchantID;
 
   const getMerchant = merchantsInfo.find(
-    (merchant) => merchant.auth._id === merchantID,
+    (merchant) => merchant._id === merchantID,
   );
 
   const [quantity, setQuantity] = useState(1);

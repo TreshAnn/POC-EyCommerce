@@ -83,6 +83,10 @@ const CartTable = ({
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
+
+  const handleCheckoutButtonClick = () => {
+    window.location.href = '/checkout';
+  };
   return (
     <StyledScrollArea>
       {web ? (
@@ -155,6 +159,7 @@ const CartTable = ({
                     alignItems: 'center',
                     marginTop: 0,
                   }}
+                  onClick={handleCheckoutButtonClick}
                 >
                   Checkout
                 </Button>
@@ -218,6 +223,7 @@ const CartTable = ({
                     alignItems: 'center',
                     marginTop: 0,
                   }}
+                  onClick={handleCheckoutButtonClick}
                 >
                   Checkout
                 </Button>
