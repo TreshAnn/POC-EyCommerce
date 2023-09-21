@@ -4,9 +4,8 @@ import { HiOutlineSearch } from 'react-icons/hi';
 import { IOrder } from '../../../apps/web/src/views/user-transaction/types';
 import { Order } from './Order';
 import { StyledTable, Wrapper } from './style';
+import OrderTableHead from './OrderTableHead';
 export const Transaction = ({ data }: { data: IOrder[] }) => {
-  // eslint-disable-next-line no-console
-  console.log(data);
   return (
     <>
       <Wrapper>
@@ -44,24 +43,7 @@ export const Transaction = ({ data }: { data: IOrder[] }) => {
 
           <Tabs.Panel value="all">
             <StyledTable>
-              <thead>
-                <tr>
-                  <th colSpan={3}>
-                    <Text fz="xl" fw={700}>
-                      Product(s)
-                    </Text>
-                  </th>
-                  <th>
-                    <Text fw={700}>Date</Text>
-                  </th>
-                  <th>
-                    <Text fw={700}>Quantity</Text>
-                  </th>
-                  <th>
-                    <Text fw={700}>Amount</Text>
-                  </th>
-                </tr>
-              </thead>
+              <OrderTableHead />
               <tbody>
                 {data && data.length > 0 ? (
                   data.map((item, index) => (
@@ -80,7 +62,30 @@ export const Transaction = ({ data }: { data: IOrder[] }) => {
             </StyledTable>
           </Tabs.Panel>
           <Tabs.Panel value="ordered">To follow</Tabs.Panel>
+
           <Tabs.Panel value="shipped">To follow</Tabs.Panel>
+          <Tabs.Panel value="delivered">
+            <StyledTable>
+              <OrderTableHead />
+              <tbody>
+                {data && data.length > 0 ? (
+                  data
+                    .filter((item) => item.status === 'delivered')
+                    .map((item, index) => (
+                      <tr key={index}>
+                        <td colSpan={6}>
+                          <Order data={item} />
+                        </td>
+                      </tr>
+                    ))
+                ) : (
+                  <tr>
+                    <td colSpan={6}>No delivered items available.</td>
+                  </tr>
+                )}
+              </tbody>
+            </StyledTable>
+          </Tabs.Panel>
         </Tabs>
       </Wrapper>
     </>

@@ -6,6 +6,7 @@ import {
   Image,
   Menu,
   Text,
+  Button,
 } from '@mantine/core';
 import { HiOutlineDotsVertical } from 'react-icons/hi';
 
@@ -69,6 +70,15 @@ export const Order = ({ data }: { data: IOrder }) => {
                     </Text>
                   </Group>
                 </td>
+
+                {/* Conditionally render this button */}
+                {data.status === 'delivered' && (
+                  <td>
+                    <Button fz="md" style={{ color: 'black' }}>
+                      Rate Item
+                    </Button>
+                  </td>
+                )}
                 <td>
                   <Text size={16} fw={400}>
                     {data.timestamp.orderedAt}
