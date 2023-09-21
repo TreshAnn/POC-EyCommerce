@@ -43,7 +43,13 @@ export const PaymentDetails: React.FC<PaymentDetailsProps> = ({
       <Card.Section p="xs" withBorder>
         <Group position="apart">
           <Text fw={400}>Total:</Text>
-          <Text fw={700}>₱{totalPayment.toFixed(2)}</Text>
+          <Text fw={700}>
+            &#8369;{' '}
+            {totalPayment.toLocaleString('en-US', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          </Text>
         </Group>
       </Card.Section>
     </Card>

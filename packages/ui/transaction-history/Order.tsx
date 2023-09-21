@@ -35,7 +35,7 @@ export const Order = ({ data }: { data: IOrder }) => {
       >
         <div>
           <Text fw={700} size={20}>
-            {data.merchantName} ({2})
+            {data.merchantName} ({data.orderedItems.length})
           </Text>
         </div>
         <div>
@@ -91,7 +91,11 @@ export const Order = ({ data }: { data: IOrder }) => {
                 </td>
                 <td>
                   <Text fw={700} color="#000">
-                    ₱{item.price.toFixed(2)}
+                    &#8369;{' '}
+                    {item.price.toLocaleString('en-US', {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
                   </Text>
                 </td>
               </tr>
@@ -100,7 +104,7 @@ export const Order = ({ data }: { data: IOrder }) => {
           <br />
           <tfoot>
             <tr>
-              <td colSpan={3}>
+              <td colSpan={4}>
                 <Group>
                   <Text
                     fz="sm"
@@ -117,7 +121,7 @@ export const Order = ({ data }: { data: IOrder }) => {
                     color="#FFC815"
                     style={{ display: 'inline-block' }}
                   >
-                    To Ship
+                    {data.status}
                   </Text>
                 </Group>
               </td>
@@ -137,7 +141,11 @@ export const Order = ({ data }: { data: IOrder }) => {
                     color="#FFC815"
                     style={{ display: 'inline-block' }}
                   >
-                    &#8369; {data.totalAmount}
+                    &#8369;{' '}
+                    {data.totalAmount.toLocaleString('en-US', {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
                   </Text>
                 </Group>
               </td>

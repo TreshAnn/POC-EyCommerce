@@ -43,7 +43,13 @@ export const OrderSummary = ({ data }: { data: UserCartProps }) => {
               </Grid.Col>
               <Grid.Col span={2}>
                 <Flex direction="column" justify="center" align="flex-end">
-                  <Text size="xs">₱{item.productPrice.toFixed(2)}</Text>
+                  <Text size="xs">
+                    &#8369;{' '}
+                    {item.productPrice.toLocaleString('en-US', {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </Text>
                 </Flex>
               </Grid.Col>
             </Grid>
@@ -52,11 +58,23 @@ export const OrderSummary = ({ data }: { data: UserCartProps }) => {
         <Card.Section p="xs">
           <Group position="apart">
             <Text>Subtotal</Text>
-            <Text>₱{data.totalAmount.toFixed(2)}</Text>
+            <Text>
+              &#8369;{' '}
+              {data.totalAmount.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </Text>
           </Group>
           <Group position="apart">
             <Text>Delivery Fee</Text>
-            <Text>₱{data.deliveryFee.toFixed(2)}</Text>
+            <Text>
+              &#8369;{' '}
+              {data.deliveryFee.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </Text>
           </Group>
         </Card.Section>
       </Card>
