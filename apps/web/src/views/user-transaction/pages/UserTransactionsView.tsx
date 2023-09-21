@@ -13,8 +13,6 @@ export const UserTransactionsView = () => {
   const handleRatingSubmission = (createRatingDTO: CreateRatingDTO) => {
     createRating.mutate({
       ...createRatingDTO,
-      productId: '650bb50247b2d0be3f9f7ef0',
-      title: 'wow',
     });
   };
 

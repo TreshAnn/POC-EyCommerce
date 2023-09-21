@@ -9,7 +9,7 @@ import {
   Title,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 import { IOrder } from '../../../../apps/web/src/views/user-transaction/types';
 import StarSVG from '../StarSVG';
@@ -18,12 +18,14 @@ import {
   StyledModal,
   StyledProductDiv,
   StyledTextarea,
+  StyledTitleArea,
 } from './styles';
 interface RatingModalProps {
   onRatingSubmit: (rating: RatingData) => void;
   isOpen: boolean;
   onClose: () => void;
   data: IOrder;
+  productId: string;
 }
 
 interface RatingData {
@@ -38,6 +40,7 @@ export const RatingModal = ({
   onClose,
   data,
   onRatingSubmit,
+  productId,
 }: RatingModalProps) => {
   const isMobile = useMediaQuery(
     `(max-width: ${DEFAULT_THEME.breakpoints.xs})`,
@@ -57,6 +60,7 @@ export const RatingModal = ({
     const updatedRatingData = {
       ...ratingData,
       rating: rating,
+      productId: productId,
     };
 
     // eslint-disable-next-line no-console
@@ -121,6 +125,14 @@ export const RatingModal = ({
             onChange={setRating}
           />
         </Flex>
+
+        <StyledTitleArea
+          placeholder="Rating Title"
+          label="Rating Title"
+          value={ratingData.title}
+          onChange={(event) => handleDataChange('title', event)}
+          withAsterisk
+        />
 
         <StyledTextarea
           placeholder="Leave a message about the product..."

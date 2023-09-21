@@ -84,7 +84,11 @@ export const Transaction: React.FC<TransactionPageProps> = ({
                     .map((item, index) => (
                       <tr key={index}>
                         <td colSpan={6}>
-                          <Order data={item} onRatingSubmit={onRatingSubmit} />
+                          <Order
+                            // key={item.orderedItems[index].productId}
+                            data={item}
+                            onRatingSubmit={onRatingSubmit}
+                          />
                         </td>
                       </tr>
                     ))

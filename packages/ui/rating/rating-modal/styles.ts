@@ -18,3 +18,10 @@ export const StyledImageWrapper = styled.div`
 export const StyledProductDiv = styled.div`
   padding-left: 20px;
 `;
+
+export const StyledTitleArea = styled(Textarea)`
+  textarea {
+    height: 50px;
+    font-weight: 700;
+  }
+`;

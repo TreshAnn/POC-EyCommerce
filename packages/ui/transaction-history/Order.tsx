@@ -25,12 +25,15 @@ export const Order: React.FC<OrderComponentProps> = ({
   data,
   onRatingSubmit,
 }) => {
+  const [selectedProductId, setSelectedProductId] = useState<string>('');
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-  const handleOpenModal = () => {
+  const handleOpenModal = (productId: string) => {
+    setSelectedProductId(productId);
     setIsModalOpen(true);
   };
 
@@ -97,7 +100,7 @@ export const Order: React.FC<OrderComponentProps> = ({
                     <Button
                       fz="md"
                       style={{ color: 'black' }}
-                      onClick={handleOpenModal}
+                      onClick={() => handleOpenModal(item.productId)}
                     >
                       Rate Item
                     </Button>
@@ -106,6 +109,7 @@ export const Order: React.FC<OrderComponentProps> = ({
                       onClose={handleCloseModal}
                       data={data}
                       onRatingSubmit={onRatingSubmit}
+                      productId={selectedProductId}
                     />
                   </td>
                 )}
