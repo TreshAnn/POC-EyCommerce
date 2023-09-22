@@ -1,48 +1,102 @@
 import {
   Button,
-  Title,
-  Rating,
-  Flex,
-  Text,
-  Image,
-  Divider,
   DEFAULT_THEME,
+  Divider,
+  Flex,
+  Image,
+  Rating,
+  Text,
+  Title,
 } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
+import { ChangeEvent, useState } from 'react';
+
+import { IOrder } from '../../../../apps/web/src/views/user-transaction/types';
 import StarSVG from '../StarSVG';
 import {
   StyledImageWrapper,
+  StyledModal,
   StyledProductDiv,
   StyledTextarea,
-  StyledModal,
+  StyledTitleArea,
 } from './styles';
-import { useMediaQuery } from '@mantine/hooks';
-import { useState } from 'react';
-
 interface RatingModalProps {
+  onRatingSubmit: (rating: RatingData) => void;
   isOpen: boolean;
   onClose: () => void;
+  data: IOrder;
+  productId: string;
 }
 
-export const RatingModal = ({ isOpen, onClose }: RatingModalProps) => {
+interface RatingData {
+  rating: number;
+  title: string;
+  description: string;
+  productId: string;
+}
+
+export const RatingModal = ({
+  isOpen,
+  onClose,
+  data,
+  onRatingSubmit,
+  productId,
+}: RatingModalProps) => {
   const isMobile = useMediaQuery(
     `(max-width: ${DEFAULT_THEME.breakpoints.xs})`,
   );
+
+  const productRating = {
+    rating: 0,
+    title: '',
+    description: '',
+    productId: '',
+  };
   const [rating, setRating] = useState(0);
+  const [ratingData, setRatingData] = useState<RatingData>(productRating);
+
+  const handleRatingSubmit = async () => {
+    // Update the ratingData with the selected rating
+    const updatedRatingData = {
+      ...ratingData,
+      rating: rating,
+      productId: productId,
+    };
+    onRatingSubmit(updatedRatingData);
+  };
+
+  const handleDataChange = (
+    property: string,
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const newValue = event.currentTarget.value;
+
+    setRatingData({
+      ...ratingData,
+      [property]: newValue,
+    });
+  };
 
   return (
     <>
       <StyledModal opened={isOpen} onClose={onClose} size="80%">
         <Flex pb={10}>
           <StyledImageWrapper>
-            <Image
-              fit="contain"
-              src={'https://placehold.co/540x540.png'}
-              alt="Product Image"
-            />
+            {data.orderedItems.map((item, index) => (
+              <Image
+                key={index}
+                fit="contain"
+                src={item.productImg}
+                alt="Product Image"
+              />
+            ))}
           </StyledImageWrapper>
           <StyledProductDiv>
-            <Text size={isMobile ? 'sm' : undefined}>Product Name</Text>
-            <Text size={isMobile ? 'sm' : undefined}>Product Description</Text>
+            {data.orderedItems.map((item, index) => (
+              <Text key={index} size={isMobile ? 'sm' : undefined}>
+                {item.productName}
+              </Text>
+            ))}
           </StyledProductDiv>
         </Flex>
         <Divider my="sm" />
@@ -69,8 +123,26 @@ export const RatingModal = ({ isOpen, onClose }: RatingModalProps) => {
           />
         </Flex>
 
-        <StyledTextarea placeholder="Leave a message about the product..." />
-        <Button style={{ color: 'black' }} fullWidth>
+        <StyledTitleArea
+          placeholder="Rating Title"
+          label="Rating Title"
+          value={ratingData.title}
+          onChange={(event) => handleDataChange('title', event)}
+          withAsterisk
+        />
+
+        <StyledTextarea
+          placeholder="Leave a message about the product..."
+          label="Product Description"
+          value={ratingData.description}
+          onChange={(event) => handleDataChange('description', event)}
+          withAsterisk
+        />
+        <Button
+          style={{ color: 'black' }}
+          fullWidth
+          onClick={handleRatingSubmit}
+        >
           Submit
         </Button>
       </StyledModal>

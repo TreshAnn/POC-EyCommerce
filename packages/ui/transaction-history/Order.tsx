@@ -1,4 +1,5 @@
 import {
+  Button,
   Card,
   CardSection,
   Divider,
@@ -6,14 +7,36 @@ import {
   Image,
   Menu,
   Text,
-  Button,
 } from '@mantine/core';
+import { useState } from 'react';
 import { HiOutlineDotsVertical } from 'react-icons/hi';
 
+import { Rating } from '../../../apps/web/src/views/rating/types';
 import { IOrder } from '../../../apps/web/src/views/user-transaction/types';
+import { RatingModal } from '../rating/rating-modal/RatingModal';
 import { StyledTable } from './style';
 
-export const Order = ({ data }: { data: IOrder }) => {
+interface OrderComponentProps {
+  data: IOrder;
+  onRatingSubmit: (data: Rating) => void;
+}
+
+export const Order: React.FC<OrderComponentProps> = ({
+  data,
+  onRatingSubmit,
+}) => {
+  const [selectedProductId, setSelectedProductId] = useState<string>('');
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+  const handleOpenModal = (productId: string) => {
+    setSelectedProductId(productId);
+    setIsModalOpen(true);
+  };
+
   return (
     <Card
       withBorder
@@ -74,9 +97,20 @@ export const Order = ({ data }: { data: IOrder }) => {
                 {/* Conditionally render this button */}
                 {data.status === 'delivered' && (
                   <td>
-                    <Button fz="md" style={{ color: 'black' }}>
+                    <Button
+                      fz="md"
+                      style={{ color: 'black' }}
+                      onClick={() => handleOpenModal(item.productId)}
+                    >
                       Rate Item
                     </Button>
+                    <RatingModal
+                      isOpen={isModalOpen}
+                      onClose={handleCloseModal}
+                      data={data}
+                      onRatingSubmit={onRatingSubmit}
+                      productId={selectedProductId}
+                    />
                   </td>
                 )}
                 <td>

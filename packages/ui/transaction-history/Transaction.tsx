@@ -1,11 +1,21 @@
 import { Tabs, Text, TextInput } from '@mantine/core';
 import { HiOutlineSearch } from 'react-icons/hi';
 
+import { Rating } from '../../../apps/web/src/views/rating/types';
 import { IOrder } from '../../../apps/web/src/views/user-transaction/types';
 import { Order } from './Order';
-import { StyledTable, Wrapper } from './style';
 import OrderTableHead from './OrderTableHead';
-export const Transaction = ({ data }: { data: IOrder[] }) => {
+import { StyledTable, Wrapper } from './style';
+
+interface TransactionPageProps {
+  data: IOrder[];
+  onRatingSubmit: (data: Rating) => void;
+}
+
+export const Transaction: React.FC<TransactionPageProps> = ({
+  data,
+  onRatingSubmit,
+}) => {
   return (
     <>
       <Wrapper>
@@ -49,7 +59,7 @@ export const Transaction = ({ data }: { data: IOrder[] }) => {
                   data.map((item, index) => (
                     <tr key={index}>
                       <td colSpan={6}>
-                        <Order data={item} />
+                        <Order data={item} onRatingSubmit={onRatingSubmit} />
                       </td>
                     </tr>
                   ))
@@ -74,7 +84,11 @@ export const Transaction = ({ data }: { data: IOrder[] }) => {
                     .map((item, index) => (
                       <tr key={index}>
                         <td colSpan={6}>
-                          <Order data={item} />
+                          <Order
+                            // key={item.orderedItems[index].productId}
+                            data={item}
+                            onRatingSubmit={onRatingSubmit}
+                          />
                         </td>
                       </tr>
                     ))

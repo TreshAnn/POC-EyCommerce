@@ -11,6 +11,7 @@ import { AuthService } from 'src/auth/auth.service';
 import { Rating } from './schemas/rating.schema';
 import { OrderService } from 'src/order/order.service';
 import { UpdateRatingDto } from './dto/update-rating.dto';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class RatingService {
@@ -19,6 +20,7 @@ export class RatingService {
     private jwtService: JwtService,
     private authService: AuthService,
     private orderService: OrderService,
+    private userService: UsersService,
   ) {}
 
   async getUserRatings(req: any): Promise<Rating[]> {
@@ -42,48 +44,43 @@ export class RatingService {
     req: any,
     createRatingDto: CreateRatingDto,
   ): Promise<Rating> {
-    const userId = req._id;
-    const authUser = await this.authService.findOne(userId);
-    let itemFound = false;
+    const userId = await this.userService.findUser(req);
+    // let itemFound = false;
     const allDeliveredOrders = await this.orderService.getAllDeliveredOrders(
-      userId,
+      req,
     );
 
-    for (const order of allDeliveredOrders) {
-      const itemIndex = order.orderedItems.findIndex(
+    const itemToRate = allDeliveredOrders.find((order) =>
+      order.orderedItems.find(
         (item) => item.productId.toString() === createRatingDto.productId,
-      );
+      ),
+    );
 
-      if (itemIndex > -1) {
-        itemFound = true;
-        const existingRating = await this.ratingModel.findOne({
-          userId,
-          productId: createRatingDto.productId,
-        });
+    if (itemToRate) {
+      const existingRating = await this.ratingModel.findOne({
+        userId,
+        productId: createRatingDto.productId,
+      });
 
-        if (existingRating) {
-          throw new BadRequestException(
-            'Already provided rating for this product!',
-          );
-        }
-
-        const now = new Date();
-
-        const rating = {
-          ...createRatingDto,
-          userId,
-          username: authUser.username,
-          publishedDate: now,
-          reviewDate: now,
-        };
-
-        const userRating = await this.ratingModel.create(rating);
-        return userRating;
+      if (existingRating) {
+        throw new BadRequestException(
+          'Already provided rating for this product!',
+        );
       }
-    }
 
-    if (!itemFound) {
-      throw new NotFoundException('Product not found in delivered order');
+      const now = new Date();
+      const rating = {
+        ...createRatingDto,
+        userId,
+        username: userId.auth.username,
+        publishedDate: now,
+        reviewData: now,
+      };
+
+      const userRating = await this.ratingModel.create(rating);
+      return userRating;
+    } else {
+      throw new NotFoundException('Product not found in delivered order.');
     }
   }
 
