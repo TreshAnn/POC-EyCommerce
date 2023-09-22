@@ -110,7 +110,6 @@ export const Order: React.FC<OrderComponentProps> = ({
                       data={data}
                       onRatingSubmit={onRatingSubmit}
                       productId={selectedProductId}
-                      closeModal={handleCloseModal}
                     />
                   </td>
                 )}
