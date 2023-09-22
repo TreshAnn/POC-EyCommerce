@@ -1,5 +1,10 @@
 import * as bcrypt from 'bcrypt';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUserDto, UpdateUserDto } from './dto/create-user.dto';
@@ -54,6 +59,15 @@ export class UsersService {
     updateUserDto: UpdateUserDto,
   ): Promise<User> {
     const userId = extractIdFromToken(reqHeader, this.jwtService);
+    const userData = await this.findUser(userId);
+
+    // if (id != userData._id) {
+    //   throw new ForbiddenException('You are unauthorized!');
+    // }
+
+    if (!userData) {
+      throw new UnauthorizedException();
+    }
 
     const hashedPassword = await bcrypt.hash(updateUserDto.password, 10);
     const updateAuthDto = {
