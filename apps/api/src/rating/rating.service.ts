@@ -45,46 +45,42 @@ export class RatingService {
     createRatingDto: CreateRatingDto,
   ): Promise<Rating> {
     const userId = await this.userService.findUser(req);
-    let itemFound = false;
+    // let itemFound = false;
     const allDeliveredOrders = await this.orderService.getAllDeliveredOrders(
       req,
     );
 
-    for (const order of allDeliveredOrders) {
-      const itemIndex = order.orderedItems.findIndex(
+    const itemToRate = allDeliveredOrders.find((order) =>
+      order.orderedItems.find(
         (item) => item.productId.toString() === createRatingDto.productId,
-      );
+      ),
+    );
 
-      if (itemIndex > -1) {
-        itemFound = true;
-        const existingRating = await this.ratingModel.findOne({
-          userId,
-          productId: createRatingDto.productId,
-        });
+    if (itemToRate) {
+      const existingRating = await this.ratingModel.findOne({
+        userId,
+        productId: createRatingDto.productId,
+      });
 
-        if (existingRating) {
-          throw new BadRequestException(
-            'Already provided rating for this product!',
-          );
-        }
-
-        const now = new Date();
-
-        const rating = {
-          ...createRatingDto,
-          userId,
-          username: userId.auth.username,
-          publishedDate: now,
-          reviewDate: now,
-        };
-
-        const userRating = await this.ratingModel.create(rating);
-        return userRating;
+      if (existingRating) {
+        throw new BadRequestException(
+          'Already provided rating for this product!',
+        );
       }
-    }
 
-    if (!itemFound) {
-      throw new NotFoundException('Product not found in delivered order');
+      const now = new Date();
+      const rating = {
+        ...createRatingDto,
+        userId,
+        username: userId.auth.username,
+        publishedDate: now,
+        reviewData: now,
+      };
+
+      const userRating = await this.ratingModel.create(rating);
+      return userRating;
+    } else {
+      throw new NotFoundException('Product not found in delivered order.');
     }
   }
 
