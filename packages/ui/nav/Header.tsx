@@ -83,7 +83,7 @@ export const HeaderNavBar = () => {
                         { label: 'View Profile', path: '#' },
                         { label: 'Settings', path: '#' },
                         'divider',
-                        { label: 'My Orders', path: '#' },
+                        { label: 'My Orders', path: '/orders' },
                         { label: 'My Wallet', path: '#' },
                         'divider',
                         { label: 'Log Out', path: '/logout' },

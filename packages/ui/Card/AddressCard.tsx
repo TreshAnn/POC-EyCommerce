@@ -1,22 +1,21 @@
 import { Card, Text, UnstyledButton } from '@mantine/core';
 
-interface Data {
-  name: string;
-  phoneNumber: string;
-  address1: string;
-  address2: string;
+interface UserAddressProps {
+  street: string;
   city: string;
+  region: string;
+  zipcode: string;
+  country: string;
 }
 
-export const AddressCard = () => {
-  const TempData: Data = {
-    name: 'Tom Holland',
-    phoneNumber: '(+63) 903-1234-231',
-    address1: '5/F Citibank Tower',
-    address2: '8741 Paseo De Roxas Street',
-    city: 'Makati City, Metro Manila',
-  };
+interface UserDataProps {
+  firstName: string;
+  lastName: string;
+  address: UserAddressProps;
+  phoneNumber: string;
+}
 
+export const AddressCard = ({ data }: { data: UserDataProps }) => {
   return (
     <>
       <Card shadow="sm" p="lg" radius="md" withBorder>
@@ -26,11 +25,19 @@ export const AddressCard = () => {
           </Text>
         </Card.Section>
         <Card.Section p="xs">
-          {Object.keys(TempData).map((key) => (
-            <Text key={key} size="sm">
-              {TempData[key as keyof Data]}
-            </Text>
-          ))}
+          <Text size="sm">
+            {data.firstName} {data.lastName}
+          </Text>
+          <Text size="sm"></Text>
+          <Text size="sm">{data.phoneNumber}</Text>
+
+          <Text size="sm">{data.address.street}</Text>
+          <Text size="sm">{data.address.city}</Text>
+          <Text size="sm"></Text>
+          <Text size="sm">
+            {data.address.region}, {data.address.country} {data.address.zipcode}
+          </Text>
+          <Text size="sm"></Text>
           <UnstyledButton>
             <Text color="yellow">Edit</Text>
           </UnstyledButton>

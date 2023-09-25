@@ -83,6 +83,10 @@ const CartTable = ({
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
+
+  const handleCheckoutButtonClick = () => {
+    window.location.href = '/checkout';
+  };
   return (
     <StyledScrollArea>
       {web ? (
@@ -155,6 +159,7 @@ const CartTable = ({
                     alignItems: 'center',
                     marginTop: 0,
                   }}
+                  onClick={handleCheckoutButtonClick}
                 >
                   Checkout
                 </Button>
@@ -218,6 +223,7 @@ const CartTable = ({
                     alignItems: 'center',
                     marginTop: 0,
                   }}
+                  onClick={handleCheckoutButtonClick}
                 >
                   Checkout
                 </Button>
@@ -256,7 +262,13 @@ const CartRow: React.FC<ICartProps> = ({
             <td className="col-two">
               <Text align="start">{item.productName}</Text>
             </td>
-            <td>₱{item.productPrice.toFixed(2)}</td>
+            <td>
+              &#8369;{' '}
+              {item.productPrice.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </td>
             <td>
               <Quantity
                 quantity={item.quantity}
@@ -310,7 +322,13 @@ const CartRow: React.FC<ICartProps> = ({
               />
             </td>
             <td>
-              <Text fz="xs">₱{item.productPrice.toFixed(2)}</Text>
+              <Text fz="xs">
+                &#8369;{' '}
+                {item.productPrice.toLocaleString('en-US', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </Text>
             </td>
             <td>
               <Quantity
@@ -325,7 +343,13 @@ const CartRow: React.FC<ICartProps> = ({
               <Grid>
                 <Grid.Col span={8}>
                   <Text fz="xs" fw={700} c="brand">
-                    ₱{(item.quantity * item.productPrice).toFixed(2)}
+                    <Text fz="xs">
+                      &#8369;{' '}
+                      {item.productPrice.toLocaleString('en-US', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                    </Text>
                   </Text>
                 </Grid.Col>
                 <Grid.Col span={4}>

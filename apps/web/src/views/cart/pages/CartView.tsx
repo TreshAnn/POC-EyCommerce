@@ -62,7 +62,7 @@ export const CartView = () => {
       <section style={{ height: '80vh', background: 'lightgray' }}>
         <div>
           <br />
-          {data.length !== 0 ? (
+          {data && data.orderedItems && data.orderedItems.length > 0 ? (
             <CartTable
               data={data}
               totalCartItemAmount={totalCartItemAmount}

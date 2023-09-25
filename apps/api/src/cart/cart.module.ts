@@ -6,6 +6,7 @@ import { CartSchema } from './schemas/cart.schema';
 import { ProductsModule } from 'src/products/products.module';
 import { AuthModule } from 'src/auth/auth.module';
 import { AbilityModule } from 'src/auth/ability/ability.module';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { AbilityModule } from 'src/auth/ability/ability.module';
     forwardRef(() => ProductsModule),
     AuthModule,
     AbilityModule,
+    UsersModule,
   ],
   controllers: [CartController],
   providers: [CartService],
