@@ -27,7 +27,7 @@ export type TMerchantRegisterData = {
   password: string;
   firstName: string;
   lastName: string;
-  address: TAddress;
+  address: TMerchantAddress;
   phoneNumber: string;
 };
 

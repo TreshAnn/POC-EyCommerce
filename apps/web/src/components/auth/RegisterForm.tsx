@@ -29,13 +29,20 @@ const addressSchema = z.object({
 const schema = z
   .object({
     userType: z.string(),
-    username: z.string().regex(/^[a-zA-Z0-9_]*$/, {
-      message:
-        'Username must contain only alphanumeric characters and no spaces.',
-    }),
+    username: z
+      .string()
+      .min(2, { message: 'Merchant Name must be at least 2 characters long.' })
+      .regex(/^(?! )(?=.*[A-Za-z])([A-Za-z0-9]+)(?<![ ])$/, {
+        message:
+          'Username must contain only alphanumeric characters, cannot have leading or trailing spaces, and should not be numbers-only.',
+      }),
     merchantName: z
       .string()
-      .min(2, { message: 'Merchant Name must be at least 2 characters long.' }),
+      .min(2, { message: 'Merchant Name must be at least 2 characters long.' })
+      .regex(/^(?! )(?=.*[A-Za-z])([A-Za-z0-9]+)(?<![ ])$/, {
+        message:
+          'Merchant Name must contain only alphanumeric characters, cannot have leading or trailing spaces, and should not be numbers-only.',
+      }),
     firstName: z
       .string()
       .min(2, { message: 'First Name must be at least 2 characters long.' }),
