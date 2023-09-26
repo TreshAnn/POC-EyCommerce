@@ -29,11 +29,13 @@ export class OrderService {
   }
 
   async findOrder(orderId: string, req: any): Promise<Order> {
+    const userId = await this.usersService.findUser(req);
     const order = await this.orderModel.findOne({ _id: orderId });
 
-    if (req._id.toString() !== order.userId.toString()) {
+    if (userId._id.toString() !== order.userId.toString()) {
       throw new UnauthorizedException('User is unauthorized!');
     }
+
     if (!order) {
       throw new NotFoundException('Order is not found');
     }
@@ -156,11 +158,12 @@ export class OrderService {
   }
 
   async cancelOrder(request: any, id: string): Promise<Order> {
+    const userId = await this.usersService.findUser(request);
     const order = await this.orderModel.findById(id);
     if (!order) {
       throw new NotFoundException('Order not found');
     }
-    if (request._id.toString() !== order.userId.toString()) {
+    if (userId._id.toString() !== order.userId.toString()) {
       throw new ForbiddenException('You are not allowed to cancel this order');
     }
 
