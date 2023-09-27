@@ -15,4 +15,6 @@ export class CreateRatingDto {
 
   @IsString()
   readonly description: string;
+
+  readonly orderId;
 }

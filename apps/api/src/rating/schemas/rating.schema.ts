@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, SchemaTypes } from 'mongoose';
+import { Order } from 'src/order/schemas/order.schema';
 import { Product } from 'src/products/schemas/products.schema';
 import { User } from 'src/users/schemas/user.schema';
 
@@ -30,6 +31,9 @@ export class Rating {
 
   @Prop({ default: Date.now })
   reviewDate: Date;
+
+  @Prop({ type: SchemaTypes.ObjectId, ref: Order.name })
+  orderId: string;
 }
 
 export const RatingSchema = SchemaFactory.createForClass(Rating);
