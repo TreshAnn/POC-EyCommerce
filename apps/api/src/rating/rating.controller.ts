@@ -22,19 +22,20 @@ export class RatingController {
     private readonly userService: UsersService,
   ) {}
 
+  @HttpCode(HttpStatus.CREATED)
+  @Post('/:id')
+  async createRating(
+    @Req() req: any,
+    @Param('id') id: string,
+    @Body() createRatingDto: CreateRatingDto,
+  ): Promise<Rating> {
+    return await this.ratingService.createRating(req._id, id, createRatingDto);
+  }
+
   @HttpCode(HttpStatus.OK)
   @Get('/:id')
   async getProductRatings(@Param('id') productId: string): Promise<Rating[]> {
     return await this.ratingService.getProductRatings(productId);
-  }
-
-  @HttpCode(HttpStatus.CREATED)
-  @Post('')
-  async create(
-    @Req() req: any,
-    @Body() createRatingDto: CreateRatingDto,
-  ): Promise<Rating> {
-    return await this.ratingService.createOrderRating(req._id, createRatingDto);
   }
 
   @HttpCode(HttpStatus.OK)

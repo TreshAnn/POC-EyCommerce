@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -40,48 +41,64 @@ export class RatingService {
     return productRatings;
   }
 
-  async createOrderRating(
+  async createRating(
     req: any,
+    id: string,
     createRatingDto: CreateRatingDto,
   ): Promise<Rating> {
     const userId = await this.userService.findUser(req);
-    // let itemFound = false;
-    const allDeliveredOrders = await this.orderService.getAllDeliveredOrders(
-      req,
-    );
+    const userOrder = await this.orderService.findOrder(id, req);
 
-    const itemToRate = allDeliveredOrders.find((order) =>
-      order.orderedItems.find(
-        (item) => item.productId.toString() === createRatingDto.productId,
-      ),
-    );
-
-    if (itemToRate) {
-      const existingRating = await this.ratingModel.findOne({
-        userId,
-        productId: createRatingDto.productId,
-      });
-
-      if (existingRating) {
-        throw new BadRequestException(
-          'Already provided rating for this product!',
-        );
-      }
-
-      const now = new Date();
-      const rating = {
-        ...createRatingDto,
-        userId,
-        username: userId.auth.username,
-        publishedDate: now,
-        reviewData: now,
-      };
-
-      const userRating = await this.ratingModel.create(rating);
-      return userRating;
-    } else {
-      throw new NotFoundException('Product not found in delivered order.');
+    // check if order status is delivered
+    if (userOrder.status !== 'delivered') {
+      throw new BadRequestException('You can only rate delivered products');
     }
+
+    if (!userOrder) {
+      throw new NotFoundException('Order not found');
+    }
+
+    if (userId._id.toString() !== userOrder.userId.toString()) {
+      throw new ForbiddenException('You are not allowed to rate this order!');
+    }
+
+    // check in productId exists in userOrder
+    if (!userOrder.orderedItems || userOrder.orderedItems.length === 0) {
+      throw new NotFoundException('No item found in order');
+    }
+
+    const orderedProduct = userOrder.orderedItems.find(
+      (item) => item.productId.toString() === createRatingDto.productId,
+    );
+
+    if (!orderedProduct) {
+      throw new BadRequestException(
+        'Product Id in the request body does not match any ordered product',
+      );
+    }
+
+    // check if product has rating inside order
+    const existingRating = await this.ratingModel.findOne({
+      productId: createRatingDto.productId,
+      orderId: id,
+    });
+
+    if (existingRating) {
+      throw new BadRequestException('You cannot rate this product again');
+    }
+
+    const now = new Date();
+    const rating = {
+      ...createRatingDto,
+      userId,
+      username: userId.auth.username,
+      publishedDate: now,
+      reviewDate: now,
+      orderId: id,
+    };
+
+    const userRating = await this.ratingModel.create(rating);
+    return userRating;
   }
 
   async updateRating(
