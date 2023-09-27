@@ -28,7 +28,6 @@ export class OrderService {
     return await this.orderModel.find({ userId: user._id.toString() });
   }
 
-  // may error dito regarding sa non existingId -- wala pa error handling
   async findOrder(orderId: string, req: any): Promise<Order> {
     const userId = await this.usersService.findUser(req);
     const order = await this.orderModel.findOne({ _id: orderId });
