@@ -39,7 +39,7 @@ const schema = z
     merchantName: z
       .string()
       .min(2, { message: 'Merchant Name must be at least 2 characters long.' })
-      .regex(/^(?! )(?=.*[A-Za-z])([A-Za-z0-9]+)(?<![ ])$/, {
+      .regex(/^(?! )(?!.* $)(?=.*[A-Za-z])^[A-Za-z0-9 ]+$/, {
         message:
           'Merchant Name must contain only alphanumeric characters, cannot have leading or trailing spaces, and should not be numbers-only.',
       })
