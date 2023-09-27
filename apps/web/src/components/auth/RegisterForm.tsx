@@ -42,7 +42,8 @@ const schema = z
       .regex(/^(?! )(?=.*[A-Za-z])([A-Za-z0-9]+)(?<![ ])$/, {
         message:
           'Merchant Name must contain only alphanumeric characters, cannot have leading or trailing spaces, and should not be numbers-only.',
-      }),
+      })
+      .optional(),
     firstName: z
       .string()
       .min(2, { message: 'First Name must be at least 2 characters long.' }),
@@ -68,6 +69,23 @@ const schema = z
       }),
     confirm: z.string(),
   })
+  .refine(
+    ({ userType, merchantName }) => {
+      if (userType === 'merchant') {
+        return (
+          merchantName !== undefined &&
+          merchantName !== null &&
+          merchantName !== ''
+        );
+      }
+      return true;
+    },
+    {
+      message:
+        'Merchant Name is required for merchants and must meet validation conditions.',
+      path: ['merchantName'],
+    },
+  )
   .refine((data) => data.password === data.confirm, {
     message: 'Password doesnt match',
     path: ['confirm'],
