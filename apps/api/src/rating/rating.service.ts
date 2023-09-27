@@ -90,7 +90,6 @@ export class RatingService {
     const now = new Date();
     const rating = {
       ...createRatingDto,
-      userId,
       username: userId.auth.username,
       publishedDate: now,
       reviewDate: now,
