@@ -66,7 +66,7 @@ export class CreateMerchantDto {
   @IsString()
   @Matches(/^(?! )(?!.* $)(?=.*[A-Za-z])^[A-Za-z0-9 ]+$/, {
     message:
-      'Merchant name must contain only alphanumeric characters and cannot have leading spaces',
+      'Merchant name must contain only alphanumeric characters, should not be numbers-only, and cannot have leading or trailing spaces',
   })
   readonly merchantName: string;
 
