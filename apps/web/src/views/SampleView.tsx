@@ -1,11 +1,9 @@
 import React from 'react';
-import { RatingModule } from 'ui/rating/RatingModule';
-import { testData } from 'ui/rating/user-review/test-data';
+//add imports for component to test
 
+// NOTE: This view is for testing of component/views(frontend only tasks)
+// When used, please remove imports and components inside main before merging active PR
 export const SampleView = () => {
-  return (
-    <main>
-      <RatingModule reviews={testData} ratingValue={5} reviewCount={3423} />
-    </main>
-  );
+  //Add test functions here
+  return <main>Enter test component here</main>;
 };

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString, Max, Min } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { isValidRating } from 'src/utils/custom-validations.utils';
 
 export class CreateRatingDto {
