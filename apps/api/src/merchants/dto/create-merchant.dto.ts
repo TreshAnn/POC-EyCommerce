@@ -24,6 +24,9 @@ class Address {
   @IsNotEmpty()
   @IsString()
   @addressHasLeadingTrailingSpaces()
+  @Matches(/^[A-Za-z\s]+$/, {
+    message: 'City must contain only alphabetical characters and spaces.',
+  })
   city: string;
 
   @IsNotEmpty()
@@ -37,7 +40,9 @@ class Address {
 
   @IsNotEmpty()
   @IsString()
-  @addressHasLeadingTrailingSpaces()
+  @Matches(/^[A-Za-z\s]+$/, {
+    message: 'Country must contain only alphabetical characters and spaces.',
+  })
   country: string;
 }
 
@@ -59,13 +64,10 @@ export class CreateMerchantDto {
 
   @IsNotEmpty()
   @IsString()
-  @Matches(
-    /^(?! )[A-Za-z0-9!@#$%^&*()_+\-=[\]{}|\\;:'",.<>/`~]+(?: [A-Za-z0-9!@#$%^&*()_+\-=[\]{}|\\;:'",.<>/`~]+)*(?<! )$/,
-    {
-      message:
-        'Merchant name must contain only alphanumeric characters and cannot have leading or trailing spaces',
-    },
-  )
+  @Matches(/^(?! )(?!.* $)(?=.*[A-Za-z])^[A-Za-z0-9 ]+$/, {
+    message:
+      'Merchant name must contain only alphanumeric characters, should not be numbers-only, and cannot have leading or trailing spaces',
+  })
   readonly merchantName: string;
 
   @IsNotEmpty()
@@ -117,13 +119,10 @@ export class UpdateMerchantDto {
 
   @IsNotEmpty()
   @IsString()
-  @Matches(
-    /^(?! )[A-Za-z0-9!@#$%^&*()_+\-=[\]{}|\\;:'",.<>/`~]+(?: [A-Za-z0-9!@#$%^&*()_+\-=[\]{}|\\;:'",.<>/`~]+)*(?<! )$/,
-    {
-      message:
-        'Merchant name must contain only alphanumeric characters and cannot have leading or trailing spaces',
-    },
-  )
+  @Matches(/^(?! )(?=.*[A-Za-z])([A-Za-z0-9]+)(?<![ ])$/, {
+    message:
+      'Merchant name must contain only alphanumeric characters, should not be numbers-only, and cannot have leading or trailing spaces',
+  })
   readonly merchantName: string;
 
   @IsNotEmpty()

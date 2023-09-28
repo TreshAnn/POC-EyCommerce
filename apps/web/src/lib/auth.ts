@@ -7,6 +7,8 @@ import {
   TLoginCredentialsDTO,
   TLoginResponse,
   TRegisterData,
+  TMerchantRegisterData,
+  createMerchantApi,
 } from '../views/auth';
 
 async function handleUserResponse(data: TLoginResponse) {
@@ -22,7 +24,11 @@ async function loginFn(data: TLoginCredentialsDTO) {
 }
 
 async function registerFn(data: TRegisterData) {
-  await createUserApi(data);
+  if (data.userType === 'merchant') {
+    await createMerchantApi(data as TMerchantRegisterData);
+  } else {
+    await createUserApi(data);
+  }
 }
 
 async function logoutFn() {

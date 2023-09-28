@@ -24,6 +24,9 @@ class Address {
   @IsNotEmpty()
   @IsString()
   @addressHasLeadingTrailingSpaces()
+  @Matches(/^[A-Za-z\s]+$/, {
+    message: 'City must contain only alphabetical characters and spaces.',
+  })
   readonly city: string;
 
   @IsNotEmpty()
@@ -38,6 +41,9 @@ class Address {
   @IsNotEmpty()
   @IsString()
   @addressHasLeadingTrailingSpaces()
+  @Matches(/^[A-Za-z\s]+$/, {
+    message: 'Country must contain only alphabetical characters and spaces.',
+  })
   readonly country: string;
 }
 

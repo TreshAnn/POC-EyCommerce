@@ -29,10 +29,21 @@ const addressSchema = z.object({
 const schema = z
   .object({
     userType: z.string(),
-    username: z.string().regex(/^[a-zA-Z0-9_]*$/, {
-      message:
-        'Username must contain only alphanumeric characters and no spaces.',
-    }),
+    username: z
+      .string()
+      .min(2, { message: 'Merchant Name must be at least 2 characters long.' })
+      .regex(/^(?! )(?=.*[A-Za-z])([A-Za-z0-9]+)(?<![ ])$/, {
+        message:
+          'Username must contain only alphanumeric characters, cannot have leading or trailing spaces, and should not be numbers-only.',
+      }),
+    merchantName: z
+      .string()
+      .min(2, { message: 'Merchant Name must be at least 2 characters long.' })
+      .regex(/^(?! )(?!.* $)(?=.*[A-Za-z])^[A-Za-z0-9 ]+$/, {
+        message:
+          'Merchant Name must contain only alphanumeric characters, cannot have leading or trailing spaces, and should not be numbers-only.',
+      })
+      .optional(),
     firstName: z
       .string()
       .min(2, { message: 'First Name must be at least 2 characters long.' }),
@@ -58,6 +69,23 @@ const schema = z
       }),
     confirm: z.string(),
   })
+  .refine(
+    ({ userType, merchantName }) => {
+      if (userType === 'merchant') {
+        return (
+          merchantName !== undefined &&
+          merchantName !== null &&
+          merchantName !== ''
+        );
+      }
+      return true;
+    },
+    {
+      message:
+        'Merchant Name is required for merchants and must meet validation conditions.',
+      path: ['merchantName'],
+    },
+  )
   .refine((data) => data.password === data.confirm, {
     message: 'Password doesnt match',
     path: ['confirm'],
@@ -74,6 +102,7 @@ type TRegisterAddress = {
 type TRegisterValues = {
   userType: string;
   username: string;
+  merchantName: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -89,11 +118,11 @@ type IRegisterFormProps = {
 
 export const RegisterForm = ({ onSuccess }: IRegisterFormProps) => {
   const register = useRegister();
+  const [selectedUserType, setSelectedUserType] = useState<string | null>(null);
   const [data] = useState([
     { value: 'consumer', label: 'Consumer' },
     { value: 'merchant', label: 'Merchant' },
   ]);
-
   const handleOnSubmit = (values) => {
     values.address.zipcode = parseInt(values.address.zipcode, 10);
     register.mutate(values, {
@@ -120,10 +149,20 @@ export const RegisterForm = ({ onSuccess }: IRegisterFormProps) => {
                   placeholder="Select User Type"
                   required
                   onChange={(selectedValue: string) => {
+                    setSelectedUserType(selectedValue);
                     setValue('userType', selectedValue);
                   }}
                   error={formState.errors['userType']?.message}
                 />
+                {selectedUserType === 'merchant' && (
+                  <TextInput
+                    label="Merchant Name"
+                    placeholder="Enter Merchant Name..."
+                    required
+                    error={formState.errors['merchantName']?.message}
+                    {...register('merchantName')}
+                  />
+                )}
                 <TextInput
                   label="User Name"
                   placeholder="Enter your User Name..."
