@@ -14,6 +14,10 @@ import { useAuth } from './AuthProvider';
 import { CartView } from './cart/pages/CartView';
 import { CheckoutView } from './checkout/pages';
 import { NotFoundView } from './NotFoundView';
+import { AboutUsView } from './about-us/pages/AboutUsView';
+import { ContactUsView } from './contact-us/pages/ContactUsView';
+import { ServicesView } from './services/pages/ServicesView';
+import { FaqView } from './faq/pages/FaqView';
 import {
   MerchantProducts,
   ProductDetailView,
@@ -51,6 +55,10 @@ export const RootView = () => {
               <Route path="/register" element={<RegisterView />} />
               <Route path="/profile/:id" element={<UserProfile />} />
               <Route path="/products" element={<ProductsView />} />
+              <Route path="/AboutUs" element={<AboutUsView />} />
+              <Route path="/ContactUs" element={<ContactUsView />} />
+              <Route path="/Services" element={<ServicesView />} />
+              <Route path="/Faq" element={<FaqView />} />
               <Route
                 path="/products/:productID"
                 element={<ProductDetailView />}
