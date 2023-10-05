@@ -26,6 +26,7 @@ interface RatingModalProps {
   onClose: () => void;
   data: IOrder;
   productId: string;
+  selectedProduct: IOrderItem;
 }
 
 interface RatingData {
@@ -35,12 +36,19 @@ interface RatingData {
   productId: string;
 }
 
+interface IOrderItem {
+  productId: string;
+  productName: string;
+  productImg: string;
+}
+
 export const RatingModal = ({
   isOpen,
   onClose,
   data,
   onRatingSubmit,
   productId,
+  selectedProduct,
 }: RatingModalProps) => {
   const isMobile = useMediaQuery(
     `(max-width: ${DEFAULT_THEME.breakpoints.xs})`,
@@ -82,21 +90,16 @@ export const RatingModal = ({
       <StyledModal opened={isOpen} onClose={onClose} size="80%">
         <Flex pb={10}>
           <StyledImageWrapper>
-            {data.orderedItems.map((item, index) => (
-              <Image
-                key={index}
-                fit="contain"
-                src={item.productImg}
-                alt="Product Image"
-              />
-            ))}
+            <Image
+              fit="contain"
+              src={selectedProduct.productImg}
+              alt="Product Image"
+            />
           </StyledImageWrapper>
           <StyledProductDiv>
-            {data.orderedItems.map((item, index) => (
-              <Text key={index} size={isMobile ? 'sm' : undefined}>
-                {item.productName}
-              </Text>
-            ))}
+            <Text size={isMobile ? 'sm' : undefined}>
+              {selectedProduct.productName}
+            </Text>
           </StyledProductDiv>
         </Flex>
         <Divider my="sm" />
