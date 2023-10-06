@@ -1,0 +1,1 @@
+export { AboutUsView } from './AboutUsView';
