@@ -63,10 +63,10 @@ export const HeaderNavBar = () => {
                     <Anchor href="/my-products">My Products</Anchor>
                   </>
                 )}
-                <Anchor href="#">About Us</Anchor>
-                <Anchor href="#">Services</Anchor>
-                <Anchor href="#">Contact Us</Anchor>
-                <Anchor href="#">FAQ</Anchor>
+                <Anchor href="/AboutUs">About Us</Anchor>
+                <Anchor href="/Services">Services</Anchor>
+                <Anchor href="/ContactUs">Contact Us</Anchor>
+                <Anchor href="/Faq">FAQ</Anchor>
               </Group>
               <Group position="right">
                 {verifyToken ? (
