@@ -18,7 +18,7 @@ import { StyledTable } from './style';
 
 interface OrderComponentProps {
   data: IOrder;
-  onRatingSubmit: (data: Rating) => void;
+  onRatingSubmit: (data: Rating, orderId: string) => void;
 }
 
 export const Order: React.FC<OrderComponentProps> = ({
@@ -50,6 +50,10 @@ export const Order: React.FC<OrderComponentProps> = ({
       productImg,
     });
     setIsModalOpen(true);
+  };
+
+  const handleRatingSubmit = (ratingData: Rating, orderId: string) => {
+    onRatingSubmit(ratingData, orderId);
   };
 
   return (
@@ -129,7 +133,9 @@ export const Order: React.FC<OrderComponentProps> = ({
                       isOpen={isModalOpen}
                       onClose={handleCloseModal}
                       data={data}
-                      onRatingSubmit={onRatingSubmit}
+                      onRatingSubmit={(ratingData) =>
+                        handleRatingSubmit(ratingData, data._id)
+                      }
                       productId={selectedProductId}
                       selectedProduct={selectedProduct}
                     />

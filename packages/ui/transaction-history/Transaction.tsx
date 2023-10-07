@@ -9,7 +9,7 @@ import { StyledTable, Wrapper } from './style';
 
 interface TransactionPageProps {
   data: IOrder[];
-  onRatingSubmit: (data: Rating) => void;
+  onRatingSubmit: (data: Rating, orderId: string) => void;
 }
 
 export const Transaction: React.FC<TransactionPageProps> = ({
@@ -87,7 +87,9 @@ export const Transaction: React.FC<TransactionPageProps> = ({
                           <Order
                             // key={item.orderedItems[index].productId}
                             data={item}
-                            onRatingSubmit={onRatingSubmit}
+                            onRatingSubmit={(ratingData, orderId) =>
+                              onRatingSubmit(ratingData, orderId)
+                            }
                           />
                         </td>
                       </tr>
