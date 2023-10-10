@@ -1,5 +1,6 @@
 import {
   Anchor,
+  Alert,
   Button,
   Checkbox,
   Group,
@@ -123,15 +124,24 @@ export const RegisterForm = ({ onSuccess }: IRegisterFormProps) => {
     { value: 'consumer', label: 'Consumer' },
     { value: 'merchant', label: 'Merchant' },
   ]);
-  const handleOnSubmit = (values) => {
-    values.address.zipcode = parseInt(values.address.zipcode, 10);
-    register.mutate(values, {
-      onSuccess: () => {
-        onSuccess();
-      },
-    });
-  };
+  const [isTermsAccepted, setIsTermsAccepted] = useState(false);
+  const [isAlertVisible, setIsAlertVisible] = useState(false);
 
+  const handleOnSubmit = async (values) => {
+    if (!isTermsAccepted) {
+      setIsAlertVisible(true);
+      return;
+    }
+
+    values.address.zipcode = parseInt(values.address.zipcode, 10);
+    try {
+      await register.mutateAsync(values);
+      onSuccess();
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Registration error:', error);
+    }
+  };
   return (
     <StyledContainer>
       <Paper radius="md" p="xl" withBorder>
@@ -262,7 +272,18 @@ export const RegisterForm = ({ onSuccess }: IRegisterFormProps) => {
                       </Anchor>
                     </>
                   }
+                  checked={isTermsAccepted}
+                  onChange={() => {
+                    setIsTermsAccepted(!isTermsAccepted);
+                    setIsAlertVisible(false);
+                  }}
+                  error={formState.errors['terms']?.message}
                 />
+                {isAlertVisible && (
+                  <Alert color="red" title="Terms and Conditions">
+                    You must accept the Terms and Conditions to register.
+                  </Alert>
+                )}
                 <Button
                   variant="filled"
                   type="submit"
