@@ -27,6 +27,7 @@ interface RatingModalProps {
   data: IOrder;
   productId: string;
   selectedProduct: IOrderItem;
+  closeModal: () => void;
 }
 
 interface RatingData {
@@ -49,6 +50,7 @@ export const RatingModal = ({
   onRatingSubmit,
   productId,
   selectedProduct,
+  closeModal,
 }: RatingModalProps) => {
   const isMobile = useMediaQuery(
     `(max-width: ${DEFAULT_THEME.breakpoints.xs})`,
@@ -71,6 +73,7 @@ export const RatingModal = ({
       productId: productId,
     };
     onRatingSubmit(updatedRatingData);
+    closeModal();
   };
 
   const handleDataChange = (
@@ -136,7 +139,7 @@ export const RatingModal = ({
 
         <StyledTextarea
           placeholder="Leave a message about the product..."
-          label="Product Description"
+          label="Rating Description"
           value={ratingData.description}
           onChange={(event) => handleDataChange('description', event)}
           withAsterisk

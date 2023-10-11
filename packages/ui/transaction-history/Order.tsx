@@ -138,6 +138,7 @@ export const Order: React.FC<OrderComponentProps> = ({
                       }
                       productId={selectedProductId}
                       selectedProduct={selectedProduct}
+                      closeModal={handleCloseModal}
                     />
                   </td>
                 )}
