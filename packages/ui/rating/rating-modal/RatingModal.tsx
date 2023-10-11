@@ -87,7 +87,7 @@ export const RatingModal = ({
 
   return (
     <>
-      <StyledModal opened={isOpen} onClose={onClose} size="80%">
+      <StyledModal opened={isOpen} onClose={onClose} size="50%">
         <Flex pb={10}>
           <StyledImageWrapper>
             <Image
