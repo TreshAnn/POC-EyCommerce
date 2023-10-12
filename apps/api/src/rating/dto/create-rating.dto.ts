@@ -11,9 +11,11 @@ export class CreateRatingDto {
   readonly rating: number;
 
   @IsString()
+  @IsNotEmpty()
   readonly title: string;
 
   @IsString()
+  @IsNotEmpty()
   readonly description: string;
 
   readonly orderId;
