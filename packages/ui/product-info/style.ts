@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
   display: flex;
   width: 100%;
   height: auto;
-  padding: 10px 30px;
+  padding: 8px 30px;
   margin: 0;
   justify-content: center;
   flex-direction: column;
@@ -31,6 +31,7 @@ export const Wrapper = styled.div`
   .grid-layout {
     padding: 0;
     justify-content: center;
+    vertical-align: center;
 
     @media (max-width: ${Breakpoints.xxl}) {
       display: flex;
@@ -55,7 +56,7 @@ export const StyledBox = styled(Box)`
   gap: '10px';
   background-color: #fcfcfd;
   width: 700px;
-  height: 500px;
+  height: auto;
   margin-left: 5px;
   padding: 30px 40px;
   border: 1px solid #fcfcfd;
@@ -86,7 +87,7 @@ export const StyledContainer = styled(Container)`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  gap: '10px';
+  gap: '8px';
   align-self: stretch;
   margin: 0;
   padding: 0;
@@ -132,16 +133,16 @@ export const RatingDescription = styled(Text)`
 
 export const ProductNameText = styled(Text)`
   font-family: 'Overpass';
-  font-size: 40px;
+  font-size: 32px;
   font-weight: 700;
   line-height: normal;
   align-items: flex-start;
-
+  height: auto;
   @media (max-width: ${Breakpoints.xl}) {
-    font-size: 35px;
+    font-size: 25px;
   }
   @media (max-width: ${Breakpoints.lg}) {
-    font-size: 28px;
+    font-size: 25px;
   }
   @media (max-width: ${Breakpoints.md}) {
     font-size: 30px;
@@ -180,9 +181,7 @@ export const ProductDescriptionText = styled(Text)`
   @media (max-width: ${Breakpoints.lg}) {
     font-size: 15px;
   }
-  @media (max-width: ${Breakpoints.md}) {
-    font-size: 18px;
-  }
+
   @media (max-width: ${Breakpoints.sm}) {
     font-size: 18px;
   }
@@ -192,7 +191,7 @@ export const ProductDescriptionText = styled(Text)`
 `;
 export const ProductPriceText = styled(Text)`
   font-family: 'Overpass';
-  font-size: 30px;
+  font-size: 28px;
   font-weight: 700;
 
   @media (max-width: ${Breakpoints.lg}) {
@@ -217,6 +216,11 @@ export const ProductDescWrapper = styled(Container)`
   &::-webkit-scrollbar-track {
     background-color: transparent;
   }
+
+  @media (max-width: ${Breakpoints.md}) {
+    height: 200px;
+    overflow-y: none;
+  }
 `;
 
 export const StyledButton = styled(Button)`
@@ -225,5 +229,5 @@ export const StyledButton = styled(Button)`
   border: 1px solid var(--sixth, #ffd500);
   background: var(--third, #fff);
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
-  padding: 10px 20px;
+  padding: 5px 10px;
 `;
