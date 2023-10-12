@@ -1,6 +1,7 @@
 import {
   registerDecorator,
   ValidationOptions,
+  ValidationArguments,
   isPhoneNumber as isPhoneNumberValidator,
 } from 'class-validator';
 
@@ -71,6 +72,54 @@ export function isValidRating(options?: ValidationOptions): PropertyDecorator {
         },
         defaultMessage(): string {
           return 'Rating must be a number between 1 and 5.';
+        },
+      },
+    });
+  };
+}
+
+export function isValidRatingTitle(
+  options?: ValidationOptions,
+): PropertyDecorator {
+  return function (object: Record<string, any>, propertyName: string) {
+    registerDecorator({
+      name: 'isValidRatingTitle',
+      target: object.constructor,
+      propertyName: propertyName,
+      options: options,
+      validator: {
+        validate(value: any): boolean {
+          if (typeof value !== 'string') {
+            return false; // Rating title must be a string
+          }
+          return value.trim() !== ''; // Check if the trimmed value is not empty
+        },
+        defaultMessage(): string {
+          return `Rating Title should not be empty. `;
+        },
+      },
+    });
+  };
+}
+
+export function isValidRatingDescription(
+  options?: ValidationOptions,
+): PropertyDecorator {
+  return function (object: Record<string, any>, propertyName: string) {
+    registerDecorator({
+      name: 'isValidRatingTitle',
+      target: object.constructor,
+      propertyName: propertyName,
+      options: options,
+      validator: {
+        validate(value: any): boolean {
+          if (typeof value !== 'string') {
+            return false; // Rating title must be a string
+          }
+          return value.trim() !== ''; // Check if the trimmed value is not empty
+        },
+        defaultMessage(): string {
+          return `Rating description should not be empty.`;
         },
       },
     });

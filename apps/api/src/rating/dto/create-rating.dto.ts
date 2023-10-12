@@ -1,5 +1,9 @@
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
-import { isValidRating } from 'src/utils/custom-validations.utils';
+import {
+  isValidRating,
+  isValidRatingTitle,
+  isValidRatingDescription,
+} from 'src/utils/custom-validations.utils';
 
 export class CreateRatingDto {
   @IsNotEmpty()
@@ -11,11 +15,11 @@ export class CreateRatingDto {
   readonly rating: number;
 
   @IsString()
-  @IsNotEmpty()
+  @isValidRatingTitle()
   readonly title: string;
 
   @IsString()
-  @IsNotEmpty()
+  @isValidRatingDescription()
   readonly description: string;
 
   readonly orderId;
