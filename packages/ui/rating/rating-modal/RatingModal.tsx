@@ -9,7 +9,7 @@ import {
   Title,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 
 import { IOrder } from '../../../../apps/web/src/views/user-transaction/types';
 import StarSVG from '../StarSVG';
@@ -56,14 +56,24 @@ export const RatingModal = ({
     `(max-width: ${DEFAULT_THEME.breakpoints.xs})`,
   );
 
-  const productRating = {
-    rating: 0,
-    title: '',
-    description: '',
-    productId: '',
-  };
+  const productRating = useMemo(() => {
+    return {
+      rating: 0,
+      title: '',
+      description: '',
+      productId: '',
+    };
+  }, []);
   const [rating, setRating] = useState(0);
   const [ratingData, setRatingData] = useState<RatingData>(productRating);
+
+  // reset the ratingData when the modal is opened
+  useEffect(() => {
+    if (isOpen) {
+      setRating(0);
+      setRatingData(productRating);
+    }
+  }, [isOpen, productRating]);
 
   const handleRatingSubmit = async () => {
     // Update the ratingData with the selected rating
