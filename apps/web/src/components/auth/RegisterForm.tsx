@@ -27,6 +27,13 @@ const addressSchema = z.object({
   country: z.string(),
 });
 
+const countryCodes = [
+  { value: '+63', label: '+63 (Philippines)' },
+  { value: '+1', label: '+1 (United States)' },
+  { value: '+44', label: '+44 (United Kingdom)' },
+  { value: '+91', label: '+91 (India)' },
+];
+
 const schema = z
   .object({
     userType: z.string(),
@@ -58,9 +65,9 @@ const schema = z
     address: addressSchema,
     phoneNumber: z
       .string()
-      .max(13, { message: 'Phone Number exceeds 10' })
-      .includes('+63', {
-        message: 'Include Country Code (ex. +639123456789)',
+      .max(10, { message: 'Phone Number exceeds 10 digits' })
+      .regex(/^\d{7,10}$/, {
+        message: 'Invalid phone number format (e.g., 1234567890)',
       }),
     password: z
       .string()
@@ -120,6 +127,9 @@ type IRegisterFormProps = {
 export const RegisterForm = ({ onSuccess }: IRegisterFormProps) => {
   const register = useRegister();
   const [selectedUserType, setSelectedUserType] = useState<string | null>(null);
+  const [selectedCountryCode, setSelectedCountryCode] = useState<string | null>(
+    null,
+  );
   const [data] = useState([
     { value: 'consumer', label: 'Consumer' },
     { value: 'merchant', label: 'Merchant' },
@@ -133,6 +143,8 @@ export const RegisterForm = ({ onSuccess }: IRegisterFormProps) => {
       return;
     }
 
+    values.phoneNumber = selectedCountryCode + values.phoneNumber;
+
     values.address.zipcode = parseInt(values.address.zipcode, 10);
     try {
       await register.mutateAsync(values);
@@ -142,6 +154,7 @@ export const RegisterForm = ({ onSuccess }: IRegisterFormProps) => {
       console.error('Registration error:', error);
     }
   };
+
   return (
     <StyledContainer>
       <Paper radius="md" p="xl" withBorder>
@@ -203,13 +216,28 @@ export const RegisterForm = ({ onSuccess }: IRegisterFormProps) => {
                   error={formState.errors['email']?.message}
                   {...register('email')}
                 />
-                <TextInput
-                  label="Phone Number"
-                  placeholder="Enter your Number"
-                  required
-                  error={formState.errors['phoneNumber']?.message}
-                  {...register('phoneNumber')}
-                />
+                <Group>
+                  <Select
+                    label="Country Code"
+                    data={countryCodes}
+                    placeholder="Select Country Code"
+                    required
+                    onChange={(selectedValue: string) => {
+                      setSelectedCountryCode(selectedValue);
+                    }}
+                  />
+                  <TextInput
+                    label="Phone Number"
+                    placeholder="Enter your Phone Number"
+                    required
+                    error={
+                      formState.errors['phoneNumber']
+                        ? `Invalid phone number format (e.g., ${selectedCountryCode}1234567890)`
+                        : null
+                    }
+                    {...register('phoneNumber')}
+                  />
+                </Group>
                 <TextInput
                   label="Address"
                   placeholder="House No. / Street / Barangay / City / Province"

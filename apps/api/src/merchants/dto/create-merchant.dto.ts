@@ -12,7 +12,7 @@ import {
 } from 'class-validator';
 import {
   addressHasLeadingTrailingSpaces,
-  isPhoneNumberWithTrim,
+  IsPhoneNumberWithMaxDigits,
 } from 'src/utils/custom-validations.utils';
 
 class Address {
@@ -104,7 +104,7 @@ export class CreateMerchantDto {
   readonly address: Address;
 
   @IsNotEmpty()
-  @isPhoneNumberWithTrim()
+  @IsPhoneNumberWithMaxDigits()
   phoneNumber: string;
 }
 
@@ -154,6 +154,6 @@ export class UpdateMerchantDto {
   readonly address: Address;
 
   @IsNotEmpty()
-  @isPhoneNumberWithTrim()
+  @IsPhoneNumberWithMaxDigits()
   phoneNumber: string;
 }
