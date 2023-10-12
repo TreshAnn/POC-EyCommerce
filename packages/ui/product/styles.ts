@@ -21,4 +21,11 @@ export const DetailsWrapper = styled.div`
   &.product-rating {
     margin-left: -4px;
   }
+
+  &.product-name {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 `;

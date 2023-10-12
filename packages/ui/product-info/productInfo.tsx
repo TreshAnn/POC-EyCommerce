@@ -71,7 +71,7 @@ export function ProductInfo({
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRudDbHeW2OobhX8E9fAY-ctpUAHeTNWfaqJA&usqp=CAU"
                     alt="Merchant"
                     radius="200px"
-                    style={{ width: '40px', height: '40px' }}
+                    style={{ width: '35px', height: '35px' }}
                   />
                   <MerchantText>{merchantName}</MerchantText>
                 </Group>
