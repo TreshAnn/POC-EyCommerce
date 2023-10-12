@@ -18,7 +18,7 @@ import { StyledTable } from './style';
 
 interface OrderComponentProps {
   data: IOrder;
-  onRatingSubmit: (data: Rating) => void;
+  onRatingSubmit: (data: Rating, orderId: string) => void;
 }
 
 export const Order: React.FC<OrderComponentProps> = ({
@@ -29,12 +29,31 @@ export const Order: React.FC<OrderComponentProps> = ({
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [selectedProduct, setSelectedProduct] = useState({
+    productId: '',
+    productName: '',
+    productImg: '',
+  });
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-  const handleOpenModal = (productId: string) => {
+  const handleOpenModal = (
+    productId: string,
+    productName: string,
+    productImg: string,
+  ) => {
     setSelectedProductId(productId);
+    setSelectedProduct({
+      productId,
+      productName,
+      productImg,
+    });
     setIsModalOpen(true);
+  };
+
+  const handleRatingSubmit = (ratingData: Rating, orderId: string) => {
+    onRatingSubmit(ratingData, orderId);
   };
 
   return (
@@ -100,7 +119,13 @@ export const Order: React.FC<OrderComponentProps> = ({
                     <Button
                       fz="md"
                       style={{ color: 'black' }}
-                      onClick={() => handleOpenModal(item.productId)}
+                      onClick={() =>
+                        handleOpenModal(
+                          item.productId,
+                          item.productName,
+                          item.productImg,
+                        )
+                      }
                     >
                       Rate Item
                     </Button>
@@ -108,8 +133,12 @@ export const Order: React.FC<OrderComponentProps> = ({
                       isOpen={isModalOpen}
                       onClose={handleCloseModal}
                       data={data}
-                      onRatingSubmit={onRatingSubmit}
+                      onRatingSubmit={(ratingData) =>
+                        handleRatingSubmit(ratingData, data._id)
+                      }
                       productId={selectedProductId}
+                      selectedProduct={selectedProduct}
+                      closeModal={handleCloseModal}
                     />
                   </td>
                 )}

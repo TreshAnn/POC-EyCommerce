@@ -9,7 +9,7 @@ import {
   Title,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 
 import { IOrder } from '../../../../apps/web/src/views/user-transaction/types';
 import StarSVG from '../StarSVG';
@@ -26,6 +26,8 @@ interface RatingModalProps {
   onClose: () => void;
   data: IOrder;
   productId: string;
+  selectedProduct: IOrderItem;
+  closeModal: () => void;
 }
 
 interface RatingData {
@@ -35,25 +37,43 @@ interface RatingData {
   productId: string;
 }
 
+interface IOrderItem {
+  productId: string;
+  productName: string;
+  productImg: string;
+}
+
 export const RatingModal = ({
   isOpen,
   onClose,
   data,
   onRatingSubmit,
   productId,
+  selectedProduct,
+  closeModal,
 }: RatingModalProps) => {
   const isMobile = useMediaQuery(
     `(max-width: ${DEFAULT_THEME.breakpoints.xs})`,
   );
 
-  const productRating = {
-    rating: 0,
-    title: '',
-    description: '',
-    productId: '',
-  };
+  const productRating = useMemo(() => {
+    return {
+      rating: 0,
+      title: '',
+      description: '',
+      productId: '',
+    };
+  }, []);
   const [rating, setRating] = useState(0);
   const [ratingData, setRatingData] = useState<RatingData>(productRating);
+
+  // reset the ratingData when the modal is opened
+  useEffect(() => {
+    if (isOpen) {
+      setRating(0);
+      setRatingData(productRating);
+    }
+  }, [isOpen, productRating]);
 
   const handleRatingSubmit = async () => {
     // Update the ratingData with the selected rating
@@ -63,6 +83,7 @@ export const RatingModal = ({
       productId: productId,
     };
     onRatingSubmit(updatedRatingData);
+    closeModal();
   };
 
   const handleDataChange = (
@@ -79,24 +100,19 @@ export const RatingModal = ({
 
   return (
     <>
-      <StyledModal opened={isOpen} onClose={onClose} size="80%">
+      <StyledModal opened={isOpen} onClose={onClose} size="50%">
         <Flex pb={10}>
           <StyledImageWrapper>
-            {data.orderedItems.map((item, index) => (
-              <Image
-                key={index}
-                fit="contain"
-                src={item.productImg}
-                alt="Product Image"
-              />
-            ))}
+            <Image
+              fit="contain"
+              src={selectedProduct.productImg}
+              alt="Product Image"
+            />
           </StyledImageWrapper>
           <StyledProductDiv>
-            {data.orderedItems.map((item, index) => (
-              <Text key={index} size={isMobile ? 'sm' : undefined}>
-                {item.productName}
-              </Text>
-            ))}
+            <Text size={isMobile ? 'sm' : undefined}>
+              {selectedProduct.productName}
+            </Text>
           </StyledProductDiv>
         </Flex>
         <Divider my="sm" />
@@ -133,7 +149,7 @@ export const RatingModal = ({
 
         <StyledTextarea
           placeholder="Leave a message about the product..."
-          label="Product Description"
+          label="Rating Description"
           value={ratingData.description}
           onChange={(event) => handleDataChange('description', event)}
           withAsterisk

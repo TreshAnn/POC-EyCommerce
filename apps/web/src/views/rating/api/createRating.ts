@@ -5,15 +5,15 @@ import { axios } from '../../../lib/axios';
 import { QueryConfig } from '../../../lib/react-query';
 import { Rating } from '../types';
 
-export type CreateRatingDTO = Rating;
+export type CreateRatingDTO = { newRating: Rating; orderId: string };
 
 export const createRating = ({
-  productId,
-  rating,
-  title,
-  description,
+  newRating,
+  orderId,
 }: CreateRatingDTO): Promise<Rating> => {
-  return axios.post('/api/rating/', {
+  const { productId, rating, title, description } = newRating;
+
+  return axios.post(`/api/rating/${orderId}`, {
     productId,
     rating,
     title,
@@ -21,17 +21,13 @@ export const createRating = ({
   });
 };
 
-type QueryFnType = typeof createRating;
-
-type UseCreateRatingOption = {
-  config?: QueryConfig<QueryFnType>;
-};
-
-export const useCreateRating = ({ config }: UseCreateRatingOption) => {
-  //   const queryClient = useQueryClient();
+export const useCreateRating = () => {
   return useMutation({
     onError: () => {
-      null;
+      notifications.show({
+        message: 'Error creating rating',
+        color: 'red',
+      });
     },
     onSuccess: () => {
       notifications.show({

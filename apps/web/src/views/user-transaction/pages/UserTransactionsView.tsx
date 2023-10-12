@@ -2,17 +2,19 @@ import { Paper } from '@mantine/core';
 import React, { useState } from 'react';
 import { Transaction } from 'ui/transaction-history/Transaction';
 
-import { CreateRatingDTO, useCreateRating } from '../../rating/api';
+import { useCreateRating } from '../../rating/api';
+import { Rating } from '../../rating/types';
 import { useGetAllOrders } from '../api';
 
 export const UserTransactionsView = () => {
   const allOrders = useGetAllOrders({});
-  const createRating = useCreateRating({});
+  const createRating = useCreateRating();
 
   // Callback function to handle data from child
-  const handleRatingSubmission = (createRatingDTO: CreateRatingDTO) => {
+  const handleRatingSubmission = (newRating: Rating, orderId: string) => {
     createRating.mutate({
-      ...createRatingDTO,
+      newRating,
+      orderId,
     });
   };
 
