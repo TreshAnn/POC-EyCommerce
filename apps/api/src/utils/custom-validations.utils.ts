@@ -3,9 +3,10 @@ import {
   ValidationOptions,
   ValidationArguments,
   isPhoneNumber as isPhoneNumberValidator,
+  ValidationArguments,
 } from 'class-validator';
 
-function hasLeadingTrailingSpacesValidator(value: any): boolean {
+function hasLeadingTrailingSpacesValidator(value: unknown): boolean {
   if (typeof value !== 'string') {
     return false;
   }
@@ -14,13 +15,13 @@ function hasLeadingTrailingSpacesValidator(value: any): boolean {
 }
 
 export function addressHasLeadingTrailingSpaces(): PropertyDecorator {
-  return function (object: Record<string, any>, propertyName: string) {
+  return function (object: object, propertyName: string) {
     registerDecorator({
       name: 'addressHasLeadingTrailingSpaces',
       target: object.constructor,
       propertyName: propertyName,
       validator: {
-        validate(value: any): boolean {
+        validate(value: unknown): boolean {
           return hasLeadingTrailingSpacesValidator(value);
         },
         defaultMessage(): string {
@@ -31,43 +32,39 @@ export function addressHasLeadingTrailingSpaces(): PropertyDecorator {
   };
 }
 
-export function isPhoneNumberWithTrim(
-  options?: ValidationOptions,
-): PropertyDecorator {
-  return function (object: Record<string, any>, propertyName: string) {
+export function IsPhoneNumberWithMaxDigits(
+  validationOptions?: ValidationOptions,
+) {
+  return function (object: object, propertyName: string) {
     registerDecorator({
-      name: 'isPhoneNumberWithTrim',
+      name: 'isPhoneNumberWithMaxDigits',
       target: object.constructor,
       propertyName: propertyName,
-      options: options,
+      constraints: [],
+      options: validationOptions,
       validator: {
-        validate(value: any): boolean {
+        validate(value: unknown, args: ValidationArguments): boolean {
           if (typeof value !== 'string') {
             return false;
           }
-          const trimmedValue = value.trim();
-          return (
-            isPhoneNumberValidator(trimmedValue, undefined) &&
-            trimmedValue === value
-          );
+          return /^(\+\d{7,15}|\d{7,15})$/.test(value);
         },
-        defaultMessage(): string {
-          return 'Invalid phone number format. Phone number must not have leading or trailing spaces and should be a valid phone number.';
+        defaultMessage(args: ValidationArguments): string {
+          return `Invalid phone number format for ${args.property}. Phone number must be a valid number (e.g., +1234567890 or 1234567890).`;
         },
       },
     });
   };
 }
-
 export function isValidRating(options?: ValidationOptions): PropertyDecorator {
-  return function (object: Record<string, any>, propertyName: string) {
+  return function (object: object, propertyName: string) {
     registerDecorator({
       name: 'isValidRating',
       target: object.constructor,
       propertyName: propertyName,
       options: options,
       validator: {
-        validate(value: any): boolean {
+        validate(value: unknown): boolean {
           return typeof value === 'number' && value >= 1 && value <= 5;
         },
         defaultMessage(): string {
