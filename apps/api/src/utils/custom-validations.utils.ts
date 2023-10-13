@@ -3,7 +3,6 @@ import {
   ValidationOptions,
   ValidationArguments,
   isPhoneNumber as isPhoneNumberValidator,
-  ValidationArguments,
 } from 'class-validator';
 
 function hasLeadingTrailingSpacesValidator(value: unknown): boolean {
